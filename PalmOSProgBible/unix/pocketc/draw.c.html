@@ -1,0 +1,36 @@
+<html>
+<title>draw.c</title>
+<body>
+<b>draw.c</b> (<a href="draw.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// Draw
+</font><font color=0000ff>int </font><font color=000000>x,y;
+
+draw() {
+   </font><font color=0000ff>int </font><font color=000000>e;
+
+   </font><font color=008000>// Get initial position
+   </font><font color=000000>x = </font><font color=000000><b>penx</b></font><font color=000000>();
+   y = </font><font color=000000><b>peny</b></font><font color=000000>();
+
+   </font><font color=008000>// Draw lines until we stop receiving penMoves
+   </font><font color=0000ff>do </font><font color=000000>{
+      </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>, x, y, x=</font><font color=000000><b>penx</b></font><font color=000000>(), y=</font><font color=000000><b>peny</b></font><font color=000000>());
+   } </font><font color=0000ff>while </font><font color=000000>(</font><font color=000000><b>event</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>)==</font><font color=0000a0>4</font><font color=000000>);
+}
+
+main() {
+   </font><font color=0000ff>int </font><font color=000000>e;
+
+   </font><font color=000000><b>graph_on</b></font><font color=000000>();
+   </font><font color=000000><b>title</b></font><font color=000000>(</font><font color=000080>"Draw"</font><font color=000000>);
+   </font><font color=0000ff>while </font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>) {
+      e = </font><font color=000000><b>event</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>);
+      </font><font color=0000ff>if </font><font color=000000>(e==</font><font color=0000a0>2</font><font color=000000>) draw();
+   }
+}
+
+</pre>
+</body>
+</html>

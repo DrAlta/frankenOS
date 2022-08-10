@@ -1,0 +1,44 @@
+<html>
+<head>
+  <title>Parentheses Hack</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>Parentheses Hack</h1>
+<img src="lm_parh.gif" align=right alt="Hack Info Screen">
+This little hack solves a problem that several people had reported:
+Entering non-trivial programs is troublesome as you can get lost
+in <b>L</b>ots of <b>I</b>rritating <b>S</b>illy <b>P</b>arentheses.
+Parentheses Hack tries to remedy this problem by highlighting the
+matching opening parenthesis when entering a closing one. Additionally
+it can match parentheses in existing code.<p>
+
+This works both in the LispMe input field and in MemoPad (that's the
+reason it's written as a hack!), and in fact in any Pilot application
+using entryfields.
+
+<ul>
+  <li>Just input your code (Graffiti or keyboard doesn't matter). When
+      entering a closing parenthesis, the corresponding opening is
+      highlighted for a short time. When there's no matching opening
+      parenthesis, a beep is played.
+  <li>To match parentheses in existing code, you have to select a
+      (opening or closing) parenthesis with the stylus. Make sure that
+      only the parenthesis is highlighted and not any adjacent character.
+      Now write the letter <tt>o</tt> or the digit <tt>0</tt> and the
+      <b>o</b>ther matching
+      parenthesis is highlighted. Another <tt>o</tt> and you are back.<p>
+      Or write an <tt>s</tt> or <tt>5</tt> and the entire text between the current and
+      the matching parenthesis will be <b>s</b>elected.<p>
+      Writing any other char will overwrite the current selection (as
+      usual), simpy use Undo when this happened accidentially.
+</ul>
+Parentheses Hack knows LispMe's syntax and won't be fooled by parentheses
+in strings, comments or character constants it encounters when searching
+the matching one. It will simply beep when trying to match a parenthesis <b>in</b> a
+comment or string.<p>
+</body>
+</html>

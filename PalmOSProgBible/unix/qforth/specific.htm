@@ -1,0 +1,1427 @@
+<HTML><!-- #BeginTemplate "/Templates/Quartus.dwt" -->
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Quartus Forth Specific Words</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" background="graph.gif">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif"><img src="dfpc.gif" width="64" height="93" align="right" border="0">Quartus 
+  Forth Manual</font></h1>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" --> 
+<H2> <font face="Arial, Helvetica, sans-serif">Documentation for Words Specific 
+  to Quartus Forth</font><BR>
+</H2>
+Quartus provides a number of kernel words beyond those specified by the ISO/ANSI 
+Forth Standard: 
+<UL>
+  <LI> <A HREF="#interface">Interface Words</A> 
+  <LI> <A HREF="#system">System Words</A> 
+  <LI> <A HREF="#memory">Memory Words</A> 
+  <LI> <A HREF="#prc">Stand-alone PRC Generation Words (registered version only)</A> 
+  <LI> <A HREF="#internals">Dictionary Words</A> 
+  <LI><a href="#float">Floating-Point Words</a>
+  <LI><A HREF="#general">General-Purpose Words</A> 
+  <LI> <A HREF="#systraps">PalmOS System Calls (systraps)</A> 
+</UL>
+<P> 
+<H3> <A NAME="interface"><!-- --></A><font face="Arial, Helvetica, sans-serif">Interface 
+  Words: </font></H3>
+<UL>
+  <LI> <B>(ekey)</B> ( <I>ticks.</I> -- <I>eventType</I> )<BR>
+    Waits a specified number of ticks (1/100ths of a second) for an event; if 
+    none is received, returns <I>nilEvent</I>. &nbsp;Like <B>EKEY</B>, but with 
+    an adjustable timeout parameter (<B>EKEY</B> has a fixed timeout of 500 milliseconds). 
+  <LI> <B> currentx</B> ( -- <EM>addr</EM> )<BR>
+    Variable containing the current X-coordinate for text output, in pixels. 
+  <LI> <B> currenty</B> ( -- <EM>addr</EM> )<BR>
+    Variable containing the current Y-coordinate for text output, in pixels. 
+  <LI> <B> &gt;byte</B> ( <EM>char </EM>-- <EM>char&lt;&lt;8</EM> )<BR>
+    Converts a parameter for a systrap expecting a byte value on the stack. Equivalent 
+    to <CODE>8 LSHIFT</CODE>. 
+  <LI> <B> BlankFormID</B> ( -- <EM>BlankFormID</EM> )<BR>
+    Returns the ID of the blank form resource provided by Quartus. &nbsp;For use 
+    with <B>ShowForm</B>. 
+  <LI> <B> MainForm</B> ( -- )<BR>
+    Displays the default Quartus form, and establishes a menu event handler for 
+    it. 
+  <LI> <B> MainFormID</B> ( -- <EM>MainFormID</EM> )<BR>
+    Returns the ID of the main form resource provided by Quartus. &nbsp;For use 
+    with <B>ShowForm</B>. 
+  <LI> <B> ShowForm</B> ( <EM>formID </EM>-- )<BR>
+    Displays the form specified by formID, and establishes a&nbsp;default handler 
+    for it. &nbsp;Sets <B>window-bounds</B> to the form's dimensions. 
+  <LI> <B> TitledFormID</B> ( -- <EM>TitledFormID</EM> )<BR>
+    Returns the ID of the titled form resource provided by Quartus. &nbsp;For 
+    use with <B>ShowForm</B>. 
+  <LI> <B> a0</B> ( -- <EM>a0.</EM> )<BR>
+    Places the 32-bit contents of the 68000 CPU A0 register on the data stack. 
+    Primarily for use with <B>systrap</B>. 
+  <LI> <B> d0</B> ( -- <EM>d0.</EM> )<BR>
+    Places the 32-bit contents of the 68000 CPU D0 register on the data stack. 
+    Primarily for use with <B>systrap</B>. 
+  <LI> <B> d0!</B> ( <EM>x. </EM>-- )<BR>
+    Sets the 68000 CPU D0 register to the 32-bit value provided. 
+  <LI> <B> about</B> ( -- )<BR>
+    Displays the Quartus "About Box" alert. 
+  <LI> <B> beep</B> ( -- )<BR>
+    One beep, no waiting. Equivalent to <CODE>2 &gt;byte SndPlaySystemSound</CODE>. 
+  <LI> <B> callback</B> ( -- )<BR>
+    Temporarily makes the return stack the data stack. For use in event handlers, 
+    etc. Used in combination with <B>end-callback</B>. 
+  <LI> <B> end-callback</B> ( -- )<BR>
+    Reverses the action of <B>callback</B>. 
+  <LI> <B> event</B> ( -- <EM>addr</EM> )<BR>
+    Address of the event structure containing the last received PalmOS event. 
+  <LI> <B> eventhandler</B> ( -- <EM>addr</EM> )<BR>
+    The address of a variable containing the <I>xt</I> of an event handler called 
+    during event handling for forms displayed with <B>ShowForm</B>. &nbsp;Provides 
+    a 'hook' directly into the Quartus event handler. 
+  <LI> <B> handled</B> ( <EM>flag </EM>-- )<BR>
+    Used inside callback event handlers to indicate that a given event has, or 
+    has not, been handled. 
+  <LI> <B> font</B> ( <EM>newFontID </EM>-- <EM>oldFontID</EM> )<BR>
+    Sets the current font to <I>newfontID</I> and returns the previous font as 
+    <I>oldfontID</I>. 
+  <LI> <B> hash</B> ( <EM>c-addr u </EM>-- <EM>hashvalue</EM> )<BR>
+    Generates a 16-bit hash value for the string provided. Used internally by 
+    the Forth dictionary to index Forth word names for quick lookup. 
+  <LI> <B> include</B> ( <EM>&lt;filename&gt; </EM>-- )<BR>
+    Searches the MemoPad for <I>&lt;filename&gt;</I> and processes the source 
+    found there. Files may be nested to any reasonable depth. 
+  <LI> <B> needs</B> ( <EM>&lt;filename&gt; </EM>-- )<BR>
+    Like <B>include</B>, but will not re-include a file that has already been 
+    included. 
+  <LI> <B> more</B> ( <EM>newsetting </EM>-- <EM>oldsetting</EM> )<BR>
+    Sets the on-screen pagination flag, and returns the previous value. Used by 
+    <B>WORDS</B>. 
+  <LI> <B> systrap</B> ( <EM>i*j u </EM>-- <EM>k*j</EM> )<BR>
+    Calls PalmOS systrap <I>u</I>, with parameters <I>i*j</I> (or none), returning 
+    <I>k*j</I> (or none). 
+  <LI> <B> window-bounds</B> ( -- <EM>addr</EM> )<BR>
+    Returns the address of a four-cell data structure&nbsp;containing the dimensions 
+    of the text area of the current form ( topX, topY, width, height). Can be 
+    adjusted within applications, affecting the screen area used for text-output, 
+    word-wrap, and scrolling by <B>CR</B>, <B>TYPE</B>, <B>EMIT</B>, and <B>PAGE</B>. 
+  <LI> <B> wrap</B> ( <EM>newsetting </EM>-- <EM>oldsetting</EM> )<BR>
+    Sets the word-wrap flag (referenced by <B>TYPE</B> and <B>EMIT</B>), and returns 
+    the previous value. 
+</UL>
+<P> 
+<H3> <A NAME="system"><!-- --></A><font face="Arial, Helvetica, sans-serif">System 
+  Words:</font> </H3>
+<UL>
+  <LI> <B> cold </B>( -- )<BR>
+    Resets the system state. &nbsp;The dictionary is reset to containing only 
+    kernel words, the memo <I>startup-quartus</I> is re-read, etc. Equivalent 
+    to exiting and restarting Quartus. 
+  <LI> <B> (bye)</B> ( -- )<BR>
+    Called internally by Quartus when an <CODE>appStopEvent</CODE> is received. 
+    &nbsp;Terminates the current Quartus session. 
+</UL>
+<P> 
+<H3> <A NAME="memory"><!-- --></A><font face="Arial, Helvetica, sans-serif">Memory 
+  Words: </font></H3>
+<UL>
+  <LI> <B> c@a</B> ( <EM>addr. </EM>-- <EM>char</EM> )<BR>
+    Fetches <I>char</I> from a 32-bit absolute address. 
+  <LI> <B> c!a</B> ( <EM>char addr. </EM>-- )<BR>
+    Stores <I>char</I> at a 32-bit absolute address. 
+  <LI> <B> @a</B> ( <EM>addr. </EM>-- <EM>x</EM> )<BR>
+    Fetches <I>x</I> from a 32-bit absolute address. 
+  <LI> <B> !a</B> ( <EM>x </EM><EM>addr.</EM> -- )<BR>
+    Stores <I>x</I> at a 32-bit absolute address. 
+  <LI> <B>2@a</B> ( <EM>addr. </EM>--<EM> x1 x2</EM> )<BR>
+    Fetches the cell pair <I>x1 x2</I> from a 32-bit absolute address. 
+  <LI> <B> 2!a</B> ( <EM>x1 x2 </EM><EM>addr.</EM> -- )<BR>
+    Stores the cell pair <I>x1 x2</I> at a 32-bit absolute address. 
+  <LI> <B> &gt;abs</B> ( <EM>addr </EM>-- <EM>addr.</EM> )<BR>
+    Converts a 16-bit dataspace address to a 32-bit absolute address. 
+  <LI> <B> &gt;rel</B> ( <EM>addr. </EM>-- <EM>addr</EM> )<BR>
+    Converts a 32-bit absolute dataspace address to a relative 16-bit address. 
+  <LI> <B> xt&gt;abs </B>( <EM>xt </EM>-- <EM>xt.</EM> )<BR>
+    Converts an <I>xt</I> to a 32-bit absolute address. 
+  <LI> <B> mem</B> ( -- <EM>largest-block. total-available.</EM> )<BR>
+    Compacts unallocated space in the dynamic memory heap, and reports dynamic 
+    memory remaining. 
+  <LI> <B> csc@</B> ( <EM>code-addr </EM>-- <EM>char</EM> )<BR>
+    Fetches <I>char</I> from a codespace address. 
+  <LI> <B> csc!</B> ( <EM>char code-addr </EM>-- )<BR>
+    Stores <I>char</I> at a codespace address. 
+  <LI> <B> cs@</B> ( <EM>code-addr </EM>-- <EM>x</EM> )<BR>
+    Fetches <I>x</I> from a codespace address. 
+  <LI> <B> cs!</B> ( <EM>x code-addr </EM>-- )<BR>
+    Stores cell <I>x</I> at a codespace address. 
+  <LI> <B> cs,</B> ( <EM>x </EM>-- )<BR>
+    Stores cell <I>x</I> at the current codespace offset; increments the codespace 
+    pointer by one cell (2 bytes). 
+  <LI> <B> csc,</B> ( <EM>char </EM>-- )<BR>
+    Stores <I>char</I> at the current codespace offset; increments the codespace 
+    pointer by one character (1 byte). 
+  <LI> <B> rp@</B> ( -- <EM>rp-addr.</EM> )<BR>
+    Puts the 32-bit contents of the return stack pointer on the data stack. 
+  <LI> <B> rp!</B> ( <EM>rp-addr. </EM>-- )<BR>
+    Sets the return stack pointer to the 32-bit address provided. 
+  <LI> <B> sp@</B> ( -- <EM>sp-addr.</EM> )<BR>
+    Puts the 32-bit contents of the data stack pointer on the data stack. 
+  <LI> <B>sp!</B> ( <EM>sp-addr. </EM>-- )<BR>
+    Sets the data stack pointer to the 32-bit address provided. 
+  <LI> <B>cshere</B> ( -- <EM>cshere</EM> )<BR>
+    Returns the codespace pointer. 
+  <LI> <B> csunused</B> ( -- <EM>csunused</EM> )<BR>
+    Returns the number of unused bytes remaining in codespace. 
+</UL>
+<P> 
+<H3> <A NAME="prc"><!-- --></A><font face="Arial, Helvetica, sans-serif">Stand-alone 
+  PRC Generation Words (<a href="register.htm">registered version</a> only): </font></H3>
+<UL>
+  <LI> <B>MakePRC</B> ( <EM>xt creator-id. &lt;name&gt; </EM>-- )<BR>
+    Generates a stand-alone executable (PRC) with the specified <I>creator-id</I> 
+    and name. Recursively extracts code from the main entry point specified by 
+    <I>xt</I>, and creates a relocatable executable image in the target PRC. Processes 
+    dataspace; creates a data image in the target PRC. 
+  <LI> <B> NewRsrc</B> ( <EM>resID resType. usize </EM>-- <EM>0|err</EM> )<BR>
+    Creates a new resource in the target, with the specified size. &nbsp;Must 
+    only be used <I>after</I> <B>MakePRC</B>. 
+  <LI> <B> CopyRsrc</B> ( <EM>resID resType. </EM>-- )<BR>
+    Searches open resource databases for the specified resource and copies it 
+    into the target PRC. &nbsp;Must only be used <I>after</I> <B>MakePRC</B>. 
+  <LI> <B> DelRsrc</B> ( <EM>resID resType. </EM>-- <EM>0|err</EM> )<BR>
+    Deletes the specified resource from the target PRC. &nbsp;Must only be used 
+    <I>after</I> <B>MakePRC</B>. 
+  <LI><b>generate-symbols</b> ( <i>flag</i> -- )<br>
+    <b>true generate-symbols</b> will cause <b>MakePRC</b> to generate symbolic 
+    debugging invormation in the stand-alone PRC. These debugging symbols allow 
+    for Palm OS Emulator profiling and debugging; Forth words will be listed by 
+    name in the output. Must be used <i>before</i> <b>MakePRC</b>. 
+</UL>
+<P> 
+<H3> <A NAME="internals"><!-- --></A><font face="Arial, Helvetica, sans-serif">Dictionary 
+  Words: </font></H3>
+<UL>
+  <LI><b>allwords</b> ( -- )<br>
+    Displays all words in all wordlists in the current search order. 
+  <LI><B>(find)</B> ( <EM>c-addr u </EM>-- <EM>0 | xt flag</EM> )<BR>
+    Works just as does the Standard word <B>FIND</B>, but takes a standard string 
+    as a parameter, rather than a counted string. 
+  <LI> <B> (header)</B> ( <EM>c-addr u </EM>-- <EM>colon-sys</EM> )<BR>
+    Creates a dictionary header with the name specified in the passed string. 
+    Called by <B>:</B>, <B>CREATE</B>, etc. 
+  <LI> <B> inline</B> ( <EM>--</EM> )<BR>
+    Flags the most recently defined word as an 'inline' word. 
+  <LI> <B> lfa&gt;xt</B> ( <EM>lfa </EM>-- <EM>xt</EM> )<BR>
+    Given the address of a header in codespace, returns the execution token. 
+  <LI><b>xt&gt;name</b> ( <i>xt</i> -- <i>0 | cs-addr u</i> <i>-1</i> )<br>
+    Returns the codespace address and length of the name of the routine specified 
+    by <i>xt</i> and a -1 to indicate success, or 0 if <i>xt </i> does not represent 
+    a valid named word. Note that the address returned is a <i>codespace</i> address; 
+    <b>cs@</b> must be used to read it. 
+</UL>
+<P> 
+<H3><a name="float"><!-- --></a><font face="Arial, Helvetica, sans-serif">Floating-Point 
+  Words: </font></H3>
+<ul>
+  <li> <b> fpdissect</b> ( F: <i>r --</i> ) ( <i>-- sign exponent umantissa.</i> 
+    ) <br>
+    Splits a floating-point number into its components. <i>sign</i> is 1 for zero 
+    or positive floats, -1 for negative floats. <i>umantissa.</i> is the 32-bit 
+    representation of the normalized floating-point mantissa; <i>exponent</i> 
+    is the decimal value of the floating-point exponent.
+</ul>
+<H3><A NAME="general"><!-- --></A><font face="Arial, Helvetica, sans-serif">General-Purpose 
+  Words: </font></H3>
+<UL>
+  <LI> <B> 0</B> ( -- 0 ) 
+  <LI> <B> -1</B> ( -- -1 ) 
+  <LI> <B> m/mod</B> ( <EM>num. denom </EM>-- <EM>quot. rem</EM> )<BR>
+    Called by <B>#</B>. 
+  <LI> <B>for</B> ( <EM>+u </EM>-- )<BR>
+    Used to make simple, fast,&nbsp;loops, in conjunction with <B>next</B>. &nbsp;The 
+    loop index <B>I</B> counts downward within the loop from <em>u</em>-1 to 0. 
+  <LI> <B> next </B>( -- )<BR>
+    See <B>for</B>. 
+  <LI> <B> noop</B> ( -- )<BR>
+    Does nothing. 
+  <LI><b>(float)</b> ( <i>&lt;word&gt;</i> -- )<br>
+    Handles the next word as a floating-point number. 
+  <LI><B>(binary)</B> ( <EM>&lt;word&gt; </EM>-- )<BR>
+    Temporarily switches to base 2; parses and evaluates the next word in the 
+    input buffer. 
+  <LI> <B> (decimal)</B> ( <EM>&lt;word&gt; </EM>-- )<BR>
+    Temporarily switches to base 10; parses and evaluates the next word in the 
+    input buffer. 
+  <LI> <B> (hex)</B> ( <EM>&lt;word&gt; </EM>-- )<BR>
+    Temporarily switches to base 16; parses and evaluates the next word in the 
+    input buffer. 
+  <LI> <B> (octal)</B> ( <EM>&lt;word&gt; </EM>-- )<BR>
+    Temporarily switches to base 8; parses and evaluates the next word in the 
+    input buffer. 
+  <LI> <B> (radix)</B> ( <EM>base &lt;word&gt; </EM>-- )<BR>
+    Temporarily switches to the specified base; parses and evaluates the next 
+    word in the input buffer. &nbsp;An implementation factor of <B>(binary)</B>, 
+    <B>(decimal)</B>, <B>(hex)</B>, etc. 
+  <LI> <B> parse-word</B> ( <EM>&lt;word&gt; </EM>-- <EM>c-addr u</EM> )<BR>
+    Returns the next space-delimited token from the input-buffer. 
+  <LI><b>enough?</b> ( <i>+n -- </i>)<br>
+    Checks that the stack contains at least <i>n</i> cells; if fewer than <i>n</i> 
+    cells are available, performs a <code>-4 THROW</code> (stack underflow).<br>
+</UL>
+<h3><font face="Arial, Helvetica, sans-serif">Inline function tables: <b>select/xt/end-select</b></font></h3>
+<UL>
+  <LI><b>select</b> ( +n -- )<br>
+    Marks the beginning of a <b>select</b> ... <b>end-select</b> block, containing 
+    <b>xt</b> statements. Selects an xt from a function table. <b>select</b> ... 
+    <b>end-select</b> are used to create function lookup tables. <b>select</b> 
+    only works from within a definition. 
+  <LI><b>xt</b> ( <i>&quot;name&quot;</i> -- )<br>
+    Use only within a <b>select</b> ... <b>end-select</b> block. Compiles the 
+    xt of the name specified as part of a function lookup table. 
+  <LI><b>end-select</b> ( -- <i>xt</i><b><i> </i></b>)<br>
+    Marks the end of a <b>select</b> block. Returns the <i>xt</i> chosen from 
+    the table by the argument passed to <b>select</b>. 
+    <p> An example:<br>
+      <br>
+      <samp>: zero .&quot; Zero&quot; ;<br>
+      : one .&quot; One&quot; ;<br>
+      : two .&quot; Two&quot; ;<br>
+      <br>
+      : go<br>
+      select<br>
+      xt zero<br>
+      xt one<br>
+      xt two<br>
+      end-select execute ;<br>
+      <br>
+      0 go <b>Zero</b> <b>ok</b><br>
+      1 go <b>One</b> <b>ok</b><br>
+      2 go <b>Two</b> <b>ok</b></samp></p>
+</UL>
+<P> 
+<H3> <A NAME="systraps"><!-- --></A><font face="Arial, Helvetica, sans-serif">PalmOS 
+  System Calls (systraps): </font></H3>
+<P> Quartus Forth knows the names, parameters and return values of 828 PalmOS 
+  system calls. 
+<P> From the PalmOS SDK documentation provided by 3Com: 
+<TABLE BORDER CELLSPACING="5" CELLPADDING="5">
+  <TR> 
+    <TD><B>DmCloseDatabase</B> 
+      <P> Purpose: Close a database.<BR>
+        Prototype: <CODE>Err DmCloseDatabase (DmOpenRef dbR)</CODE><BR>
+        Parameters: <CODE>dbR</CODE> &nbsp; &nbsp; &nbsp; &nbsp;Database access 
+        pointer.<BR>
+        Result: Returns 0 if no error or <CODE>dmErrInvalidParam</CODE> if an 
+        error occurs. 
+    </TD>
+  </TR>
+</TABLE>
+<P> The Quartus equivalent: 
+<TABLE BORDER CELLSPACING="5" CELLPADDING="5">
+  <TR> 
+    <TD>Purpose: Close a database.<BR>
+      Glossary entry: <B>DmCloseDatabase</B> ( <I>dbP.</I> -- <I>Err</I> )<BR>
+      Parameters: <I>dbP.</I> &nbsp;Database access pointer.<BR>
+      Result: Returns 0 if no error or <CODE>dmErrInvalidParam</CODE> if an error 
+      occurs.</TD>
+  </TR>
+</TABLE>
+<P> Here is a list of all PalmOS system calls, called <I>systraps</I>, transparently 
+  supported by Quartus Forth. Quartus Forth knows how many parameters each expects 
+  on the data stack, and what parameters each returns. &nbsp;Forth stack diagrams 
+  <B>( -- )</B> are provided here for all systraps. The parameters are just as 
+  described in 3Com's <a href="online.htm">PalmOS SDK documentation</a>, but with 
+  the parameter order reversed right-to-left. 
+<P> 
+<ul>
+  <li><b> AbtShowAbout </b>(<em> creator. </em>-- ) 
+  <li><b> AlmAlarmCallback </b>( -- ) 
+  <li><b> AlmCancelAll </b>( -- ) 
+  <li><b> AlmDisplayAlarm </b>(<em> okToDisplay? </em>-- ) 
+  <li><b> AlmEnableNotification </b>(<em> enable? </em>-- ) 
+  <li><b> AlmGetAlarm </b>(<em> &amp;refP. dbID. cardNo </em>--<em> ud. </em>) 
+  <li><b> AlmInit </b>( --<em> Err </em>) 
+  <li><b> AlmSetAlarm </b>(<em> quiet? alarmSeconds. ref. dbID. cardNo </em>--<em> 
+    Err </em>) 
+  <li><b> CategoryCreateList </b>(<em> resizeList? editingStrID. numUneditableCategories[&gt;byte] 
+    showUneditables? showAll? currentCategory &amp;listP. db. </em>-- ) 
+  <li><b> CategoryCreateListV10 </b>(<em> showAll? currentCategory &amp;lst. db. 
+    </em>-- ) 
+  <li><b> CategoryEdit </b>(<em> numUneditableCategories[&gt;byte] titleStrID. 
+    &amp;category. db. </em>--<em> Boolean </em>) 
+  <li><b> CategoryEditV10 </b>(<em> &amp;category. db. </em>--<em> Boolean </em>) 
+  <li><b> CategoryEditV20 </b>(<em> titleStrID. &amp;category. db. </em>--<em> 
+    Boolean </em>) 
+  <li><b> CategoryFind </b>(<em> &amp;name. db. </em>--<em> u </em>) 
+  <li><b> CategoryFreeList </b>(<em> editingStrID. showAll? &amp;listP. db. </em>-- 
+    ) 
+  <li><b> CategoryFreeListV10 </b>(<em> &amp;lst. db. </em>-- ) 
+  <li><b> CategoryGetName </b>(<em> &amp;name. index db. </em>-- ) 
+  <li><b> CategoryGetNext </b>(<em> index db. </em>--<em> u </em>) 
+  <li><b> CategoryInitialize </b>(<em> localizedAppInfoStrID &amp;appInfoP. </em>-- 
+    ) 
+  <li><b> CategorySelect </b>(<em> editingStrID. numUneditableCategories[&gt;byte] 
+    &amp;categoryName. &amp;categoryP. title? lstID ctlID &amp;frm. db. </em>--<em> 
+    Boolean </em>) 
+  <li><b> CategorySelectV10 </b>(<em> &amp;categoryName. &amp;categoryP. title? 
+    lstID ctlID &amp;frm. db. </em>--<em> Boolean </em>) 
+  <li><b> CategorySetName </b>(<em> &amp;nameP. index db. </em>-- ) 
+  <li><b> CategorySetTriggerLabel </b>(<em> &amp;name. &amp;ctl. </em>-- ) 
+  <li><b> CategoryTruncateName </b>(<em> maxWidth &amp;name. </em>-- ) 
+  <li><b> ClipboardAddItem </b>(<em> length &amp;ptr. format[&gt;byte] </em>-- 
+    ) 
+  <li><b> ClipboardGetItem </b>(<em> &amp;length. format[&gt;byte] </em>--<em> 
+    VoidHand. </em>) 
+  <li><b> ConGetS </b>(<em> timeout. &amp;message. </em>--<em> Err </em>) 
+  <li><b> ConPutS </b>(<em> &amp;message. </em>--<em> Err </em>) 
+  <li><b> Crc16CalcBlock </b>(<em> crc count &amp;bufP. </em>--<em> u </em>) 
+  <li><b> CtlDrawControl </b>(<em> &amp;pControl. </em>-- ) 
+  <li><b> CtlEnabled </b>(<em> &amp;pControl. </em>--<em> Boolean </em>) 
+  <li><b> CtlEraseControl </b>(<em> &amp;pControl. </em>-- ) 
+  <li><b> CtlGetLabel </b>(<em> &amp;pControl. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> CtlGetValue </b>(<em> &amp;pControl. </em>--<em> n </em>) 
+  <li><b> CtlHandleEvent </b>(<em> &amp;pEvent. &amp;pControl. </em>--<em> Boolean 
+    </em>) 
+  <li><b> CtlHideControl </b>(<em> &amp;pControl. </em>-- ) 
+  <li><b> CtlHitControl </b>(<em> &amp;pControl. </em>-- ) 
+  <li><b> CtlNewControl </b>(<em> leftAnchor? group[&gt;byte] font[&gt;byte] height 
+    width y x &amp;textP. style[&gt;byte] iD &amp;formPP. </em>--<em> &amp;ControlPtr. 
+    </em>) 
+  <li><b> CtlSetEnabled </b>(<em> usable? &amp;pControl. </em>-- ) 
+  <li><b> CtlSetLabel </b>(<em> &amp;newLabel. &amp;pControl. </em>-- ) 
+  <li><b> CtlSetUsable </b>(<em> usable? &amp;pControl. </em>-- ) 
+  <li><b> CtlSetValue </b>(<em> newValue &amp;pControl. </em>-- ) 
+  <li><b> CtlShowControl </b>(<em> &amp;pControl. </em>-- ) 
+  <li><b> CtlValidatePointer </b>(<em> &amp;pControl. </em>--<em> Boolean </em>) 
+  <li><b> DateAdjust </b>(<em> adjustment. &amp;dateP. </em>-- ) 
+  <li><b> DateDaysToDate </b>(<em> &amp;date. days. </em>-- ) 
+  <li><b> DateSecondsToDate </b>(<em> &amp;date. seconds. </em>-- ) 
+  <li><b> DateToAscii </b>(<em> &amp;pString. dateFormat[&gt;byte] years days[&gt;byte] 
+    months[&gt;byte] </em>-- ) 
+  <li><b> DateToDOWDMFormat </b>(<em> &amp;pString. dateFormat[&gt;byte] years 
+    days[&gt;byte] months[&gt;byte] </em>-- ) 
+  <li><b> DateToDays </b>(<em> date[&gt;byte] </em>--<em> ud. </em>) 
+  <li><b> DayDrawDaySelector </b>(<em> &amp;pSelector. </em>-- ) 
+  <li><b> DayDrawDays </b>(<em> &amp;pSelector. </em>-- ) 
+  <li><b> DayHandleEvent </b>(<em> &amp;pEvent. &amp;pSelector. </em>--<em> Boolean 
+    </em>) 
+  <li><b> DayOfMonth </b>(<em> year day month </em>--<em> u </em>) 
+  <li><b> DayOfWeek </b>(<em> year day month </em>--<em> u </em>) 
+  <li><b> DaysInMonth </b>(<em> year month </em>--<em> u </em>) 
+  <li><b> DbgCommSettings </b>(<em> &amp;flagsP. &amp;baudP. </em>--<em> Err </em>) 
+  <li><b> DbgControl </b>(<em> DbgControl </em>--<em> DbgControlFuncType </em>) 
+  <li><b> DbgGetMessage </b>(<em> timeout. &amp;bufferP. </em>--<em> &amp;CharPtr. 
+    </em>) 
+  <li><b> DbgSrcMessage </b>(<em> &amp;debugStr. </em>-- ) 
+  <li><b> DlkControl </b>(<em> &amp;param2P. &amp;param1P. op[&gt;byte] </em>--<em> 
+    Err </em>) 
+  <li><b> DlkDispatchRequest </b>(<em> &amp;sessP. </em>--<em> Err </em>) 
+  <li><b> DlkGetSyncInfo </b>(<em> &amp;logLenP. &amp;logBufP. &amp;nameBufP. 
+    &amp;syncStateP. &amp;lastSyncDateP. &amp;succSyncDateP. </em>--<em> Err </em>) 
+  <li><b> DlkSetLogEntry </b>(<em> append? textLen &amp;textP. </em>-- ) 
+  <li><b> DlkStartServer </b>(<em> &amp;paramP. </em>--<em> Err </em>) 
+  <li><b> DmArchiveRecord </b>(<em> index dbP. </em>--<em> Err </em>) 
+  <li><b> DmAttachRecord </b>(<em> &amp;oldHP. newH. &amp;atP. dbP. </em>--<em> 
+    Err </em>) 
+  <li><b> DmAttachResource </b>(<em> resID resType. newH. dbP. </em>--<em> Err 
+    </em>) 
+  <li><b> DmCloseDatabase </b>(<em> dbP. </em>--<em> Err </em>) 
+  <li><b> DmCreateDatabase </b>(<em> resDB? type. creator. &amp;nameP. cardNo 
+    </em>--<em> Err </em>) 
+  <li><b> DmCreateDatabaseFromImage </b>(<em> &amp;bufferP. </em>--<em> Err </em>) 
+  <li><b> DmDatabaseInfo </b>(<em> &amp;creatorP. &amp;typeP. &amp;sortInfoIDP. 
+    &amp;appInfoIDP. &amp;modNumP. &amp;bckUpDateP. &amp;modDateP. &amp;crDateP. 
+    &amp;versionP. &amp;attributesP. &amp;nameP. dbID. cardNo </em>--<em> Err 
+    </em>) 
+  <li><b> DmDatabaseProtect </b>(<em> protect? dbID. cardNo </em>--<em> Err </em>) 
+  <li><b> DmDatabaseSize </b>(<em> &amp;dataBytesP. &amp;totalBytesP. &amp;numRecordsP. 
+    dbID. cardNo </em>--<em> Err </em>) 
+  <li><b> DmDeleteCategory </b>(<em> categoryNum dbR. </em>--<em> Err </em>) 
+  <li><b> DmDeleteDatabase </b>(<em> dbID. cardNo </em>--<em> Err </em>) 
+  <li><b> DmDeleteRecord </b>(<em> index dbP. </em>--<em> Err </em>) 
+  <li><b> DmDetachRecord </b>(<em> &amp;oldHP. index dbP. </em>--<em> Err </em>) 
+  <li><b> DmDetachResource </b>(<em> &amp;oldHP. index dbP. </em>--<em> Err </em>) 
+  <li><b> DmFindDatabase </b>(<em> &amp;nameP. cardNo </em>--<em> LocalID. </em>) 
+  <li><b> DmFindRecordByID </b>(<em> &amp;indexP. uniqueID. dbP. </em>--<em> Err 
+    </em>) 
+  <li><b> DmFindResource </b>(<em> resH. resID resType. dbP. </em>--<em> n </em>) 
+  <li><b> DmFindResourceType </b>(<em> typeIndex resType. dbP. </em>--<em> n </em>) 
+  <li><b> DmFindSortPosition </b>(<em> other &amp;compar. &amp;newRecordInfo. 
+    &amp;newRecord. dbP. </em>--<em> u </em>) 
+  <li><b> DmFindSortPositionV10 </b>(<em> other &amp;compar. &amp;newRecord. dbP. 
+    </em>--<em> u </em>) 
+  <li><b> DmGet1Resource </b>(<em> id type. </em>--<em> VoidHand. </em>) 
+  <li><b> DmGetAppInfoID </b>(<em> dbP. </em>--<em> LocalID. </em>) 
+  <li><b> DmGetDatabase </b>(<em> index cardNo </em>--<em> LocalID. </em>) 
+  <li><b> DmGetLastErr </b>( --<em> Err </em>) 
+  <li><b> DmGetNextDatabaseByTypeCreator </b>(<em> &amp;dbIDP. &amp;cardNoP. onlyLatestVers? 
+    creator. type. &amp;stateInfoP. newSearch? </em>--<em> Err </em>) 
+  <li><b> DmGetRecord </b>(<em> index dbP. </em>--<em> VoidHand. </em>) 
+  <li><b> DmGetResource </b>(<em> id type. </em>--<em> VoidHand. </em>) 
+  <li><b> DmGetResourceIndex </b>(<em> index dbP. </em>--<em> VoidHand. </em>) 
+  <li><b> DmInit </b>( --<em> Err </em>) 
+  <li><b> DmInsertionSort </b>(<em> other &amp;compar. dbR. </em>--<em> Err </em>) 
+  <li><b> DmMoveCategory </b>(<em> dirty? fromCategory toCategory dbP. </em>--<em> 
+    Err </em>) 
+  <li><b> DmMoveOpenDBContext </b>(<em> &amp;dbP. &amp;listHeadP. </em>--<em> 
+    Err </em>) 
+  <li><b> DmMoveRecord </b>(<em> to from dbP. </em>--<em> Err </em>) 
+  <li><b> DmNewHandle </b>(<em> size. dbP. </em>--<em> VoidHand. </em>) 
+  <li><b> DmNewRecord </b>(<em> size. &amp;atP. dbP. </em>--<em> VoidHand. </em>) 
+  <li><b> DmNewResource </b>(<em> size. resID resType. dbP. </em>--<em> VoidHand. 
+    </em>) 
+  <li><b> DmNextOpenDatabase </b>(<em> currentP. </em>--<em> DmOpenRef. </em>) 
+  <li><b> DmNextOpenResDatabase </b>(<em> dbP. </em>--<em> DmOpenRef. </em>) 
+  <li><b> DmNumDatabases </b>(<em> cardNo </em>--<em> u </em>) 
+  <li><b> DmNumRecords </b>(<em> dbP. </em>--<em> u </em>) 
+  <li><b> DmNumRecordsInCategory </b>(<em> category dbP. </em>--<em> u </em>) 
+  <li><b> DmNumResources </b>(<em> dbP. </em>--<em> u </em>) 
+  <li><b> DmOpenDatabase </b>(<em> mode dbID. cardNo </em>--<em> DmOpenRef. </em>) 
+  <li><b> DmOpenDatabaseByTypeCreator </b>(<em> mode creator. type. </em>--<em> 
+    DmOpenRef. </em>) 
+  <li><b> DmOpenDatabaseInfo </b>(<em> &amp;resDBP. &amp;cardNoP. &amp;modeP. 
+    &amp;openCountP. &amp;dbIDP. dbP. </em>--<em> Err </em>) 
+  <li><b> DmPositionInCategory </b>(<em> category index dbP. </em>--<em> u </em>) 
+  <li><b> DmQueryNextInCategory </b>(<em> category &amp;indexP. dbP. </em>--<em> 
+    VoidHand. </em>) 
+  <li><b> DmQueryRecord </b>(<em> index dbP. </em>--<em> VoidHand. </em>) 
+  <li><b> DmQuickSort </b>(<em> other &amp;compar. dbP. </em>--<em> Err </em>) 
+  <li><b> DmRecordInfo </b>(<em> &amp;chunkIDP. &amp;uniqueIDP. &amp;attrP. index 
+    dbP. </em>--<em> Err </em>) 
+  <li><b> DmReleaseRecord </b>(<em> dirty? index dbP. </em>--<em> Err </em>) 
+  <li><b> DmReleaseResource </b>(<em> resourceH. </em>--<em> Err </em>) 
+  <li><b> DmRemoveRecord </b>(<em> index dbP. </em>--<em> Err </em>) 
+  <li><b> DmRemoveResource </b>(<em> index dbP. </em>--<em> Err </em>) 
+  <li><b> DmRemoveSecretRecords </b>(<em> dbP. </em>--<em> Err </em>) 
+  <li><b> DmResetRecordStates </b>(<em> dbP. </em>--<em> Err </em>) 
+  <li><b> DmResizeRecord </b>(<em> newSize. index dbP. </em>--<em> VoidHand. </em>) 
+  <li><b> DmResizeResource </b>(<em> newSize. resourceH. </em>--<em> VoidHand. 
+    </em>) 
+  <li><b> DmResourceInfo </b>(<em> &amp;chunkLocalIDP. &amp;resIDP. &amp;resTypeP. 
+    index dbP. </em>--<em> Err </em>) 
+  <li><b> DmSearchRecord </b>(<em> &amp;dbPP. recH. </em>--<em> n </em>) 
+  <li><b> DmSearchResource </b>(<em> &amp;dbPP. resH. resID resType. </em>--<em> 
+    n </em>) 
+  <li><b> DmSeekRecordInCategory </b>(<em> category direction offset &amp;indexP. 
+    dbP. </em>--<em> Err </em>) 
+  <li><b> DmSet </b>(<em> value[&gt;byte] bytes. offset. &amp;recordP. </em>--<em> 
+    Err </em>) 
+  <li><b> DmSetDatabaseInfo </b>(<em> &amp;creatorP. &amp;typeP. &amp;sortInfoIDP. 
+    &amp;appInfoIDP. &amp;modNumP. &amp;bckUpDateP. &amp;modDateP. &amp;crDateP. 
+    &amp;versionP. &amp;attributesP. &amp;nameP. dbID. cardNo </em>--<em> Err 
+    </em>) 
+  <li><b> DmSetRecordInfo </b>(<em> &amp;uniqueIDP. &amp;attrP. index dbP. </em>--<em> 
+    Err </em>) 
+  <li><b> DmSetResourceInfo </b>(<em> &amp;resIDP. &amp;resTypeP. index dbP. </em>--<em> 
+    Err </em>) 
+  <li><b> DmStrCopy </b>(<em> &amp;srcP. offset. &amp;recordP. </em>--<em> Err 
+    </em>) 
+  <li><b> DmWrite </b>(<em> bytes. &amp;srcP. offset. &amp;recordP. </em>--<em> 
+    Err </em>) 
+  <li><b> DmWriteCheck </b>(<em> bytes. offset. &amp;recordP. </em>--<em> Err 
+    </em>) 
+  <li><b> EncDES </b>(<em> encrypt? &amp;dstP. &amp;keyP. &amp;srcP. </em>--<em> 
+    Err </em>) 
+  <li><b> EncDigestMD4 </b>(<em> digestP[&gt;byte] strLen &amp;strP. </em>--<em> 
+    Err </em>) 
+  <li><b> EncDigestMD5 </b>(<em> digestP[&gt;byte] strLen &amp;strP. </em>--<em> 
+    Err </em>) 
+  <li><b> ErrDisplayFileLineMsg </b>(<em> &amp;msg. lineNo &amp;filename. </em>-- 
+    ) 
+  <li><b> ErrExceptionList </b>( --<em> &amp;Ptr. </em>) 
+  <li><b> ErrThrow </b>(<em> err. </em>-- ) 
+  <li><b> EvtAddEventToQueue </b>(<em> &amp;event. </em>-- ) 
+  <li><b> EvtAddUniqueEventToQueue </b>(<em> inPlace? id. &amp;eventP. </em>-- 
+    ) 
+  <li><b> EvtCopyEvent </b>(<em> &amp;dest. &amp;source. </em>-- ) 
+  <li><b> EvtDequeueKeyEvent </b>(<em> peek &amp;eventP. </em>--<em> Err </em>) 
+  <li><b> EvtDequeuePenPoint </b>(<em> &amp;retP. </em>--<em> Err </em>) 
+  <li><b> EvtDequeuePenStrokeInfo </b>(<em> &amp;endPtP. &amp;startPtP. </em>--<em> 
+    Err </em>) 
+  <li><b> EvtEnableGraffiti </b>(<em> enable? </em>-- ) 
+  <li><b> EvtEnqueueKey </b>(<em> modifiers keycode ascii </em>--<em> Err </em>) 
+  <li><b> EvtEnqueuePenPoint </b>(<em> &amp;ptP. </em>--<em> Err </em>) 
+  <li><b> EvtEventAvail </b>( --<em> Boolean </em>) 
+  <li><b> EvtFlushKeyQueue </b>( --<em> Err </em>) 
+  <li><b> EvtFlushNextPenStroke </b>( --<em> Err </em>) 
+  <li><b> EvtFlushPenQueue </b>( --<em> Err </em>) 
+  <li><b> EvtGetEvent </b>(<em> timeout. &amp;event. </em>-- ) 
+  <li><b> EvtGetPen </b>(<em> &amp;pPenDown. &amp;pScreenY. &amp;pScreenX. </em>-- 
+    ) 
+  <li><b> EvtGetPenBtnList </b>(<em> &amp;numButtons. </em>--<em> &amp;PenBtnInfoPtr. 
+    </em>) 
+  <li><b> EvtGetSysEvent </b>(<em> timeout. &amp;eventP. </em>-- ) 
+  <li><b> EvtInitialize </b>( -- ) 
+  <li><b> EvtKeyQueueEmpty </b>( --<em> Boolean </em>) 
+  <li><b> EvtKeyQueueSize </b>( --<em> ud. </em>) 
+  <li><b> EvtPenQueueSize </b>( --<em> ud. </em>) 
+  <li><b> EvtProcessSoftKeyStroke </b>(<em> &amp;endPtP. &amp;startPtP. </em>--<em> 
+    Err </em>) 
+  <li><b> EvtResetAutoOffTimer </b>( --<em> Err </em>) 
+  <li><b> EvtSetKeyQueuePtr </b>(<em> size. &amp;keyQueueP. </em>--<em> Err </em>) 
+  <li><b> EvtSetPenQueuePtr </b>(<em> size. &amp;penQueueP. </em>--<em> Err </em>) 
+  <li><b> EvtSysEventAvail </b>(<em> ignorePenUps? </em>--<em> Boolean </em>) 
+  <li><b> EvtSysInit </b>( --<em> Err </em>) 
+  <li><b> EvtWakeup </b>( --<em> Err </em>) 
+  <li><b> ExgAccept </b>(<em> &amp;socketP. </em>--<em> Err </em>) 
+  <li><b> ExgConnect </b>(<em> &amp;socketP. </em>--<em> Err </em>) 
+  <li><b> ExgDBRead </b>(<em> keepDates? &amp;needResetP. cardNo &amp;dbIDP. &amp;userDataP. 
+    &amp;deleteProcP. &amp;readProcP. </em>--<em> Err </em>) 
+  <li><b> ExgDBWrite </b>(<em> cardNo dbID. &amp;nameP. &amp;userDataP. &amp;writeProcP. 
+    </em>--<em> Err </em>) 
+  <li><b> ExgDisconnect </b>(<em> error &amp;socketP. </em>--<em> Err </em>) 
+  <li><b> ExgGet </b>(<em> &amp;socketP. </em>--<em> Err </em>) 
+  <li><b> ExgInit </b>( --<em> Err </em>) 
+  <li><b> ExgNotifyReceive </b>(<em> &amp;socketP. </em>--<em> Err </em>) 
+  <li><b> ExgPut </b>(<em> &amp;socketP. </em>--<em> Err </em>) 
+  <li><b> ExgReceive </b>(<em> &amp;err. bufLen. &amp;bufP. &amp;socketP. </em>--<em> 
+    ud. </em>) 
+  <li><b> ExgRegisterData </b>(<em> &amp;dataTypesP. id creatorID. </em>--<em> 
+    Err </em>) 
+  <li><b> ExgSend </b>(<em> &amp;err. bufLen. &amp;bufP. &amp;socketP. </em>--<em> 
+    ud. </em>) 
+  <li><b> FileClose </b>(<em> stream. </em>--<em> Err </em>) 
+  <li><b> FileControl </b>(<em> &amp;valueLenP. &amp;valueP. stream. op[&gt;byte] 
+    </em>--<em> Err </em>) 
+  <li><b> FileDelete </b>(<em> &amp;nameP. cardNo </em>--<em> Err </em>) 
+  <li><b> FileOpen </b>(<em> &amp;errP. openMode. creator. type. &amp;nameP. cardNo 
+    </em>--<em> FileHand. </em>) 
+  <li><b> FileReadLow </b>(<em> &amp;errP. numObj. objSize. dataStoreBased? offset. 
+    &amp;baseP. stream. </em>--<em> Long. </em>) 
+  <li><b> FileSeek </b>(<em> origin[&gt;byte] offset. stream. </em>--<em> Err 
+    </em>) 
+  <li><b> FileTell </b>(<em> &amp;errP. &amp;fileSizeP. stream. </em>--<em> Long. 
+    </em>) 
+  <li><b> FileTruncate </b>(<em> newSize. stream. </em>--<em> Err </em>) 
+  <li><b> FileWrite </b>(<em> &amp;errP. numObj. objSize. &amp;dataP. stream. 
+    </em>--<em> Long. </em>) 
+  <li><b> Find </b>(<em> &amp;goToP. </em>-- ) 
+  <li><b> FindDrawHeader </b>(<em> &amp;title. &amp;findParams. </em>--<em> Boolean 
+    </em>) 
+  <li><b> FindGetLineBounds </b>(<em> &amp;r. &amp;findParams. </em>-- ) 
+  <li><b> FindSaveMatch </b>(<em> dbID. cardNo appCustom. fieldNum pos recordNum 
+    &amp;findParams. </em>--<em> Boolean </em>) 
+  <li><b> FindStrInStr </b>(<em> &amp;posP. &amp;strToFind. &amp;strToSearch. 
+    </em>--<em> Boolean </em>) 
+  <li><b> FldCalcFieldHeight </b>(<em> maxWidth &amp;chars. </em>--<em> u </em>) 
+  <li><b> FldCompactText </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldCopy </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldCut </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldDelete </b>(<em> end start &amp;fld. </em>-- ) 
+  <li><b> FldDirty </b>(<em> &amp;fld. </em>--<em> Boolean </em>) 
+  <li><b> FldDrawField </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldEraseField </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldFreeMemory </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldGetAttributes </b>(<em> &amp;attrP. &amp;fld. </em>-- ) 
+  <li><b> FldGetBounds </b>(<em> &amp;rect. &amp;fld. </em>-- ) 
+  <li><b> FldGetFont </b>(<em> &amp;fld. </em>--<em> FontID </em>) 
+  <li><b> FldGetInsPtPosition </b>(<em> &amp;fld. </em>--<em> u </em>) 
+  <li><b> FldGetMaxChars </b>(<em> &amp;fld. </em>--<em> u </em>) 
+  <li><b> FldGetNumberOfBlankLines </b>(<em> &amp;fld. </em>--<em> u </em>) 
+  <li><b> FldGetScrollPosition </b>(<em> &amp;fld. </em>--<em> u </em>) 
+  <li><b> FldGetScrollValues </b>(<em> &amp;fieldHeightP. &amp;textHeightP. &amp;scrollPosP. 
+    &amp;fld. </em>-- ) 
+  <li><b> FldGetSelection </b>(<em> &amp;endPosition. &amp;startPosition. &amp;fld. 
+    </em>--<em> </em>) 
+  <li><b> FldGetTextAllocatedSize </b>(<em> &amp;fld. </em>--<em> u </em>) 
+  <li><b> FldGetTextHandle </b>(<em> &amp;fld. </em>--<em> Handle. </em>) 
+  <li><b> FldGetTextHeight </b>(<em> &amp;fld. </em>--<em> u </em>) 
+  <li><b> FldGetTextLength </b>(<em> &amp;fld. </em>--<em> u </em>) 
+  <li><b> FldGetTextPtr </b>(<em> &amp;fld. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> FldGetVisibleLines </b>(<em> &amp;fld. </em>--<em> u </em>) 
+  <li><b> FldGrabFocus </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldHandleEvent </b>(<em> &amp;pEvent. &amp;fld. </em>--<em> Boolean 
+    </em>) 
+  <li><b> FldInsert </b>(<em> insertLen &amp;insertChars. &amp;fld. </em>--<em> 
+    Boolean </em>) 
+  <li><b> FldMakeFullyVisible </b>(<em> &amp;fld. </em>--<em> Boolean </em>) 
+  <li><b> FldNewField </b>(<em> numeric? hasScrollBar? autoShift? justification[&gt;byte] 
+    dynamicSize? singleLine? underlined? editable? maxChars. font[&gt;byte] height 
+    width y x id &amp;formPP. </em>--<em> &amp;FieldPtr. </em>) 
+  <li><b> FldPaste </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldRecalculateField </b>(<em> redraw? &amp;fld. </em>-- ) 
+  <li><b> FldReleaseFocus </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldScrollField </b>(<em> direction[&gt;byte] linesToScroll &amp;fld. 
+    </em>-- ) 
+  <li><b> FldScrollable </b>(<em> direction[&gt;byte] &amp;fld. </em>--<em> Boolean 
+    </em>) 
+  <li><b> FldSendChangeNotification </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldSendHeightChangeNotification </b>(<em> numLines pos &amp;fld. </em>-- 
+    ) 
+  <li><b> FldSetAttributes </b>(<em> &amp;attrP. &amp;fld. </em>-- ) 
+  <li><b> FldSetBounds </b>(<em> &amp;rect. &amp;fld. </em>-- ) 
+  <li><b> FldSetDirty </b>(<em> dirty? &amp;fld. </em>-- ) 
+  <li><b> FldSetFont </b>(<em> fontID[&gt;byte] &amp;fld. </em>-- ) 
+  <li><b> FldSetInsPtPosition </b>(<em> pos &amp;fld. </em>-- ) 
+  <li><b> FldSetInsertionPoint </b>(<em> pos &amp;fld. </em>-- ) 
+  <li><b> FldSetMaxChars </b>(<em> maxChars &amp;fld. </em>-- ) 
+  <li><b> FldSetScrollPosition </b>(<em> pos &amp;fld. </em>-- ) 
+  <li><b> FldSetSelection </b>(<em> endPosition startPosition &amp;fld. </em>-- 
+    ) 
+  <li><b> FldSetText </b>(<em> size offset textHandle. &amp;fld. </em>-- ) 
+  <li><b> FldSetTextAllocatedSize </b>(<em> allocatedSize &amp;fld. </em>-- ) 
+  <li><b> FldSetTextHandle </b>(<em> textHandle. &amp;fld. </em>-- ) 
+  <li><b> FldSetTextPtr </b>(<em> &amp;textP. &amp;fld. </em>-- ) 
+  <li><b> FldSetUsable </b>(<em> usable? &amp;fld. </em>-- ) 
+  <li><b> FldUndo </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> FldWordWrap </b>(<em> maxWidth &amp;chars. </em>--<em> u </em>) 
+  <li><b> FntAverageCharWidth </b>( --<em> n </em>) 
+  <li><b> FntBaseLine </b>( --<em> n </em>) 
+  <li><b> FntCharHeight </b>( --<em> n </em>) 
+  <li><b> FntCharWidth </b>(<em> char[&gt;byte] </em>--<em> n </em>) 
+  <li><b> FntCharsInWidth </b>(<em> &amp;fitWithinWidth. &amp;stringLengthP. &amp;stringWidthP. 
+    &amp;string. </em>-- ) 
+  <li><b> FntCharsWidth </b>(<em> len &amp;chars. </em>--<em> n </em>) 
+  <li><b> FntDefineFont </b>(<em> &amp;fontP. font[&gt;byte] </em>--<em> Err </em>) 
+  <li><b> FntDescenderHeight </b>( --<em> n </em>) 
+  <li><b> FntGetFont </b>( --<em> FontID </em>) 
+  <li><b> FntGetFontPtr </b>( --<em> &amp;FontPtr. </em>) 
+  <li><b> FntGetScrollValues </b>(<em> &amp;topLine. &amp;linesP. scrollPos width 
+    &amp;chars. </em>-- ) 
+  <li><b> FntLineHeight </b>( --<em> n </em>) 
+  <li><b> FntLineWidth </b>(<em> length &amp;pChars. </em>--<em> n </em>) 
+  <li><b> FntSetFont </b>(<em> font[&gt;byte] </em>--<em> FontID </em>) 
+  <li><b> FntWordWrap </b>(<em> maxWidth &amp;chars. </em>--<em> u </em>) 
+  <li><b> FntWordWrapReverseNLines </b>(<em> &amp;scrollPosP. &amp;linesToScrollP. 
+    maxWidth &amp;chars. </em>-- ) 
+  <li><b> FontSelect </b>(<em> fontID[&gt;byte] </em>--<em> FontID </em>) 
+  <li><b> FplAToF </b>(<em> &amp;s. &amp;FloatType[8]. </em>-- ) 
+  <li><b> FplAdd </b>(<em> b[8] a[8] &amp;FloatType[8]. </em>-- ) 
+  <li><b> FplBase10Info </b>(<em> &amp;signP. &amp;exponentP. &amp;mantissaP. 
+    f[8] </em>--<em> Err </em>) 
+  <li><b> FplDiv </b>(<em> divisor[8] dividend[8] &amp;FloatType[8]. </em>-- ) 
+  <li><b> FplFToA </b>(<em> &amp;s. f[8] </em>--<em> Err </em>) 
+  <li><b> FplFloatToLong </b>(<em> f[8] </em>--<em> Long. </em>) 
+  <li><b> FplFloatToULong </b>(<em> f[8] </em>--<em> ud. </em>) 
+  <li><b> FplFree </b>( -- ) 
+  <li><b> FplInit </b>( --<em> Err </em>) 
+  <li><b> FplLongToFloat </b>(<em> x. &amp;FloatType[8]. </em>-- ) 
+  <li><b> FplMul </b>(<em> b[8] a[8] &amp;FloatType[8]. </em>-- ) 
+  <li><b> FplSub </b>(<em> b[8] a[8] &amp;FloatType[8]. </em>-- ) 
+  <li><b> FrmActiveState </b>(<em> save? &amp;stateP. </em>--<em> Err </em>) 
+  <li><b> FrmAddSpaceForObject </b>(<em> objectSize objectKind[&gt;byte] &amp;objectPP. 
+    &amp;formPP. </em>--<em> Err </em>) 
+  <li><b> FrmAlert </b>(<em> alertId </em>--<em> u </em>) 
+  <li><b> FrmCloseAllForms </b>( -- ) 
+  <li><b> FrmCopyLabel </b>(<em> &amp;newLable. lableID &amp;frm. </em>-- ) 
+  <li><b> FrmCopyTitle </b>(<em> &amp;newTitle. &amp;frm. </em>-- ) 
+  <li><b> FrmCustomAlert </b>(<em> &amp;s3. &amp;s2. &amp;s1. alertId </em>--<em> 
+    u </em>) 
+  <li><b> FrmDeleteForm </b>(<em> &amp;frm. </em>-- ) 
+  <li><b> FrmDispatchEvent </b>(<em> &amp;eventP. </em>--<em> Boolean </em>) 
+  <li><b> FrmDoDialog </b>(<em> &amp;frm. </em>--<em> u </em>) 
+  <li><b> FrmDrawForm </b>(<em> &amp;frm. </em>-- ) 
+  <li><b> FrmEraseForm </b>(<em> &amp;frm. </em>-- ) 
+  <li><b> FrmGetActiveForm </b>( --<em> &amp;FormPtr. </em>) 
+  <li><b> FrmGetActiveFormID </b>( --<em> u </em>) 
+  <li><b> FrmGetControlGroupSelection </b>(<em> groupNum[&gt;byte] &amp;frm. </em>--<em> 
+    Byte </em>) 
+  <li><b> FrmGetControlValue </b>(<em> controlID &amp;frm. </em>--<em> n </em>) 
+  <li><b> FrmGetFirstForm </b>( --<em> &amp;FormPtr. </em>) 
+  <li><b> FrmGetFocus </b>(<em> &amp;frm. </em>--<em> u </em>) 
+  <li><b> FrmGetFormBounds </b>(<em> &amp;r. &amp;frm. </em>-- ) 
+  <li><b> FrmGetFormId </b>(<em> &amp;frm. </em>--<em> u </em>) 
+  <li><b> FrmGetFormPtr </b>(<em> formId </em>--<em> &amp;FormPtr. </em>) 
+  <li><b> FrmGetGadgetData </b>(<em> objIndex &amp;frm. </em>--<em> &amp;VoidPtr. 
+    </em>) 
+  <li><b> FrmGetLabel </b>(<em> lableID &amp;frm. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> FrmGetNumberOfObjects </b>(<em> &amp;frm. </em>--<em> u </em>) 
+  <li><b> FrmGetObjectBounds </b>(<em> &amp;r. pObjIndex &amp;frm. </em>-- ) 
+  <li><b> FrmGetObjectId </b>(<em> objIndex &amp;FormPtr. </em>--<em> u </em>) 
+  <li><b> FrmGetObjectIndex </b>(<em> objID &amp;frm. </em>--<em> u </em>) 
+  <li><b> FrmGetObjectPosition </b>(<em> &amp;y. &amp;x. objIndex &amp;frm. </em>-- 
+    ) 
+  <li><b> FrmGetObjectPtr </b>(<em> objIndex &amp;frm. </em>--<em> &amp;VoidPtr. 
+    </em>) 
+  <li><b> FrmGetObjectType </b>(<em> objIndex &amp;frm. </em>--<em> FormObjectKind 
+    </em>) 
+  <li><b> FrmGetTitle </b>(<em> &amp;frm. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> FrmGetUserModifiedState </b>(<em> &amp;frm. </em>--<em> Boolean </em>) 
+  <li><b> FrmGetWindowHandle </b>(<em> &amp;frm. </em>--<em> WinHandle. </em>) 
+  <li><b> FrmGotoForm </b>(<em> formId </em>-- ) 
+  <li><b> FrmHandleEvent </b>(<em> &amp;eventP. &amp;frm. </em>--<em> Boolean 
+    </em>) 
+  <li><b> FrmHelp </b>(<em> helpMsgId </em>-- ) 
+  <li><b> FrmHideObject </b>(<em> objIndex &amp;frm. </em>-- ) 
+  <li><b> FrmInitForm </b>(<em> rscID </em>--<em> &amp;FormPtr. </em>) 
+  <li><b> FrmNewBitmap </b>(<em> y x rscID iD &amp;formPP. </em>--<em> &amp;FormBitmapType. 
+    </em>) 
+  <li><b> FrmNewForm </b>(<em> menuRscID helpRscID defaultButton modal? height 
+    width y x &amp;titleStrP. formID </em>--<em> &amp;FormPtr. </em>) 
+  <li><b> FrmNewGadget </b>(<em> height width y x id &amp;formPP. </em>--<em> 
+    &amp;FormGadgetType. </em>) 
+  <li><b> FrmNewLabel </b>(<em> font[&gt;byte] y x &amp;textP. iD &amp;formPP. 
+    </em>--<em> &amp;FormLabelType. </em>) 
+  <li><b> FrmPointInTitle </b>(<em> y x &amp;frm. </em>--<em> Boolean </em>) 
+  <li><b> FrmPopupForm </b>(<em> formId </em>-- ) 
+  <li><b> FrmRemoveObject </b>(<em> objIndex &amp;formPP. </em>--<em> Err </em>) 
+  <li><b> FrmReturnToForm </b>(<em> formId </em>-- ) 
+  <li><b> FrmSaveAllForms </b>( -- ) 
+  <li><b> FrmSetActiveForm </b>(<em> &amp;frm. </em>-- ) 
+  <li><b> FrmSetCategoryLabel </b>(<em> &amp;newLabel. objIndex &amp;frm. </em>-- 
+    ) 
+  <li><b> FrmSetControlGroupSelection </b>(<em> controlID groupNum[&gt;byte] &amp;frm. 
+    </em>-- ) 
+  <li><b> FrmSetControlValue </b>(<em> newValue controlID &amp;frm. </em>-- ) 
+  <li><b> FrmSetEventHandler </b>(<em> &amp;FormEventHandlerPtr. &amp;frm. </em>-- 
+    ) 
+  <li><b> FrmSetFocus </b>(<em> fieldIndex &amp;frm. </em>-- ) 
+  <li><b> FrmSetGadgetData </b>(<em> &amp;data. objIndex &amp;frm. </em>-- ) 
+  <li><b> FrmSetMenu </b>(<em> menuRscID &amp;frm. </em>-- ) 
+  <li><b> FrmSetNotUserModified </b>(<em> &amp;frm. </em>-- ) 
+  <li><b> FrmSetObjectBounds </b>(<em> &amp;bounds. objIndex &amp;frm. </em>-- 
+    ) 
+  <li><b> FrmSetObjectPosition </b>(<em> y x objIndex &amp;frm. </em>-- ) 
+  <li><b> FrmSetTitle </b>(<em> &amp;newTitle. &amp;frm. </em>-- ) 
+  <li><b> FrmShowObject </b>(<em> objIndex &amp;frm. </em>-- ) 
+  <li><b> FrmUpdateForm </b>(<em> updateCode formId </em>-- ) 
+  <li><b> FrmUpdateScrollers </b>(<em> scrollabledown? scrollableUp? downIndex 
+    upIndex &amp;frm. </em>-- ) 
+  <li><b> FrmValidatePtr </b>(<em> &amp;frm. </em>--<em> Boolean </em>) 
+  <li><b> FrmVisible </b>(<em> &amp;frm. </em>--<em> Boolean </em>) 
+  <li><b> FtrGet </b>(<em> &amp;valueP. featureNum creator. </em>--<em> Err </em>) 
+  <li><b> FtrGetByIndex </b>(<em> &amp;valueP. &amp;numP. &amp;creatorP. romTable? 
+    index </em>--<em> Err </em>) 
+  <li><b> FtrInit </b>( --<em> Err </em>) 
+  <li><b> FtrSet </b>(<em> newValue. featureNum creator. </em>--<em> Err </em>) 
+  <li><b> FtrUnregister </b>(<em> featureNum creator. </em>--<em> Err </em>) 
+  <li><b> GetCharAttr </b>( --<em> &amp;WordPtr. </em>) 
+  <li><b> GetCharCaselessValue </b>( --<em> &amp;BytePtr. </em>) 
+  <li><b> GetCharSortValue </b>( --<em> &amp;BytePtr. </em>) 
+  <li><b> GrfAddMacro </b>(<em> dataLen &amp;macroDataP. &amp;nameP. </em>--<em> 
+    Err </em>) 
+  <li><b> GrfAddPoint </b>(<em> &amp;pt. </em>--<em> Err </em>) 
+  <li><b> GrfCleanState </b>( --<em> Err </em>) 
+  <li><b> GrfDeleteMacro </b>(<em> index </em>--<em> Err </em>) 
+  <li><b> GrfFieldChange </b>(<em> &amp;characterToDelete. resetState? </em>--<em> 
+    Err </em>) 
+  <li><b> GrfFilterPoints </b>( --<em> Err </em>) 
+  <li><b> GrfFindBranch </b>(<em> flags </em>--<em> Err </em>) 
+  <li><b> GrfFlushPoints </b>( --<em> Err </em>) 
+  <li><b> GrfFree </b>( --<em> Err </em>) 
+  <li><b> GrfGetAndExpandMacro </b>(<em> &amp;dataLenP. &amp;macroDataP. &amp;nameP. 
+    </em>--<em> Err </em>) 
+  <li><b> GrfGetGlyphMapping </b>(<em> &amp;uncertainLenP. &amp;dataLenP. &amp;dataPtrP. 
+    &amp;flagsP. glyphID </em>--<em> Err </em>) 
+  <li><b> GrfGetMacro </b>(<em> &amp;dataLenP. &amp;macroDataP. &amp;nameP. </em>--<em> 
+    Err </em>) 
+  <li><b> GrfGetMacroName </b>(<em> &amp;nameP. index </em>--<em> Err </em>) 
+  <li><b> GrfGetNumPoints </b>(<em> &amp;numPtsP. </em>--<em> Err </em>) 
+  <li><b> GrfGetPoint </b>(<em> &amp;pointP. index </em>--<em> Err </em>) 
+  <li><b> GrfGetState </b>(<em> &amp;autoShiftedP. &amp;tempShiftP. &amp;numLockP. 
+    &amp;capsLockP. </em>--<em> Err </em>) 
+  <li><b> GrfInit </b>( --<em> Err </em>) 
+  <li><b> GrfInitState </b>( --<em> Err </em>) 
+  <li><b> GrfMatch </b>(<em> &amp;matchInfoP. &amp;uncertainLenP. &amp;dataLenP. 
+    &amp;dataPtrP. &amp;flagsP. </em>--<em> Err </em>) 
+  <li><b> GrfMatchGlyph </b>(<em> maxMatches maxUnCertainty &amp;matchInfoP. </em>--<em> 
+    Err </em>) 
+  <li><b> GrfProcessStroke </b>(<em> upShift? &amp;endPtP. &amp;startPtP. </em>--<em> 
+    Err </em>) 
+  <li><b> GrfSetState </b>(<em> upperShift? numLock? capsLock? </em>--<em> Err 
+    </em>) 
+  <li><b> GsiEnable </b>(<em> enableIt? </em>-- ) 
+  <li><b> GsiEnabled </b>( --<em> Boolean </em>) 
+  <li><b> GsiInitialize </b>( -- ) 
+  <li><b> GsiSetLocation </b>(<em> y x </em>-- ) 
+  <li><b> GsiSetShiftState </b>(<em> tempShift lockFlags </em>-- ) 
+  <li><b> HwrBacklight </b>(<em> newState? set? </em>--<em> Boolean </em>) 
+  <li><b> HwrBatteryLevel </b>( --<em> u </em>) 
+  <li><b> HwrCursor </b>(<em> &amp;blinkP. &amp;sizeP. &amp;whereP. &amp;modeP. 
+    set? </em>--<em> Err </em>) 
+  <li><b> HwrDelay </b>(<em> microseconds. </em>-- ) 
+  <li><b> HwrDisableDataWrites </b>( -- ) 
+  <li><b> HwrDockSignals </b>(<em> outputClr outputSet &amp;inputsP. </em>--<em> 
+    Err </em>) 
+  <li><b> HwrDoze </b>(<em> onlyNMI? </em>-- ) 
+  <li><b> HwrEnableDataWrites </b>( --<em> Boolean </em>) 
+  <li><b> HwrGetRAMMapping </b>(<em> &amp;logBlockInfoP. &amp;physBlockInfoP. 
+    &amp;numBlocksP. &amp;cardInfoP. </em>-- ) 
+  <li><b> HwrGetROMToken </b>(<em> &amp;sizeP. &amp;dataP. token. cardNo </em>--<em> 
+    Err </em>) 
+  <li><b> HwrIRQ1Handler </b>(<em> param. </em>-- ) 
+  <li><b> HwrIRQ2Handler </b>(<em> param. </em>-- ) 
+  <li><b> HwrIRQ3Handler </b>(<em> param. </em>-- ) 
+  <li><b> HwrIRQ4Handler </b>(<em> param. </em>-- ) 
+  <li><b> HwrIRQ5Handler </b>(<em> param. </em>-- ) 
+  <li><b> HwrIRQ6Handler </b>(<em> param. </em>-- ) 
+  <li><b> HwrLCDBaseAddr </b>(<em> &amp;newAddrP. </em>--<em> Err </em>) 
+  <li><b> HwrLCDDrawBitmap </b>(<em> clearFirst? &amp;bitmapP. y x </em>--<em> 
+    Err </em>) 
+  <li><b> HwrLCDGetDepth </b>(<em> request </em>--<em> u </em>) 
+  <li><b> HwrLCDInit </b>(<em> depth height width &amp;baseP. framePeriod </em>--<em> 
+    Err </em>) 
+  <li><b> HwrLCDSleep </b>(<em> emergency? untilReset? </em>--<em> Err </em>) 
+  <li><b> HwrLCDWake </b>( --<em> Err </em>) 
+  <li><b> HwrMemReadable </b>(<em> &amp;addr. </em>--<em> DWord. </em>) 
+  <li><b> HwrMemWritable </b>(<em> &amp;addr. </em>--<em> DWord. </em>) 
+  <li><b> HwrPluggedIn </b>( --<em> Boolean </em>) 
+  <li><b> HwrSetCPUDutyCycle </b>(<em> &amp;dutyP. </em>--<em> Err </em>) 
+  <li><b> HwrSetSystemClock </b>(<em> &amp;freqP. </em>--<em> Err </em>) 
+  <li><b> HwrSleep </b>(<em> emergency? untilReset? </em>-- ) 
+  <li><b> HwrTimerInit </b>(<em> timer </em>--<em> Err </em>) 
+  <li><b> HwrTimerSleep </b>(<em> timer </em>--<em> Err </em>) 
+  <li><b> HwrTimerWake </b>(<em> timer </em>--<em> Err </em>) 
+  <li><b> HwrWake </b>( --<em> Err </em>) 
+  <li><b> ImcReadFieldNoSemicolon </b>(<em> maxChars &amp;c. inputFunc &amp;inputStream. 
+    </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> ImcReadFieldQuotablePrintable </b>(<em> maxChars quotedPrintable? stopAt 
+    &amp;c. inputFunc &amp;inputStream. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> ImcReadPropertyParameter </b>(<em> &amp;valueP. &amp;nameP. &amp;cP. 
+    inputFunc &amp;inputStream. </em>-- ) 
+  <li><b> ImcReadWhiteSpace </b>(<em> &amp;c. &amp;charAttrP. inputFunc &amp;inputStream. 
+    </em>-- ) 
+  <li><b> ImcSkipAllPropertyParameters </b>(<em> &amp;quotedPrintableP. &amp;identifierP. 
+    &amp;cP. inputFunc &amp;inputStream. </em>-- ) 
+  <li><b> ImcStringIsAscii </b>(<em> &amp;stringP. </em>--<em> Boolean </em>) 
+  <li><b> ImcWriteNoSemicolon </b>(<em> &amp;stringP. &amp;outputFunc. &amp;outputStream. 
+    </em>-- ) 
+  <li><b> ImcWriteQuotedPrintable </b>(<em> noSemicolons? &amp;stringP. &amp;outputFunc. 
+    &amp;outputStream. </em>-- ) 
+  <li><b> InsPtCheckBlink </b>( -- ) 
+  <li><b> InsPtEnable </b>(<em> enableIt? </em>-- ) 
+  <li><b> InsPtEnabled </b>( --<em> Boolean </em>) 
+  <li><b> InsPtGetHeight </b>( --<em> n </em>) 
+  <li><b> InsPtGetLocation </b>(<em> &amp;y. &amp;x. </em>-- ) 
+  <li><b> InsPtInitialize </b>( -- ) 
+  <li><b> InsPtSetHeight </b>(<em> height </em>-- ) 
+  <li><b> InsPtSetLocation </b>(<em> y x </em>-- ) 
+  <li><b> KeyCurrentState </b>( --<em> DWord. </em>) 
+  <li><b> KeyHandleInterrupt </b>(<em> status. periodic? </em>--<em> ud. </em>) 
+  <li><b> KeyInit </b>( --<em> Err </em>) 
+  <li><b> KeyRates </b>(<em> &amp;queueAheadP. &amp;doubleTapDelayP. &amp;periodP. 
+    &amp;initDelayP. set? </em>--<em> Err </em>) 
+  <li><b> KeyResetDoubleTap </b>( --<em> Err </em>) 
+  <li><b> KeySetMask </b>(<em> keyMask. </em>--<em> DWord. </em>) 
+  <li><b> KeySleep </b>(<em> emergency? untilReset? </em>--<em> Err </em>) 
+  <li><b> KeyWake </b>( --<em> Err </em>) 
+  <li><b> LocGetNumberSeparators </b>(<em> &amp;decimalSeparator. &amp;thousandSeparator. 
+    numberFormat[&gt;byte] </em>-- ) 
+  <li><b> LstDrawList </b>(<em> &amp;list. </em>-- ) 
+  <li><b> LstEraseList </b>(<em> &amp;list. </em>-- ) 
+  <li><b> LstGetNumberOfItems </b>(<em> &amp;pList. </em>--<em> u </em>) 
+  <li><b> LstGetSelection </b>(<em> &amp;list. </em>--<em> u </em>) 
+  <li><b> LstGetSelectionText </b>(<em> itemNum &amp;list. </em>--<em> &amp;CharPtr. 
+    </em>) 
+  <li><b> LstGetVisibleItems </b>(<em> &amp;pList. </em>--<em> n </em>) 
+  <li><b> LstHandleEvent </b>(<em> &amp;event. &amp;list. </em>--<em> Boolean 
+    </em>) 
+  <li><b> LstMakeItemVisible </b>(<em> itemNum &amp;pList. </em>-- ) 
+  <li><b> LstNewList </b>(<em> triggerId visibleItems font[&gt;byte] height width 
+    y x id &amp;formPP. </em>--<em> Err </em>) 
+  <li><b> LstPopupList </b>(<em> &amp;list. </em>--<em> n </em>) 
+  <li><b> LstScrollList </b>(<em> itemCount direction[&gt;byte] &amp;pList. </em>--<em> 
+    Boolean </em>) 
+  <li><b> LstSetDrawFunction </b>(<em> &amp;func. &amp;pList. </em>-- ) 
+  <li><b> LstSetHeight </b>(<em> visibleItems &amp;pList. </em>-- ) 
+  <li><b> LstSetListChoices </b>(<em> &amp;numItems. &amp;itemsText. &amp;list. 
+    </em>-- ) 
+  <li><b> LstSetPosition </b>(<em> y x &amp;pList. </em>-- ) 
+  <li><b> LstSetSelection </b>(<em> itemNum &amp;list. </em>-- ) 
+  <li><b> LstSetTopItem </b>(<em> itemNum &amp;pList. </em>-- ) 
+  <li><b> MdmDial </b>(<em> &amp;phoneNumP. &amp;userInitP. &amp;okDialP. &amp;modemP. 
+    </em>--<em> Err </em>) 
+  <li><b> MdmHangUp </b>(<em> &amp;modemP. </em>--<em> Err </em>) 
+  <li><b> MemCardFormat </b>(<em> &amp;ramStoreNameP. &amp;manufNameP. &amp;cardNameP. 
+    cardNo </em>--<em> Err </em>) 
+  <li><b> MemCardInfo </b>(<em> &amp;freeBytesP. &amp;ramSizeP. &amp;romSizeP. 
+    &amp;crDateP. &amp;versionP. &amp;manufNameP. &amp;cardNameP. cardNo </em>--<em> 
+    Err </em>) 
+  <li><b> MemChunkFree </b>(<em> &amp;chunkDataP. </em>--<em> Err </em>) 
+  <li><b> MemChunkNew </b>(<em> attr size. heapID </em>--<em> &amp;VoidPtr. </em>) 
+  <li><b> MemCmp </b>(<em> numBytes. &amp;s2. &amp;s1. </em>--<em> n </em>) 
+  <li><b> MemDebugMode </b>( --<em> u </em>) 
+  <li><b> MemHandleCardNo </b>(<em> h. </em>--<em> u </em>) 
+  <li><b> MemHandleDataStorage </b>(<em> h. </em>--<em> Boolean </em>) 
+  <li><b> MemHandleFlags </b>(<em> h. </em>--<em> u </em>) 
+  <li><b> MemHandleFree </b>(<em> h. </em>--<em> Err </em>) 
+  <li><b> MemHandleHeapID </b>(<em> h. </em>--<em> u </em>) 
+  <li><b> MemHandleLock </b>(<em> h. </em>--<em> &amp;VoidPtr. </em>) 
+  <li><b> MemHandleLockCount </b>(<em> h. </em>--<em> u </em>) 
+  <li><b> MemHandleNew </b>(<em> size. </em>--<em> VoidHand. </em>) 
+  <li><b> MemHandleOwner </b>(<em> h. </em>--<em> u </em>) 
+  <li><b> MemHandleResetLock </b>(<em> h. </em>--<em> Err </em>) 
+  <li><b> MemHandleResize </b>(<em> newSize. h. </em>--<em> Err </em>) 
+  <li><b> MemHandleSetOwner </b>(<em> owner h. </em>--<em> Err </em>) 
+  <li><b> MemHandleSize </b>(<em> h. </em>--<em> ud. </em>) 
+  <li><b> MemHandleToLocalID </b>(<em> h. </em>--<em> LocalID. </em>) 
+  <li><b> MemHandleUnlock </b>(<em> h. </em>--<em> Err </em>) 
+  <li><b> MemHeapCheck </b>(<em> heapID </em>--<em> Err </em>) 
+  <li><b> MemHeapCompact </b>(<em> heapID </em>--<em> Err </em>) 
+  <li><b> MemHeapDynamic </b>(<em> heapID </em>--<em> Boolean </em>) 
+  <li><b> MemHeapFlags </b>(<em> heapID </em>--<em> u </em>) 
+  <li><b> MemHeapFreeByOwnerID </b>(<em> ownerID heapID </em>--<em> Err </em>) 
+  <li><b> MemHeapFreeBytes </b>(<em> &amp;maxP. &amp;freeP. heapID </em>--<em> 
+    Err </em>) 
+  <li><b> MemHeapID </b>(<em> heapIndex cardNo </em>--<em> u </em>) 
+  <li><b> MemHeapInit </b>(<em> initContents? numHandles heapID </em>--<em> Err 
+    </em>) 
+  <li><b> MemHeapPtr </b>(<em> heapID </em>--<em> &amp;VoidPtr. </em>) 
+  <li><b> MemHeapScramble </b>(<em> heapID </em>--<em> Err </em>) 
+  <li><b> MemHeapSize </b>(<em> heapID </em>--<em> ud. </em>) 
+  <li><b> MemInit </b>( --<em> Err </em>) 
+  <li><b> MemInitHeapTable </b>(<em> cardNo </em>--<em> Err </em>) 
+  <li><b> MemKernelInit </b>( --<em> Err </em>) 
+  <li><b> MemLocalIDKind </b>(<em> local. </em>--<em> LocalIDKind </em>) 
+  <li><b> MemLocalIDToGlobal </b>(<em> cardNo local. </em>--<em> &amp;VoidPtr. 
+    </em>) 
+  <li><b> MemLocalIDToLockedPtr </b>(<em> cardNo local. </em>--<em> &amp;VoidPtr. 
+    </em>) 
+  <li><b> MemLocalIDToPtr </b>(<em> cardNo local. </em>--<em> &amp;VoidPtr. </em>) 
+  <li><b> MemMove </b>(<em> numBytes. &amp;sP. &amp;dstP. </em>--<em> Err </em>) 
+  <li><b> MemNVParams </b>(<em> &amp;paramsP. set? </em>--<em> Err </em>) 
+  <li><b> MemNumCards </b>( --<em> u </em>) 
+  <li><b> MemNumHeaps </b>(<em> cardNo </em>--<em> u </em>) 
+  <li><b> MemNumRAMHeaps </b>(<em> cardNo </em>--<em> u </em>) 
+  <li><b> MemPtrCardNo </b>(<em> &amp;p. </em>--<em> u </em>) 
+  <li><b> MemPtrDataStorage </b>(<em> &amp;p. </em>--<em> Boolean </em>) 
+  <li><b> MemPtrFlags </b>(<em> &amp;p. </em>--<em> u </em>) 
+  <li><b> MemPtrHeapID </b>(<em> &amp;p. </em>--<em> u </em>) 
+  <li><b> MemPtrNew </b>(<em> size. </em>--<em> &amp;VoidPtr. </em>) 
+  <li><b> MemPtrOwner </b>(<em> &amp;p. </em>--<em> u </em>) 
+  <li><b> MemPtrRecoverHandle </b>(<em> &amp;p. </em>--<em> VoidHand. </em>) 
+  <li><b> MemPtrResetLock </b>(<em> &amp;p. </em>--<em> Err </em>) 
+  <li><b> MemPtrResize </b>(<em> newSize. &amp;p. </em>--<em> Err </em>) 
+  <li><b> MemPtrSetOwner </b>(<em> owner &amp;p. </em>--<em> Err </em>) 
+  <li><b> MemPtrSize </b>(<em> &amp;p. </em>--<em> ud. </em>) 
+  <li><b> MemPtrToLocalID </b>(<em> &amp;p. </em>--<em> LocalID. </em>) 
+  <li><b> MemPtrUnlock </b>(<em> &amp;p. </em>--<em> Err </em>) 
+  <li><b> MemSemaphoreRelease </b>(<em> writeAccess? </em>--<em> Err </em>) 
+  <li><b> MemSemaphoreReserve </b>(<em> writeAccess? </em>--<em> Err </em>) 
+  <li><b> MemSet </b>(<em> value[&gt;byte] numBytes. &amp;dstP. </em>--<em> Err 
+    </em>) 
+  <li><b> MemSetDebugMode </b>(<em> flags </em>--<em> Err </em>) 
+  <li><b> MemStoreInfo </b>(<em> &amp;databaseDirIDP. &amp;initCodeOffset2P. &amp;initCodeOffset1P. 
+    &amp;heapListOffsetP. &amp;bckUpDateP. &amp;crDateP. &amp;nameP. &amp;flagsP. 
+    &amp;versionP. storeNumber cardNo </em>--<em> Err </em>) 
+  <li><b> MemStoreInit </b>(<em> numMstrPtrs &amp;storeP. &amp;blockInfoP. numBlocks 
+    cardNo firstHeapMstrPtrs firstHeapSize. </em>--<em> Err </em>) 
+  <li><b> MemStoreSearch </b>(<em> &amp;storePP. range. &amp;startP. </em>--<em> 
+    Err </em>) 
+  <li><b> MemStoreSetInfo </b>(<em> &amp;databaseDirIDP. &amp;initCodeOffset2P. 
+    &amp;initCodeOffset1P. &amp;heapListOffsetP. &amp;bckUpDateP. &amp;crDateP. 
+    &amp;nameP. &amp;flagsP. &amp;versionP. storeNumber cardNo </em>--<em> Err 
+    </em>) 
+  <li><b> MenuDispose </b>(<em> &amp;pMenu. </em>-- ) 
+  <li><b> MenuDrawMenu </b>(<em> &amp;pMenu. </em>-- ) 
+  <li><b> MenuEraseStatus </b>(<em> &amp;pMenu. </em>-- ) 
+  <li><b> MenuGetActiveMenu </b>( --<em> &amp;MenuBarPtr. </em>) 
+  <li><b> MenuHandleEvent </b>(<em> &amp;error. &amp;event. &amp;pMenu. </em>--<em> 
+    Boolean </em>) 
+  <li><b> MenuInit </b>(<em> resourceId </em>--<em> &amp;MenuBarPtr. </em>) 
+  <li><b> MenuSetActiveMenu </b>(<em> &amp;pMenu. </em>--<em> &amp;MenuBarPtr. 
+    </em>) 
+  <li><b> MenuSetActiveMenuRscID </b>(<em> resourceId </em>-- ) 
+  <li><b> PenCalibrate </b>(<em> &amp;scrBotRightP. &amp;scrTopLeftP. &amp;digBotRightP. 
+    &amp;digTopLeftP. </em>--<em> Err </em>) 
+  <li><b> PenClose </b>( --<em> Err </em>) 
+  <li><b> PenGetRawPen </b>(<em> &amp;penP. </em>--<em> Err </em>) 
+  <li><b> PenOpen </b>( --<em> Err </em>) 
+  <li><b> PenRawToScreen </b>(<em> &amp;penP. </em>--<em> Err </em>) 
+  <li><b> PenResetCalibration </b>( --<em> Err </em>) 
+  <li><b> PenScreenToRaw </b>(<em> &amp;penP. </em>--<em> Err </em>) 
+  <li><b> PenSleep </b>( --<em> Err </em>) 
+  <li><b> PenWake </b>( --<em> Err </em>) 
+  <li><b> PhoneNumberLookup </b>(<em> &amp;fld. </em>-- ) 
+  <li><b> PrefGetAppPreferences </b>(<em> saved? &amp;prefsSize. &amp;prefs. id 
+    creator. </em>--<em> n </em>) 
+  <li><b> PrefGetAppPreferencesV10 </b>(<em> prefsSize &amp;prefs. version type. 
+    </em>--<em> Boolean </em>) 
+  <li><b> PrefGetPreference </b>(<em> choice[&gt;byte] </em>--<em> DWord. </em>) 
+  <li><b> PrefGetPreferences </b>(<em> &amp;p. </em>-- ) 
+  <li><b> PrefOpenPreferenceDB </b>(<em> saved? </em>--<em> DmOpenRef. </em>) 
+  <li><b> PrefOpenPreferenceDBV10 </b>( --<em> DmOpenRef. </em>) 
+  <li><b> PrefSetAppPreferences </b>(<em> saved? prefsSize &amp;prefs. version 
+    id creator. </em>-- ) 
+  <li><b> PrefSetAppPreferencesV10 </b>(<em> prefsSize &amp;prefs. version creator. 
+    </em>--<em> </em>) 
+  <li><b> PrefSetPreference </b>(<em> value. choice[&gt;byte] </em>-- ) 
+  <li><b> PrefSetPreferences </b>(<em> &amp;p. </em>-- ) 
+  <li><b> PrgHandleEvent </b>(<em> &amp;eventP. &amp;prgGP. </em>--<em> Boolean 
+    </em>) 
+  <li><b> PrgStartDialog </b>(<em> &amp;textCallback. &amp;title. </em>--<em> 
+    &amp;ProgressPtr. </em>) 
+  <li><b> PrgStopDialog </b>(<em> force? &amp;prgP. </em>-- ) 
+  <li><b> PrgUpdateDialog </b>(<em> updateNow? &amp;messageP. stage err &amp;prgGP. 
+    </em>--<em> </em>) 
+  <li><b> PwdExists </b>( --<em> Boolean </em>) 
+  <li><b> PwdRemove </b>( -- ) 
+  <li><b> PwdSet </b>(<em> &amp;newPassword. &amp;oldPassword. </em>-- ) 
+  <li><b> PwdVerify </b>(<em> &amp;string. </em>--<em> Boolean </em>) 
+  <li><b> RctCopyRectangle </b>(<em> &amp;dstRect. &amp;srcRect. </em>-- ) 
+  <li><b> RctGetIntersection </b>(<em> &amp;r3. &amp;r2. &amp;r1. </em>-- ) 
+  <li><b> RctInsetRectangle </b>(<em> insetAmt &amp;r. </em>-- ) 
+  <li><b> RctOffsetRectangle </b>(<em> deltaY deltaX &amp;r. </em>-- ) 
+  <li><b> RctPtInRectangle </b>(<em> &amp;r. y x </em>--<em> Boolean </em>) 
+  <li><b> RctSetRectangle </b>(<em> height width top left &amp;r. </em>-- ) 
+  <li><b> ResLoadForm </b>(<em> rscID </em>--<em> &amp;VoidPtr. </em>) 
+  <li><b> ResLoadMenu </b>(<em> rscID </em>--<em> &amp;VoidPtr. </em>) 
+  <li><b> SclDrawScrollBar </b>(<em> &amp;bar. </em>-- ) 
+  <li><b> SclGetScrollBar </b>(<em> &amp;pageSizeP. &amp;maxP. &amp;minP. &amp;valueP. 
+    &amp;bar. </em>-- ) 
+  <li><b> SclHandleEvent </b>(<em> &amp;event. &amp;bar. </em>--<em> Boolean </em>) 
+  <li><b> SclSetScrollBar </b>(<em> pageSize max min value &amp;bar. </em>-- ) 
+  <li><b> ScrCompressScanLine </b>(<em> firstLine? &amp;dstParamP. width &amp;prevLineP. 
+    &amp;lineP. </em>--<em> u </em>) 
+  <li><b> ScrCopyRectangle </b>(<em> lineCount bitCount toY toX fromY fromX &amp;destWindow. 
+    &amp;sourceWindow. </em>--<em> Err </em>) 
+  <li><b> ScrDeCompressScanLine </b>(<em> width &amp;dstP. &amp;srcP. </em>--<em> 
+    u </em>) 
+  <li><b> ScrDisplayMode </b>(<em> &amp;enableColorP. &amp;depthP. &amp;heightP. 
+    &amp;widthP. operation[&gt;byte] </em>--<em> Err </em>) 
+  <li><b> ScrDrawChars </b>(<em> &amp;fontPtr. len &amp;chars. clipRight clipBottom 
+    clipLeft clipTop yExtent xExtent yLoc xLoc &amp;pWindow. </em>-- ) 
+  <li><b> ScrDrawNotify </b>(<em> updHeight updWidth updTop updLeft </em>-- ) 
+  <li><b> ScrInit </b>( -- ) 
+  <li><b> ScrLineRoutine </b>(<em> y2 x2 y1 x1 &amp;pWindow. </em>-- ) 
+  <li><b> ScrRectangleRoutine </b>(<em> extentY extentX y x &amp;pWindow. </em>-- 
+    ) 
+  <li><b> ScrScreenInfo </b>(<em> &amp;pWindow. </em>-- ) 
+  <li><b> ScrSendUpdateArea </b>(<em> force? </em>-- ) 
+  <li><b> SelectDay </b>(<em> &amp;title. &amp;year. &amp;day. &amp;month. selectDayBy[&gt;byte] 
+    </em>--<em> Boolean </em>) 
+  <li><b> SelectDayV10 </b>(<em> &amp;title. &amp;year. &amp;day. &amp;month. 
+    </em>--<em> Boolean </em>) 
+  <li><b> SelectTime </b>(<em> startOfDay &amp;title. untimed? &amp;EndTimeP. 
+    &amp;startTimeP. </em>--<em> Boolean </em>) 
+  <li><b> SerReceiveISP </b>( --<em> Boolean </em>) 
+  <li><b> SlkClose </b>( --<em> Err </em>) 
+  <li><b> SlkCloseSocket </b>(<em> socket </em>--<em> Err </em>) 
+  <li><b> SlkFlushSocket </b>(<em> timeout. socket </em>--<em> Err </em>) 
+  <li><b> SlkOpen </b>( --<em> Err </em>) 
+  <li><b> SlkOpenSocket </b>(<em> staticSocket? &amp;socketP. libRefNum </em>--<em> 
+    Err </em>) 
+  <li><b> SlkProcessRPC </b>(<em> &amp;bodyP. &amp;headerP. </em>--<em> Err </em>) 
+  <li><b> SlkReceivePacket </b>(<em> timeout. bodySize &amp;bodyP. &amp;headerP. 
+    andOtherSockets? socket </em>--<em> Err </em>) 
+  <li><b> SlkSendPacket </b>(<em> &amp;writeList. &amp;headerP. </em>--<em> Err 
+    </em>) 
+  <li><b> SlkSetSocketListener </b>(<em> &amp;socketP. socket </em>--<em> Err 
+    </em>) 
+  <li><b> SlkSocketRefNum </b>(<em> &amp;refNumP. socket </em>--<em> Err </em>) 
+  <li><b> SlkSocketSetTimeout </b>(<em> timeout. socket </em>--<em> Err </em>) 
+  <li><b> SlkSysPktDefaultResponse </b>(<em> &amp;bodyP. &amp;headerP. </em>--<em> 
+    Err </em>) 
+  <li><b> SndCreateMidiList </b>(<em> &amp;entHP. &amp;wCountP. multipleDBs? creator. 
+    </em>--<em> Boolean </em>) 
+  <li><b> SndDoCmd </b>(<em> noWait? &amp;cmdP. &amp;channelP. </em>--<em> Err 
+    </em>) 
+  <li><b> SndGetDefaultVolume </b>(<em> &amp;masterAmpP. &amp;sysAmpP. &amp;alarmAmpP. 
+    </em>-- ) 
+  <li><b> SndInit </b>( --<em> Err </em>) 
+  <li><b> SndPlaySmf </b>(<em> bNoWait? &amp;callbacksP. &amp;chanRangeP. &amp;selP. 
+    &amp;smfP. cmd[&gt;byte] &amp;chanP. </em>--<em> Err </em>) 
+  <li><b> SndPlaySystemSound </b>(<em> beepID[&gt;byte] </em>-- ) 
+  <li><b> SndSetDefaultVolume </b>(<em> &amp;defAmpP. &amp;sysAmpP. &amp;alarmAmpP. 
+    </em>--<em> </em>) 
+  <li><b> StrAToI </b>(<em> &amp;str. </em>--<em> Long. </em>) 
+  <li><b> StrCaselessCompare </b>(<em> &amp;s2. &amp;s1. </em>--<em> n </em>) 
+  <li><b> StrCat </b>(<em> &amp;src. &amp;dst. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrChr </b>(<em> chr &amp;str. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrCompare </b>(<em> &amp;s2. &amp;s1. </em>--<em> n </em>) 
+  <li><b> StrCopy </b>(<em> &amp;src. &amp;dst. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrDelocalizeNumber </b>(<em> decimalSeparator thousandSeparator &amp;s. 
+    </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrIToA </b>(<em> i. &amp;s. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrIToH </b>(<em> i. &amp;s. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrLen </b>(<em> &amp;src. </em>--<em> u </em>) 
+  <li><b> StrLocalizeNumber </b>(<em> decimalSeparator thousandSeparator &amp;s. 
+    </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrNCaselessCompare </b>(<em> n. &amp;s2. &amp;s1. </em>--<em> n </em>) 
+  <li><b> StrNCat </b>(<em> n &amp;src. &amp;dst. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrNCompare </b>(<em> n. &amp;s2. &amp;s1. </em>--<em> n </em>) 
+  <li><b> StrNCopy </b>(<em> n &amp;src. &amp;dst. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrPrintF </b>(<em> ... &amp;formatStr. &amp;s. </em>--<em> n </em>) 
+  <li><b> StrStr </b>(<em> &amp;token. &amp;str. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrToLower </b>(<em> &amp;src. &amp;dst. </em>--<em> &amp;CharPtr. </em>) 
+  <li><b> StrVPrintF </b>(<em> &amp;arg. &amp;formatStr. &amp;s. </em>--<em> n 
+    </em>) 
+  <li><b> SysAppExit </b>(<em> &amp;globalsP. &amp;prevGlobalsP. &amp;appInfoP. 
+    </em>--<em> Err </em>) 
+  <li><b> SysAppLaunch </b>(<em> &amp;resultP. &amp;cmdPBP. cmd launchFlags dbID. 
+    cardNo </em>--<em> Err </em>) 
+  <li><b> SysAppLauncherDialog </b>( -- ) 
+  <li><b> SysAppStartup </b>(<em> &amp;globalsPtrP. &amp;prevGlobalsP. &amp;appInfoPP. 
+    </em>--<em> Err </em>) 
+  <li><b> SysBatteryDialog </b>( -- ) 
+  <li><b> SysBatteryInfo </b>(<em> &amp;percentP. &amp;pluggedIn. &amp;kindP. 
+    &amp;maxTicksP. &amp;criticalThresholdP. &amp;warnThresholdP. set? </em>--<em> 
+    u </em>) 
+  <li><b> SysBatteryInfoV20 </b>(<em> &amp;pluggedIn. &amp;kindP. &amp;maxTicksP. 
+    &amp;criticalThresholdP. &amp;warnThresholdP. set? </em>--<em> u </em>) 
+  <li><b> SysBinarySearch </b>(<em> findFirst? &amp;position. other. &amp;searchData. 
+    &amp;searchF. width numOfElements &amp;baseP. </em>--<em> Boolean </em>) 
+  <li><b> SysBroadcastActionCode </b>(<em> &amp;cmdPBP. cmd </em>--<em> Err </em>) 
+  <li><b> SysColdBoot </b>(<em> sysCardHeaderOffset. card1Size. &amp;card1P. card0Size. 
+    &amp;card0P. </em>-- ) 
+  <li><b> SysCopyStringResource </b>(<em> theID &amp;string. </em>-- ) 
+  <li><b> SysCreateDataBaseList </b>(<em> lookupName? &amp;dbIDs. &amp;dbCount. 
+    creator. type. </em>--<em> Boolean </em>) 
+  <li><b> SysCreatePanelList </b>(<em> &amp;panelIDs. &amp;panelCount. </em>--<em> 
+    Boolean </em>) 
+  <li><b> SysCurAppDatabase </b>(<em> &amp;dbIDP. &amp;cardNoP. </em>--<em> Err 
+    </em>) 
+  <li><b> SysCurAppInfoPV20 </b>( --<em> &amp;SysAppInfoPtr. </em>) 
+  <li><b> SysDisableInts </b>( --<em> u </em>) 
+  <li><b> SysDoze </b>(<em> onlyNMI? </em>-- ) 
+  <li><b> SysErrString </b>(<em> maxLen &amp;strP. err </em>--<em> &amp;CharPtr. 
+    </em>) 
+  <li><b> SysEvGroupCreate </b>(<em> init. &amp;tagP. &amp;evIDP. </em>--<em> 
+    Err </em>) 
+  <li><b> SysEvGroupRead </b>(<em> &amp;valueP. evID. </em>--<em> Err </em>) 
+  <li><b> SysEvGroupSignal </b>(<em> type. value. mask. evID. </em>--<em> Err 
+    </em>) 
+  <li><b> SysEvGroupWait </b>(<em> timeout. matchType. value. mask. evID. </em>--<em> 
+    Err </em>) 
+  <li><b> SysFatalAlert </b>(<em> &amp;msg. </em>--<em> u </em>) 
+  <li><b> SysFormPointerArrayToStrings </b>(<em> stringCount &amp;c. </em>--<em> 
+    VoidHand. </em>) 
+  <li><b> SysGetAppInfo </b>(<em> &amp;actionCodeAppPP. &amp;uiAppPP. </em>--<em> 
+    &amp;SysAppInfoPtr. </em>) 
+  <li><b> SysGetOSVersionString </b>( --<em> &amp;CharPtr. </em>) 
+  <li><b> SysGetStackInfo </b>(<em> &amp;endPP. &amp;startPP. </em>--<em> Boolean 
+    </em>) 
+  <li><b> SysGetTrapAddress </b>(<em> trapNum </em>--<em> &amp;VoidPtr. </em>) 
+  <li><b> SysGraffitiReferenceDialog </b>(<em> referenceType[&gt;byte] </em>-- 
+    ) 
+  <li><b> SysGremlins </b>(<em> &amp;params. selector[&gt;byte] </em>--<em> DWord. 
+    </em>) 
+  <li><b> SysHandleEvent </b>(<em> &amp;eventP. </em>--<em> Boolean </em>) 
+  <li><b> SysInit </b>( -- ) 
+  <li><b> SysInsertionSort </b>(<em> other. &amp;comparF. width numOfElements 
+    &amp;baseP. </em>-- ) 
+  <li><b> SysKernelInfo </b>(<em> &amp;paramP. </em>--<em> Err </em>) 
+  <li><b> SysKeyboardDialog </b>(<em> kbd[&gt;byte] </em>-- ) 
+  <li><b> SysKeyboardDialogV10 </b>( -- ) 
+  <li><b> SysLaunchConsole </b>( --<em> Err </em>) 
+  <li><b> SysLibFind </b>(<em> &amp;refNumP. &amp;nameP. </em>--<em> Err </em>) 
+  <li><b> SysLibInstall </b>(<em> &amp;refNumP. &amp;libraryP. </em>--<em> Err 
+    </em>) 
+  <li><b> SysLibLoad </b>(<em> &amp;refNumP. libCreator. libType. </em>--<em> 
+    Err </em>) 
+  <li><b> SysLibRemove </b>(<em> refNum </em>--<em> Err </em>) 
+  <li><b> SysLibTblEntry </b>(<em> refNum </em>--<em> &amp;SysLibTblEntryPtr. 
+    </em>) 
+  <li><b> SysMailboxCreate </b>(<em> depth. &amp;tagP. &amp;mbIDP. </em>--<em> 
+    Err </em>) 
+  <li><b> SysMailboxDelete </b>(<em> mbID. </em>--<em> Err </em>) 
+  <li><b> SysMailboxFlush </b>(<em> mbID. </em>--<em> Err </em>) 
+  <li><b> SysMailboxSend </b>(<em> wAck. &amp;msgP. mbID. </em>--<em> Err </em>) 
+  <li><b> SysMailboxWait </b>(<em> timeout. priority. &amp;msgP. mbID. </em>--<em> 
+    Err </em>) 
+  <li><b> SysNewOwnerID </b>( --<em> u </em>) 
+  <li><b> SysQSort </b>(<em> other. &amp;comparF. width numOfElements &amp;baseP. 
+    </em>-- ) 
+  <li><b> SysRandom </b>(<em> newSeed. </em>--<em> n </em>) 
+  <li><b> SysResSemaphoreCreate </b>(<em> &amp;tagP. &amp;smIDP. </em>--<em> Err 
+    </em>) 
+  <li><b> SysResSemaphoreDelete </b>(<em> smID. </em>--<em> Err </em>) 
+  <li><b> SysResSemaphoreRelease </b>(<em> smID. </em>--<em> Err </em>) 
+  <li><b> SysResSemaphoreReserve </b>(<em> timeout. priority. smID. </em>--<em> 
+    Err </em>) 
+  <li><b> SysReset </b>( -- ) 
+  <li><b> SysRestoreStatus </b>(<em> status </em>-- ) 
+  <li><b> SysSemaphoreCreate </b>(<em> initValue. &amp;tagP. &amp;smIDP. </em>--<em> 
+    Err </em>) 
+  <li><b> SysSemaphoreDelete </b>(<em> smID. </em>--<em> Err </em>) 
+  <li><b> SysSemaphoreSet </b>(<em> smID. </em>--<em> Err </em>) 
+  <li><b> SysSemaphoreSignal </b>(<em> smID. </em>--<em> Err </em>) 
+  <li><b> SysSemaphoreWait </b>(<em> timeout. priority. smID. </em>--<em> Err 
+    </em>) 
+  <li><b> SysSetA5 </b>(<em> newValue. </em>--<em> DWord. </em>) 
+  <li><b> SysSetAutoOffTime </b>(<em> seconds </em>--<em> u </em>) 
+  <li><b> SysSetPerformance </b>(<em> &amp;cpuDutyP. &amp;sysClockP. </em>--<em> 
+    Err </em>) 
+  <li><b> SysSetTrapAddress </b>(<em> &amp;procP. trapNum </em>--<em> Err </em>) 
+  <li><b> SysSleep </b>(<em> emergency? untilReset? </em>-- ) 
+  <li><b> SysStringByIndex </b>(<em> maxLen &amp;strP. index resID </em>--<em> 
+    &amp;CharPtr. </em>) 
+  <li><b> SysTaskCreate </b>(<em> tSlice. priority. attr. stackSize. &amp;stackP. 
+    &amp;codeP. &amp;creator. &amp;taskIDP. </em>--<em> Err </em>) 
+  <li><b> SysTaskDelay </b>(<em> delay. </em>--<em> Err </em>) 
+  <li><b> SysTaskDelete </b>(<em> priority. taskID. </em>--<em> Err </em>) 
+  <li><b> SysTaskID </b>( --<em> ud. </em>) 
+  <li><b> SysTaskResume </b>(<em> taskID. </em>--<em> Err </em>) 
+  <li><b> SysTaskSetTermProc </b>(<em> &amp;termProcP. taskID. </em>--<em> Err 
+    </em>) 
+  <li><b> SysTaskSuspend </b>(<em> taskID. </em>--<em> Err </em>) 
+  <li><b> SysTaskSwitching </b>(<em> enable? </em>--<em> Err </em>) 
+  <li><b> SysTaskTrigger </b>(<em> taskID. </em>--<em> Err </em>) 
+  <li><b> SysTaskUserInfoPtr </b>(<em> taskID. </em>--<em> &amp;SysTCBUserInfoPtr. 
+    </em>) 
+  <li><b> SysTaskWait </b>(<em> timeout. </em>--<em> Err </em>) 
+  <li><b> SysTaskWaitClr </b>( --<em> Err </em>) 
+  <li><b> SysTaskWake </b>(<em> taskID. </em>--<em> Err </em>) 
+  <li><b> SysTicksPerSecond </b>( --<em> u </em>) 
+  <li><b> SysTimerCreate </b>(<em> param. periodicDelay. &amp;timerProc. &amp;tagP. 
+    &amp;timerIDP. </em>--<em> Err </em>) 
+  <li><b> SysTimerDelete </b>(<em> timerID. </em>--<em> Err </em>) 
+  <li><b> SysTimerRead </b>(<em> &amp;valueP. timerID. </em>--<em> Err </em>) 
+  <li><b> SysTimerWrite </b>(<em> value. timerID. </em>--<em> Err </em>) 
+  <li><b> SysTranslateKernelErr </b>(<em> err </em>--<em> Err </em>) 
+  <li><b> SysUIAppSwitch </b>(<em> &amp;cmdPBP. cmd dbID. cardNo </em>--<em> Err 
+    </em>) 
+  <li><b> SysUIBusy </b>(<em> value? set? </em>--<em> u </em>) 
+  <li><b> SysUILaunch </b>( -- ) 
+  <li><b> SysUnimplemented </b>( -- ) 
+  <li><b> TblDrawTable </b>(<em> &amp;table. </em>-- ) 
+  <li><b> TblEditing </b>(<em> &amp;table. </em>--<em> Boolean </em>) 
+  <li><b> TblEraseTable </b>(<em> &amp;table. </em>-- ) 
+  <li><b> TblFindRowData </b>(<em> &amp;rowP. data. &amp;table. </em>--<em> Boolean 
+    </em>) 
+  <li><b> TblFindRowID </b>(<em> &amp;rowP. id &amp;table. </em>--<em> Boolean 
+    </em>) 
+  <li><b> TblGetBounds </b>(<em> &amp;r. &amp;table. </em>-- ) 
+  <li><b> TblGetColumnSpacing </b>(<em> column &amp;table. </em>--<em> u </em>) 
+  <li><b> TblGetColumnWidth </b>(<em> column &amp;table. </em>--<em> u </em>) 
+  <li><b> TblGetCurrentField </b>(<em> &amp;table. </em>--<em> &amp;FieldPtr. 
+    </em>) 
+  <li><b> TblGetItemBounds </b>(<em> &amp;r. column row &amp;table. </em>-- ) 
+  <li><b> TblGetItemFont </b>(<em> column row &amp;table. </em>--<em> FontID </em>) 
+  <li><b> TblGetItemInt </b>(<em> column row &amp;table. </em>--<em> u </em>) 
+  <li><b> TblGetLastUsableRow </b>(<em> &amp;table. </em>--<em> u </em>) 
+  <li><b> TblGetNumberOfRows </b>(<em> &amp;table. </em>--<em> u </em>) 
+  <li><b> TblGetRowData </b>(<em> row &amp;table. </em>--<em> DWord. </em>) 
+  <li><b> TblGetRowHeight </b>(<em> row &amp;table. </em>--<em> u </em>) 
+  <li><b> TblGetRowID </b>(<em> row &amp;table. </em>--<em> u </em>) 
+  <li><b> TblGetSelection </b>(<em> &amp;columnP. &amp;rowP. &amp;table. </em>--<em> 
+    Boolean </em>) 
+  <li><b> TblGrabFocus </b>(<em> column row &amp;table. </em>-- ) 
+  <li><b> TblHandleEvent </b>(<em> &amp;event. &amp;table. </em>--<em> Boolean 
+    </em>) 
+  <li><b> TblHasScrollBar </b>(<em> hasScrollBar? &amp;table. </em>-- ) 
+  <li><b> TblInsertRow </b>(<em> row &amp;table. </em>-- ) 
+  <li><b> TblMarkRowInvalid </b>(<em> row &amp;table. </em>-- ) 
+  <li><b> TblMarkTableInvalid </b>(<em> &amp;table. </em>-- ) 
+  <li><b> TblRedrawTable </b>(<em> &amp;table. </em>-- ) 
+  <li><b> TblReleaseFocus </b>(<em> &amp;table. </em>-- ) 
+  <li><b> TblRemoveRow </b>(<em> row &amp;table. </em>-- ) 
+  <li><b> TblRowInvalid </b>(<em> row &amp;table. </em>--<em> Boolean </em>) 
+  <li><b> TblRowSelectable </b>(<em> row &amp;table. </em>--<em> Boolean </em>) 
+  <li><b> TblRowUsable </b>(<em> row &amp;table. </em>--<em> Boolean </em>) 
+  <li><b> TblSelectItem </b>(<em> column row &amp;table. </em>-- ) 
+  <li><b> TblSetBounds </b>(<em> &amp;r. &amp;table. </em>-- ) 
+  <li><b> TblSetColumnEditIndicator </b>(<em> editIndicator? column &amp;table. 
+    </em>-- ) 
+  <li><b> TblSetColumnSpacing </b>(<em> spacing column &amp;table. </em>-- ) 
+  <li><b> TblSetColumnUsable </b>(<em> usable? row &amp;table. </em>-- ) 
+  <li><b> TblSetColumnWidth </b>(<em> width column &amp;table. </em>-- ) 
+  <li><b> TblSetCustomDrawProcedure </b>(<em> &amp;drawCallback. column &amp;table. 
+    </em>--<em> </em>) 
+  <li><b> TblSetItemFont </b>(<em> fontID[&gt;byte] column row &amp;table. </em>-- 
+    ) 
+  <li><b> TblSetItemInt </b>(<em> value column row &amp;table. </em>-- ) 
+  <li><b> TblSetItemPtr </b>(<em> &amp;value. column row &amp;table. </em>-- ) 
+  <li><b> TblSetItemStyle </b>(<em> type[&gt;byte] column row &amp;table. </em>-- 
+    ) 
+  <li><b> TblSetLoadDataProcedure </b>(<em> &amp;loadDataCallback. column &amp;table. 
+    </em>-- ) 
+  <li><b> TblSetRowData </b>(<em> data. row &amp;table. </em>-- ) 
+  <li><b> TblSetRowHeight </b>(<em> height row &amp;table. </em>-- ) 
+  <li><b> TblSetRowID </b>(<em> id row &amp;table. </em>-- ) 
+  <li><b> TblSetRowSelectable </b>(<em> selectable? row &amp;table. </em>-- ) 
+  <li><b> TblSetRowStaticHeight </b>(<em> staticHeight? row &amp;table. </em>-- 
+    ) 
+  <li><b> TblSetRowUsable </b>(<em> usable? row &amp;table. </em>-- ) 
+  <li><b> TblSetSaveDataProcedure </b>(<em> &amp;saveDataCallback. column &amp;table. 
+    </em>-- ) 
+  <li><b> TblUnhighlightSelection </b>(<em> &amp;table. </em>-- ) 
+  <li><b> TimAdjust </b>(<em> adjustment. &amp;dateTimeP. </em>-- ) 
+  <li><b> TimDateTimeToSeconds </b>(<em> &amp;dateTimeP. </em>--<em> ud. </em>) 
+  <li><b> TimGetAlarm </b>( --<em> ud. </em>) 
+  <li><b> TimGetSeconds </b>( --<em> ud. </em>) 
+  <li><b> TimGetTicks </b>( --<em> ud. </em>) 
+  <li><b> TimHandleInterrupt </b>(<em> periodicUpdate? </em>-- ) 
+  <li><b> TimInit </b>( --<em> Err </em>) 
+  <li><b> TimSecondsToDateTime </b>(<em> &amp;dateTimeP. seconds. </em>-- ) 
+  <li><b> TimSetAlarm </b>(<em> seconds. </em>--<em> ud. </em>) 
+  <li><b> TimSetSeconds </b>(<em> seconds. </em>-- ) 
+  <li><b> TimSleep </b>(<em> emergency? untilReset? </em>--<em> Err </em>) 
+  <li><b> TimWake </b>( --<em> Err </em>) 
+  <li><b> TimeToAscii </b>(<em> &amp;pString. timeFormat[&gt;byte] minutes[&gt;byte] 
+    hours[&gt;byte] </em>-- ) 
+  <li><b> UIInitialize </b>( -- ) 
+  <li><b> UIReset </b>( -- ) 
+  <li><b> WinAddWindow </b>(<em> winHandle. </em>-- ) 
+  <li><b> WinClipRectangle </b>(<em> &amp;r. </em>-- ) 
+  <li><b> WinCopyRectangle </b>(<em> mode[&gt;byte] destY destX &amp;srcRect. 
+    dstWin. srcWin. </em>-- ) 
+  <li><b> WinCreateOffscreenWindow </b>(<em> &amp;error. format[&gt;byte] height 
+    width </em>--<em> WinHandle. </em>) 
+  <li><b> WinCreateWindow </b>(<em> &amp;error. focusable? modal? frameType &amp;bounds. 
+    </em>--<em> WinHandle. </em>) 
+  <li><b> WinDeleteWindow </b>(<em> eraseIt? winHandle. </em>-- ) 
+  <li><b> WinDisableWindow </b>(<em> winHandle. </em>-- ) 
+  <li><b> WinDisplayToWindowPt </b>(<em> &amp;extentY. &amp;extentX. </em>-- ) 
+  <li><b> WinDrawBitmap </b>(<em> y x &amp;bitmapP. </em>-- ) 
+  <li><b> WinDrawChars </b>(<em> y x len &amp;chars. </em>-- ) 
+  <li><b> WinDrawGrayLine </b>(<em> y2 x2 y1 x1 </em>-- ) 
+  <li><b> WinDrawGrayRectangleFrame </b>(<em> &amp;r. frameType </em>-- ) 
+  <li><b> WinDrawInvertedChars </b>(<em> y x len &amp;chars. </em>-- ) 
+  <li><b> WinDrawLine </b>(<em> y2 x2 y1 x1 </em>-- ) 
+  <li><b> WinDrawRectangle </b>(<em> cornerDiam &amp;r. </em>-- ) 
+  <li><b> WinDrawRectangleFrame </b>(<em> &amp;r. frameType </em>-- ) 
+  <li><b> WinDrawWindowFrame </b>( -- ) 
+  <li><b> WinEnableWindow </b>(<em> winHandle. </em>-- ) 
+  <li><b> WinEraseChars </b>(<em> y x len &amp;chars. </em>-- ) 
+  <li><b> WinEraseLine </b>(<em> y2 x2 y1 x1 </em>-- ) 
+  <li><b> WinEraseRectangle </b>(<em> cornerDiam &amp;r. </em>-- ) 
+  <li><b> WinEraseRectangleFrame </b>(<em> &amp;r. frameType </em>-- ) 
+  <li><b> WinEraseWindow </b>( -- ) 
+  <li><b> WinFillLine </b>(<em> y2 x2 y1 x1 </em>-- ) 
+  <li><b> WinFillRectangle </b>(<em> cornerDiam &amp;r. </em>-- ) 
+  <li><b> WinGetActiveWindow </b>( --<em> WinHandle. </em>) 
+  <li><b> WinGetClip </b>(<em> &amp;r. </em>-- ) 
+  <li><b> WinGetDisplayExtent </b>(<em> &amp;extentY. &amp;extentX. </em>-- ) 
+  <li><b> WinGetDisplayWindow </b>( --<em> WinHandle. </em>) 
+  <li><b> WinGetDrawWindow </b>( --<em> WinHandle. </em>) 
+  <li><b> WinGetFirstWindow </b>( --<em> WinHandle. </em>) 
+  <li><b> WinGetFramesRectangle </b>(<em> &amp;obscuredRect. &amp;r. frameType 
+    </em>-- ) 
+  <li><b> WinGetPattern </b>(<em> &amp;CustomPatternType. </em>-- ) 
+  <li><b> WinGetWindowBounds </b>(<em> &amp;r. </em>-- ) 
+  <li><b> WinGetWindowExtent </b>(<em> &amp;extentY. &amp;extentX. </em>-- ) 
+  <li><b> WinGetWindowFrameRect </b>(<em> &amp;r. winHandle. </em>-- ) 
+  <li><b> WinInitializeWindow </b>(<em> winHandle. </em>-- ) 
+  <li><b> WinInvertChars </b>(<em> y x len &amp;chars. </em>-- ) 
+  <li><b> WinInvertLine </b>(<em> y2 x2 y1 x1 </em>-- ) 
+  <li><b> WinInvertRectangle </b>(<em> cornerDiam &amp;r. </em>-- ) 
+  <li><b> WinInvertRectangleFrame </b>(<em> &amp;r. frameType </em>-- ) 
+  <li><b> WinModal </b>(<em> winHandle. </em>--<em> Boolean </em>) 
+  <li><b> WinMoveWindowAddr </b>(<em> &amp;newLocationP. &amp;oldLocationP. </em>-- 
+    ) 
+  <li><b> WinRemoveWindow </b>(<em> winHandle. </em>-- ) 
+  <li><b> WinResetClip </b>( -- ) 
+  <li><b> WinRestoreBits </b>(<em> destY destX winHandle. </em>-- ) 
+  <li><b> WinSaveBits </b>(<em> &amp;error. &amp;source. </em>--<em> WinHandle. 
+    </em>) 
+  <li><b> WinScrollRectangle </b>(<em> &amp;vacated. distance direction[&gt;byte] 
+    &amp;r. </em>-- ) 
+  <li><b> WinSetActiveWindow </b>(<em> winHandle. </em>-- ) 
+  <li><b> WinSetClip </b>(<em> &amp;r. </em>-- ) 
+  <li><b> WinSetColors </b>(<em> &amp;oldBackColorP. &amp;newBackColorP. &amp;oldForeColorP. 
+    &amp;newForeColorP. </em>-- ) 
+  <li><b> WinSetDrawWindow </b>(<em> winHandle. </em>--<em> WinHandle. </em>) 
+  <li><b> WinSetPattern </b>(<em> &amp;CustomPatternType. </em>-- ) 
+  <li><b> WinSetUnderlineMode </b>(<em> mode[&gt;byte] </em>--<em> UnderlineModeType 
+    </em>) 
+  <li><b> WinSetWindowBounds </b>(<em> &amp;r. winHandle. </em>-- ) 
+  <li><b> WinValidateHandle </b>(<em> winHandle. </em>--<em> Boolean </em>) 
+  <li><b> WinWindowToDisplayPt </b>(<em> &amp;extentY. &amp;extentX. </em>-- ) 
+</ul>
+<!-- #EndEditable --> 
+<hr>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998, 1999 <a href="http://www.quartus.net/">Neal Bridges</a>. All 
+rights reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate --></HTML>

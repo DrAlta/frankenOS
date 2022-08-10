@@ -1,0 +1,452 @@
+<html>
+<head>
+  <title>LispMe User Interface</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe User Interface</h1>
+
+<!***************************************************************************>
+<!*** Main form *************************************************************>
+<!***************************************************************************>
+
+<h2><a name="frm_main">The Main dialog</a></h2>
+
+  <h3><a name="ctl_symbols">Symbols</a></h3>
+    <img src="lm_syms.gif" align=right alt="Symbol list">
+    Selecting this trigger pops up an alphabetically sorted list of all
+    symbols known to LispMe. You can scroll the list and select any symbol
+    in this list and it is immediately inserted into the
+    <a href="#ctl_input">Input field</a> at
+    the current cursor position.<p> You can also start writing a name when
+    the list is popped up and the selection will jump to the first symbol
+    matching the letters entered. This incremental search is a very
+    little known Pilot feature, but speeds up entering LispMe code
+    significantly!
+
+  <h3><a name="ctl_ssessions">Sessions</a></h3>
+    The currently active session is displayed here.
+    Selecting this trigger goes to the
+    <a href="#frm_sess">sessions dialog</a> where you can change to
+    other sessions etc. Look
+    <a href="lm_sess.htm">here</a> for a general description of LispMe's
+    session concept.
+ 
+  <h3><a name="ctl_input">Input field</a></h3>
+    <img src="lm_main.gif" align=right alt="Main dialog">
+    These are the three underlined lines above the command buttons on the
+    main dialog. You enter expressions to be evaluated here. At most 128
+    characters can be input into this field.
+
+  <h3><a name="ctl_output">Output field</a></h3>
+    This is a read-only text field occupying the biggest area on the main
+    dialog where the value computed by an evaluation
+    is printed. Additionally output from
+    <a href="lm_cat2.htm#desc_display"><tt>display</tt></a>,
+    <a href="lm_cat3.htm#desc_newline"><tt>newline</tt></a>, and
+    <a href="lm_cat4.htm#desc_write"><tt>write</tt></a> is printed here.
+    Use the hardware scroll buttons to scroll the output field up and down
+    one page at a time or use the scroll bar right to the output field.
+    The number of characters displayable in this
+    field can be selected in the <a href="#frm_preferences">preferences
+    dialog</a> The positions of the scrollbar and the output field can be
+    swapped with the <a href="#frm_lefty">lefthander option</a>.
+ 
+  <h3><a name="ctl_load">Load button</a></h3>
+    Use this button to load a memo containing LispMe source code. This 
+    button invokes the <a href="#frm_load">Load dialog.</a> To make this
+    command work, you must have created a category named <tt>LispMe</tt>
+    (case <b>does</b> matter) in the MemoPad, or an
+    <a href="lm_err.htm#err_no_lisp">error</a> results. Additionally, this
+    category must contain at least one memo or you'll see this
+    <a href="lm_err.htm#err_no_memo">error</a>. If you installed LispMe
+    as described in <a href="lm_inst.htm">installation</a>,
+    these conditions are met automatically.
+
+  <h3><a name="ctl_reload">Reload button</a></h3>
+    This button is just a shortcut to <a href="#ctl_pop">pop</a> the
+    current memo and <a href="#ctl_load">load</a> it again and thus
+    saves a lot of taps. Only the last loaded memo is recorded, but
+    this is done for each session separately. 
+
+  <h3><a name="ctl_pop">Pop button</a></h3>
+    Use this button to remove the most recent definition set from LispMe's
+    memory. You'll get an <a href="lm_err.htm#err_stack_empty">error</a>,
+    if there are no definitions loaded. Note that this button does not
+    remove unused symbols from the atom table, so popping definitions
+    when you got the error
+    <a href="lm_err.htm#err_string_full">Atom space exhausted</a> won't
+    help, use the menu command <a href="#men_reset">Reset heap</a> instead.
+
+  <h3><a name="ctl_names">Names button</a></h3>
+    <img src="lm_name.gif" align=right alt="Names listing">
+    All defined names are displayed as a list of lists in the output
+    field. Each sublist corresponds to a loaded memo, or to a set of
+    definitions entered into the input field. The most recent definitions
+    appear at the front of the list. Each sublist is a list of the names
+    defined (at top-level) in the corresponding memo. You can remove the
+    most recent definitions with the <a href="#ctl_pop">Pop button</a>.
+    If no memo is loaded, the names list has a single sublist containing
+    LispMe's global variables.
+
+
+  <h3><a name="ctl_eval">Eval button</a></h3>Starts evaluating the expression
+    entered into the <a href="#ctl_input">input field</a>. During evaluation,
+    all command buttons are disabled and replaced by the
+    <a href="#ctl_break">Break button</a>, which interrupts evaluation.
+    Switching to another application during evaluation will resume the 
+    evaluation when restarting LispMe.
+
+  <h3><a name="ctl_break">Break button</a></h3>
+    This button replaces the four other buttons, while LispMe is evaluating
+    an expression or loading a memo. You can interrupt the evaluation by
+    tapping this button, which displays a
+    <a href="lm_err.htm#err_interrupt">message box</a> and cancels the
+    evaluation. There's no way to resume an interrupted evaluation.
+
+<!***************************************************************************>
+<!*** Menu commands *********************************************************>
+<!***************************************************************************>
+
+<h2><a name="men_main">Menu commands</a></h2>
+  <h3><a name="men_view">View menu</a></h3>
+    <h4><a name="men_runtime">Runtime</a></h4>
+      Displays a message box showing the resources needed by the last
+      evaluation:
+      <ul>
+        <li>Runtime in seconds
+        <li>Number of steps of the underlying
+            <a href="lm_hood.htm#secd_vm">SECD virtual machine</a>
+        <li>Number of <a href="lm_hood.htm#gc">garbage collections</a>
+      </ul>
+      You <b>can</b> use this command during evaluation, the amounts
+      displayed are the amounts comsumed upto now. Runtime will always
+      be 0 seconds in this case.
+
+    <h4><a name="men_memory">Memory usage</a></h4>
+      Displays a message box showing the amount of memory currently in use.
+      A <a href="lm_hood.htm#gc">garbage collection</a> is always done before
+      displaying this box, so the actual amounts are displayed. (Even
+      during an evaluation!) All amounts display as
+      <tt><i>current</i></tt>/<tt><i>maximum</i></tt> and are measured in bytes:
+      <ul>
+        <li>Used heap (4 bytes for each cell)
+        <li>Used atom space
+        <li>Used floating point (8 bytes for each value)
+        <li>Used memory for strings
+        <li>Used memory for vectors
+      </ul>
+    <h4><a name="men_gui">Redraw</a></h4>
+      Enables and redraws all controls and fields in the
+      <a href="#frm_main">main form</a>. Use this command when graphic
+      output has overwritten some of LispMe's UI controls or when
+      the dialog had been
+      disabled by <a href="lm_cat3.htm#desc_own_gui"><tt>own-gui</tt></a>.
+
+
+  <h3><a name="men_edit">Edit menu</a></h3>
+    This is a standard edit menu like in other PalmPilot applications, e.g.
+    MemoPad. These commands work on either the
+    <a href="#ctl_input">input</a> or the <a href="#ctl_output">output</a>
+    field, so one of them must have the focus. The modifying operations
+    (undo, cut, and paste) work only with the input field.
+
+    <h4><a name="men_undo">Undo</a></h4>
+    Undoes the last change in the <a href="#ctl_input">input</a> field.
+
+    <h4><a name="men_cut">Cut</a></h4>
+    Copies the selected text in the <a href="#ctl_input">input</a> field to
+    the clipboard and removes it from the <a href="#ctl_input">input</a> field.
+
+    <h4><a name="men_copy">Copy</a></h4>
+    Copies the selected text to the clipboard.
+
+    <h4><a name="men_paste">Paste</a></h4>
+    Pastes the text from the clipboard into the <a href="#ctl_input">input</a>
+    field at cursor position.
+
+    <h4><a name="men_selall">Select All</a></h4>
+    Select all text in either <a href="#ctl_input">input</a> or
+    <a href="#ctl_output">output</a> field.
+
+    <h4><a name="men_keyboard">Keyboard</a></h4>
+    Brings up the keyboard dialog.
+
+    <h4><a name="men_graffiti">Graffiti</a></h4>
+    Displays the Graffiti reference dialog.
+
+    <h4><a name="men_clear_out">Clear output</a></h4>
+    Clears the <a href="#ctl_output">output field</a>.
+
+    <h4><a name="men_clear_in">Clear input</a></h4>
+    Clears the <a href="#ctl_input">input field</a>.
+
+  <h3><a name="men_opt">Commands menu</a></h3>
+    <h4><a name="men_pref">Global settings</a></h4>
+    Use this option to change global LispMe options. This menu command goes to
+    the <a href="#frm_preferences">Global settings dialog</a>.
+
+    <h4><a name="men_sizes">Session settings</a></h4>
+    Use this option to change the amount of memory used for the
+    current session. This menu command goes to
+    the <a href="#frm_sizes">Session Settings dialog</a>. A running
+    evaluation is interrupted before entering the sizes dialog.
+
+    <h4><a name="men_reset">Reset heap</a></h4>
+      <img src="lm_welc.gif" align=right alt="Reset screen">
+      After displaying a
+      <a href="lm_err.htm#err_o6_confirm">confirmation box</a>, this option
+      re-initializes all LispMe memory and displays the reset screen. This
+      means, that all your loaded and entered definitions are forgotten.
+      Additionally, the atom table is cleared, in contrast to repeated
+      <a href="#ctl_pop">pop</a>ping, which doesn't remove unused symbols
+      from the atom table.
+
+    <h4><a name="men_gotype">Load, Reload, Pop, Names, Eval</a></h4>
+      All these menu commands do the same as the corresponding buttons.
+      They are provided only to define a shortcut command stroke for
+      users using the GoType keyboard.
+      
+  <h3><a name="men_help">Help menu</a></h3>
+    <h4><a name="men_about">About</a></h4>
+      Displays version number and reminds you to pay your shareware fee :-)
+    <h4><a name="men_special_forms">Special forms</a></h4>
+      Displays a list of all supported special forms.
+    <h4><a name="men_functions">Functions</a></h4>
+      Displays a list of all builtin functions ordered by category.
+    <h4><a name="men_events">Events</a></h4>
+      Displays a list of all supported user interface events.
+
+<!***************************************************************************>
+<!*** Load form *************************************************************>
+<!***************************************************************************>
+
+<h2><a name="frm_load">The Load dialog</a></h2>
+  <img src="lm_load.gif" align=right alt="Load screen">
+  A list of all memos in category <tt>Lisp</tt> is displayed. Only
+  the first line of each memo is displayed, so it's a very good idea
+  to start each memo with a one-line <a href="lm_synt.htm#comment">comment</a>.
+  Select the memo you want
+  to load and tap the <b>OK</b> button to load and compile it, or tap
+  <b>Cancel</b> to return to the <a href="#frm_main">Main form</a>.<p>
+  Note that loading a memo twice is not forbidden and can happen easily,
+  if you edit a memo with MemoPad and reload it in LispMe.
+  You should <a href="#ctl_pop">pop</a> the memo before reloading it after
+  modifications, or else both versions will occupy valuable heap. Use the
+  <a href="#ctl_names">Names button</a> to see which memos are actually
+  loaded. Loading a memo does not change the global variable
+  <a href="lm_cat2.htm#desc_it"><tt>it</tt></a>.<p>
+
+  Tap the <b><a name="frm_edit">Memo</a></b> button to jump directly to MemoPad
+  to edit the currently
+  selected Memo. If the last error while loading was a Syntax Error, tapping
+  the <b>Memo</b> button directly goes to the offending source text.<p>
+
+  The <b>Edit</b> buttons works likewise, but opens LispMe's
+  <a href="#frm_edit">internal editor</a>.<p>
+
+  If you installed
+  <a href="http://www.math.ohio-state.edu/~nevai/palm/">pedit</a>,
+  there is also a <b>pedit</b> button which
+  works like the <b>Memo</b> button but calls <i>pedit</i>
+
+<!***************************************************************************>
+<!*** Edit form *************************************************************>
+<!***************************************************************************>
+
+<h2><a name="frm_edit">The LispMe editor dialog</a></h2>
+  <img src="lm_edit.gif" align=right alt="LispMe editor">
+  This is a <b>very</b> simple text editor, but it has three big advantages:
+  <ol>
+    <li>Terminating it with the <b>Done</b> button leads back to the 
+        <a href="#frm_load">Load dialog</a>.
+    <li>There is the <a href="#ctl_symbols">symbols list</a> known from
+        the main dialog, which 
+        greatly speeds up source code entry.
+    <li>The <b>Eval selection</b> button evaluates the selected text by copying it
+        to the <a href="#ctl_input">input field</a>
+        in the <a href="#frm_main">main dialog</a>, leaving the editor
+        and loader dialogs and simulates tapping <a href="#ctl_eval">Eval</a>.
+  </ol> 
+
+
+<!***************************************************************************>
+<!*** Sessions dialog *******************************************************>
+<!***************************************************************************>
+
+<h2><a name="frm_sess">The Sessions dialog</a></h2>
+  <img src="lm_sess.gif" align=right alt="Sessions">
+  This table shows all LispMe sessions on your Pilot (all databases with
+  LispMe's creator ID <tt>fbLM</tt>) Select a sessions and tap the
+  <b>Switch</b> button to make it the active session and return to the
+  <a href="#frm_main">Main dialog</a>.<p>
+
+  Select a session and tap the <b>Delete</b> button to remove the session
+  database (and the associated starter application) from your Pilot (after
+  a <a href="lm_err.htm#err_o8_confirm">confirmation message</a>)<p>
+
+  The number displayed left to the session name is the amount of memory 
+  (in kBytes) occupied by the session. You can change pre-allocated
+  memory sizes with the <b>Size</b> button, which leads to the
+  <a href="#frm_sizes">Memory Sizes dialog</a>.<p>
+
+  The checkbox at the very left indicates if a starter application
+  exists for this session. A starter application is a tiny program which
+  appears in the Pilot application launcher and starts LispMe with a
+  selected session database and simulates tapping the
+  <a href="#ctl_eval">Eval button</a>. You can create/destroy starter
+  applications by tapping this checkbox.<p>
+
+  Tapping the <b>New</b> button invokes the
+  <a href="#frm_nsess">New Session dialog</a>.<p>
+
+  If there are more than 10 sessions, you can scroll them with the
+  hardware scroll buttons.
+
+<!***************************************************************************>
+<!*** New Sessions dialog ***************************************************>
+<!***************************************************************************>
+
+<h2><a name="frm_nsess">The New Session dialog</a></h2>
+  <img src="lm_nsess.gif" align=right alt="New session">
+  Enter the name of the new session here. As LispMe tries to create a
+  new database with this name, the name must be different from all other
+  database names on your Pilot. For example, you can't name a session
+  <tt>MemoDB</tt> or <tt>LispMe</tt>, as those databases already exist. As
+  database names are case-sensitive, you <i>could</i> name a database
+  <tt>memodb</tt>, though this is not recommended because backing up those
+  databases to a desktop with a cases-insensitive file system (Windows!)
+  may cause trouble.<p>
+  An <a href="lm_err.htm#err_create_sess">error message</a> is displayed
+  when the session database couldn't be created.<p>
+  A new session database is created with the smallest possible size
+  settings, so the next step you should do is selecting appropriate
+  <a href="#frm_sizes">Memory Sizes</a>.
+
+
+<!***************************************************************************>
+<!*** Session settings form *************************************************>
+<!***************************************************************************>
+
+<h2><a name="frm_sizes">The Session Settings dialog</a></h2>
+
+  <img src="lm_size.gif" align=right alt="Session settings screen">
+    This dialog can be invoked from either the
+    <a href="#frm_main">Main dialog</a> using the
+    <a href="#men_sizes">Session settings</a> menu option or from the
+    <a href="#frm_sess">Session dialog</a>.<p>
+    You can use the
+    <a href="#men_memory">Memory usage</a> menu command to see the amount
+    of memory actually used for each kind of LispMe memory.<p>
+    Changing one of the first 3 settings will reinitialize LispMe's memory,
+    so you have to re-load all memos afterwards.
+    Changing the output size only just clears the output field, but leaves
+    LispMe's memory image intact.<p>
+    In tight memory situation it's possible that a size increase fails, which
+    displays this <a href="lm_err.htm#err_size_change">error message</a>.
+    Normally, you can continue to work with the old size, but in
+    some situations PalmOS2 displays a Fatal Error and requires a soft reset.
+    Sometimes this even happens when changing the sizes takes an unusual long
+    time, but does not fail. I have currently no idea what's going wrong here,
+    as this never occurred with PalmOS3 (Palm III). Any comments?
+    A way to avoid
+    this is reducing the size to minimum, leaving the dialog, reentering it
+    and now selecting the bigger size.<p>
+    
+
+  <h3>Heap Size</h3>
+    This is the size in bytes allocated for <a href="lm_cat1.htm#desc_cons">
+    <tt>cons</tt></a> cells and strings. Each cons-cell occupies 4 bytes.
+
+  <h3>Atom Size</h3>
+    This is the size in bytes allocated for symbols (atoms).
+
+  <h3>FP Size</h3>
+    This is the size in bytes allocated for floating point numbers.
+    Each floating point number occupies 8 bytes (IEEE double precision).
+
+  <h3>Output Size</h3>
+    This is the maximum number of characters the
+    <a href="#ctl_output">output field</a> can display.
+    Longer output will be truncated and a
+    <a href="lm_err.htm#err_output_trunc">message</a> be displayed.
+
+  <h3><a name="cmd_case">Case-sensitive symbols</a></h3>
+    This option determines if symbols differing only by their case
+    are considered different or not. When it is unchecked, all symbols
+    are converted to lower-case on reading. Note that all predefined names
+    are in lower-case, so LispMe won't recognise <tt>DEFINE</tt> when this
+    option is checked. To avoid confusion with symbols entered before and
+    after this option changed, the heap is reset when changing case
+    sensitivity.
+
+<!***************************************************************************>
+<!*** Global settings *******************************************************>
+<!***************************************************************************>
+
+<h2><a name="frm_preferences">The Global Settings dialog</a></h2>
+
+  <img src="lm_pref.gif" align=right alt="Preferences screen">
+  In this dialog you choose global settings valid for all sessions.
+
+  <h3><a name="watchdog">UI Watchdog</a></h3>
+    Select the time limit an user interface event handler is
+    allowed to run before it is interrupted to avoid unstoppable
+    endless loops.
+
+  <h3>Print Depth</h3>
+    This option controls the maximum depth lists and vectors are
+    printed to the
+    <a href="#ctl_output">output</a> field.
+
+  <h3><a name="frm_quotes">Print quotes</a></h3>
+    Checking this option makes LispMe print expressions of the
+    form <tt>(quote <i>anything</i>)</tt> in the abbreviated 
+    form <tt>'<i>anything</i></tt>. This applies to
+    <tt>quasiquote</tt>, <tt>unquote</tt> and <tt>unquote-splicing</tt>
+    as well.
+
+  <h3>No auto-off while eval</h3>
+    Checking this option will disable the auto-off timer while LispMe is
+    computing. When the evaluation has finished, the auto-off feature is
+    re-enabled. Use this for long lasting evaluations,
+    but remember that this option together with an endless loop is an
+    easy way to waste your batteries!
+
+  <h3><a name="frm_lefty">I'm a lefthander</a></h3>
+    Checking this option will place the scrollbar left to the
+    <a href="#ctl_output">output field</a>, so lefthanders can use it
+    more comfortably.
+
+  <h3><a name="frm_bigmemo">Allow oversized memos</a></h3>
+    The builtin MemoPad application has a limit of 4k texts.
+    However, it's perfectly possibly to have bigger records in the 
+    MemoDB database, but not all applications handles them properly.
+    LispMe has no problems with larger memos, but several other
+    apps have.<p>
+    Checking this option allows bigger memos than the MemoPad limit
+    (upto 32k chars) within the internal editor. There is a number 
+    of problems with oversized (>4k) memos:
+    <ul>
+     <li>MemoPad can display memos >4K, but you cannot edit them
+     <li>Beaming larger memos than 4k splits them on the destination
+         Palm resulting in a set of 4k fragments
+     <li>Synchronizing with the standard desktop truncates memos at 4K
+    </ul>
+    However, if you use a third party tool like the plink utility suite,
+    bigger memos are no problem, you can install them, load them, and
+    backup your modified memos.<p>
+    Just play around with them, test it all, and see: the 4k limit is
+    in the original MemoPad design, not in the database nor 
+    3rd party tools.<p>
+    Thus, if you're exclusivly using the Windows desktop,
+    don't select this option.<p>
+    Linux tools like <tt>pilot-xfer</tt> and <tt>install-memo</tt> work
+    perfectly with oversized memos, so this will be a feasible
+    solution until DOC file loading will be possible.
+  
+</body>
+</html>

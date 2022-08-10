@@ -1,0 +1,169 @@
+<html>
+<head>
+  <title>LispMe graphics system</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe graphics system</h1>
+  There's no special screen or
+  window where graphic is output, it is just drawn onto the screen,
+  where it remains until LispMe's UI is redrawn by a text output operation
+  like <a href="lm_cat4.htm#desc_write"><tt>write</tt></a> or the
+  <a href="lm_sema.htm#sema_rep">REP loop</a>. To avoid this, call
+  <tt>(own-gui #t)</tt>, which disables most LispMe controls.<p>
+
+  The graphic routines use screen coordinates in the range (0,0) to
+  (160,160). (0,0) corresponds to the upper left corner of the screen.<p>
+
+  Starting with version 3.5, many new graphic functions and color support
+  was introduced in to PalmOS, which was enough reason to clean up LispMe's
+  graphic functions, too.<p>
+
+  The earlier global variables <tt>*font*</tt>, <tt>*pat*</tt> and
+  <tt>*point</tt> are gone. They are replaced by the single global variable
+  <tt><a href="lm_cat1.htm#desc_gstate">*gstate*</a></tt> containing the
+  entire graphics state as a list. However, this
+  shouldn't affect your old programs too much when you used the 
+  access functions defined in the memo
+  <a href="lm_samp.htm#gr_util">; Graphic utilities</a> as recommended.<p>
+  
+<h2><a name="gstate"><tt>*gstate*</tt> format</a></h2>
+  <tt>*gstate*</tt> must be a list of 7 elements:
+  <ol>
+    <li>The <a href="#point">current point</a>
+        as a pair of integers both in the range 0 to 160
+    <li>The <a href="#font">current font</a>
+    <li>The <a href="#pat">drawing pattern</a>
+    <li>The <a href="#mode">drawing mode</a>
+    <li>The foreground <a href="#col">color index</a> (0-255)
+    <li>The background <a href="#col">color index</a> (0-255)
+    <li>The text <a href="#col">color index</a> (0-255)
+  </ol>
+
+  The former restriction that a graphics state variable cannot be assigned
+  has been omitted, you can <tt>set!</tt> <tt>*gstate*</tt> now as you like.
+  You can save the current <tt>*gstate*</tt> in a variable, assign a new
+  one locally, modify it and later restore the original one without
+  restrictions.
+
+<h2><a name="point">Pen position</a></h2>
+  This is a pair whose <a href="lm_cat1.htm#desc_car"><tt>car</tt></a> contains the
+  current <i>x</i> coordinate and whose <a href="lm_cat1.htm#desc_cdr"><tt>cdr</tt></a>
+  contains the current <i>y</i> coordinate of the graphics cursor.
+  These coordinates define the starting point of
+  <a href="lm_cat2.htm#desc_draw"><tt>draw</tt></a>,
+  <a href="lm_cat3.htm#desc_rect"><tt>rect</tt></a>, and
+  <a href="lm_cat4.htm#desc_text"><tt>text</tt></a>.
+  <tt>draw</tt> and <tt>rect</tt> both update the pen position to the
+  end point.
+      
+<h2><a name="font">Fonts</a></h2>
+  Available fonts are
+  <table border>
+    <tr><th>Value<th>Font name
+    <tr><td>0<td>Standard font
+    <tr><td>1<td>Bold font
+    <tr><td>2<td>Large font
+    <tr><td>3<td>Symbol font
+    <tr><td>4<td>Symbol11 font
+    <tr><td>5<td>Symbol7 font
+    <tr><td>6<td>LED font (calculator font)
+    <tr><td>7<td>Large Bold font (OS 3.0 or later only)
+  </table>
+  Any other value will effect in using font 0. Note that
+  fonts 3-6 define only a few characters in unusual positions.
+  You should use a tool like
+  <a href="http://astro.uchicago.edu/home/web/valdes/pilot/AsciiChart/">
+  AsciiChart</a> to see characters and their codes on your Pilot.<p>
+
+<h2><a name="col">Color selection</a></h2>
+  <i>The color selection has no effect with ROM versions prior to 3.5.
+  LispMe simply uses the drawing pattern as always.</i><p>
+
+  PalmOS 3.5 supports color depths upto 8 bits, resulting in 256 colors,
+  which are indexes into a color palette containing RGB triples. All 
+  drawing functions use this color indexin the range 0-255, not the actual
+  RGB value. The graphics state <tt>*gstate*</tt> contains separate 
+  entries for foreground, background and text color numbers.<p>
+
+  <tt><a href="lm_cat4.hrm#desc_text">text</a></tt> uses the text and
+  the background color to render, all other drawing functions use
+  foreground and background colors.<p>
+
+  To determine the best-matching palette color from given RGB values,
+  you should use the <tt><a href="lm_cat3.htm#desc_rgb2index">rgb->index</a></tt>
+  function instead of hard-coding color indexes.
+  The new color model works with 2- and 4-bit grayscale modes (and even
+  black/white), too, see <a href="#bunt">here</a> for an example.<p>
+
+  <a href="http://members.xoom.com/mjmdlm/palm">McColors</a> is a nice
+  little tool to show all available colors.
+  
+
+<h2><a name="pat">Drawing patterns</a></h2>
+  Drawing patterns (the former <tt>*pat*</tt> variable) were an
+  unfortunate mixture of pattern and drawing modes in earlier LispMe
+  versions. Now these are more clearly separated, but for backward
+  compatibility still all values are supported.<p>
+
+  <table border>
+  <th>Value<th>Effect prior to OS3.5<th>Effect OS3.5 and later
+  <tr><td><tt>#t</tt><td>draw black on white<td>Use foreground and background colors
+    normally and pay attention to the drawing mode
+  <tr><td><tt>#f</tt><td>draw white on black<td>Always use drawing mode <tt>dm-paint</tt>
+    and swap foreground and background colors.
+  <tr><td><tt>#n</tt><td>draw inverted (XOR mode)<td>Use foreground and background colors
+    normally but always use drawing mode <tt>dm-invert</tt> .
+  <tr><td>a string of exactly 8 bytes specifying a 8&times;8 fill pattern
+    <td>draw black where pattern bits are set, white where not<td>Use foreground and background colors
+    normally and pay attention to the drawing mode. Where pattern bits are set,
+    the foreground color is used, otherwise the background color is used.
+  </table><p>
+  You should only use pattern <tt>#t</tt> or string patterns with OS3.5 and
+  specify the right drawing mode. Support for <tt>#f</tt> and <tt>#n</tt>
+  in 3.5 is only for backwards compatibility. 
+
+<h2><a name="mode">Drawing modes</a></h2>
+  <i>The drawing modes have no effect with ROM versions prior to 3.5.
+  LispMe simply uses the drawing pattern as always.</i><p>
+
+  <table border>
+    <tr><th>Value<th>Symbol in the 3.5 SDK<th>LispMe symbol<th>Description (from 3.5 SDK)
+    <tr><td>0<td>winPaint<td>dm-paint<td>Destination replaced with source pixels (copy mode)
+    <tr><td>1<td>winErase<td>dm-erase<td>Destination cleared where source pixels are off (AND mode)
+    <tr><td>2<td>winMask<td>dm-mask<td>Destination cleared where source pixels are on (AND NOT mode)
+    <tr><td>3<td>winInvert<td>dm-invert<td>Destination inverted where source pixels are on (XOR mode)        
+    <tr><td>4<td>winOverlay<td>dm-overlay<td>Destination set only where source pixels are on (OR mode)    
+    <tr><td>5<td>winPaintInverse<td>dm-paint-inverse<td>Destination replaced with inverted source (copy NOT mode)
+    <tr><td>6<td>winSwap<td>dm-swap<td>Destination foreground and background colors are swapped, leaving
+        any other colors unchanged (color invert operation)  
+  </table><p>
+
+  The following <a name="bunt">screenshots</a>
+  (<a href="../samples/lm_dm.txt">source code</a>)
+  show the effects of draw modes 0-6 from
+  left to right, please note that the <tt>dm-swap</tt> with a 
+  custom pattern crashes the Palm, so the right-most rectangle is
+  drawn using a solid pattern.
+
+  <table><tr>
+  <td><img src="lm_dm0.gif" alt="Pre OS 3.5">
+  <td><img src="lm_dm1.gif" alt="Black/white">
+  <td><img src="lm_dm2.gif" alt="4 grays">
+  <td><img src="lm_dm4.gif" alt="16 grays">
+  <td><img src="lm_dm8.gif" alt="256 colors">
+  <tr><td>Pre OS 3.5
+  <td>Black/white
+  <td>4 grays
+  <td>16 grays
+  <td>256 colors
+  </table><p>
+
+  <i>The pattern in modes 2 and 5 looks strange, can this be a bug
+  in ROM 3.5?</i> 
+
+</body>
+</html>

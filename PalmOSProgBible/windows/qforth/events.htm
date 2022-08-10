@@ -1,0 +1,214 @@
+<HTML><!-- #BeginTemplate "/Templates/Quartus.dwt" -->
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Quartus Forth: Event Handling</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" background="graph.gif">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif"><img src="dfpc.gif" width="64" height="93" align="right" border="0">Quartus 
+  Forth Manual</font></h1>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" --> 
+<h2><font face="Arial, Helvetica, sans-serif">Event Handling</font></h2>
+<p>In a typical C program for the Palm OS, the body of the program is an <i>event 
+  handling loop</i> that processes events from the operating system and takes 
+  required actions, such as passing events to the system for default handling, 
+  initializing forms, etc.</p>
+<p>In a Quartus Forth application, you don't need to worry about handling most 
+  events; they're handled for you whenever you use <b>KEY</b> or <b>EKEY</b>. 
+  Quartus Forth automatically handles:</p>
+<ul>
+  <li>System events</li>
+  <li>Menu events</li>
+  <li>Form load and Form open events</li>
+  <li>Form event dispatching</li>
+</ul>
+<p>Events not automatically handled are returned on the Forth stack via <b>EKEY</b>, 
+  where you can read them and take any desired action.</p>
+<p>Here is a code snippet showing how to detect events using <b>EKEY</b>. It will 
+  detect stylus taps on the LCD screen:</p>
+<pre>needs events<br><br>: go ( -- )<br>  begin ekey<br>    dup penDownEvent = if<br>      .&quot; Pen Down detected&quot; cr<br>    else dup penUpEvent = if<br>      .&quot; Pen Up detected&quot; cr<br>      then<br>    then  drop<br>  again ;
+</pre>
+<p>Of special interest is how <i>appStopEvents</i> are handled. Quartus Forth 
+  gives you full control over what happens when your application exits. When Quartus 
+  Forth (or a stand-alone Quartus Forth application) receives an <i>appStopEvent</i> 
+  from the system, a -257 <b><a href="except.htm">THROW</a></b><a href="except.htm"> 
+  code</a> is generated. Under normal conditions, this <b>THROW</b> code will 
+  be caught by the default exception handler, and the application will simply 
+  exit via <b>(bye)</b>; you may, however wish to <b>CATCH</b> this exception 
+  code and take care of any required cleanup before calling <b>(bye)</b> yourself.</p>
+<p>This code snippet shows an example of special <b>BYE</b> handling:</p>
+<pre>-257 constant byeThrow</pre>
+<pre>: go ( -- )<br>  MainForm<br>  .&quot; Go ahead, start another app.&quot; cr<br>  begin<br>    ['] key catch<br>    byeThrow = if<br>      .&quot; Exiting in 5 seconds!&quot;<br>      500. SysTaskDelay<br>      (bye)<br>    then  drop<br>  again ;
+</pre>
+<p> 
+<h3><font face="Arial, Helvetica, sans-serif">Table of Event Types (returned by 
+  EKEY): </font></h3>
+<table rows=100 columns=2 cellpadding="5" bordercolordark="#E0E0E0" border="1">
+  <tr> 
+    <td width="72"><font face="Arial, Helvetica, sans-serif">Event #</font></td>
+    <td width="165"><font face="Arial, Helvetica, sans-serif">Event Type</font></td>
+  </tr>
+  <tr> 
+    <td width="72">0</td>
+    <td width="165"> nilEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">1</td>
+    <td width="165"> penDownEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">2</td>
+    <td width="165"> penUpEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">3</td>
+    <td width="165"> penMoveEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">4</td>
+    <td width="165"> keyDownEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">5</td>
+    <td width="165"> winEnterEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">6</td>
+    <td width="165"> winExitEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">7</td>
+    <td width="165"> ctlEnterEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">8</td>
+    <td width="165"> ctlExitEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">9</td>
+    <td width="165"> ctlSelectEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">10</td>
+    <td width="165"> ctlRepeatEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">11</td>
+    <td width="165"> lstEnterEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">12</td>
+    <td width="165"> lstSelectEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">13</td>
+    <td width="165"> lstExitEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">14</td>
+    <td width="165"> popSelectEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">15</td>
+    <td width="165"> fldEnterEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">16</td>
+    <td width="165"> fldHeightChangedEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">17</td>
+    <td width="165"> fldChangedEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">18</td>
+    <td width="165"> tblEnterEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">19</td>
+    <td width="165"> tblSelectEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">20</td>
+    <td width="165"> daySelectEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">21</td>
+    <td width="165"> menuEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">22</td>
+    <td width="165"> appStopEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">23</td>
+    <td width="165"> frmLoadEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">24</td>
+    <td width="165"> frmOpenEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">25</td>
+    <td width="165"> frmGotoEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">26</td>
+    <td width="165"> frmUpdateEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">27</td>
+    <td width="165"> frmSaveEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">28</td>
+    <td width="165"> frmCloseEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">29</td>
+    <td width="165"> frmTitleEnterEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">30</td>
+    <td width="165"> frmTitleSelectEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">31</td>
+    <td width="165"> tblExitEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">32</td>
+    <td width="165"> sclEnterEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">33</td>
+    <td width="165"> sclExitEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">34</td>
+    <td width="165"> sclRepeatEvent</td>
+  </tr>
+  <tr> 
+    <td width="72">32767</td>
+    <td width="165"> firstUserEvent</td>
+  </tr>
+</table>
+<!-- #EndEditable --> 
+<hr>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998, 1999 <a href="http://www.quartus.net/">Neal Bridges</a>. All 
+rights reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate --></HTML>

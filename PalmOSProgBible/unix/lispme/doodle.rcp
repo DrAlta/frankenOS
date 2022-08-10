@@ -1,0 +1,18 @@
+//********************************************************************/
+// Resources for 'Doodle' LispMe UI demo                             */
+//********************************************************************/
+
+MENU ID 1000
+BEGIN
+  PULLDOWN "Quit"
+    BEGIN
+      MENUITEM "Quit" 1000 "Q"
+    END
+END
+
+FORM ID 1100 AT (0 0 160 160)
+MENUID 1000
+MODAL
+BEGIN
+    TITLE "Doodle"
+END

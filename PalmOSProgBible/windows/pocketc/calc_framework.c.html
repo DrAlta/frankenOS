@@ -1,0 +1,88 @@
+<html>
+<title>calc_framework.c</title>
+<body>
+<b>calc_framework.c</b> (<a href="calc_framework.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>/$ calc_framework.c
+// offets for our pseudo button struct
+</font><font color=0000ff>#define </font><font color=000000>func </font><font color=0000a0>0
+</font><font color=0000ff>#define </font><font color=000000>next </font><font color=0000a0>1
+</font><font color=0000ff>#define </font><font color=000000>left </font><font color=0000a0>2
+</font><font color=0000ff>#define </font><font color=000000>right </font><font color=0000a0>3
+</font><font color=0000ff>#define </font><font color=000000>top </font><font color=0000a0>4
+</font><font color=0000ff>#define </font><font color=000000>bottom </font><font color=0000a0>5
+</font><font color=0000ff>#define </font><font color=000000>btext </font><font color=0000a0>6
+
+</font><font color=008000>// button struct template
+</font><font color=0000ff>pointer </font><font color=000000>buttonTemp;
+</font><font color=0000ff>pointer </font><font color=000000>_1;
+</font><font color=0000ff>int </font><font color=000000>_2, _3, _4, _5;
+</font><font color=0000ff>string </font><font color=000000>_6;
+
+</font><font color=008000>// global pointer to our linked list
+</font><font color=0000ff>pointer </font><font color=000000>buttons;
+
+</font><font color=008000>// set this to true to exit
+</font><font color=0000ff>int </font><font color=000000>exitflag;
+
+</font><font color=008000>// add a button to our linked list
+</font><font color=000000>addButton(</font><font color=0000ff>string </font><font color=000000>bt, </font><font color=0000ff>pointer </font><font color=000000>f, </font><font color=0000ff>int </font><font color=000000>l, </font><font color=0000ff>int </font><font color=000000>t, </font><font color=0000ff>int </font><font color=000000>r, </font><font color=0000ff>int </font><font color=000000>b) {
+  </font><font color=0000ff>pointer </font><font color=000000>ptr;
+  </font><font color=008000>// create the new block
+  </font><font color=000000>ptr = </font><font color=000000><b>malloc</b></font><font color=000000>(</font><font color=0000a0>7</font><font color=000000>);
+  </font><font color=0000ff>if </font><font color=000000>(ptr) {
+    </font><font color=008000>// copy out template to the new block
+    </font><font color=000000><b>memcpy</b></font><font color=000000>(ptr, &buttonTemp, </font><font color=0000a0>7</font><font color=000000>);
+    </font><font color=008000>// initialize the block
+    </font><font color=000000>ptr[func] = f;
+    ptr[left] = l;
+    ptr[right] = r;
+    ptr[top] = t;
+    ptr[bottom] = b;
+    ptr[btext] = bt;
+    </font><font color=008000>// insert this block in the list
+    </font><font color=000000>ptr[next] = buttons;
+    buttons = ptr;
+    </font><font color=008000>// draw the button
+    </font><font color=000000><b>frame</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>, l, t, r, b, </font><font color=0000a0>2</font><font color=000000>);
+    </font><font color=000000><b>textalign</b></font><font color=000000>(</font><font color=0000a0>11</font><font color=000000>);
+    </font><font color=000000><b>text</b></font><font color=000000>((l+r)/</font><font color=0000a0>2</font><font color=000000>, (t+b)/</font><font color=0000a0>2</font><font color=000000>, bt);
+  }
+}
+
+eventLoop() {
+  </font><font color=0000ff>int </font><font color=000000>e, x, y;
+  </font><font color=0000ff>pointer </font><font color=000000>f, list;
+
+  </font><font color=0000ff>while </font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>) {
+    </font><font color=008000>// is it time to exit?
+    </font><font color=0000ff>if </font><font color=000000>(exitflag) </font><font color=0000ff>return</font><font color=000000>;
+    e = </font><font color=000000><b>event</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>);
+    </font><font color=008000>// respond only to the pen down
+    </font><font color=0000ff>if </font><font color=000000>(e==</font><font color=0000a0>2</font><font color=000000>) {
+      </font><font color=008000>// set list to the start of the button list
+      </font><font color=000000>list = buttons;
+      </font><font color=008000>// get the coords of the key press
+      </font><font color=000000>x = </font><font color=000000><b>penx</b></font><font color=000000>();
+      y = </font><font color=000000><b>peny</b></font><font color=000000>();
+      </font><font color=0000ff>while </font><font color=000000>(list) {
+        </font><font color=0000ff>if </font><font color=000000>(x &gt;= list[left] && x &lt;= list[right]
+          && y &gt;= list[top] && y &lt;= list[bottom]) {
+          </font><font color=008000>// we found the button, get out of the loop
+          </font><font color=0000ff>break</font><font color=000000>;
+        }
+        </font><font color=008000>// check the next button in the list
+        </font><font color=000000>list = list[next];
+      }
+      </font><font color=008000>// did we find a button?
+      </font><font color=0000ff>if </font><font color=000000>(list) {
+        </font><font color=008000>// call the specified function
+        </font><font color=000000>(*list[func])();
+      }
+    }
+  }
+}
+</pre>
+</body>
+</html>

@@ -1,0 +1,13 @@
+These are the sources of LispMe 2.7, a Scheme system for the Palm Pilot
+family of PDAs. 
+
+The code is published under the 'GNU public license'
+(see doc/COPYING.txt for details).
+
+To read the documentation, change to the directory "doc"
+and start browsing "lm_index.htm"
+
+Have fun!
+
+Fred
+

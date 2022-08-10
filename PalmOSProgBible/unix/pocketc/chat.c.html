@@ -1,0 +1,31 @@
+<html>
+<title>chat.c</title>
+<body>
+<b>chat.c</b> (<a href="chat.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// Serial Chat
+
+</font><font color=000000>main() {
+   </font><font color=0000ff>int </font><font color=000000>ret;
+
+   </font><font color=000000><b>clear</b></font><font color=000000>();
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Serial Chat\n"</font><font color=000000>);
+   ret = </font><font color=000000><b>seropen</b></font><font color=000000>(</font><font color=0000a0>57600</font><font color=000000>, </font><font color=000080>"8N1C"</font><font color=000000>, </font><font color=0000a0>50</font><font color=000000>);
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"seropen() - " </font><font color=000000>+ ret + </font><font color=000080>"\n"</font><font color=000000>);
+   </font><font color=0000ff>while </font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>) {
+      </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>event</b></font><font color=000000>(</font><font color=0000a0>0</font><font color=000000>)==</font><font color=0000a0>1</font><font color=000000>)
+         </font><font color=008000>// grafitti written
+         </font><font color=000000><b>sersend</b></font><font color=000000>(</font><font color=000000><b>key</b></font><font color=000000>());
+      </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>serdata</b></font><font color=000000>())
+         </font><font color=008000>// data waiting
+         </font><font color=000000><b>puts</b></font><font color=000000>((</font><font color=0000ff>char</font><font color=000000>)</font><font color=000000><b>serrecv</b></font><font color=000000>());
+      </font><font color=008000>// save batteries
+      </font><font color=000000><b>sleep</b></font><font color=000000>(</font><font color=0000a0>10</font><font color=000000>);
+   }
+   </font><font color=008000>// This line included for completeness
+   </font><font color=000000><b>serclose</b></font><font color=000000>();
+}
+</pre>
+</body>
+</html>

@@ -1,0 +1,44 @@
+// PilRC resources for Year.  1998/11/11 Neal Bridges.
+
+MENU ID 2000
+BEGIN
+  PULLDOWN "Options"
+  BEGIN
+    MENUITEM "Help" ID 2002 "H"
+    MENUITEM "About..." ID 2001 "A"
+  END
+END
+
+FORM ID 1001 AT (0 0 160 160)
+MENUID 2000
+BEGIN
+  FIELD ID 1103 AT (0 80 160 11) NONUSABLE FONT 0 MAXCHARS 80 
+END
+
+ALERT ID 3000
+HELPID 3001
+INFORMATION
+BEGIN
+  TITLE "About Year"
+  MESSAGE "Version 1.0\n"\
+          "© 1998 Neal Bridges\n\n"\
+          "This is a Quartus Forth application.\n\n"\
+          "Use PgUp/PgDown to change the year."
+  BUTTONS "ok"
+END
+
+STRING ID 3001 "Year was written and compiled on-board a Palm III "\
+  "using Quartus Forth.  "\
+  "It's a freeware demonstration of Quartus' ability to produce "\
+  "tight, fast, stand-alone apps.\n\n"\
+  "Check out both Quartus and the source to Year at:\n"\
+  "http://www.interlog.com/~nbridges\n\n"\
+  "Year is functionally similar to Dale Gass' YearCal.  "\
+  "It's 5K in size (Dale's is 11K).\n\n"\
+  "One enhancement: the 'week starts' setting in Preferences "\
+  "determines whether the calendar week begins on Sunday or Monday.\n\n"\
+  "Use PgUp and PgDown to change the year.\n\n"\
+  "Have fun!\n"\
+  "- Neal Bridges\n"\
+  "nbridges@interlog.com"
+

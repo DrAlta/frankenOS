@@ -1,0 +1,1199 @@
+/**********************************************************************/
+/*                                                                    */
+/* LispMe.rcp: Resource definitions for LispMe                        */
+/*                                                                    */
+/* LispMe System (c) FBI Fred Bayer Informatics                       */
+/*                                                                    */
+/* Distributed under the GNU General Public License;                  */
+/* see the README file. This code comes with NO WARRANTY.             */
+/*                                                                    */
+/* Modification history                                               */
+/*                                                                    */
+/* When?      What?                                              Who? */
+/* -------------------------------------------------------------------*/
+/* 27.07.1997 New                                                FBI  */
+/* 25.10.1999 Prepared for GPL release                           FBI  */
+/*                                                                    */
+/**********************************************************************/
+
+#include "LispMe.h"
+
+VERSION ID 1 "2.7"
+
+//********************************************************************/
+// ICONS                                                             */
+//********************************************************************/
+ICONFAMILY      "bitmaps/LispMe1.bmp" "" ""
+                "bitmaps/LispMe8.bmp" TRANSPARENTINDEX 0
+
+SMALLICONFAMILY "bitmaps/LispMes1.bmp" "" ""
+                "bitmaps/LispMes8.bmp" TRANSPARENTINDEX 0
+
+//********************************************************************/
+// MENUS                                                             */
+// Edit menu is handled by PalmOS by assigning it special IDs        */
+//********************************************************************/
+MENU IDD_MainFrame
+BEGIN
+    PULLDOWN "View"
+      BEGIN
+        MENUITEM "Runtime"                  IDM_ViewStat   "T"
+        MENUITEM "Memory usage  "           IDM_ViewMemory "M"
+        MENUITEM "Redraw"                   IDM_ViewGUI    "W"
+      END
+    PULLDOWN "Edit"
+      BEGIN
+        MENUITEM "Undo"                     10000          "U"
+        MENUITEM "Cut"                      10001          "X"
+        MENUITEM "Copy"                     10002          "C"
+        MENUITEM "Paste"                    10003          "P"
+        MENUITEM "Select All"               10004          "S"
+        MENUITEM SEPARATOR
+        MENUITEM "Keyboard"                 10006          "K"
+        MENUITEM "Graffiti"                 10007          "G"
+        MENUITEM SEPARATOR
+        MENUITEM "Clear output  "           IDM_EditClrOut "D"
+        MENUITEM "Clear input"              IDM_EditClrIn  "I"
+      END
+    PULLDOWN "Commands"
+      BEGIN
+        MENUITEM "Global settings"          IDM_OptGlob    "Y"
+        MENUITEM "Session settings  "       IDM_OptSess    "Z"
+        MENUITEM "Reset Heap"               IDM_OptReset   "H"
+        MENUITEM SEPARATOR
+        MENUITEM "Load"                     IDC_PB_LOAD    "L"
+        MENUITEM "Reload"                   IDC_PB_RELOAD  "R"
+        MENUITEM "Pop"                      IDC_PB_POP     "O"
+        MENUITEM "Names"                    IDC_PB_NAMES   "N"
+        MENUITEM "Eval"                     IDC_PB_EVAL    "E"
+      END
+    PULLDOWN "Help"
+      BEGIN
+        MENUITEM "About"                    IDM_HelpAbout  "A"
+        MENUITEM "Special forms  "          IDM_HelpForm   "Q"
+        MENUITEM "Functions"                IDM_HelpFunc   "F"
+        MENUITEM "Events"                   IDM_HelpEvent  "B"
+      END
+END
+
+//********************************************************************/
+// FORMS                                                             */
+//********************************************************************/
+FORM ID IDD_MainFrame AT (0 0 160 160)
+MENUID IDD_MainFrame
+BEGIN
+    TITLE "LispMe"
+    POPUPTRIGGER "Symbols"  IDC_PT_SYMS AT (42 0 50 13) LEFTANCHOR FONT 0
+    POPUPLIST IDC_PT_SYMS IDC_PL_SYMS
+    LIST "" IDC_PL_SYMS AT (20 10 120 AUTO) NONUSABLE VISIBLEITEMS 12 FONT 0
+    SELECTORTRIGGER "" ID IDC_ST_SESSION AT (159 1 0 11) RIGHTANCHOR
+    FIELD IDC_EF_OUTPUT       0  17 153 90 FONT 0 LEFTALIGN MULTIPLELINES
+                                           MAXCHARS OUTPUT_SIZE NONEDITABLE
+    SCROLLBAR IDC_SB_OUTPUT 153  17   7 90 MAX 0 PAGESIZE 8
+    FIELD IDC_EF_INPUT        0 110 160 35 FONT 0 LEFTALIGN MULTIPLELINES
+                                           UNDERLINED MAXCHARS INPUT_SIZE
+    BUTTON "Load"   ID IDC_PB_LOAD     AT (  1 147   24 AUTO)
+    BUTTON "Reload" ID IDC_PB_RELOAD   AT ( 28 147   31 AUTO)
+    BUTTON "Pop"    ID IDC_PB_POP      AT ( 62 147   19 AUTO)
+    BUTTON "Names"  ID IDC_PB_NAMES    AT ( 84 147   32 AUTO)
+    BUTTON "Eval"   ID IDC_PB_EVAL     AT (119 147   22 AUTO)
+    BUTTON "Break"  ID IDC_PB_BREAK    AT ( 60 147 AUTO AUTO) NONUSABLE
+    GRAFFITISTATEINDICATOR AT (146 147)
+END
+
+FORM ID IDD_SetupGlob AT (2 48 156 110)
+MODAL
+HELPID HLP_SETGLOB
+BEGIN
+    TITLE "Global settings"
+    LABEL "UI Watchdog:" AUTOID  6 15 FONT 1
+    LABEL "Print Depth:" AUTOID 10 28 FONT 1
+    POPUPTRIGGER ""  IDC_PT_WDOG 78 14 40 13 LEFTANCHOR FONT 0
+    POPUPLIST IDC_PT_WDOG IDC_PL_WDOG
+    LIST "10 sec" "30 sec" "1 min" "5 min" "none"
+      IDC_PL_WDOG AT (90 14 32 AUTO) NONUSABLE VISIBLEITEMS 5 FONT 0
+    REPEATBUTTON "\002" IDC_DEPTH_DOWN AT ( 80 27  8 AUTO) FONT 4 NOFRAME
+    FIELD            IDC_EF_DEPTH      AT ( 87 27 12 AUTO) FONT 0 RIGHTALIGN NONEDITABLE
+    REPEATBUTTON "\003" IDC_DEPTH_UP   AT ( 99 27  8 AUTO) FONT 4 NOFRAME
+
+    CHECKBOX "Print quotes" IDC_CB_PRINT_QUOTES AT (4 42 AUTO AUTO) FONT 1
+    CHECKBOX "No auto-off while eval" IDC_CB_NO_AUTOOFF AT (4 54 AUTO AUTO) FONT 1
+    CHECKBOX "I'm a lefthander" IDC_CB_LEFTY AT (4 66 AUTO AUTO) FONT 1
+    CHECKBOX "Allow oversized memos" IDC_CB_BIGMEMO AT (4 78 AUTO AUTO) FONT 1
+
+    BUTTON "OK"         ID IDC_PB_SETGLOB_OK     AT (  4 95 AUTO AUTO)
+    BUTTON "Cancel"     ID IDC_PB_SETGLOB_CANCEL AT ( 34 95 AUTO AUTO)
+END
+
+FORM ID IDD_SetupSess AT (2 60 156 98)
+MODAL
+HELPID HLP_SETSESS
+BEGIN
+    TITLE "Session settings"
+    LABEL "Heap Size:"   AUTOID 22 15 FONT 1
+    LABEL "Atom Size:"   AUTOID 20 28 FONT 1
+    LABEL "FP Size:"     AUTOID 36 41 FONT 1
+    LABEL "Output Size:" AUTOID 10 54 FONT 1
+    POPUPTRIGGER "" IDC_PT_HEAP 78 14 40 13 LEFTANCHOR FONT 0
+    POPUPTRIGGER "" IDC_PT_ATOM 78 27 40 13 LEFTANCHOR FONT 0
+    POPUPTRIGGER ""  IDC_PT_REAL 78 40 40 13 LEFTANCHOR FONT 0
+    POPUPTRIGGER ""  IDC_PT_OUTP 78 53 40 13 LEFTANCHOR FONT 0
+    POPUPLIST IDC_PT_HEAP IDC_PL_HEAP
+    POPUPLIST IDC_PT_ATOM IDC_PL_ATOM
+    POPUPLIST IDC_PT_REAL IDC_PL_REAL
+    POPUPLIST IDC_PT_OUTP IDC_PL_OUTP
+    LIST "1024" "2048" "3072" "4096" "6144" "8192" "12288" "16384"
+          "24576" "32768" "40960" "49152" "57344" "64000"
+      IDC_PL_HEAP AT (90 14 30 AUTO)
+      NONUSABLE VISIBLEITEMS 14 FONT 0
+    LIST "1792" "2048" "2560" "3072" "4096"
+      IDC_PL_ATOM AT (90 27 26 AUTO)
+      NONUSABLE VISIBLEITEMS 5 FONT 0
+    LIST "8" "512" "1024" "2048" "4096" "6144" "8192"
+         "12288" "16384" "32704"
+      IDC_PL_REAL AT (90 40 30 AUTO)
+      NONUSABLE VISIBLEITEMS 10 FONT 0
+    LIST "256" "512" "1024" "2048" "4096" "8192"
+      IDC_PL_OUTP AT (90 53 26 AUTO)
+      NONUSABLE VISIBLEITEMS 6 FONT 0
+
+    CHECKBOX "Case-sensitive symbols" IDC_CB_CASESENS AT (10 67 AUTO AUTO)
+      FONT 1
+
+    BUTTON "OK"         ID IDC_PB_SETSESS_OK     AT (  4 83 AUTO AUTO)
+    BUTTON "Cancel"     ID IDC_PB_SETSESS_CANCEL AT ( 34 83 AUTO AUTO)
+END
+
+FORM ID IDD_Load AT (0 0 160 160)
+BEGIN
+    TITLE "LispMe Load"
+    LABEL "Select a source memo" AUTOID 28 17 FONT 1
+    LIST " " IDC_LIST_SOURCE AT (1 30 158 AUTO) USABLE
+                             VISIBLEITEMS 10 FONT 0
+    BUTTON "OK"        ID IDC_PB_LOAD_OK      AT (  1 147 AUTO AUTO)
+    BUTTON "Cancel"    ID IDC_PB_LOAD_CANCEL  AT ( 30 147 AUTO AUTO)
+    BUTTON "Memo"      ID IDC_PB_LOAD_MEMO    AT ( 72 147 30 AUTO)
+    BUTTON "Edit"      ID IDC_PB_LOAD_EDIT    AT (105 147 24 AUTO)
+    BUTTON "pedit" ID IDC_PB_LOAD_PEDIT       AT (132 147 26 AUTO)
+END
+
+FORM ID IDD_Read AT (2 98 156 60)
+MODAL
+MENUID 10000
+BEGIN
+  TITLE "LispMe Input"
+  FIELD IDC_PROMPT AT (3 15 150 AUTO) FONT 1 NONEDITABLE
+  FIELD IDC_READ   AT (3 29 150 AUTO) FONT 0 LEFTALIGN UNDERLINED MAXCHARS READ_SIZE
+  BUTTON "Enter" ID IDC_PB_ENTER  AT ( 3 45 AUTO AUTO)
+  BUTTON "Break" ID IDC_PB_BREAK1 AT (42 45 AUTO AUTO)
+  GRAFFITISTATEINDICATOR AT (140 47)
+END
+
+FORM ID IDD_Sess AT (2 2 156 156)
+MODAL
+HELPID HLP_SESSION
+BEGIN
+  TITLE "LispMe Sessions"
+  LABEL "Icon Size Name" AUTOID 1 13 FONT 1
+  TABLE ID IDC_TAB_SESSION AT (4 26 148 SESS_ROWS*11)
+        ROWS SESS_ROWS COLUMNS 3 COLUMNWIDTHS 15 24 107
+  BUTTON "Switch"  ID IDC_PB_SESS_USE  AT (  3 141 34 AUTO)
+  BUTTON "New"     ID IDC_PB_SESS_NEW  AT ( 41 141 30 AUTO)
+  BUTTON "Delete"  ID IDC_PB_SESS_DEL  AT ( 75 141 35 AUTO)
+  BUTTON "Options" ID IDC_PB_SESS_SIZE AT (114 141 39 AUTO)
+END
+
+FORM ID IDD_NewSess AT (2 108 156 50)
+MODAL
+MENUID 10000
+BEGIN
+  TITLE "New session name"
+  FIELD IDC_EF_NSESS_NAME AT (3 19 150 AUTO)
+        FONT 0 LEFTALIGN UNDERLINED MAXCHARS 31
+  BUTTON "OK"     ID IDC_PB_NSESS_OK     AT ( 4 35 AUTO AUTO)
+  BUTTON "Cancel" ID IDC_PB_NSESS_CANCEL AT (34 35 AUTO AUTO)
+  GRAFFITISTATEINDICATOR AT (140 37)
+END
+
+// Use the same IDs for entryfield and scrollbar as IDD_MainFrame
+// to share the code for handling them 
+FORM ID IDD_Edit AT (0 0 160 160)
+MENUID 10000         
+BEGIN
+    TITLE "LispMe Edit"
+    POPUPTRIGGER "Symbols"  IDC_PT_SYMS AT (65 0 50 13) LEFTANCHOR FONT 0
+    POPUPLIST               IDC_PT_SYMS IDC_PL_SYMS
+    LIST ""                 IDC_PL_SYMS AT (20 10 120 AUTO)
+                            NONUSABLE VISIBLEITEMS 12 FONT 0
+    FIELD IDC_EF_OUTPUT 0 17 153 123 FONT 0 LEFTALIGN MULTIPLELINES
+                                     UNDERLINED USABLE MAXCHARS 64000
+    SCROLLBAR IDC_SB_OUTPUT 153 17 7 123 MAX 0 PAGESIZE 8
+    BUTTON "Done"   ID IDC_PB_EDIT_DONE  AT (1 146 AUTO AUTO)
+    BUTTON "Eval selection"  ID IDC_PB_EDIT_EVAL  AT (40 146 AUTO AUTO)
+    GRAFFITISTATEINDICATOR AT (146 147)
+END
+
+//********************************************************************/
+// STRINGS                                                           */
+//********************************************************************/
+STRING ID ERR_S1_INVALID_CHAR  "Valid chars are\n"\
+                               "\225 letters\n"\
+                               "\225 digits\n"\
+                               "\225 ! $ % & * + - / : "\
+                               "< = > ? ^ _ ~\n"\
+                               "\t(can be used in symbols)\n"\
+                               "\225 #\t for vectors, chars and\n"\
+                               "\t special constants\n"\
+                               "\225 \"\t for strings\n"\
+                               "\225 ( ) . ' ` , ,@\thaving special\n"\
+                               "\tmeaning in Lisp syntax"
+
+STRING ID ERR_S4_TOKEN_LEN     "A token (symbol, number or string) may "\
+                               "contain 256 chars at most."
+
+STRING ID ERR_C4_INVALID_LET    "A let/letrec-binding must be a "\
+                                "two-list, the car being the "\
+                                "symbol to be bound and the cadr "\
+                                "its value."
+
+STRING ID ERR_C5_INVALID_LAMBDA "Lambda parameters must be\n\n"\
+                                "\225 a proper list or\n"\
+                                "\225 an improper list or\n"\
+                                "\225 a single symbol"
+
+STRING ID ERR_C16_COMPLEX_MACRO "Either expansion of the macro took "\
+                                "too many VM steps or caused too many "\
+                                "other macro expansions. If you think "\
+                                "the current limit is to small, please "\
+                                "mail to bugs@lispme.de"
+
+STRING ID ERR_R8_DIV_BY_ZERO   "You DID learn it in school ???"
+
+STRING ID ERR_R9_BLACK_HOLE    "You accessed a variable just being "\
+                               "defined in this letrec block (a black "\
+                               "hole). You can refer to those variables "\
+                               "in a lambda or delay expression only."
+
+STRING ID ERR_R12_NO_MATHLIB   "MathLib is not installed "\
+                               "on this Pilot or is wrong version. "\
+                               "Transcendental functions will not work, though "\
+                               "basic floating point arithmetic will. Please "\
+                               "install MathLib.prc included in this package."
+
+STRING ID ERR_R14_INVALID_COMP "The operands in a comparison must both "\
+                               "be numeric, chars or strings."
+
+STRING ID ERR_R18_LOST_FILE    "You probably deleted the memo associated "\
+                               "with an open port."
+
+STRING ID ERR_R19_WRITE_FILE   "There's not enough memory to grow the memo."
+
+STRING ID ERR_M6_SIZE_CHANGE   "Maybe you don't have enough free "\
+                               "memory or the memory is too fragmented.\n"\
+                               "Exit LispMe and start it again and if this "\
+                               "doesn't help, use a memory de-fragmentation "\
+                               "tool."
+
+STRING ID ERR_O1_STACK_EMPTY   "You didn't load any source memo or "\
+                               "already popped all loaded memos."
+
+STRING ID ERR_O4_OS_VERSION    "LispMe 2.7 won't run with PalmOS 1.0. "\
+                               "You need PalmOS 2.0 at least (Pilot "\
+                               "Personal/Professional or Palm III)"
+
+STRING ID ERR_O6_CONFIRM       "All memory will be cleared and "\
+                               "re-initialized. You must reload "\
+                               "all source memos or re-enter all "\
+                               "definitions." 
+
+STRING ID ERR_O7_STACK_OVER    "The expression to be compiled is "\
+                               "too complex or the garbage "\
+                               "collector needed too much stack.\n"\
+                               "To avoid overwriting memory and crashing "\
+                               "your machine, the evaluation is aborted."
+
+STRING ID ERR_O10_ILLEGAL_SESS "The session is incompatible with the "\
+                               "current LispMe version. Please delete it "\
+                               "and create a new session and reload all "\
+                               "needed memos." 
+
+STRING ID ERR_OX_SESSION_MISS  "The session (workspace) which should "\
+                               "be started by tapping this icon has "\
+                               "been deleted or has an incompatible "\
+                               "format. Please delete "\
+                               "this starter icon, too."
+
+STRING ID ERR_USER_ERROR       "YOU wanted this error :-\336"
+
+STRING ID ERR_L1_NO_LISP       "You must define a memo category named "\
+                               "'LispMe' where you create your source code."
+
+STRING ID ERR_U6_INVALID_GOTO  "Before calling frm-goto, another form "\
+                               "has to be active already (by calling "\
+                               "frm-popup before)"
+
+STRING ID ERR_H1_NO_HANDBASE   "To use database access functions, you have "\
+                               "to install HanDBase. Please go to "\
+                               "http://www.handbase.com to download it."
+
+STRING ID HLP_CALL_FRED        "This is an internal error. Please "\
+                               "send mail to bugs@lispme.de"
+
+STRING ID HLP_LANG_FORM
+          "\225 LispMe special forms\n\n"\
+          "'exp\t(quote exp)\n"\
+          "`exp\t(quasiquote exp)\n"\
+          "(define var exp1)\n"\
+          "(define (var args) e1 e2 ...)\n"\
+          "(macro (var arg) e1 e2 ...)\n"\
+          "(lambda args exp1 exp2 ...)\n"\
+          "(let ((v1 e1) ...) e1' e2' ...)\n"\
+          "(letrec ((v1 e1) ...) e1' e2' ...)\n"\
+          "(cond (exp1 exp2 ...) ...)\n"\
+          "(case exp (list e1 e2 ...) ...)\n"\
+          "(if exp1 exp2 exp3)\n"\
+          "(and exp1 ...)\n"\
+          "(or exp1 ...)\n"\
+          "(set! var exp)\n"\
+          "(delay exp)\n"\
+          "(begin exp1 exp2 ...)"
+
+STRING ID HLP_LANG_FUNC
+          "\225 Booleans and equivalence\n\n"\
+          "(boolean? o)\n"\
+          "(not o)\n"\
+          "(eq? o1 o2)\t(eqv? o1 o2)\n"\
+          "(< o1 o2)\t(<= o1 o2)\n"\
+          "(> o1 o2)\t(>= o1 o2)\n\n"\
+          "Comparisons work with numbers, chars and strings\n\n"\
+          "\225 Symbols\n\n"\
+          "(gensym)\t(symbol? o)\n\n"\
+          "\225 Pairs and lists\n\n"\
+          "(null? o)\t(pair? o)\n"\
+          "(car p)\t\t(cdr p)\n"\
+          "(c...r p)\tupto 3 a or d\n"\
+          "(append l1 ...)\n"\
+          "(cons o1 o2)\n"\
+          "(list o1 ...)\n"\
+          "(set-car! p o)\n"\
+          "(set-cdr! p o)\n\n"\
+          "\225 Numbers\n\n"\
+          "(number? o)\t(complex? o)\n"\
+          "(real? o)\t\t(integer? o)\n"\
+          "(+ z1 ...)\t\t(- [z1] z2)\n"\
+          "(* z1 ...)\t\t(/ [z1] z2)\n"\
+          "(quotient n1 n2)\n"\
+          "(remainder n1 n2)\n"\
+          "(sin z)\t\t(asin z)\n"\
+          "(cos z)\t\t(acos z)\n"\
+          "(tan z)\t\t(atan z)\n"\
+          "(sinh z)\t\t(asinh z)\n"\
+          "(cosh z)\t\t(acosh z)\n"\
+          "(tanh z)\t(atanh z)\n"\
+          "(exp z)\t\t(log z)\n"\
+          "(sqrt z)\t\t(atan y x)\n"\
+          "(floor x)\t(ceiling x)\n"\
+          "(round x)\t(truncate x)\n"\
+          "(integer x)\t(random n)\n"\
+          "(make-rectangular re im)\n"\
+          "(make-polar mag angle)\n"\
+          "(real-part z)\n"\
+          "(imag-part z)\n"\
+          "(magnitude z)\n"\
+          "(angle z)\n\n"\
+          "\225 Characters\n\n"\
+          "(char? o)\n"\
+          "(char->integer ch)\n"\
+          "(integer->char n)\n\n"\
+          "\225 Strings\n\n"\
+          "(string? o)\n"\
+          "(make-string n ch)\n"\
+          "(string-append str1 ...)\n"\
+          "(string-length str)\n"\
+          "(string->list str)\n"\
+          "(list->string list)\n"\
+          "(string-ref str n)\n"\
+          "(string-set! str n ch)\n"\
+          "(string=? str1 str2)\n"\
+          "(substring str n1 n2)\n"\
+          "(object->string o)\n"\
+          "(string->object str)\n\n"\
+          "\225 Vectors\n\n"\
+          "(vector? o)\n"\
+          "(make-vector n fill)\n"\
+          "(vector-length vec)\n"\
+          "(vector->list vec)\n"\
+          "(list->vector list)\n"\
+          "(vector-ref vec n)\n"\
+          "(vector-set! vec n o)\n"\
+          "(vector o1 ...)\n\n"\
+          "\225 Control features\n\n"\
+          "(procedure? o)\n"\
+          "(continuation? o)\n"\
+          "(promise? o)\n"\
+          "(macro? o)\n"\
+          "(apply func args)\n"\
+          "(call/cc func)\n"\
+          "(force promise)\n"\
+          "(eval expr)\n\n"\
+          "\225 Input/Output\n\n"\
+          "(dir [cat])\n"\
+          "(delete-file name)\n"\
+          "(open-output-file name)\n"\
+          "(open-append-file name)\n"\
+          "(open-input-file name)\n"\
+          "(input-port? o)\n"\
+          "(output-port? o)\n"\
+          "(write o [port])\n"\
+          "(display o [port])\n"\
+          "(read port)\n"\
+          "(read-char port)\n"\
+          "(peek-char port)\n"\
+          "(read-line port)\n"\
+          "(eof-object? o)\n"\
+          "(read-record db num)\n"\
+          "(write-record db num data)\n"\
+          "(read-resource type num)\n\n"\
+          "\225 Graphics\n\n"\
+          "*gstate* has this format:\n"\
+          "((x . y) font pat mode\n"\
+          "fg-col bg-col txt-col)\n\n"\
+          "(bitmap bm)\n"\
+          "(draw nx ny)\n"\
+          "(rect nx ny nr)\n"\
+          "(text o)\n"\
+          "(rgb->index r g b)\n"\
+          "(index->rgb n)\n"\
+          "(set-palette n r g b)\n\n"\
+          "\225 User interface\n\n"\
+          "(set-resdb obj)\n"\
+          "(frm-popup id proc)\n"\
+          "(frm-goto id proc)\n"\
+          "(frm-return obj)\n"\
+          "(frm-get-focus)\n"\
+          "(frm-set-focus id)\n"\
+          "(frm-show id bool)\n"\
+          "(ctl-get-val id)\n"\
+          "(ctl-set-val id obj)\n"\
+          "(lst-get-sel id)\n"\
+          "(lst-get-text id n)\n"\
+          "(lst-set-sel id n)\n"\
+          "(lst-set-list id list)\n"\
+          "(fld-get-text id)\n"\
+          "(fld-set-text id obj)\n\n"\
+          "\225 HanDBase access\n\n"\
+          "(hb-dir)\n"\
+          "(hb-info db)\n"\
+          "(hb-addrecord db)\n"\
+          "(hb-getfield db rec fld)\n"\
+          "(hb-setfield db rec fld o)\n"\
+          "(hb-getlinks db rec fld)\n\n"\
+          "\225 Miscellaneous\n\n"\
+          "(gc)\n"\
+          "(error o)\n"\
+          "(message o)\n"\
+          "(event bool)\n"\
+          "(own-gui bool)\n"\
+          "(disasm func)\n"\
+          "(sound nf nd)\n"\
+          "(wait nd)\n"\
+          "(date-time)\n"\
+          "(none? o)\n"
+
+STRING ID HLP_LANG_EVENT
+          "\225 LispMe UI events\n\n"\
+          "(pen-down x y)\n"\
+          "(pen-move x y)\n"\
+          "(pen-up x y)\n"\
+          "(key-down char)\n"\
+          "(ctl-enter id)\n"\
+          "(ctl-select id on)\n"\
+          "(ctl-repeat id)\n"\
+          "(lst-enter id sel)\n"\
+          "(lst-select id sel)\n"\
+          "(pop-select pid lid nsel osel)\n"\
+          "(fld-enter id)\n"\
+          "(fld-changed id)\n"\
+          "(menu id)\n"\
+          "(frm-open id)\n"\
+          "(frm-close id)"
+
+STRING ID HLP_SESSION "\225 If you started LispMe the first time, "\
+                      "just tap the New button to create a new session "\
+                      "and then Switch to it.\n\n"\
+                      "\225 Icon indicates that there's a starter icon "\
+                      "for this session. Tap the checkbox to create "\
+                      "or delete this icon.\n\n"\
+                      "\225 Size is the amount of memory needed for the "\
+                      "session in kByte.\n\n"\
+                      "\225 Use the Sizes button to change memory sizes."
+
+STRING ID HLP_SETSESS "All memory sizes are in bytes. When you change one "\
+                      "of the first three settings, LispMe's memory will be "\
+                      "cleared.\n\n"\
+                      "\225 Heap: Storage for list cells and compiled code "\
+                      "(4 bytes for each cell). Vectors and strings are "\
+                      "stored elsewhere.\n\n"\
+                      "\225 Atom: Storage for symbol names\n\n"\
+                      "\225 FP: Storage for real and complex numbers "\
+                      "(8 bytes for each real)\n\n"\
+                      "\225 Output: The maximum size of text output. Longer "\
+                      "output will be truncated. Changing this size does "\
+                      "not clear LispMe's memory.\n\n"\
+                      "\225 Check case-sensitive symbols to distinguish "\
+                      "the symbols foo and FOO for example."
+
+STRING ID HLP_SETGLOB "\225 UI Watchdog sets the time an event handler "\
+                      "is allowed to run.\n\n"\
+                      "\225 Print depth is the nesting limit of parentheses "\
+                      "when lists or vectors are printed.\n\n"\
+                      "\225 Check Print Quotes to print (quote foo) as "\
+                      "'foo (same for quasiquote etc.)\n\n"\
+                      "\225 Check No auto-off ... to avoid that your "\
+                      "Pilot powers off itself when a computation is running\n\n"\
+                      "\225 The lefthanders option moves the scrollbar to the left.\n\n"\
+                      "\225 Oversized memos may cause problems with the Windows "\
+                      "desktop and beaming but allows source code size upto 32k "\
+                      "within the internal editor."
+
+//********************************************************************/
+// ERRORS and WARNINGS                                               */
+//********************************************************************/
+ALERT ID ERR_S1_INVALID_CHAR
+  HELPID ERR_S1_INVALID_CHAR
+  ERROR
+BEGIN
+  TITLE "Syntax error"
+  MESSAGE "Line ^1: Invalid char ^2"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_S2_INVALID_SEXP
+  ERROR
+BEGIN
+  TITLE "Syntax error"
+  MESSAGE "Line ^1: Invalid symbolic expression"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_S3_MULTI_DOT
+  ERROR
+BEGIN
+  TITLE "Syntax error"
+  MESSAGE "Line ^1: Multiple dots in list"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_S4_TOKEN_LEN
+  HELPID ERR_S4_TOKEN_LEN
+  ERROR
+BEGIN
+  TITLE "Syntax error"
+  MESSAGE "Line ^1: Max. token length exceeded"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_S6_INVALID_REAL
+  ERROR
+BEGIN
+  TITLE "Syntax error"
+  MESSAGE "Line ^1: Invalid real number"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_S8_INVALID_HASH
+  ERROR
+BEGIN
+  TITLE "Syntax error"
+  MESSAGE "Line ^1: Invalid # constant"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_S9_UNTERM_STRING
+  ERROR
+BEGIN
+  TITLE "Syntax error"
+  MESSAGE "Line ^1: Unterminated string"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_S10_INVALID_COMP
+  ERROR
+BEGIN
+  TITLE "Syntax error"
+  MESSAGE "Line ^1: Invalid complex number"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C1_UNDEF
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Undefined name ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C2_NUM_ARGS
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Wrong number of arguments for ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C3_NOT_SYMBOL
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "^1 is not a symbol"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C4_INVALID_LET
+  HELPID ERR_C4_INVALID_LET
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Invalid let binding ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C5_INVALID_LAMBDA
+  HELPID ERR_C5_INVALID_LAMBDA
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Invalid lambda args ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C6_IMPROPER_ARGS
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Improper argument list ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C7_DUPLICATE_NAME
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Duplicate name ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C8_INV_LET_LIST
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Invalid let list ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C9_WRONG_DEFINE
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Definition ^1 in invalid context"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C10_EMPTY_SEQUENCE
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Empty expression sequence"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C11_INVALID_COND
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Invalid case/cond clause ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C13_INV_UNQUOTE
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "^1 invalid outside of quasiquote"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C14_SPLICE_NONLIST
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "unquote-splicing allowed in list or vector template only"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C15_INVALID_DEFINE
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Invalid definition ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_C16_COMPLEX_MACRO
+  HELPID ERR_C16_COMPLEX_MACRO
+  ERROR
+BEGIN
+  TITLE "Compiler error"
+  MESSAGE "Macro ^1 too complex"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R1_WRONG_TYPE
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "^1 is not a ^2"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R2_INVALID_INDEX
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Invalid index ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R3_NUM_ARGS
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Function expected ^1 arguments, but got ^2 as follows: ^3"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R7_ILLEGAL_OP
+  HELPID HLP_CALL_FRED
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Illegal opcode ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R8_DIV_BY_ZERO
+  HELPID ERR_R8_DIV_BY_ZERO
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Division by zero"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R9_BLACK_HOLE
+  HELPID ERR_R9_BLACK_HOLE
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Sucked into black hole"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R10_COND_CLAUSE
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "No matching case/cond clause"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R12_NO_MATHLIB
+  HELPID ERR_R12_NO_MATHLIB
+  ERROR
+BEGIN
+  TITLE "No MathLib"
+  MESSAGE "Can't call transcendental functions without MathLib"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R14_INVALID_COMP
+  HELPID ERR_R14_INVALID_COMP
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Non-matching types in comparison"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R15_INVALID_PARM
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Invalid parameter ^1 for ^2"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R16_CREATE_FILE
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Can't create memo ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R17_OPEN_FILE
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Memo ^1 not found"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R18_LOST_FILE
+  HELPID ERR_R18_LOST_FILE
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Memo associated with port vanished"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_R19_WRITE_FILE
+  HELPID ERR_R19_WRITE_FILE
+  ERROR
+BEGIN
+  TITLE "Runtime error"
+  MESSAGE "Can't write to memo"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_M1_STRING_FULL
+  ERROR
+BEGIN
+  TITLE "Memory error"
+  MESSAGE "Atom space exhausted"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_M2_INVALID_PTR
+  HELPID HLP_CALL_FRED
+  ERROR
+BEGIN
+  TITLE "Memory error"
+  MESSAGE "Invalid pointer"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_M3_CREATE_SESS
+  ERROR
+BEGIN
+  TITLE "Memory error"
+  MESSAGE "Can't create session ^1: ^2"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_M4_NO_HEAP
+  ERROR
+BEGIN
+  TITLE "Memory error"
+  MESSAGE "Heap exhausted"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_M5_LIST
+  ERROR
+BEGIN
+  TITLE "Memory error"
+  MESSAGE "No memory for list items"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_M6_SIZE_CHANGE
+  HELPID ERR_M6_SIZE_CHANGE
+  ERROR
+BEGIN
+  TITLE "Memory error"
+  MESSAGE "Couldn't change ^1 size"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_M7_NO_VECTOR_MEM
+  ERROR
+BEGIN
+  TITLE "Memory error"
+  MESSAGE "Can't create vector"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_M8_NO_STRING_MEM
+  ERROR
+BEGIN
+  TITLE "Memory error"
+  MESSAGE "Can't create string"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_M9_NO_REALS
+  ERROR
+BEGIN
+  TITLE "Memory error"
+  MESSAGE "FP storage exhausted"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_O1_STACK_EMPTY
+  HELPID ERR_O1_STACK_EMPTY
+  ERROR
+BEGIN
+  TITLE "Command error"
+  MESSAGE "No more sources to pop"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_O2_INTERRUPT
+  INFORMATION
+BEGIN
+  TITLE "Break"
+  MESSAGE "Execution interrupted"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_O3_MAX_SESS
+  ERROR
+BEGIN
+  TITLE "Error"
+  MESSAGE "Maximum number of sessions exceeded"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_O4_OS_VERSION
+  HELPID ERR_O4_OS_VERSION
+  ERROR
+BEGIN
+  TITLE "Wrong OS Version"
+  MESSAGE "LispMe needs PalmOS Version 2.0 at least"
+END
+
+ALERT ID ERR_O5_OUTPUT_TRUNC
+  WARNING
+BEGIN
+  TITLE "Printer warning"
+  MESSAGE "Output too long - truncated"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_O6_CONFIRM
+  HELPID ERR_O6_CONFIRM
+  CONFIRMATION
+BEGIN
+  TITLE "Really?"
+  MESSAGE "Zap all LispMe memory?"
+  BUTTONS "OK" "Cancel"
+END
+
+ALERT ID ERR_O7_STACK_OVER
+  HELPID ERR_O7_STACK_OVER
+  ERROR
+BEGIN
+  TITLE "Stack Overflow"
+  MESSAGE "Recursion too deep"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_O8_DEL_SESS
+  CONFIRMATION
+BEGIN
+  TITLE "Really?"
+  MESSAGE "Delete session ^1?"
+  BUTTONS "OK" "Cancel"
+END
+
+ALERT ID ERR_O9_NO_SESS
+  ERROR
+BEGIN
+  TITLE "Error"
+  MESSAGE "No session selected"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_O10_ILLEGAL_SESS
+  HELPID ERR_O10_ILLEGAL_SESS
+  ERROR
+BEGIN
+  TITLE "Error"
+  MESSAGE "Incompatible session"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_OX_SESSION_MISS
+  HELPID ERR_OX_SESSION_MISS
+  ERROR
+BEGIN
+  TITLE "LispMe Error"
+  MESSAGE "Can't start session ^1"
+END
+
+ALERT ID ERR_USER_INFO
+  INFORMATION
+BEGIN
+  TITLE "User message"
+  MESSAGE "^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_USER_ERROR
+  HELPID ERR_USER_ERROR
+  ERROR
+BEGIN
+  TITLE "User error"
+  MESSAGE "^1"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_L1_NO_LISP
+  HELPID ERR_L1_NO_LISP
+  ERROR
+BEGIN
+  TITLE "Load error"
+  MESSAGE "No memo category 'LispMe' defined"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_L2_NO_MEMO
+  ERROR
+BEGIN
+  TITLE "Load error"
+  MESSAGE "No memo in category 'LispMe' found"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_L3_NOT_DEFINE
+  ERROR
+BEGIN
+  TITLE "Load error"
+  MESSAGE "Not only 'define' expressions in loaded memo"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_L5_LAST_NOT_MEMO
+  ERROR
+BEGIN
+  TITLE "Reload error"
+  MESSAGE "No memo loaded previously"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_L6_CREATE_ICON
+  ERROR
+BEGIN
+  TITLE "DB error"
+  MESSAGE "Couldn't create icon"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_U1_INVALID_FORM
+  ERROR
+BEGIN
+  TITLE "UI error"
+  MESSAGE "Form ^1 not found"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_U2_INVALID_OBJ
+  ERROR
+BEGIN
+  TITLE "UI error"
+  MESSAGE "Object ^1 not in form"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_U3_WATCHDOG
+  ERROR
+BEGIN
+  TITLE "UI error"
+  MESSAGE "Too much time in event handler"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_U4_INVALID_RESDB
+  ERROR
+BEGIN
+  TITLE "UI error"
+  MESSAGE "^1 is not a resource database"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_U5_INVALID_KIND
+  ERROR
+BEGIN
+  TITLE "UI error"
+  MESSAGE "Object ^1 is not a ^2"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_U6_INVALID_GOTO
+  HELPID ERR_U6_INVALID_GOTO
+  ERROR
+BEGIN
+  TITLE "UI error"
+  MESSAGE "Can't call frm-goto now"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_U7_FORM_NEST
+  ERROR
+BEGIN
+  TITLE "UI error"
+  MESSAGE "Forms nested too deeply"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_H1_NO_HANDBASE
+  HELPID ERR_H1_NO_HANDBASE
+  ERROR
+BEGIN
+  TITLE "No HanDBase"
+  MESSAGE "HanDBase not installed"
+  BUTTONS "OK"
+END
+
+ALERT ID ERR_H2_ERROR       
+  ERROR
+BEGIN
+  TITLE "HanDBase error"
+  MESSAGE "HanDBase returned error ^1"
+  BUTTONS "OK"
+END
+
+ALERT ID IDA_ABOUT
+INFORMATION
+BEGIN
+  TITLE  "About LispMe"
+  MESSAGE "V2.7 Apr. 2000 \251 by\n"\
+          "Fred Bayer Informatics\n"\
+          "Elisabethstr. 8\n80796 Munich\n"\
+          "Germany\n\n"\
+          "http://www.lispme.de/\n\n"\
+          "Published under the GNU GPL" 
+  BUTTONS "OK"
+END
+
+ALERT ID IDA_STAT_EXE
+INFORMATION
+BEGIN
+    TITLE "Last eval took"
+    MESSAGE "Runtime:\t^1 sec\n"\
+            "VM Steps:\t^2\n"\
+            "GCs:\t\t^3"
+    BUTTONS "OK"
+END
+
+ALERT ID IDA_STAT_MEM
+INFORMATION
+BEGIN
+    TITLE "Memory Usage"
+    MESSAGE "Heap:\t^1\n"\
+            "String:\t^2\n"\
+            "Vecs:\t^3"
+    BUTTONS "OK"
+END

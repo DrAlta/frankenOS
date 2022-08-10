@@ -1,0 +1,430 @@
+<html>
+<head>
+  <title>LispMe sample programs</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe sample programs</h1>
+  The sample programs are included as a MemoPad import file
+  <tt>samples.csv</tt> which can be installed all at once
+  <a href="lm_inst.htm#samples">this way</a>. Alternatively, use the
+  <i>Source code</i> hyper link given at each sample.
+<h2>Utilities</h2>
+  <h3><a name="primitive">; Built-ins</h3>
+    <a href="../samples/lm_bi.txt">Source code</a><p>
+    This memo has trivial definitions for most primitive procedures
+    in LispMe.
+    (see <a href="lm_sema.htm#sema_prim">here</a> for more info)<p>
+    The definitions, e.g.
+<pre>
+(define (<font color="#008000">string-ref</font> s k) <font color="#ff0000">(string-ref s k)</font>)
+</pre>
+    work, because the <font color="#ff0000">right side</font>
+    is always inline-code, no attempt to lookup
+    the name <tt><font color="#ff0000">string-ref</font></tt> in the heap is ever made.
+    On the other hand,
+    a variable named <tt><font color="#008000">string-ref</font></tt>
+    is defined as a procedure of 2 parameters,
+    which just invokes the primitive operation. So, this is <b>not</b> a
+    non-terminating recursive definitions, but something like a hack depending
+    on the fact that primitives' names are checked before other names in the
+    LispMe compiler.
+
+
+  <h3><a name="stdlib">; Standard library</a></h3>
+    <a href="../samples/lm_std.txt">Source code</a><p>
+    All procedures listed in the <a href="lm_cat1.htm">Catalog</a> under
+    <b>Category</b> <i>Library procedure</i>
+    are defined in this memo. You should have this
+    memo loaded most of the time, unless you're running into memory troubles.<p>
+    Procedure names starting with <tt>%</tt> are internal helper functions.
+
+  <h3><a name="utillib">; Utility library</a></h3>
+    <a href="../samples/lm_util.txt">Source code</a><p>
+    Some useful (non-standard) functions
+    <ul>
+      <li><tt>filter</tt> extracts all elements from a list satisfying a predicate
+      <li><tt>range</tt> build a list of integers in the given range
+      <li><tt>nan?</tt> uses the fact that IEEE comparison with <i>not-a-number</i>
+          is always <i>false</i> to recognize it.
+      <li><tt>inf?</tt> another trick to recognize IEEE <i>infinity</i>
+          (sign does not matter)
+      <li><tt>do-range</tt> applies a procedure to all integers in the given range
+    </ul>
+
+  <h3><a name="gr_util">; Graphic utilities</a></h3>
+    <a href="../samples/lm_grut.txt">Source code</a><p>
+    Defines some procedures to modify the graphics state variables 
+    and some other useful procedures and variables.
+    <ul>
+      <li><tt>(move <i>x y</i>)</tt> moves the graphics cursor.
+      <li><tt>(set-font <i>font</i>)</tt> assigns the current font.
+      <li><tt>(set-pattern <i>pat</i>)</tt> assigns the fill pattern
+      <li><tt>(set-mode <i>mode</i>)</tt> assigns the drawing mode
+      <li><tt>(set-fg <i>c</i>)</tt>, <tt>(set-bg <i>c</i>)</tt> and
+          <tt>(set-text <i>c</i>)</tt> assign drawing colors
+      <li><tt>(cls)</tt> clears the output field preserving the current
+       graphic state.
+      <li><tt>grey</tt>, <tt>brick</tt> and <tt>dots</tt> are fill patterns.
+          (illustrating <a href="lm_synt.htm#hex">hex notation</a> within
+           strings)
+      <li>All variables starting with <tt>dm-</tt> are drawing modes
+        as described <a href="lm_graph.htm#mode">here</a>.
+      <li>Finally some colors are defined in a palette-independent way.
+
+    </ul>
+    Just use the <a href="lm_cmd.htm#men_gui">GUI controls</a> menu command
+    when graphic output has trashed LispMe's main dialog to redraw it.
+
+  <h3><a name="hb_util">; HanDBase utilities</a></h3>
+    <a href="../samples/lm_hbut.txt">Source code</a><p>
+    Defines <tt>hb-getrecord</tt> which reads an entire record from a
+    HanDBase database and converts all fields from HanDBase's internal
+    string representation to a more appropriate one depending on the
+    fields internal type. A record is represented as a list.<p>
+
+    Additionally, all linked records are read
+    recursively and embedded as a list of records in the owner record.<p>
+
+    Note that the date and time parsing functions use the German 
+    format (<i>dd.mm.yy</i> and <i>hh:mm</i>)<p>
+
+    The function <tt>hb-getrecord</tt> is curried, so that repeated
+    calls to the same DB can avoid re-reading the catalog
+    (field descriptions). Use it like this:
+<pre>
+  (let ((reader (hb-getrecord "MyDB")))
+    (do <i>looping conditions</i>
+      ... (reader recnum) ... ))
+</pre>
+
+
+
+<hr>
+ <h2>Small examples</h2>
+  <h3>; Ackermann</h3>
+    <a href="../samples/lm_ack.txt">Source code</a><p>
+    The classic non-primitive recursive Ackermann function. Don't
+    try to evaluate <tt>(a 4 4)</tt> before buying an universe full of AAA cells!
+
+  <h3>; Towers of Hanoi</h3>
+    <a href="../samples/lm_hanoi.txt">Source code</a><p>
+    Another classic: List the moves necessary to move <tt>n</tt> disks from
+    peg <tt>a</tt> to peg <tt>b</tt> using the auxiliary peg <tt>c</tt> in
+    the game <i>Towers of Hanoi</i>.<p>
+    <tt>(hanoi 3 'from 'to 'aux)</tt><p>evaluates to<p><tt>((from . to) (from . aux)
+    (to . aux) (from . to) (aux . from) (aux . to) (from . to))</tt><p>
+
+  <h3>; even/odd mutual recursion</h3>
+    <a href="../samples/lm_even.txt">Source code</a><p>
+    A stupid way to implement those, sure, but it demonstrates 3 things:
+    <ol>
+    <li>mutual recursion in general
+    <li>try entering these definitions in the input field (don't load this memo
+        before) and you'll get an <a href="lm_err.htm#err_undef">error</a>
+        regarding undefined names. See <a href="lm_sema.htm#lexenv">here</a> for
+        an explanation. A solution is to enclose both definitions in a
+        <a href="lm_cat1.htm#desc_begin"><tt>begin</tt></a> expression as described at
+        <a href="lm_cat2.htm#desc_define"><tt>define</tt></a>.
+    <li> even calling <tt>(odd 100000)</tt> will not exhaust heap or stack space
+         proving that LispMe handles <a href="lm_sema.htm#tailcall">tail calls</a>
+         properly.
+    </ol>
+
+  <h3>; count change</h3>
+    <a href="../samples/lm_chang.txt">Source code</a><p>
+  This memo was used in the following performance test.
+  The call <tt>(cc 100 coins)</tt> (How many ways are there to change
+  100$ into  1, 2, 5, 10, 20, 50 dollar bills) was run on a variety of
+   Scheme implementations:<p>
+
+  LispMe was originally developed with Visual Age C++ by IBM on a Pentium 133
+  with 64 MB running OS/2 Warp. Recently I discovered that
+  <a href="ftp://swiss-ftp.ai.mit.edu:/pub/scheme-7.4/">MIT Scheme 7.4</a>
+  is available for OS/2 and was compiled with the same compiler, so I ran a
+  simple performance test.<p>
+  <table border>
+  <caption>Performance measurement</caption>
+  <tr><th>Machine<th>OS version<th>Language<th>operation mode
+      <th>runtime
+  <tr><td>Pentium 133<td>OS/2 Warp<td>MIT Scheme 7.4<td>interpreted
+      <td align=right>7.00 s
+  <tr><td>Pentium 133<td>OS/2 Warp<td>MIT Scheme 7.4<td>compiled to native 386 code
+      <td align=right>0.96 s
+  <tr><td>Pentium 133<td>OS/2 Warp<td>LispMe 1.2<td>compiled SECD code
+      <td align=right>4.59 s
+  <tr><td>Pilot 1000<td>PalmOS 1.06<td>LispMe 1.2<td>compiled SECD code
+      <td align=right>747.13 s
+  <tr><td>Pilot 1000<td>PalmOS 2.02<td>LispMe 1.4<td>compiled SECD code
+      <td align=right>626.87 s
+  <tr><td>Pilot 1000<td>PalmOS 2.02<td>LispMe 1.6<td>compiled SECD code
+      <td align=right>657.35 s
+  <tr><td>Pilot 1000<td>PalmOS 2.02<td>LispMe 1.7<td>compiled SECD code
+      <td align=right>666.31 s
+  <tr><td>Pilot 1000<td>PalmOS 2.02<td>LispMe 2.0<td>compiled SECD code
+      <td align=right>697.45 s
+  <tr><td>Palm III<td>PalmOS 3.0<td>LispMe 2.3<td>compiled SECD code
+      <td align=right>662.45 s
+  <tr><td>Palm III<td>PalmOS 3.0<td>LispMe 2.7<td>compiled SECD code
+      <td align=right>688.22 s
+  <tr><td>Pilot 1000<td>PalmOS 2.02<td>PocketC 0.98a<td>unknown
+      <td align=right>1927.85 s
+  </table><p>
+
+  Considering the immense effort that went into MIT Scheme and the
+  difference between a Pentium and a Dragonball, this result is
+  not too bad, I think! Notice the performance increase in V1.4 (The
+  decrease in later versions is due to run-time type checking the 
+  additional data types)<p>
+  Note that some hacks which patch the system event handler may cause
+  a significant slowdown!<p>
+
+  This benchmark has been adapted for
+  <a href="http://www.seashellinc.com/orbworks/pocketc.html">PocketC</a>
+  (<a href="../samples/lm_cchan.txt">Source code</a>) to allow a comparison.
+ 
+  <h3>; Graphics demo</h3>
+    <img src="lm_graf.gif" align=right alt="B/W graphics sample">
+    <img src="lm_graf8.gif" align=right alt="Color graphics sample">
+    <a href="../samples/lm_gdemo.txt">Source code</a><p>
+    Load <a href="#gr_util">; Graphic utilities</a> and just evaluate
+    <tt>(demo)</tt>. Compare the source with the output and note how to draw
+    circles. See also how to access resources and draw bitmaps. In this case,
+    resource 11000 of type <tt>Tbmp</tt> (=bitmap) is loaded and drawn. This
+    bitmap (residing in a system resource) is the taxi image of a
+    well-known Pilot easter egg!<p>Please note that both images 
+    were created by the same code proving the backward compatibility of
+    the graphic system.
+
+  <h3>; Infinite streams</h3>
+    <a href="../samples/lm_inf.txt">Source code</a><p>
+    These definitions illustrate how to used
+    <a href="lm_cat2.htm#desc_delay"><tt>delay</tt></a> to build infinite
+    streams, try these expressions:
+    <ul>
+      <li><tt>(print ones)</tt> prints all ones
+      <li><tt>(print nat)</tt> prints natural numbers
+      <li><tt>(print fibs)</tt> prints fibonacci numbers
+      <li><tt>(print primes)</tt> starts printing primes and then
+       <a href="lm_err.htm#err_stack_over">aborts</a>. Why? The nesting of
+       <tt>delay</tt>ed sieves leads to internally deeply nested closures,
+       which break the garbage collector, sorry :-(
+    </ul>
+
+  <h3>; Little schemer 19</h3>
+    <a href="../samples/lm_ls19.txt">Source code</a><p>
+    This sample is from chapter 19 of
+    <a href="http://www.cs.rice.edu/~matthias/TSS/">The Seasoned Schemer</a>, pages
+    165-175. It demonstrates, how continuations can be used to model coroutines.
+    In this case, the function <tt>waddle</tt> traverses a tree, yielding control
+    whenever it finds a leaf. The functions <tt>get-first</tt> and
+    <tt>get-next</tt> provide a functional interface for <tt>waddle</tt>, which
+    is used by <tt>two-in-a-row*?</tt><p>
+    The helper functions haven't been localized into the main function
+    (like on page 176) to be able to play around with them.
+
+<hr>
+
+ <h2>More complete examples</h2>
+  <h3>; Function plotter</h3>
+    <img src="lm_plot.gif" align=right alt="Sample plot">
+    <a href="../samples/lm_plot.txt">Source code</a><p>
+    Load <a href="#gr_util">; Graphic utilities</a> before. To plot a function,
+    evaluate <tt>(plot <i>function x-min x-may y-min ymax</i>)</tt>.<p>
+    As the Pilot ROM routines have some glitches with clipping, you may notice
+    spurious lines when the functions leaves the range
+    [<tt><i>y-min</i>..<i>y-max</i></tt>]. Try to avoid this.<p>
+    Feel free to enhance this plotter (it's only a demo!) and please send me
+    a copy of your code in this case.
+
+  <h3>; Animated 3D graphics :-)</h3>
+    <a href="../samples/lm_3dgr.txt">Source code</a><p>
+  Evaluate <tt>(cube 80 30 30 12 35)</tt>.
+  OK, it's not <a href="http://www.idsoftware.com/quake/index.html">Quake</a>,
+  but the animation runs at about 12 FPS. The short pauses indicate garbage
+  collections. The parameters are
+  <ol>
+    <li>x coord of center of top square
+    <li>y coord of center of top square
+    <li>x radius of ellipsis point travel along
+    <li>y radius of ellipsis point travel along
+    <li>height of cube
+  </ol>
+
+  <h3>; Symbolic derivation</h3>
+    <img src="lm_eval.gif" align=right alt="Derivation sample">
+    <a href="../samples/lm_deriv.txt">Source code</a><p>
+    The function <tt>diff</tt> computes the symbolic derivation of
+    a function entered in LispMe syntax. The result is somewhat simplified
+    (e.g. <tt>(* (+ a 5) 1) => (+ a 5)</tt>)<p>
+    Try these steps:<p>
+    <tt>(diff '(* (* x x) (* y x)))</tt>
+    evaluates to <tt>(+ (* (* x x) y) (* (+ x x) (* y x)))</tt><p>
+    Now <tt>(diff it)</tt>  evaluates to
+    <tt>(+ (* (+ x x) y) (+ (* (+ x x) y) (* 2 (* y x))))</tt><p>
+    And again, <tt>(diff it)</tt>  evaluates to
+    <tt>(+ (* 2 y) (+ (* 2 y) (* 2 y)))</tt><p>
+    Finally, <tt>(diff it)</tt>  evaluates to
+    <tt>0</tt><p>
+    <b>Note:</b> This sample has been changed in version 2.2 to show
+    local defines, <tt>case</tt> and <tt>quasiquote</tt>.
+
+  <h3><a name="ttt">; Tic-Tac-Toe</a></h3>
+    <img src="lm_ttt.gif" align=right alt="TicTacToe Demo">
+    <a href="../samples/lm_ttt.txt">Source code</a><p>
+    You must load <a href="#stdlib">; Standard library</a>,
+    <a href="#utillib">; Utility library</a>, and
+    <a href="#gr_util">; Graphic utilities</a> before.
+    To play a game of Tic Tac Toe, just evaluate
+    <tt>(ttt <i>who</i> <i>algo</i>)</tt>.<p>
+    <tt><i>who</i></tt> can be <tt>#t</tt>,
+    meaning you have the first move, or <tt>#f</tt> to let Pilot begin the game.<p>
+    <tt><i>algo</i></tt> selects the algorithm by which the Pilot selects its
+    move:
+    <ul>
+      <li><tt>stupid</tt> selects the a random move
+      <li><tt>static</tt> selects the (static) best move without thinking ahead
+      <li><tt>smart</tt> thinks ahead 1 move, thus avoiding immediate loss
+    </ul>
+    To make your move, simply tap onto the square you want to mark. Tapping
+    outside the game board aborts the game.
+
+    <h4>How Tic-Tac-Toe works</h4>
+    The board is represented as a list of 9 integers where each integer
+    represents a square. 0 means an empty square, -1 means occupied by
+    Pilot (X) and 1 means occupied by you (O).
+    The board is numbered in this fashion:
+    <center><table>
+      <tr><td>0<td>1<td>2
+      <tr><td>3<td>4<td>5
+      <tr><td>6<td>7<td>8
+    </table></center>
+    A move is represented by a single number indicating the square to be
+    occupied. The function <tt>eval</tt> returns a static evaluation of
+    a board position:
+    <ul>
+      <li> 1000 means you have won
+      <li> -1000 means Pilot has won
+      <li> any value between is based on the number of squares marked by
+           both players weighted by the squares' positional values (middle
+           is better than corner, which is better than side)
+    </ul>
+    <tt>extend</tt> (curried) takes a position and returns a list of
+    triples consisting of the new position, the move taken and the value of
+    the new position for all possible moves (determined by <tt>poss-moves</tt>).<p>
+    <tt>do-move</tt> returns the modified position when executing a move.
+    <tt>find</tt> finds the best element of a list according to a predicate
+    (which is assumed to be transitive)<p>
+    So, <tt>static</tt> uses <tt>find</tt> to extract the best (lowest static
+    value according to <tt>eval</tt>) triple from the list returned by
+    <tt>extend</tt> and returns its move component.<p>
+    <tt>smart</tt> filters the list before for positions, which are an
+    immediate loss for Pilot. These positions are identified by
+    <tt>not-loose</tt>, which uses <tt>extend</tt> in turn, this time with
+    the player's moves.<p>
+    <tt>human</tt> just waits for the player to tap a square and returns
+    the new position, while <tt>pilot</tt> executes the move determined by
+    its <tt>algo</tt> parameter for the Pilot. Finally, <tt>ttt</tt> is
+    the game driver, calling <tt>human</tt> and <tt>pilot</tt> alternatingly,
+    after setting up the <tt>result</tt> continuation which is called to end
+    a game.<p>
+    You way want to improve the Pilot's move algorithms (<tt>smart</tt> is
+    quite slow, it <b>always</b> builds a search tree two levels deep) or
+    implement real alpha-beta search. If you reach the MemoPad limit of 4k
+    for the source, just split it into two memos and load both of them.
+
+  <h3>; Unify.lisp</h3>
+  <h3>; theory.lisp</h3>
+    <a href="../samples/lm_unify.txt">Source code (unify)</a><p>
+    <a href="../samples/lm_theo.txt">Source code (theory)</a><p>
+  This is a sample program sent by <a href="mailto:wdavies@cs.stanford.edu">Winton Davies</a>.
+  He wrote:
+  <blockquote><cite>
+  OK, so here's a small LispMe Theorem Prover for the Palm Pilot OS2.0 . I
+ported it from a Lisp version that comes with Mac Common Lisp 4.1
+("mcl:user contributed code:AI/Expert Systems:AI:"(prove-all.lisp and
+unify.lisp). Feel free to correct any bits of scheme I didn't do correctly.<p>
+
+ I believe the originating author is Mike Pazzani, from an Introductory AI
+course taught at UCI. However, it could also have been Rich and Knight or
+Touretsky (both books being referred to in the lecture notes). Perhaps Mike
+might fill us in?<p>
+
+ It's probably a sub optimal port :) But it works on the test case. But I
+also have doubts as to its completeness. I'm not even sure how best to
+characterize it. The unify component works -- but doesn't do skolemization
+on functions it appears. The input has to be horn clause. The search method
+I haven't analysed... and applying the substitutions appears order
+dependent. Still, as I said -- it fits in 4K limit of memo-pad, and does
+work on the test case :-).<p>
+
+I don't know how you want to deliver them, but assuming Mike has no
+problems with them being public, then I have no problems either. The first
+file is called unify.lisp (contains unify and prove-all), the second is the
+dinky example...
+  </cite></blockquote>
+
+  Load the <a href="#stdlib">; Standard library</a> before and evaluate
+  <tt>(test)</tt> to see, who'll be eaten :-)
+
+
+  <h3>; Tracer</h3>
+    <a href="../samples/lm_trace.txt">Source code</a><p>
+    This memo provides a tracing facility for arbitrary LispMe procedures.
+    To start tracing of any (top-level) procedure, invoke
+    <tt>(trace <i>procname</i>)</tt> and to stop tracing invoke
+    <tt>(untrace <i>procname</i>)</tt>. These macros install and remove
+    a tracing prologue/epilogue for the procedures which prints its
+    parameters and return value together with the call nesting depth to
+    a memo <b>Trace</b> in the <i>Unfiled</i> category.<p>
+    The currently traced procedures are stored in the global list
+    <tt>*tracing*</tt> as pairs consisting of the name and the original
+    closure. Note the use of <tt>old-depth</tt> to store the nesting
+    depth in the dynamic context before calling the traced procedure,
+    so that multiple returns via continuations use the correct value.
+    Just incrementing <tt>depth</tt> before the call and decrementing
+    it afterwards wouldn't work in this case!
+
+<hr>
+
+ <h2><a name="gui_samples">User interface examples</a></h2>
+   All 4 demos need the resource file <tt>GUIdemo.prc</tt> installed
+   on your Pilot. To create or modify resource files, there are several
+   <a href="lm_gui.htm#create">methods</a>. For each demos I used
+   a separate resource script (<tt>*.rcp</tt> included in the <tt>gui</tt>
+   subdirectory) to be compiled using
+   <a href="http://www.hig.se/~ardiri/development/palmIII/pilrc/index.html">PilRC</a> but
+   'linked' all resources together into a single resource DB
+   <tt>GUIdemo.prc</tt>.
+
+   <h3>; GUI demo</h3>
+    <img src="lm_gui.gif" align=right alt="GUI Demo">
+    <a href="../samples/lm_gd_lm.txt">LispMe source code</a><p>
+    <a href="../gui/demo.rcp">PilRC source code</a><p>
+    Totally useless, but shows almost all UI elements supported.
+
+   <h3><a name="form_nest">; Form navigation</a></h3>
+    <a href="../samples/lm_na_lm.txt">LispMe source code</a><p>
+    <a href="../gui/navi.rcp">PilRC source code</a><p>
+    Shows navigation between forms using 
+    <a href="lm_cat2.htm#desc_frm_goto"><tt>frm-goto</tt></a>,
+    <a href="lm_cat2.htm#desc_frm_popup"><tt>frm-popup</tt></a> and
+    <a href="lm_cat2.htm#desc_frm_return"><tt>frm-return</tt></a>.
+
+   <h3>; Doodle</h3>
+    <img src="lm_dood.gif" align=right alt="Doodle Demo">
+    <a href="../samples/lm_do_lm.txt">LispMe source code</a><p>
+    <a href="../gui/doodle.rcp">PilRC source code</a><p>
+    The most basic drawing program in 10 lines of code.
+
+   <h3><a name="samp_calc">; Calculator</a></h3>
+    <img src="lm_calc.gif" align=right alt="Calculator Demo">
+    <a href="../samples/lm_ca_lm.txt">LispMe source code</a><p>
+    <a href="../gui/calc.rcp">PilRC source code</a><p>
+    Simple 4 function calculator.
+ 
+</body>
+</html>

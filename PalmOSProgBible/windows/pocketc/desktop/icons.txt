@@ -1,0 +1,10 @@
+Application Icons
+-----------------
+
+The easiest way to create an icon is to use and modify the included sample BMPs.
+If you choose to create your own image, it must be as follows:
+
+Large icon  - a 256 color 32x22 BMP file
+Small icon  - a 256 color 16x9 BMP file
+
+Currently, only the black and white pixels are used.

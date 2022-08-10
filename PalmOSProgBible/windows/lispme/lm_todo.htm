@@ -1,0 +1,121 @@
+<html>
+<head>
+  <title>LispMe Todo list</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe todo list and random thoughts</h1>
+    <h2>Non-standard <tt>define</tt></h2>
+        The implementation of <tt>define</tt> differs from standard Scheme,
+        all names are resolved during compilation. 
+
+    <h2>Macro/eval</h2>
+        The implementation of the macro system is a kludge.
+        (I'm not talking hygienic macros, i.e. <tt>define-syntax</tt> now!)
+        Macros are expanded by invoking the VM during compilation. To
+        allow interrupting the VM on a single-threaded OS, compotation
+        procedes in "bursts" of <tt>STEPS_PER_TIME_SLICE=1600</tt> steps
+        at once, after which the GUI is re-enabled to accept Break events.
+        However, during compilation no events are accepted, so after 
+        a given maximum number of steps macro expanding is aborted.
+        I'd be happy when somebody could give a cleaner implementation here.
+
+    <h2>Macros/define</h2>
+        Macros can't currently expand to top-level <tt>define</tt>-expressions
+        and other macro definitions,
+        which inhibits writing macros like <tt>defun</tt> or
+        <tt>define-structure</tt> (or implementing the hygienic macro system
+        of R<sup>5</sup>RS via <tt>macro</tt>)
+
+
+    <h2>DB2 interface</h2>
+        Lately IBM released DB2 Everywhere, a tiny SQL relational database
+        system for the Pilot. I'd like to be able to access those databases
+        (via standard SQL!) with LispMe, but unfortunately IBM provides
+        only libraries for Codewarrior, not for GCC :-( 
+        I imagine interfacing LispMe with SQL by a single procedure
+        <tt>(sql <i>statement</i>)</tt>, which takes the SQL statement as
+        a string and returns either the <tt>SQLSTATE</tt> or (in case
+        of an SQL <tt>SELECT</tt> statement a list of tuples (lists or
+        vectors). Don't forget the datatype mapping between Scheme and SQL.<p>
+        <b>Version 2.7 includes support for HanDBase, which is far more 
+        popular than DB2 support.</b>
+
+    <h2><tt>require</tt></h2>
+        A kind of <tt>require</tt>/<tt>provide</tt> mechanism for loading
+        memos would be nice.
+
+    <h2>Case-insensitive symbols</h2>
+        <i>
+        <a href="mailto:tetsujin@xnot.com">George Caswell</a> suggested
+        making symbols case-insensitive because of a problem with Japanese
+        character encoding. LispMe is generally case-insensitive and maps
+        all input to lower case. This causes problems with multi-byte
+        encodings (and doesn't work always with national special characters)<br>
+        Additionally, there are some people wanting case-sensitive names, so
+        the new preferences option "case-insensitive symbols" should be included.
+        <p></i>
+        <b>This problem has been resolved in version 2.7</b>
+
+    <h2>Memo alternatives</h2>
+        <i>  
+        The 4kB Memo size limits is nasty, which makes splitting source
+        code necessary. Other source formats (or maybe a builtin source
+        editor?) would be nice.
+        <p></i>
+        <b>This problem has been resolved in version 2.7</b>
+
+    <h2>Splitting LispMe's code</h2>
+        LispMe's code is resource is just below 64k, the maximum allowed
+        by GCC. Even the slightest addition or modification would break
+        this barrier. Re-structuring the code, perhaps by using GLIBs,
+        is inevitable before extending LispMe in any way.
+        <p></i>
+        <b>This problem has been resolved in version 2.7 with the 
+           new prc-tools 2.0</b>
+
+    <h2>Supporting more UI elements</h2>
+        Support for scrollbars and tables is missing, mainly because
+        of the amount of glue code required, especially for the table
+        callback interface.
+
+    <h2>Implementing the top-level in LispMe</h2>
+        LispMe's user interface is currently written in C. Another possibility
+        would be writing the whole interface in LispMe itself, as basic UI
+        functions are supported in LispMe. This would require some low-level
+        primitives (error-handler, timer, memory manager) and at least an
+        "emergency shell", if the UI code crashes. 
+
+    <h2>Better demo applications</h2>
+        I'm still waiting for the breath-taking hyper demo program written
+        in LispMe which shows all the PocketC/cBasPad/Quartus Forth etc.
+        users why Scheme is a better language ;-) <br>
+        Seriously, a graphing, symbolic calculator (HP-28 or such like)
+        shouldn't be too hard to be implemented in LispMe and is quite
+        demanded, too, if you consider the requests in 
+        <a href="news:comp.sys.palmtops.pilot">comp.sys.palmtops.pilot</a>.
+
+    <h2>Speed</h2>
+        Is this an issue? In 
+        <a href="http://members.xoom.com/_XMCM/winikoff/palm/dev.html#bench">comparison to other interpreted languages</a>
+        LispMe occupies a middle position, but it has no chance against 
+        languages compiling to 68000 machine code (OnboardC, Quartus).
+        Would this be in popular demand? See next item, too.
+          
+    <h2>Stand-alone apps</h2>
+        Is creating stand-alone apps (preferrably in machine code, 
+        like <a href="http://www.quartus.net/products/forth/">Quartus Forth</a>
+        does) in LispMe an issue? Or should LispMe stay aimed to its
+        original goal, prototyping and testing algorithms on the fly?
+
+    <h2>Installation tool for demos</h2>
+        Installing the demo programs is more work than necessary. A simple
+        <tt>.prc</tt> file including all demos as string resources could
+        install the memos (and create the Lisp category) automatically and
+        remove itself afterwards.
+   </dl>
+</body>
+</html>

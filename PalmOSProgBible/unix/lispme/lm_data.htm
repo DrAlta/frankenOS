@@ -1,0 +1,650 @@
+<html>
+<head>
+  <title>LispMe Datatypes and Operations</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+  <h1>Datatypes and Operations</h1>
+    This section describes shortly the datatypes supported by LispMe and
+    has links to the procedures associated with them.
+    <h2>Booleans</h2>
+      LispMe has (like Scheme) two standard boolean objects,
+      <a href="lm_cat1.htm#desc_false"><tt>#f</tt></a> and
+      <a href="lm_cat1.htm#desc_true"><tt>#t</tt></a>. However, any object
+      other than <a href="lm_cat1.htm#desc_false"><tt>#f</tt></a>
+      is considered <i>true</i> in logical expressions.
+      This includes <a href="lm_cat1.htm#desc_nil"><tt>()</tt></a>, which
+      is <b>not</b> <a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a> to
+      <a href="lm_cat1.htm#desc_false"><tt>#f</tt></a>.<p>
+      Comparison operators 
+      <a href="lm_cat1.htm#desc_compare"><tt>&lt; &lt;= &gt; &gt;=</tt></a>
+      work with numbers, chars and strings, there are
+      no separate comparison functions for them.
+ 
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_false"><tt>#f</tt></a>
+          <td><a href="lm_cat1.htm#desc_true"><tt>#t</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&lt;</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&lt;=</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&gt;</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&gt;=</tt></a>
+          <td><a href="lm_cat1.htm#desc_and"><tt>and</tt></a>
+          <td><a href="lm_cat1.htm#desc_boolean"><tt>boolean?</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_case"><tt>case</tt></a>
+          <td><a href="lm_cat1.htm#desc_cond"><tt>cond</tt></a>
+          <td><a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a>
+          <td><a href="lm_cat2.htm#desc_eqv"><tt>eqv?</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_equal"><tt>equal?</tt></a>
+          <td><a href="lm_cat2.htm#desc_if"><tt>if</tt></a>
+          <td><a href="lm_cat3.htm#desc_not"><tt>not</tt></a>
+          <td><a href="lm_cat3.htm#desc_or"><tt>or</tt></a>
+        </table>
+ 
+    <h2>Symbols</h2>
+      Symbols are represented just by their names, so two symbols are
+      <a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a>, if they spell the same.
+      This is insured by the LispMe reader, which maintains a table of all
+      symbols read so far. The size of this table is adjustable in the
+      <a href="lm_cmd.htm#frm_preferences">Preferences dialog</a> via
+      <i>Atom Size</i>.
+
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a>
+          <td><a href="lm_cat2.htm#desc_gensym"><tt>gensym</tt></a>
+          <td><a href="lm_cat4.htm#desc_symbol"><tt>symbol?</tt></a>
+        </table>
+
+    <h2>Numbers</h2>
+      LispMe doesn't implement the entire tower of numerical types 
+      described in R<sup>4</sup>RS. LispMe supports 15 bit signed integers,
+      64 bit IEEE-754 double precision reals and complex numbers represented
+      as pairs of real numbers. To use transcendental functions, you must
+      <a href="lm_inst.htm#math">install MathLib</a>.<p>
+      Integer numbers are represented internally as unboxed data, so they
+      can be compared with <a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a>.
+      Use <a href="lm_cat2.htm#desc_eqv"><tt>eqv?</tt></a> to compare
+      arbitrary numbers.<p>
+      Invalid operations with floating points do not abort the evaluation,
+      but result in special IEEE-defined values <i>infinity</i>, <i>-infinity</i>
+      and <i>not-a-number</i> (or may return complex results!), which print like
+      <a href="lm_synt.htm#print_nan">this</a>. The only exception is
+      division by zero, which always causes an
+      <a href="lm_err.htm#err_div_by_zero">error</a> to be consistent with
+      integer division.<p>
+      The <i>exactness</i> property of Scheme is not supported, all numbers
+      are considered <a href="lm_cat2.htm#desc_inexact"><tt>inexact?</tt></a>.
+
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_mul"><tt>*</tt></a>
+          <td><a href="lm_cat1.htm#desc_plus"><tt>+</tt></a>
+          <td><a href="lm_cat1.htm#desc_minus"><tt>-</tt></a>
+          <td><a href="lm_cat1.htm#desc_div"><tt>/</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&lt;</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&lt;=</tt></a>
+          <td><a href="lm_cat1.htm#desc_numeq"><tt>=</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&gt;</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&gt;=</tt></a>
+          <td><a href="lm_cat1.htm#desc_abs"><tt>abs</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_acos"><tt>acos</tt></a>
+          <td><a href="lm_cat1.htm#desc_acosh"><tt>acosh</tt></a>
+          <td><a href="lm_cat1.htm#desc_angle"><tt>angle</tt></a>
+          <td><a href="lm_cat1.htm#desc_asin"><tt>asin</tt></a>
+          <td><a href="lm_cat1.htm#desc_asinh"><tt>asinh</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_atan"><tt>atan</tt></a>
+          <td><a href="lm_cat1.htm#desc_atanh"><tt>atanh</tt></a>
+          <td><a href="lm_cat1.htm#desc_ceiling"><tt>ceiling</tt></a>
+          <td><a href="lm_cat1.htm#desc_complex"><tt>complex?</tt></a>
+          <td><a href="lm_cat1.htm#desc_cos"><tt>cos</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_cosh"><tt>cosh</tt></a>
+          <td><a href="lm_cat2.htm#desc_eqv"><tt>eqv?</tt></a>
+          <td><a href="lm_cat2.htm#desc_even"><tt>even?</tt></a>
+          <td><a href="lm_cat2.htm#desc_exact"><tt>exact?</tt></a>
+          <td><a href="lm_cat2.htm#desc_exp"><tt>exp</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_expt"><tt>expt</tt></a>
+          <td><a href="lm_cat2.htm#desc_floor"><tt>floor</tt></a>
+          <td><a href="lm_cat2.htm#desc_imag_part"><tt>imag-part</tt></a>
+          <td><a href="lm_cat2.htm#desc_inexact"><tt>inexact?</tt></a>
+          <td><a href="lm_cat2.htm#desc_integer"><tt>integer</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_integerp"><tt>integer?</tt></a>
+          <td><a href="lm_cat2.htm#desc_log"><tt>log</tt></a>
+          <td><a href="lm_cat2.htm#desc_log10"><tt>log10</tt></a>
+          <td><a href="lm_cat3.htm#desc_magnitude"><tt>magnitude</tt></a>
+          <td><a href="lm_cat3.htm#desc_make_polar"><tt>make-polar</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_make_rect"><tt>make-rectangular</tt></a>
+          <td><a href="lm_cat3.htm#desc_max"><tt>max</tt></a>
+          <td><a href="lm_cat3.htm#desc_min"><tt>min</tt></a>
+          <td><a href="lm_cat3.htm#desc_modulo"><tt>modulo</tt></a>
+          <td><a href="lm_cat3.htm#desc_negative"><tt>negative?</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_number"><tt>number?</tt></a>
+          <td><a href="lm_cat3.htm#desc_odd"><tt>odd?</tt></a>
+          <td><a href="lm_cat3.htm#desc_positive"><tt>positive?</tt></a>
+          <td><a href="lm_cat3.htm#desc_quotient"><tt>quotient</tt></a>
+          <td><a href="lm_cat3.htm#desc_random"><tt>random</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_real_part"><tt>real-part</tt></a>
+          <td><a href="lm_cat3.htm#desc_real"><tt>real?</tt></a>
+          <td><a href="lm_cat3.htm#desc_remainder"><tt>remainder</tt></a>
+          <td><a href="lm_cat3.htm#desc_round"><tt>round</tt></a>
+          <td><a href="lm_cat4.htm#desc_sin"><tt>sin</tt></a>
+          <tr>
+          <td><a href="lm_cat4.htm#desc_sinh"><tt>sinh</tt></a>
+          <td><a href="lm_cat4.htm#desc_sqrt"><tt>sqrt</tt></a>
+          <td><a href="lm_cat4.htm#desc_tan"><tt>tan</tt></a>
+          <td><a href="lm_cat4.htm#desc_tanh"><tt>tanh</tt></a>
+          <td><a href="lm_cat4.htm#desc_truncate"><tt>truncate</tt></a>
+          <tr>
+          <td><a href="lm_cat4.htm#desc_zero"><tt>zero?</tt></a>
+        </table>
+
+    <h2>Characters</h2>
+      LispMe characters are objects representing Pilot's 
+      ASCII character codes. They're distinct from integers, but can be
+      converted to/from integers with the
+      <a href="lm_cat1.htm#desc_char2integer"><tt>char->integer</tt></a> and
+      <a href="lm_cat2.htm#desc_integer2char"><tt>integer->char</tt></a>
+      procedures.<p>
+
+      LispMe doesn't support R<sup>4</sup>RS procedures <tt>char&lt;?</tt>
+      etc. but extends the numeric comparison operators
+      <a href="lm_cat1.htm#desc_compare"><tt>&lt; &lt;= &gt; &gt;=</tt></a>
+      to work with characters, too. The ordering defined by these operators
+      is the ordering of the corresponding ASCII codes.<p>
+      To compare for equal characters, use
+      <a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a>.
+
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&lt;</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&lt;=</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&gt;</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&gt;=</tt></a>
+          <td><a href="lm_cat1.htm#desc_char2integer"><tt>char->integer</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_char"><tt>char?</tt></a>
+          <td><a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a>
+          <td><a href="lm_cat2.htm#desc_integer2char"><tt>integer->char</tt></a>
+          <td><a href="lm_cat3.htm#desc_max"><tt>max</tt></a>
+          <td><a href="lm_cat3.htm#desc_min"><tt>min</tt></a>
+        </table>
+
+
+    <h2>Strings</h2>
+      Strings are mutable sequences of characters. Strings are disjoint from
+      any other data type in LispMe. They're represented internally
+      as  DB records of the characters they contain. The maximum length
+      for a string is 16383 characters.<p>
+
+      LispMe doesn't support R<sup>4</sup>RS procedures <tt>string&lt;?</tt>
+      etc. but extends the numeric comparison operators
+      <a href="lm_cat1.htm#desc_compare"><tt>&lt; &lt;= &gt; &gt;=</tt></a>
+      to work with strings, too. The ordering defined by these operators
+      is the lexicographic extension of the ordering of the underlying
+      characters.<p>
+      To compare for equal strings, use
+      <a href="lm_cat4.htm#desc_stringeq"><tt>string=?</tt></a>, as
+      <a href="lm_cat2.htm#desc_eqv"><tt>eqv?</tt></a> is required to
+      distinguish non-shared strings.<p>
+      In LispMe equal written strings (including the empty string) are
+      never shared.<p>
+      The printing and scanning procedures
+      <a href="lm_cat3.htm#desc_object2string"><tt>object->string</tt></a> and
+      <a href="lm_cat4.htm#desc_string2object"><tt>string->object</tt></a>
+      use an internal buffer which is limited to 4096 characters.
+
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&lt;</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&lt;=</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&gt;</tt></a>
+          <td><a href="lm_cat1.htm#desc_compare"><tt>&gt;=</tt></a>
+          <td><a href="lm_cat2.htm#desc_list2string"><tt>list->string</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_max"><tt>max</tt></a>
+          <td><a href="lm_cat3.htm#desc_make_string"><tt>make-string</tt></a>
+          <td><a href="lm_cat3.htm#desc_min"><tt>min</tt></a>
+          <td><a href="lm_cat3.htm#desc_object2string"><tt>object->string</tt></a>
+          <td><a href="lm_cat4.htm#desc_string2list"><tt>string->list</tt></a>
+          <tr>
+          <td><a href="lm_cat4.htm#desc_string2object"><tt>string->object</tt></a>
+          <td><a href="lm_cat4.htm#desc_string_append"><tt>string-append</tt></a>
+          <td><a href="lm_cat4.htm#desc_string_length"><tt>string-length</tt></a>
+          <td><a href="lm_cat4.htm#desc_string_ref"><tt>string-ref</tt></a>
+          <td><a href="lm_cat4.htm#desc_string_set"><tt>string-set!</tt></a>
+          <tr>
+          <td><a href="lm_cat4.htm#desc_stringeq"><tt>string=?</tt></a>
+          <td><a href="lm_cat4.htm#desc_string"><tt>string?</tt></a>
+          <td><a href="lm_cat4.htm#desc_substring"><tt>substring</tt></a>
+        </table>
+
+    <h2>Pairs and Lists</h2>
+      Lists are the "working horse" data structures of LispMe. Lists are
+      built from pairs, which contain two arbitrary objects, traditionally
+      called the
+      <a href="lm_cat1.htm#desc_car"><tt>car</tt></a> and the
+      <a href="lm_cat1.htm#desc_cdr"><tt>cdr</tt></a>. The type predicate
+      <a href="lm_cat3.htm#desc_pair"><tt>pair?</tt></a> is used to
+      recognize pairs. <tt>pair?</tt> <b>does</b> distinguish real pairs from
+      other data structures which may be internally represented as pairs.<p>
+      Lists are structures built from pairs where every <i>cdr</i> component
+      is either a pair or the special object
+      <a href="lm_cat1.htm#desc_nil"><tt>'()</tt></a> called the
+      <i>empty list</i>.
+ 
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_nil"><tt>'()</tt></a>
+          <td><a href="lm_cat1.htm#desc_append"><tt>append</tt></a>
+          <td><a href="lm_cat1.htm#desc_assoc"><tt>assoc</tt></a>
+          <td><a href="lm_cat1.htm#desc_assoc"><tt>assq</tt></a>
+          <td><a href="lm_cat1.htm#desc_assoc"><tt>assv</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_cxxxr"><tt>c...r</tt></a>
+          <td><a href="lm_cat1.htm#desc_car"><tt>car</tt></a>
+          <td><a href="lm_cat1.htm#desc_cdr"><tt>cdr</tt></a>
+          <td><a href="lm_cat1.htm#desc_cons"><tt>cons</tt></a>
+          <td><a href="lm_cat2.htm#desc_equal"><tt>equal?</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_length"><tt>length</tt></a>
+          <td><a href="lm_cat2.htm#desc_list"><tt>list</tt></a>
+          <td><a href="lm_cat2.htm#desc_list2string"><tt>list->string</tt></a>
+          <td><a href="lm_cat2.htm#desc_list_ref"><tt>list-ref</tt></a>
+          <td><a href="lm_cat3.htm#desc_map"><tt>map</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_member"><tt>member</tt></a>
+          <td><a href="lm_cat3.htm#desc_member"><tt>memq</tt></a>
+          <td><a href="lm_cat3.htm#desc_member"><tt>memv</tt></a>
+          <td><a href="lm_cat3.htm#desc_member"><tt>memv</tt></a>
+          <td><a href="lm_cat3.htm#desc_null"><tt>null?</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_pair"><tt>pair?</tt></a>
+          <td><a href="lm_cat3.htm#desc_reverse"><tt>reverse</tt></a>
+          <td><a href="lm_cat4.htm#desc_setcar"><tt>set-car!</tt></a>
+          <td><a href="lm_cat4.htm#desc_setcdr"><tt>set-cdr!</tt></a>
+          <td><a href="lm_cat4.htm#desc_string2list"><tt>string->list</tt></a>
+        </table>
+
+    <h2>Vectors</h2>
+      Vectors are heterogenous sequences similar to lists, but each element
+      can be accessed in constant time by an integer index. The first element
+      in a vector has index 0 and the last has the index length of the vector
+      minus one. The maximum length for a vector in LispMe is 16383. Vectors
+      are not allocated on the heap, but each vector is a single record in
+      the LispMe database, so the total amount of vectors is only limited
+      by the available system memory.
+
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat2.htm#desc_list2vector"><tt>list->vector</tKt></a>
+          <td><a href="lm_cat3.htm#desc_make_vector"><tt>make-vector</tt></a>
+          <td><a href="lm_cat4.htm#desc_vector"><tt>vector</tt></a>
+          <td><a href="lm_cat4.htm#desc_vector2list"><tt>vector->list</tt></a>
+          <tr>
+          <td><a href="lm_cat4.htm#desc_vector_length"><tt>vector-length</tt></a>
+          <td><a href="lm_cat4.htm#desc_vector_ref"><tt>vector-ref</tt></a>
+          <td><a href="lm_cat4.htm#desc_vector_set"><tt>vector-set!</tt></a>
+          <td><a href="lm_cat4.htm#desc_vectorp"><tt>vector?</tt></a>
+        </table>
+
+    <h2>Closures</h2>
+      A closure is a functional object which is created by the
+      <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a> special form
+      and contains the compiled form of the LispMe code it is built from
+      together with the lexical environment to bind free variables. See
+      <a href="lm_sema.htm#lexenv">here</a> for more details.<p>
+
+      Closures have no sensible written representation, see
+      <a href="lm_synt.htm#print">here</a> how they are printed.<p>
+
+      Additionally, LispMe provides the meta-linguistic function
+      <a href="lm_cat2.htm#desc_eval"><tt>eval</tt></a>, which interprets
+      an expression as LispMe code.
+
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_apply"><tt>apply</tt></a>
+          <td><a href="lm_cat2.htm#desc_disasm"><tt>disasm</tt></a>
+          <td><a href="lm_cat2.htm#desc_eval"><tt>eval</tt></a>
+          <td><a href="lm_cat2.htm#desc_for_each"><tt>for-each</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a>
+          <td><a href="lm_cat3.htm#desc_map"><tt>map</tt></a>
+          <td><a href="lm_cat3.htm#desc_procedure"><tt>procedure?</tt></a>
+        </table>
+
+    <h2>Continuations</h2>
+      A continuation is a first-class object representing the future
+      of a computation. At each stage
+      in a evaluation there's a value being computed and a continuation
+      going to do something with this value. Normally these continuations 
+      work behind the scenes and programmers don't think much about them.
+      LispMe allows continuations to be captured into continuation objects,
+      which may be stored and called many times and always returns to the same place.<p>
+      A continuation object can be created by the
+      <a href="lm_cat1.htm#desc_callcc"><tt>call/cc</tt></a> procedure, which
+      expects a procedure of one argument. This procedure will be called
+      with the current continuation as its parameter. This continuation
+      looks like a procedure of one argument, but any time it is called
+      afterwards, the argument will be the return value of the original
+      <tt>call/cc</tt> application.<p>
+
+      Continuations are a powerful control mechanism and can be used to
+      implement non-local returns, exception handling, backtracking, or
+      coroutines.<p>
+
+      Continuations have no sensible written representation, see
+      <a href="lm_synt.htm#print">here</a> how they are printed.
+ 
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_callcc"><tt>call/cc</tt></a>
+          <td><a href="lm_cat1.htm#desc_continuation"><tt>continuation?</tt></a>
+        </table>
+
+    <h2>Promises</h2>
+      Promises are used to
+      <a href="lm_cat2.htm#desc_delay"><tt>delay</tt></a> the evaluation
+      of an expression and
+      are therefore similar to closures with no arguments. Additionally, once
+      a promise has been
+      <a href="lm_cat2.htm#desc_force"><tt>force</tt></a>d, the result value
+      overwrites the body of the promise and subsequent forcing always
+      yields the same value without recomputing it.<p>
+
+      Promises have no sensible written representation, see
+      <a href="lm_synt.htm#print">here</a> how they are printed.
+
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat2.htm#desc_delay"><tt>delay</tt></a>
+          <td><a href="lm_cat2.htm#desc_force"><tt>force</tt></a>
+          <td><a href="lm_cat3.htm#desc_promise"><tt>promise?</tt></a>
+        </table>
+
+    <h2><a name="pilotIO">Input/Output</a></h2>
+      LispMe supports input/output of MemoPad memos via the standard
+      Scheme port mechanism. The first line in a memo is treated as the
+      memo's "file name". At most 16 characters of this file name are
+      significant when searching or creating memos. The file name is
+      case-sensitive. Opening a memo with
+      <a href="lm_cat3.htm#desc_open_append_file"><tt>open-append-file</tt></a> or
+      <a href="lm_cat3.htm#desc_open_output_file"><tt>open-output-file</tt></a>
+      creates an output port, which can be used as an optional parameter to
+      <a href="lm_cat2.htm#desc_display"><tt>display</tt></a> and
+      <a href="lm_cat4.htm#desc_write"><tt>write</tt></a>. No more than 4096
+      chars (the current MemoPad limit) can be output. New memos are always
+      created in the category <it>unfiled</it>. Calling
+      <a href="lm_cat3.htm#desc_open_output_file"><tt>open-output-file</tt></a>
+      with the name of an existing memo just creates another memo with the same
+      name and does <b>not</b> overwrite the existing one.<p>
+      You can open an existing memo for reading with
+      <a href="lm_cat3.htm#desc_open_input_file"><tt>open-input-file</tt></a>,
+      which returns an input port to be used with
+      <a href="lm_cat3.htm#desc_read"><tt>read</tt></a>,
+      <a href="lm_cat3.htm#desc_read_char"><tt>read-char</tt></a>,
+      <a href="lm_cat3.htm#desc_read_line"><tt>read-line</tt></a>, or
+      <a href="lm_cat3.htm#desc_peek_char"><tt>peek-char</tt></a>.
+      It's possible to open several input ports for the same memo; each
+      port maintains its own read position.<p>
+      LispMe ports don't need to be closed, so there are no
+      procedures <tt>close-input-port</tt> or <tt>close-output-port</tt>.
+      Additionally, MemoPad IO is quite robust, you can even delete a
+      memo while a port is open without risking crashes!<p>
+      LispMe provides other procedures, which
+      read input from popup dialogs (the parameter is displayed as a prompt
+      text in each case) and write output to the
+      <a href="lm_cmd.htm#ctl_output">output field</a>.<p>
+      LispMe supports reading and writing arbitrary databases from other
+      applications using the
+      <td><a href="lm_cat2.htm#desc_delete_record"><tt>delete-record</tt></a>,
+      <td><a href="lm_cat3.htm#desc_read_record"><tt>read-record</tt></a> and
+      <td><a href="lm_cat4.htm#desc_write_record"><tt>write-record</tt></a>
+      procedures. Those provide only basic DB functionality and are not
+      intended for storing LispMe data structures, but for accessing data
+      from third-party applications.<p>
+
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat2.htm#desc_delete_file"><tt>delete-file</tt></a>
+          <td><a href="lm_cat2.htm#desc_delete_record"><tt>delete-record</tt></a>
+          <td><a href="lm_cat2.htm#desc_dir"><tt>dir</tt></a>
+          <td><a href="lm_cat2.htm#desc_display"><tt>display</tt></a>
+          <td><a href="lm_cat2.htm#desc_eof_object"><tt>eof_object?</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_error"><tt>error</tt></a>
+          <td><a href="lm_cat2.htm#desc_input"><tt>input</tt></a>
+          <td><a href="lm_cat2.htm#desc_input_port"><tt>input-port?</tt></a>
+          <td><a href="lm_cat2.htm#desc_input_string"><tt>input-string</tt></a>
+          <td><a href="lm_cat3.htm#desc_message"><tt>message</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_newline"><tt>newline</tt></a>
+          <td><a href="lm_cat3.htm#desc_open_append_file"><tt>open-append-file</tt></a>
+          <td><a href="lm_cat3.htm#desc_open_input_file"><tt>open-input-file</tt></a>
+          <td><a href="lm_cat3.htm#desc_open_output_file"><tt>open-output-file</tt></a>
+          <td><a href="lm_cat3.htm#desc_output_port"><tt>output-port?</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_peek_char"><tt>peek-char</tt></a>
+          <td><a href="lm_cat3.htm#desc_port"><tt>port?</tt></a>
+          <td><a href="lm_cat3.htm#desc_read"><tt>read</tt></a>
+          <td><a href="lm_cat3.htm#desc_read_char"><tt>read-char</tt></a>
+          <td><a href="lm_cat3.htm#desc_read_line"><tt>read-line</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_read_record"><tt>read-record</tt></a>
+          <td><a href="lm_cat3.htm#desc_read_resource"><tt>read-resource</tt></a>
+          <td><a href="lm_cat4.htm#desc_write"><tt>write</tt></a>
+          <td><a href="lm_cat4.htm#desc_write_record"><tt>write-record</tt></a>
+        </table>
+
+    <h2>Graphics</h2>
+      See <a href="lm_graph.htm">here</a> for a detailed description.
+ 
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_gstate"><tt>*gstate*</tt></a>
+          <td><a href="lm_cat1.htm#desc_bitmap"><tt>bitmap</tt></a>
+          <td><a href="lm_cat2.htm#desc_draw"><tt>draw</tt></a>
+          <td><a href="lm_cat2.htm#desc_index2rgb"><tt>index->rgb</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_rect"><tt>rect</tt></a>
+          <td><a href="lm_cat3.htm#desc_rgb2index"><tt>rgb->index</tt></a>
+          <td><a href="lm_cat4.htm#desc_set_palette"><tt>set-palette</tt></a>
+          <td><a href="lm_cat4.htm#desc_text"><tt>text</tt></a>
+        </table>
+
+    <h2>User interface support </h2>
+
+      See <a href="lm_gui.htm">here</a> for a detailed description.
+
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_ctl_enter"><tt>ctl-enter</tt></a>
+          <td><a href="lm_cat1.htm#desc_ctl_get_val"><tt>ctl-get-val</tt></a>
+          <td><a href="lm_cat1.htm#desc_ctl_repeat"><tt>ctl-repeat</tt></a>
+          <td><a href="lm_cat1.htm#desc_ctl_select"><tt>ctl-select</tt></a>
+          <td><a href="lm_cat1.htm#desc_ctl_set_val"><tt>ctl-set-val</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_event"><tt>event</tt></a>
+          <td><a href="lm_cat2.htm#desc_fld_changed"><tt>fld-changed</tt></a>
+          <td><a href="lm_cat2.htm#desc_fld_enter"><tt>fld-enter</tt></a>
+          <td><a href="lm_cat2.htm#desc_fld_get_text"><tt>fld-get-text</tt></a>
+          <td><a href="lm_cat2.htm#desc_fld_set_text"><tt>fld-set-text</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_frm_close"><tt>frm-close</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_get_focus"><tt>frm-get-focus</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_goto"><tt>frm-goto</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_open"><tt>frm-open</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_popup"><tt>frm-popup</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_frm_return"><tt>frm-return</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_set_focus"><tt>frm-set-focus</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_show"><tt>frm-show</tt></a>
+          <td><a href="lm_cat2.htm#desc_key_down"><tt>key-down</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_enter"><tt>lst-enter</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_lst_get_sel"><tt>lst-get-sel</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_get_text"><tt>lst-get-text</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_select"><tt>lst-select</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_set_list"><tt>lst-set-list</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_set_sel"><tt>lst-set-sel</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_menu"><tt>menu</tt></a>
+          <td><a href="lm_cat3.htm#desc_own_gui"><tt>own-gui</tt></a>
+          <td><a href="lm_cat3.htm#desc_pen_down"><tt>pen-down</tt></a>
+          <td><a href="lm_cat3.htm#desc_pen_move"><tt>pen-move</tt></a>
+          <td><a href="lm_cat3.htm#desc_pen_up"><tt>pen-up</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_pop_select"><tt>pop-select</tt></a>
+          <td><a href="lm_cat4.htm#desc_set_resdb"><tt>set-resdb</tt></a>
+          <td><a href="lm_cat4.htm#desc_waitpen"><tt>wait-pen</tt></a>
+        </table>
+
+    <h2>HanDBase interface</h2>
+      See <a href="lm_hbase.htm">here</a> for a detailed description.
+ 
+      <h3>Associated language elements</h3>
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat2.htm#desc_hb_addrecord"><tt>hb-addrecord</tt></a>
+          <td><a href="lm_cat2.htm#desc_hb_dir"><tt>hb-dir</tt></a>
+          <td><a href="lm_cat2.htm#desc_hb_info"><tt>hb-info</tt></a>
+          <td><a href="lm_cat2.htm#desc_hb_getfield"><tt>hb-getfield</tt></a>
+          <td><a href="lm_cat2.htm#desc_hb_getlinks"><tt>hb-getlinks</tt></a>
+          <td><a href="lm_cat2.htm#desc_hb_setfield"><tt>hb-setfield</tt></a>
+        </table>
+
+    <h2>LispMe extensions at a glance</h2>
+        The following constants, variables, events and procedures are not
+        defined in R<sup>4</sup>RS.
+        <table width="100%">
+          <tr>
+          <td><a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a>
+          <td><a href="lm_cat1.htm#desc_gstate"><tt>*gstate*</tt></a>
+          <td><a href="lm_cat1.htm#desc_acosh"><tt>acosh</tt></a>
+          <td><a href="lm_cat1.htm#desc_asinh"><tt>asinh</tt></a>
+          <td><a href="lm_cat1.htm#desc_atanh"><tt>atanh</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_bitmap"><tt>bitmap</tt></a>
+          <td><a href="lm_cat1.htm#desc_cosh"><tt>cosh</tt></a>
+          <td><a href="lm_cat1.htm#desc_ctl_enter"><tt>ctl-enter</tt></a>
+          <td><a href="lm_cat1.htm#desc_ctl_get_val"><tt>ctl-get-val</tt></a>
+          <td><a href="lm_cat1.htm#desc_ctl_repeat"><tt>ctl-repeat</tt></a>
+          <tr>
+          <td><a href="lm_cat1.htm#desc_ctl_select"><tt>ctl-select</tt></a>
+          <td><a href="lm_cat1.htm#desc_ctl_set_val"><tt>ctl-set-val</tt></a>
+          <td><a href="lm_cat2.htm#desc_date_time"><tt>date-time</tt></a>
+          <td><a href="lm_cat2.htm#desc_delete_file"><tt>delete-file</tt></a>
+          <td><a href="lm_cat2.htm#desc_delete_record"><tt>delete-record</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_dir"><tt>dir</tt></a>
+          <td><a href="lm_cat2.htm#desc_disasm"><tt>disasm</tt></a>
+          <td><a href="lm_cat2.htm#desc_draw"><tt>draw</tt></a>
+          <td><a href="lm_cat2.htm#desc_error"><tt>error</tt></a>
+          <td><a href="lm_cat2.htm#desc_eval"><tt>eval</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_event"><tt>event</tt></a>
+          <td><a href="lm_cat2.htm#desc_fld_changed"><tt>fld-changed</tt></a>
+          <td><a href="lm_cat2.htm#desc_fld_enter"><tt>fld-enter</tt></a>
+          <td><a href="lm_cat2.htm#desc_fld_get_text"><tt>fld-get-text</tt></a>
+          <td><a href="lm_cat2.htm#desc_fld_set_text"><tt>fld-set-text</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_frm_close"><tt>frm-close</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_get_focus"><tt>frm-get-focus</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_goto"><tt>frm-goto</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_open"><tt>frm-open</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_popup"><tt>frm-popup</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_frm_return"><tt>frm-return</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_set_focus"><tt>frm-set-focus</tt></a>
+          <td><a href="lm_cat2.htm#desc_frm_show"><tt>frm-show</tt></a>
+          <td><a href="lm_cat2.htm#desc_gc"><tt>gc</tt></a>
+          <td><a href="lm_cat2.htm#desc_gensym"><tt>gensym</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_hb_addrecord"><tt>hb-addrecord</tt></a>
+          <td><a href="lm_cat2.htm#desc_hb_dir"><tt>hb-dir</tt></a>
+          <td><a href="lm_cat2.htm#desc_hb_info"><tt>hb-info</tt></a>
+          <td><a href="lm_cat2.htm#desc_hb_getfield"><tt>hb-getfield</tt></a>
+          <td><a href="lm_cat2.htm#desc_hb_getlinks"><tt>hb-getlinks</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_hb_setfield"><tt>hb-setfield</tt></a>
+          <td><a href="lm_cat2.htm#desc_index2rgb"><tt>index->rgb</tt></a>
+          <td><a href="lm_cat2.htm#desc_input"><tt>input</tt></a>
+          <td><a href="lm_cat2.htm#desc_input_string"><tt>input-string</tt></a>
+          <td><a href="lm_cat2.htm#desc_integer"><tt>integer</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_it"><tt>it</tt></a>
+          <td><a href="lm_cat2.htm#desc_key_down"><tt>key-down</tt></a>
+          <td><a href="lm_cat2.htm#desc_log10"><tt>log10</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_enter"><tt>lst-enter</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_get_sel"><tt>lst-get-sel</tt></a>
+          <tr>
+          <td><a href="lm_cat2.htm#desc_lst_get_text"><tt>lst-get-text</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_select"><tt>lst-select</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_set_list"><tt>lst-set-list</tt></a>
+          <td><a href="lm_cat2.htm#desc_lst_set_sel"><tt>lst-set-sel</tt></a>
+          <td><a href="lm_cat3.htm#desc_macro"><tt>macro</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_macrop"><tt>macro?</tt></a>
+          <td><a href="lm_cat3.htm#desc_menu"><tt>menu</tt></a>
+          <td><a href="lm_cat3.htm#desc_message"><tt>message</tt></a>
+          <td><a href="lm_cat3.htm#desc_none"><tt>none?</tt></a>
+          <td><a href="lm_cat3.htm#desc_object2string"><tt>object->string</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_open_append_file"><tt>open-append-file</tt></a>
+          <td><a href="lm_cat3.htm#desc_own_gui"><tt>own-gui</tt></a>
+          <td><a href="lm_cat3.htm#desc_pen_down"><tt>pen-down</tt></a>
+          <td><a href="lm_cat3.htm#desc_pen_move"><tt>pen-move</tt></a>
+          <td><a href="lm_cat3.htm#desc_pen_up"><tt>pen-up</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_pop_select"><tt>pop-select</tt></a>
+          <td><a href="lm_cat3.htm#desc_random"><tt>random</tt></a>
+          <td><a href="lm_cat3.htm#desc_read_line"><tt>read-line</tt></a>
+          <td><a href="lm_cat3.htm#desc_read_record"><tt>read-resord</tt></a>
+          <td><a href="lm_cat3.htm#desc_read_resource"><tt>read-resource</tt></a>
+          <tr>
+          <td><a href="lm_cat3.htm#desc_rect"><tt>rect</tt></a>
+          <td><a href="lm_cat3.htm#desc_rgb2index"><tt>rgb->index</tt></a>
+          <td><a href="lm_cat4.htm#desc_set_palette"><tt>set-palette</tt></a>
+          <td><a href="lm_cat4.htm#desc_set_resdb"><tt>set-resdb</tt></a>
+          <td><a href="lm_cat4.htm#desc_sinh"><tt>sinh</tt></a>
+          <tr>
+          <td><a href="lm_cat4.htm#desc_sound"><tt>sound</tt></a>
+          <td><a href="lm_cat4.htm#desc_string2object"><tt>string->object</tt></a>
+          <td><a href="lm_cat4.htm#desc_tanh"><tt>tanh</tt></a>
+          <td><a href="lm_cat4.htm#desc_text"><tt>text</tt></a>
+          <td><a href="lm_cat4.htm#desc_wait"><tt>wait</tt></a>
+          <tr>
+          <td><a href="lm_cat4.htm#desc_waitpen"><tt>wait-pen</tt></a>
+          <td><a href="lm_cat4.htm#desc_write_record"><tt>write-record</tt></a>
+        </table>
+
+</body>
+</html>

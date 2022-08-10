@@ -1,0 +1,202 @@
+<html>
+<head>
+  <title>LispMe Manual</title>
+</head>
+<body background="lm_back.gif">
+<img src="lm_welc.gif" alt="Intro Screen" align=right>
+<h1>LispMe Manual</h1>
+Ever wanted to carry a lisp machine in your shirt pocket? Now this is possible
+with the LispMe Lisp system for the Pilot PDA... so much for marketing, which
+isn't really necessary, as LispMe is Free Software published under
+the <a href="COPYING.txt">GNU Public License</a>. Look
+<a href="#synopsis">here</a> for an overview of LispMe's features.
+
+<h1>Table of Contents</h1>
+  <table border>
+    <tr><th>Reference manual<th>User Manual<th>Libraries<th>Developer infos
+    <tr><td>
+  <ul>
+  <li><a href="lm_synt.htm">Syntax</a>
+  <li><a href="lm_sema.htm">Semantics</a>
+  <li><a href="lm_data.htm">Datatypes and operations</a>
+  <li><a href="lm_cat1.htm">Catalog # - C</a>
+  <li><a href="lm_cat2.htm">Catalog D - L</a>
+  <li><a href="lm_cat3.htm">Catalog M - R</a>
+  <li><a href="lm_cat4.htm">Catalog S - Z</a>
+  <li><a href="lm_err.htm">Error Messages</a>
+  <li><a href="lm_y2k.htm">Y2K statement</a>
+  </ul>
+  <td><ul>
+  <li><a href="lm_inst.htm">Installation</a>
+  <li><a href="lm_cmd.htm">LispMe user interface</a>
+  <li><a href="lm_parh.htm">Using Parentheses Hack</a>
+  <li><a href="lm_samp.htm">Sample programs</a>
+  <li><a href="lm_sess.htm">Sessions</a>
+  <li><a href="lm_3rdp.htm">Other software</a>
+  <li><a href="#legalese">Legal Stuff</a>
+  <li><a href="#acknow">Acknowledgements</a>
+  <li><a href="#contact">Contact</a>
+  </ul>
+  <td><ul>
+  <li><a href="lm_graph.htm">Graphics support</a>
+  <li><a href="lm_hbase.htm">HanDBase support</a>
+  <li><a href="lm_gui.htm">GUI support</a>
+  </ul>
+  <td><ul>
+  <li><a href="lm_hood.htm">Under the hood</a>
+  <li><a href="lm_code.htm">Coding techniques</a>
+  <li><a href="lm_hist.htm">History</a>
+  <li><a href="lm_todo.htm">Todo list</a>
+  </ul>
+  </table>
+
+<h1><a name="new270">What's new in version 2.7</a></h1>
+  <ul>
+    <li>Integrated source editor breaking the 4k memo limit
+    <li>Support pedit
+    <li>HanDBase access functions
+    <li><font color="#ff0000">C</font><font color="#cccc00">o</font><font color="#00dd00">l</font><font color="#00cccc">o</font><font color="#0000ff">r</font>
+        support
+  </ul>
+  For details, see <a href="lm_hist.htm">modification history</a>.
+
+  <h2>Why is LispMe now Free Software instead of shareware?</h2>
+  There are several reasons for this change:
+  <ul>
+    <li>The abundance of poorly written software for the Pilot. Unfortunately
+        nowadays even the simplest applications are shareware. There are 
+        some simple hacks consisting of at most 100 lines of code, and the author
+        is charging 5 or 10$! Some people seem to have forgotten
+        what made the success of the PalmOS platform: An open API and
+        free tools causing a huge software pool.
+          
+    <li>With the ever growing diversity of hardware and software versions
+        for PalmOS, I'm no longer able to test every combination by myself.
+        So, even with with detailed bug reports, I couldn't always 
+        reproduce the problems other users had. 
+    <li>Most implementations of Scheme are free and I feel obliged to
+        their creators, as without them I wouldn't have learned this
+        wonderful language.
+    <li>Most of the tools used for creating LispMe are Free Software
+        theirselves.
+    <li>Finally, I hope all people who registered LispMe (and several
+        paid much more than I originally requested!), accept this change
+        and won't regret their investment. And many of them asked for
+        the source code and gave me reasons why to contribute to the 
+        Free Software resource pool.
+  </ul>
+
+
+<h1><a name="synopsis">Overview</a></h1>
+  LispMe is a Scheme compiler and runtime system running on the
+  <a href="http://palmpilot.3com.com/index.html">Pilot PDA</a>.
+   It is mainly intended to  have a tool for quickly trying ideas
+  and algorithms, but you can write dialog-based applications, too.<p>
+
+  Features included:
+  <ul>
+    <li>Full-conforming Scheme semantics (static scoping, first-class closures,
+        tail recursion, continuations ...)
+    <li>mark/sweep garbage collection
+    <li>integrated compiler
+    <li>symbols, small integers, lists, booleans, chars, strings, vectors
+    <li>full 8 byte double precision IEEE floating point for real and complex
+        arithmetic including transcendental functions
+    <li>delayed expressions
+    <li>quasiquote, macros and eval
+    <li>online help
+    <li>statistics
+    <li>graphics and full user interface support
+    <li>ports using MemoPad memos as files
+    <li>syntax-aware editing via Parentheses Hack
+    <li>multiple workspaces/sessions
+    <li>full source code available  
+  </ul>
+
+  Features omitted:
+  <ul>
+    <li>engines
+    <li>dynamic/fluid binding
+    <li>bigint and rational numeric types
+    <li>a debugger
+  </ul>
+
+  For the top level, loading of sources etc. LispMe uses a unique concept not
+  found in other similar systems but fitting (IMHO) very good to the 
+  Pilot's "flavor".<p>
+
+  LispMe uses the memo pad as source editor, so all your LispMe code is
+  automatically backed up with hotsync and you can import/export source code
+  like any other text with your desktop PC.<p>
+
+  All LispMe memory is held in a database, so switching to other applications
+  and restarting LispMe again is possible without destroying the current image.
+
+  <h1><a name="legalese">Legal Stuff</a></h1>
+  LispMe is released under the <a href="COPYING.txt">GNU Public License</a> and
+  comes with <b>absolutely no warranty</b>.
+
+  I take no responsibility for any damage this program may cause to your
+  Pilot or your databases stored on your Pilot. You should <b>backup</b> your
+  Pilot databases before installing LispMe.
+  LispMe has been tested thoroughly on the Poser emulator, on my own
+  Pilot 1000 with 1 meg RAM running System 2.04, my new Palm III
+  running System 3.3, and several other
+  Pilots PalmPilot Pro and different software/hack
+  configurations and works fine.<p>
+
+  MathLib is a free shared library that can be used by any OS 2.0 Pilot
+  program that needs IEEE 754 double precision math functions. It's 
+  distributed under the terms of the GNU General Public License, and
+  is freely available with full source code and documentation at the
+  <a href="http://www.probe.net/~rhuebner/mathlib.html">MathLib
+  Information web page.</a> It's not
+  a part of LispMe, and you're not paying anything for its use; a copy is
+  simply included in this archive for your convenience.<p>
+
+  Parentheses Hack is freeware! Why charging fees for a simple little
+  hack that I wrote in one afternoon?<p>
+
+  To use Parentheses Hack, you need to install HackMaster on your Pilot.
+  You can get it <a href="http://www.daggerware.com/hackmstr.htm">here</a>.
+  Please note that HackMaster is shareware, so you should register it.<p>
+
+  <h1><a name="acknow">Acknowledgements</a></h1>
+  <ul>
+  <li><a href="mailto:gregh@lightspeed.net">Greg Hewgill</a>
+      for <a href="http://www.hewgill.com/pilot/copilot/index.html">CoPilot</a>
+  <li><a href="mailto:johler@ibm.net">Thomas Johler</a>
+      for porting Pilot development tools and CoPilot to OS/2. Check out
+      his <a href="http://home.t-online.de/home/johler/pilot.html">Pilot Class Library</a>.
+  <li>Henning Nitschke for giving me the start with Pilot programming
+  <li><a href="http://www.avanti.de">Avanti Pizza service</a>
+  <li>All people who sent comments and bug reports or registered so far.
+      They helped getting LispMe grown up ;-)
+  </ul>
+
+
+  <h1><a name="contact">Contact</a></h1>
+    When sending bug reports, please
+    include source memos, expression evaluated and information about your
+    configuration (OS version, active hacks)<p>
+
+    I'm planning to build a source code repository, so feel free to mail any
+    interesting LispMe code to me.<p>
+
+    You can reach me by
+    <ul>
+    <li>Snailmail<address>Fred Bayer Informatics<br>
+            Elisabethstr. 8<br>
+            80796 Munich<br>
+            Germany
+            </address>
+    <li>Telephone +49 89 27299864
+    <li>Send bug reports to
+        <a href="mailto:bugs@lispme.de?SUBJECT=LispMe V2.6 bug">bugs@lispme.de</a>
+    <li>Send general comments and requests to
+        <a href="mailto:fred@lispme.de?SUBJECT=LispMe V2.6 comment">fred@lispme.de</a>
+    <li>Visit LispMe's <a href="http://www.lispme.de/">homepage</a>
+    <li>Join LispMe's <a href="http://www.egroups.com/list/lispme/info.html">discussion forum</a>
+    </ul>
+</body>
+</html>

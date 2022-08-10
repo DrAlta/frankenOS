@@ -1,0 +1,198 @@
+<html>
+<head>
+  <title>LispMe internals</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>Under the hood</h1>
+  This chapter describes some internals of LispMe. You don't need this to
+  work with LispMe, but some people asked me about the implementation, so
+  here you are:
+  <h2>General</h2>
+    The latest version 2.7 of LispMe was developed with GCC 2.95.2-kgpd,
+    prc-tools 2.0  and PilRC v2.5b3 on a PC running Windows NT
+    and tested with the  Poser 3.0a2.<p>
+     
+    Altogether LispMe consists of about 14000 lines of highly compact C code.
+ 
+    All error handling is done using Pilot's <tt>ErrCatch</tt> and
+    <tt>ErrThrow</tt> macros/functions and not a single function from the
+    C library has been used.<p>
+
+    The trick I found to create executables >32k code with GCC is fortunately
+    no more necessary prc-tools 2.0, since multi-segment applications are
+    supported now.
+    If you're interested in these
+    topics, have a look <a href="lm_code.htm">here</a>.<p>
+
+  <h2><a name="secd">SECD machine model</a></h2>
+    <i>I'm currently writing an article on LispMe's implementation, which
+      gives much more detail than this section.</i><p>
+
+    LispMe is based on the SECD virtual machine described in
+    <blockquote>
+      Peter Henderson<br>
+      Functional Programming - Application and Implementation<br>
+      Prentice Hall International<br>
+      ISBN 0-13-331579-7
+    </blockquote>
+    The name stems from the 4 main registers this machine operates on:
+    <table>
+      <tr><td><b>S</b><td>stack<td>used to hold intermediate values while
+        evaluating an expression
+      <tr><td><b>E</b><td>environment<td>used to hold the current environment
+      <tr><td><b>C</b><td>control<td>the machine-language program being
+         executed
+      <tr><td><b>D</b><td>dump<td>a stack the other registers are pushed on
+         when a new function is called
+    </table>
+
+    <h3><a name="secd_vm">SECD virtual machine</a></h3>
+      In fact, all registers hold pointers to list structures in the heap,
+      so for example going to the next machine instruction is accomplished
+      by an assignment of the form <tt>C = cdr(C);</tt><p>
+      The virtual machine currently has 155 different instructions, most of
+      them dealing with LispMe's primitive procedures. The main extensions
+      to Henderson's machine are
+      <ul>
+        <li>error checking
+        <li>including function arity in closures
+        <li>closures with variable number of arguments
+        <li>support for tail-recursion
+        <li>continuation support
+        <li>support for sequencing (<tt>begin</tt>)
+        <li>real, complex, char, string, vector and port support
+        <li>compile quasiquote templates to SECD code
+        <li>support for macros and <tt>eval</tt>
+      </ul>
+      The runtime environment is represented as a list of frames, where
+      each frame is a list of values. Variables are always accessed by
+      lexical adresses (a pair indicating the frame and the offset of the
+      variable). This is exactly the form you see when tapping the
+      <a href="lm_cmd.htm#ctl_names">names button</a>. In fact, the first
+      step in each evaluation is assigning the value list to the <b>E</b> register.
+ 
+    <h3><a name="secd_comp">SECD compiler</a></h3>
+      In contrast to Henderson's approach, the compiler is not bootstrapped,
+      it's implemented in C like the rest of LispMe. The reasons for that are
+      compilation speed and saving heap memory for user programs.<p>
+      A LispMe expression is compiled by traversing its tree structure and
+      consing up a list of machine instructions backwards to avoid using
+      <tt>append</tt>. There's a simple peephole optimizer mainly used for
+      removing unnecessary stack operations and for propagating returns
+      through conditionals to provide proper tail recursion elimination.<p>
+      There's also a compile time environment (represented as a list of lists,
+      mirroring the structure of the runtime environment) to determine lexical
+      adresses for all variables. You can view the SECD code of a closure
+      with <a href="lm_cat2.htm#desc_disasm"><tt>disasm</tt></a>.<p>
+      Macros are expanded by calling the VM with the expansion procedure
+      and the original source expression as argument.
+
+  <h2><a name="parser">Parsing expressions</a></h2>
+    Parsing is divided into 2 steps:
+    <ol>
+      <li>The scanner groups characters into <i>tokens</i> by using a
+        finite automaton consisting of 24 states. Most of the states deal
+        with real and complex numbers and escape sequences in strings.
+      <li>The parser is recursive-descent
+    </ol>
+    Scanning and formatting floating point was particularly nasty, as the
+    Pilot ROM routines <tt>FlpFToA</tt> and <tt>FlpAToF</tt> are unusable
+    (limited precision, limited exponent range, no error support), so all
+    this stuff had to be written from scratch.
+
+  <h2><a name="memory">Memory management</a></h2>
+    Each LispMe session is kept in a separate database bearing the same
+    name as the session. All LispMe session databases use creator ID
+    <tt>fbLM</tt> so that the total memory used by them is displayed correctly
+    in the memory application.<p>
+    In each session database, at least 6 records are used:
+    <ul>
+      <li>Record 0: Global vars, root pointers
+      <li>Record 1: The atom store; all identifier names are entered here by the
+          reader. The names are simply stored one after another separated by
+          <tt>'\0'</tt> bytes.
+      <li>Record 2: The floating point store; all floating point numbers are stored
+          here (8 bytes each). Unused cells are linked into a free list.
+      <li>Record 3: The heap; each heap cell is 32 bit and consists of two
+          pointers (car and cdr), 16 bit each. The cells do <b>not</b>
+          carry type tags, instead the pointers do according to this table:
+          <table border>
+            <tr><td><tt>sddd&nbsp;dddd&nbsp;dddd&nbsp;ddd1</tt>
+                <td>15 bit signed integer (-16384 .. 16383)
+            <tr><td><tt>sddd&nbsp;dddd&nbsp;dddd&nbsp;dd00</tt>
+                <td>16 bit signed offset from virtual heap base,
+                which is 32k above actual heap begin (no scale neccessary)
+            <tr><td><tt>dddd&nbsp;dddd&nbsp;dddd&nbsp;0010</tt>
+                <td>unsigned 12 bit index into atom table
+                (shift right 4 bits), 4kb atom space
+            <tr><td><tt>dddd&nbsp;dddd&nbsp;dddd&nbsp;0110</tt>
+                <td>unsigned 12 bit index into double table
+                (shift right 1 bit and unmask 3 low bits), 4096 reals
+            <tr><td><tt>aaaa&nbsp;aaaa&nbsp;0000&nbsp;1010</tt>
+                <td>8 bit ASCII char
+            <tr><td><tt>uuuu&nbsp;uuuu&nbsp;0100&nbsp;1110</tt>
+                <td>vector in heap, upper 8 bit of UID, cdr field
+                    of this cells contains lower 16 bit (untagged!)
+            <tr><td><tt>uuuu&nbsp;uuuu&nbsp;0101&nbsp;1110</tt>
+                <td>string in heap, upper 8 bit of UID, cdr field
+                    of this cells contains lower 16 bit (untagged!)
+            <tr><td><tt>xxxx&nbsp;xxxx&nbsp;0011&nbsp;1110</tt>
+                <td>reserved for special values
+            <tr><td><tt>xxxx&nbsp;xxxx&nbsp;0111&nbsp;1110</tt>
+                <td>special value tags in car of list
+          </table>
+          Some special values are <tt>0x013e</tt> for <i>empty list</i>,
+          <tt>0x023e</tt> for <tt>#f</tt>,
+          <tt>0x033e</tt> for <tt>#t</tt>,
+          <tt>0x007e</tt> for a closure tag or
+          <tt>0x067e</tt> for a complex tag (There are some more).<p>
+          All pointers into the heap are relative pointers (offsets) to
+          a virtual heap base lying 32k behind the actual beginning of the
+          heap. This allows relocation of the heap by the
+          operating system. Additionally,
+          this saves memory (16 bit relative pointers vs. 32 bit absolute
+          pointers) and maps nicely to the 68000 adressing mode
+          <i>adress register indirect with index and offset</i>, which
+          uses signed offsets .<p>
+      <li>Record 4: The input field
+      <li>Record 5: The output field
+      <li>Each vector and string occupies a single DB record starting with record number
+          6. A vector or string is identified by its
+          unique ID in a cons cell in the heap. To distinguish them,
+          strings are put into category 1 and vectors into category 0.
+    </ul>
+
+    Starting with version 1.7, LispMe mo more uses the dynamic heap for
+    its memory, instead it works directly on DB blocks, gaining
+    write access via <tt>MemSemaphoreReserve</tt>. This is a much discussed
+    technique, as accessing memory out of its bounds can overwrite other
+    databases and even require a hard reset. On the other hand, LispMe has
+    been out for some months now and several hundred people have tested it and
+    I never got a report of an "invalid pointer access". Furthermore, there's
+    no way in LispMe to create an invalid pointer by will or accident (like
+    in other Scheme implementations, too). All
+    pointers are created in the memory subsystem which almost certainly
+    is bugfree. So I finally decided to use this technique to make a
+    bigger heap available on all Pilots.
+
+  <h2><a name="gc">Garbage collection</a></h2>
+    LispMe uses mark/scan garbage collector for heap cells and floating
+    point cells. The reasons for preferring mark/scan to copying garbage
+    collection are:
+    <ul>
+      <li>Memory usage has top priority on the Pilot. Wasting half of the
+          memory with copying GC isn't affordable.
+      <li>All heap cells have the same size, so fragmentation can't happen
+      <li>Heap compaction (provided by copying GC) doesn't affect performance,
+          as there's no virtual memory or cache on the Pilot.
+      <li>The disadvantage that mark/scan GC has to touch every memory
+          cell in the heap is ignorable with heap sizes possible on the Pilot
+    </ul>
+    All in all, a typical garbage collection of 16k heap takes about
+    0.2 seconds.
+</body>
+</html>

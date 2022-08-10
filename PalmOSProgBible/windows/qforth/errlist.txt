@@ -1,0 +1,339 @@
+Palm OS error codes, in alphabetical order. Current as at Palm OS 3.
+
+Neal Bridges
+http://www.interlog.com/~nbridges/
+
+Decimal Hex Name // description
+
+ 2306 0902 almErrFull // alarm table is full
+ 2305 0901 almErrMemory // ran out of memory
+ 3331 0d03 cmErrComm // communication(send/receive) error
+ 3334 0d06 cmErrCommBusy // PAD server is already in use
+ 3332 0d04 cmErrCommVersion // incompatible comm version
+ 3333 0d05 cmErrMemory // insufficient memory error
+ 3329 0d01 cmErrParam // bad parameter
+ 3330 0d02 cmErrTimeOut // connection listenning/initialization timed out
+ 3335 0d07 cmErrUserCan // attempt cancelled by user
+32772 8004 dialErrMemory // insufficient memory
+32773 8005 dialErrModem // when this error is returned, look in the mdmError field
+32771 8003 dialErrNotSupported // the requested dial option is not supported
+32770 8002 dialErrParam // invalid parameter
+32769 8001 dialErrPhoneSetup // phone setup is not complete
+32774 8006 dialErrUserCan // user cancelled
+ 3606 0e16 dklErrNoneOpen // no database is open
+ 3595 0e0b dlkErrAlreadyExists // cannot create a duplicate
+ 3592 0e08 dlkErrBufTooSmall // reply buffer is too small
+ 3598 0e0e dlkErrClose // close error
+ 3593 0e09 dlkErrCreate // error creating database
+ 3597 0e0d dlkErrDelete // delete error
+ 3603 0e13 dlkErrDeleted // record was deleted
+ 3590 0e06 dlkErrInterrupted // sync was interrupted (see sync state)
+ 3588 0e04 dlkErrLocalCan // cancelled by local user
+ 3589 0e05 dlkErrLostConnection // lost connection
+ 3586 0e02 dlkErrMemory // memory allocation error
+ 3587 0e03 dlkErrNoSession // could not establish a session 
+ 3594 0e0a dlkErrNotEnoughSpace // not enough space on remote
+ 3596 0e0c dlkErrNotFound // database/record/resource/block not found
+ 3604 0e14 dlkErrOpen // open db error
+ 3585 0e01 dlkErrParam // invalid parameter
+ 3585 0e01 dlkErrParam // invalid parameter
+ 3605 0e15 dlkErrRPC // generic RPC execution error
+ 3600 0e10 dlkErrRead // read record/resource/block error
+ 3602 0e12 dlkErrReplyFormat // reply format error
+ 3586 0e02 dlkErrSessClosed // session closed unexpectedly
+ 3588 0e04 dlkErrSizeErr // reply length was too big
+ 3590 0e06 dlkErrSizeErr // reply length is too big
+ 3591 0e07 dlkErrTooManyClients // DLK WS end cannot handle any more clients
+ 3591 0e07 dlkErrUserCan // cancelled by user
+ 3601 0e11 dlkErrUserInfo // error reading/writing user info
+ 3599 0e0f dlkErrWrite // write record/resource error
+  537 0219 dmErrAlreadyExists 
+  534 0216 dmErrAlreadyOpenForWrites 
+  519 0207 dmErrCantFind
+  518 0206 dmErrCantOpen
+  521 0209 dmErrCorruptDatabase
+  517 0205 dmErrDatabaseOpen
+  539 021b dmErrDatabaseProtected
+  514 0202 dmErrIndexOutOfRange
+  530 0212 dmErrInvalidCategory
+  538 021a dmErrInvalidDatabaseName
+  515 0203 dmErrInvalidParam
+  513 0201 dmErrMemError
+  529 0211 dmErrNoOpenDatabase
+  524 020c dmErrNotRecordDB
+  525 020d dmErrNotResourceDB
+  531 0213 dmErrNotValidRecord
+  535 0217 dmErrOpenedByAnotherTask
+  526 020e dmErrROMBased
+  516 0204 dmErrReadOnly
+  523 020b dmErrRecordArchived
+  527 020f dmErrRecordBusy
+  522 020a dmErrRecordDeleted
+  520 0208 dmErrRecordInWrongCard
+  528 0210 dmErrResourceNotFound
+  533 0215 dmErrSeekFailed
+  536 0218 dmErrUniqueIDNotFound
+  532 0214 dmErrWriteOutOfBounds
+ 1793 0701 evtErrParamErr
+ 1795 0703 evtErrQueueEmpty
+ 1794 0702 evtErrQueueFull
+ 5385 1509 exgErrAppError // generic application error
+ 5384 1508 exgErrBadData // internal data was not valid
+ 5393 1511 exgErrBadLibrary // bad or missing ExgLibrary
+ 5390 150e exgErrBadParam // bad parameter to call
+ 5392 1510 exgErrDeviceBusy // device is busy
+ 5387 150b exgErrDeviceFull // device is full
+ 5388 150c exgErrDisconnected // link disconnected
+ 5381 1505 exgErrNoKnownTarget // can't find a target app
+ 5380 1504 exgErrNoReceiver // receiver device not found
+ 5383 1507 exgErrNotAllowed // operation not allowed
+ 5389 150d exgErrNotFound // requested object not found
+ 5391 150f exgErrNotSupported // operation not supported by this library
+ 5378 1502 exgErrStackInit // stack could not initialize
+ 5382 1506 exgErrTargetMissing // target app is known but missing
+ 5386 150a exgErrUnknown // unknown general error
+ 5379 1503 exgErrUserCancel 
+ 5377 1501 exgMemError
+ 5644 160c fileErrCloseError // error closing the database
+ 5635 1603 fileErrCorruptFile // the file is corrupted/invalid/not a stream file
+ 5639 1607 fileErrCreateError // couldn't create a new file
+ 5648 1610 fileErrEOF // end-of-file error
+ 5647 160f fileErrIOError // general I/O error
+ 5641 1609 fileErrInUse // file couldn't be opened or deleted because it is in use
+ 5643 160b fileErrInvalidDescriptor // invalid file descriptor (FileHandle)
+ 5634 1602 fileErrInvalidParam // invalid parameter value passed
+ 5633 1601 fileErrMemError // out of memory error
+ 5636 1604 fileErrNotFound // couldn't find the file
+ 5649 1611 fileErrNotStream // attempted to open a file that is not a stream
+ 5640 1608 fileErrOpenError // generic open error
+ 5645 160d fileErrOutOfBounds // attempted operation went out of bounds of the file
+ 5646 160e fileErrPermissionDenied // couldn't write to a file open for read-only access
+ 5642 160a fileErrReadOnly // couldn't open in write mode because db is read-only
+ 5638 1606 fileErrReplaceError // couldn't replace an existing file
+ 5637 1605 fileErrTypeCreatorMismatch // file's type and creator didn't match those expected
+ 1665 0681 flpErrOutOfRange
+ 1537 0601 fplErrOutOfRange
+ 3075 0c03 ftrErrAlreadyExists
+ 3077 0c05 ftrErrInternalErr
+ 3073 0c01 ftrErrInvalidParam
+ 3074 0c02 ftrErrNoSuchFeature
+ 3076 0c04 ftrErrROMBased
+ 4097 1001 grfErrBadParam
+ 4226 1082 grfErrBranchNotFound // (grfWarningOffset+2)
+ 4103 1007 grfErrDepthTooDeep
+ 4225 1081 grfErrMacroIncomplete // (grfWarningOffset+1)
+ 4102 1006 grfErrMacroNotFound
+ 4104 1008 grfErrMacroPtrTooSmall
+ 4100 1004 grfErrNoDictionary
+ 4099 1003 grfErrNoGlyphTable
+ 4105 1009 grfErrNoMacros
+ 4101 1005 grfErrNoMapping
+ 4098 1002 grfErrPointBufferFull
+ 4874 130a htalErrCommSetup // comm setup error
+ 4876 130c htalErrCommVersion // comm version is incompatible with the desktop
+ 4878 130e htalErrDestHostName // invalid destination host name, or host name not
+ 4880 1310 htalErrExtLoopback // External loopback was detected -- this error code
+ 4879 130f htalErrGotTickle // INTERNAL error code indicating that a keep-alive
+ 4867 1303 htalErrInUse // HTAL library is already in use
+ 4873 1309 htalErrInterfaceBusy // comm interface(serial port, TCP/IP, etc.) is busy
+ 4868 1304 htalErrMemory // not enough memory
+ 4871 1307 htalErrNotConnected // lost/could not establish connection
+ 4872 1308 htalErrNotOpen // library is not open
+ 4866 1302 htalErrParam // invalid parameter
+ 4875 130b htalErrRemoteConnect // could not establish remote connection and error
+ 4877 130d htalErrRmtMemory // not enough memory on remote device
+ 4870 1306 htalErrSizeErr // reply block is too big
+ 4865 1301 htalErrTimeOut // call timed out (INTERNAL ERROR CODE)
+ 4869 1305 htalErrUserCan // cancelled by user
+ 5140 1414 inetErrBufTooSmall
+ 5136 1410 inetErrConnectTimeout
+ 5122 1402 inetErrHandleInvalid // Invalid inetH or sockH
+ 5132 140c inetErrHostnameInvalid
+ 5134 140e inetErrInvalidHostAddr
+ 5133 140d inetErrInvalidPort
+ 5130 140a inetErrInvalidRequest
+ 5142 1416 inetErrInvalidResponse
+ 5131 140b inetErrNeedTime
+ 5135 140f inetErrNilBuffer
+ 5128 1408 inetErrNoRequestCreated
+ 5129 1409 inetErrNotConnected
+ 5123 1403 inetErrParamsInvalid // 
+ 5139 1413 inetErrReadTimeout
+ 5137 1411 inetErrResolveTimeout
+ 5141 1415 inetErrSchemeNotSupported
+ 5138 1412 inetErrSendReqTimeout
+ 5121 1401 inetErrTooManyClients // Too many clients already
+ 5127 1407 inetErrTooManySockets // 
+ 5125 1405 inetErrURLBufTooSmall // 
+ 5126 1406 inetErrURLInvalid // 
+ 5124 1404 inetErrURLVersionInvalid // 
+ 4355 1103 mdmErrBusy // busy signal heard
+ 4357 1105 mdmErrCmdError // command error
+ 4361 1109 mdmErrDial // dial command error - most likely the dial
+ 4359 1107 mdmErrMemory // not enough memory
+ 4354 1102 mdmErrNoDCD // no carrier / timeout
+ 4358 1106 mdmErrNoModem // no modem detected
+ 4353 1101 mdmErrNoTone // no dial tone
+ 4360 1108 mdmErrPrefs // modem preferences have not been
+ 4356 1104 mdmErrUserCan // cancelled by user
+  261 0105 memErrCardNotPresent
+  257 0101 memErrChunkLocked
+  260 0104 memErrChunkNotLocked
+  259 0103 memErrInvalidParam // invalid param or requested size is too big
+  263 0107 memErrInvalidStoreHeader
+  262 0106 memErrNoCardHeader
+  266 010a memErrNoRAMOnCard
+  267 010b memErrNoStore
+  258 0102 memErrNotEnoughSpace
+  264 0108 memErrRAMOnlyCard
+  265 0109 memErrWriteProtect
+ 4656 1230 netErrAlreadyInProgress // EALREADY
+ 4609 1201 netErrAlreadyOpen
+ 4659 1233 netErrAuthFailure
+ 4640 1220 netErrBadScript
+ 4621 120d netErrBufTooSmall
+ 4638 121e netErrBufWrongSize
+ 4649 1229 netErrCmdBlockNotCheckedOut
+ 4650 122a netErrCmdNotDone
+ 4675 1243 netErrDNSAborted
+ 4665 1239 netErrDNSAllocationFailure
+ 4663 1237 netErrDNSBadArgs
+ 4662 1236 netErrDNSBadName
+ 4676 1244 netErrDNSBadProtocol
+ 4668 123c netErrDNSFormat
+ 4673 1241 netErrDNSImpossible
+ 4679 1247 netErrDNSIrrelevant
+ 4664 1238 netErrDNSLabelTooLong
+ 4671 123f netErrDNSNIY
+ 4661 1235 netErrDNSNameTooLong
+ 4681 1249 netErrDNSNoPort
+ 4674 1242 netErrDNSNoRRS
+ 4678 1246 netErrDNSNoRecursion
+ 4670 123e netErrDNSNonexistantName
+ 4680 1248 netErrDNSNotInLocalCache
+ 4672 1240 netErrDNSRefused
+ 4669 123d netErrDNSServerFailure
+ 4666 123a netErrDNSTimeout
+ 4677 1245 netErrDNSTruncated
+ 4667 123b netErrDNSUnreachable
+ 4682 124a netErrIPCantFragment
+ 4685 124d netErrIPNoDst
+ 4683 124b netErrIPNoRoute
+ 4684 124c netErrIPNoSrc
+ 4686 124e netErrIPktOverflow
+ 4689 1251 netErrInterfaceDown
+ 4636 121c netErrInterfaceNotFound
+ 4625 1211 netErrInternal
+ 4635 121b netErrInvalidInterface
+ 4633 1219 netErrInvalidSettingSize
+ 4618 120a netErrMessageTooBig
+ 4646 1226 netErrNilRemoteWindowSize
+ 4688 1250 netErrNoDNSServers 
+ 4620 120c netErrNoInterfaces // ENETUNREACH
+ 4613 1205 netErrNoMoreSockets
+ 4643 1223 netErrNoPendingConnect
+ 4641 1221 netErrNoSocket
+ 4645 1225 netErrNoTCB
+ 4647 1227 netErrNoTimerProc
+ 4610 1202 netErrNotOpen
+ 4629 1215 netErrOutOfCmdBlocks
+ 4615 1207 netErrOutOfMemory
+ 4614 1206 netErrOutOfResources
+ 4660 1234 netErrPPPAddressRefused
+ 4658 1232 netErrPPPBroughtDown
+ 4657 1231 netErrPPPTimeout
+ 4612 1204 netErrParamErr
+ 4623 120f netErrPortInUse // EADDRINUSE
+ 4634 121a netErrPrefNotFound
+ 4624 1210 netErrQuietTimeNotElapsed // EADDRINUSE
+ 4654 122e netErrReadOnlySetting
+ 4627 1213 netErrSocketAlreadyConnected // EISCONN
+ 4617 1209 netErrSocketBusy // EINPROGRESS
+ 4628 1214 netErrSocketClosedByRemote
+ 4648 1228 netErrSocketInputShutdown // EOF to sockets API
+ 4619 120b netErrSocketNotConnected
+ 4631 1217 netErrSocketNotListening
+ 4616 1208 netErrSocketNotOpen
+ 4642 1222 netErrSocketRcvBufFull
+ 4611 1203 netErrStillOpen
+ 4626 1212 netErrTimeout // ETIMEDOUT
+ 4637 121d netErrTooManyInterfaces
+ 4687 124f netErrTooManyTCPConnections
+ 4644 1224 netErrUnexpectedCmd
+ 4622 120e netErrUnimplemented
+ 4651 122b netErrUnknownProtocol
+ 4652 122c netErrUnknownService
+ 4632 1218 netErrUnknownSetting
+ 4653 122d netErrUnreachableDest
+ 4639 121f netErrUserCancel
+ 4655 122f netErrWouldBlock // EWOULDBLOCK
+ 4630 1216 netErrWrongSocketType
+ 2817 0b01 penErrBadParam
+ 3849 0f09 pmErrBlockFormat // block format error
+ 3850 0f0a pmErrBufTooSmall // buffer is too small
+ 3845 0f05 pmErrInUse // PAD Server/WS manager is in use
+ 3846 0f06 pmErrMemory // not enough memory
+ 3841 0f01 pmErrParam // invalid parameter
+ 3851 0f0b pmErrRemoteMemory // remote memory error
+ 3848 0f08 pmErrSizeErr // reply block is too big
+ 3844 0f04 pmErrTimeOut // call timed out
+ 3842 0f02 pmErrTooManyRetries // too many retries
+ 3847 0f07 pmErrUserCan // cancelled by user
+ 3849 0f09 psrErrBlockFormat // block format error
+ 3845 0f05 psrErrInUse // PAD Server/WS manager is in use
+ 3846 0f06 psrErrMemory // not enough memory
+ 3841 0f01 psrErrParam // invalid parameter
+ 3848 0f08 psrErrSizeErr // reply block is too big
+ 3844 0f04 psrErrTimeOut // call timed out
+ 3842 0f02 psrErrTooManyRetries // too many retries
+ 3847 0f07 psrErrUserCan // cancelled by user
+  775 0307 serErrAlreadyOpen
+  772 0304 serErrBadConnID
+  769 0301 serErrBadParam
+  770 0302 serErrBadPort
+  774 0306 serErrLineErr
+  771 0303 serErrNoMem
+  777 0309 serErrNotOpen
+  778 030a serErrNotSupported // functionality not supported
+  776 0308 serErrStillOpen
+  773 0305 serErrTimeOut
+ 1036 040c slkErrAlreadyOpen
+ 1035 040b slkErrBadParam
+ 1030 0406 slkErrBodyLimit
+ 1027 0403 slkErrBuffer
+ 1041 0411 slkErrBusy // called while sending a packet
+ 1025 0401 slkErrChecksum
+ 1026 0402 slkErrFormat
+ 1029 0405 slkErrHandle
+ 1033 0409 slkErrNoDefaultProc
+ 1042 0412 slkErrNotOpen
+ 1037 040d slkErrOutOfSockets
+ 1032 0408 slkErrResponse
+ 1038 040e slkErrSocketNotOpen
+ 1028 0404 slkErrTimeOut
+ 1031 0407 slkErrTransId
+ 1039 040f slkErrWrongDestSocket
+ 1034 040a slkErrWrongPacketType
+ 1040 0410 slkErrWrongPktType
+ 2050 0802 sndErrBadChannel
+ 2049 0801 sndErrBadParam
+ 2056 0808 sndErrBadStream // invalid data stream
+ 2055 0807 sndErrFormat // unsupported data format
+ 2057 0809 sndErrInterrupted // play was interrupted
+ 2051 0803 sndErrMemory
+ 2052 0804 sndErrOpen
+ 2054 0806 sndErrQEmpty // internal
+ 2053 0805 sndErrQFull
+ 1291 050b sysErrDelayWakened // SysTaskDelay wakened by SysTaskWake before delay completed.
+ 1287 0507 sysErrInvalidID
+ 1290 050a sysErrLibNotFound
+ 1289 0509 sysErrNoFreeLibSlots
+ 1284 0504 sysErrNoFreeRAM
+ 1283 0503 sysErrNoFreeResource
+ 1285 0505 sysErrNotAllowed
+ 1288 0508 sysErrOutOfOwnerIDs
+ 1282 0502 sysErrParamErr
+ 1292 050c sysErrRomIncompatible
+ 1286 0506 sysErrSemInUse
+ 1281 0501 sysErrTimeout
+ 2561 0a01 timErrMemory

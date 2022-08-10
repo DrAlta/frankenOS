@@ -1,0 +1,83 @@
+<html>
+<head>
+  <title>LispMe HanDBase interface</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe HanDBase interface</h1>
+  <a href="http://www.handbase.com">HanDBase</a> is a commercial
+  database system for the Palm having a large customership. 
+  It provides a simple API which LispMe supports now.<p>
+
+  The data model of HanDBase is very simple: A table in the relational
+  model is a "database" in HanDBase jargon. It consists of a number 
+  of rows of identical format. Each record is identified by a number 
+  in the range [0..<i>n-1</i>]<p>
+
+  To access a field value, you have to specify database name, record
+  number and field number. The function
+  <a href="lm_cat2.htm#desc_hb_info"><tt>hb-info</tt></a> retrieves
+  catalog information of a database like number of records and 
+  types names and attributes of all fields.<p>
+
+  There are no selection or filter functions, you have to traverse the
+  entire database table to find a record.<p>
+
+  Unfortunately, there's no clear distinction between internal and external
+  data formats (all data is stored as strings in HanDBase),
+  type conversion and 
+  syntax checking is done in various places in HanDBase. These problems
+  get worse, as the <i>formatted data</i> is stored, so databases using
+  different locales are not easily exchangable. Have a look at the
+  <a href="lm_samp.htm#hb_util">sample</a> how to parse the strings
+  returned from HanDBase.<p>
+
+  HanDBase provides limited relations between tables, i.e. a 
+  1:n relationship. A record in table <i>A</i> can reference a set
+  of records in table <i>B</i> and you can use the function
+  <a href="lm_cat2.htm#desc_hb_getlinks"><tt>hb-getlinks</tt></a> to
+  retrieve the entire set. Unfortunately there's no function to go backwards,
+  i.e. find the owner of the current record.
+
+<h2><a name="types">HanDBase types</a></h2>
+  HanDBase encodes field types using this table:<p>
+  <table border>
+    <tr><th>numerical value<th>symbol<th>description
+    <tr><td>0<td>HB_FIELD_NOT_USED    <td>unused
+    <tr><td>1<td>HB_STRING_FIELD      <td>string
+    <tr><td>2<td>HB_DECIMAL_FIELD     <td>numeric decimal (includes int)    
+    <tr><td>3<td>HB_FLOAT_FIELD       <td>numeric floating point        
+    <tr><td>4<td>HB_POPUP_FIELD       <td>selection list    
+    <tr><td>5<td>HB_CHECKBOX_FIELD    <td>boolean
+    <tr><td>6<td>HB_UNIQUE_FIELD      <td>unique int given by system
+    <tr><td>7<td>HB_IMAGE_FIELD       <td>image, not supported
+    <tr><td>8<td>HB_DATE_FIELD        <td>date
+    <tr><td>9<td>HB_TIME_FIELD        <td>time  
+    <tr><td>10<td>HB_LINK_FIELD       <td>1:n relation
+    <tr><td>11<td>HB_LINKED_FIELD     <td>target of 1:n relation
+    <tr><td>12<td>HB_NOTE_FIELD       <td>string
+    <tr><td>13<td>HB_HEADING_FIELD    <td>header in HanDBase editor
+    <tr><td>14<td>HB_LINKLIST_FIELD   <td>value read once from another table
+    <tr><td>15<td>HB_CALCULATED_FIELD <td>calculated by HanDBase
+  </table>
+
+<h2><a name="errors">HanDBase error codes</a></h2>
+  HanDBase errors always cause this
+  <a href="lm_err.htm#err_handbase_error">error message</a>.
+  The error code included has the following meanings:<p>
+  <table border>
+    <tr><th>error code<th>description<th>remarks
+    <tr><td>2<td>Couldn't find database<td>Names are case-sensitive
+    <tr><td>3<td>Couldn't open database<td>
+    <tr><td>4<td>Error reading record info<td>
+    <tr><td>5<td>Error reading record<td>Index out of range 
+    <tr><td>6<td>Not a link field<td>Can't use <tt>hb-getlinks</tt>
+  </table><p>
+  You should never see another error code, please 
+  <a href="mailto:bugs@lispme.de">mail me</a>. 
+
+</body>
+</html>

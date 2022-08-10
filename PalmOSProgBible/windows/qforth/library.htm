@@ -1,0 +1,257 @@
+<HTML><!-- #BeginTemplate "/Templates/Quartus.dwt" -->
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Quartus Forth: Library Files</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" background="graph.gif">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif"><img src="dfpc.gif" width="64" height="93" align="right" border="0">Quartus 
+  Forth Manual</font></h1>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" --> 
+<h2><font face="Arial, Helvetica, sans-serif">Library Files</font></h2>
+<p>The following files are provided in Memopad Archive format (Library.MPA). The 
+  latest versions can also be found in the <a href="http://www.quartus.net/files/">Quartus 
+  File Area</a> in text format.</p>
+<p>See also the <a href="libdocs.htm">Library Documentation</a> section of the 
+  manual.</p>
+<table width="75%" border="1">
+  <tr> 
+    <td width="21%"><i>arcfour</i></td>
+    <td width="79%">The <i>arcfour</i> symmetric encryption algorithm.</td>
+  </tr>
+  <tr> 
+    <td width="21%"> 
+      <p><i><a href="asm68k.htm">asm68k<br>
+        asm68k.part2 </a></i></p>
+    </td>
+    <td width="79%"><a href="asm68k.htm">Integrated inline 68K assembler</a>.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>assert</i></td>
+    <td width="79%">Provides compile-time assertions; useful when debugging.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>backlight</i></td>
+    <td width="79%">Allows program control over the backlight on the PalmPilot.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>bitmap</i></td>
+    <td width="79%">Allows the definition of inline bitmap objects.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>calendar</i></td>
+    <td width="79%">ANSI Forth Gregorian & ISO date routines. Algorithms are from 
+      'Calendrical Calculations', N. Dershowitz & E.M. Reingold, 1997, ISBN 0-521-56474-3</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>case</i></td>
+    <td width="79%">Implementation of the Standard CORE EXT words <code>CASE OF 
+      ENDOF ENDCASE</code>.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>condthens</i></td>
+    <td width="79%">A solution for conditional constructs (simpler than <code>CASE..ENDCASE</code>). 
+      Courtesy of Wil Baden.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>core-ext</i></td>
+    <td width="79%">Provides words from the Standard CORE EXT wordset that are 
+      not defined in the Quartus Forth kernel.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>dblmath</i></td>
+    <td width="79%">Additional double arithmetic words.</td>
+  </tr>
+  <tr>
+    <td width="21%">
+      <p><i>disasm<br>
+        disasm.part2 <br>
+        disasm.part3<br>
+        disasm.part4 </i></p>
+      </td>
+    <td width="79%">68K disassembler, including an implementation of the Standard 
+      TOOLS word <b>SEE</b>.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>doc</i></td>
+    <td width="79%">Library code allowing access to compressed Doc-format (AportisDoc, 
+      etc.) files.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>docinc</i></td>
+    <td width="79%">Allows source to be read from Doc-format files.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>double</i></td>
+    <td width="79%">Provides words from the Standard DOUBLE wordset that are not 
+      defined in the Quartus Forth kernel.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>DataMgr</i></td>
+    <td width="79%">Library code for accessing PalmOS databases.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>environment</i></td>
+    <td width="79%">Provides <code>ENVIRONMENT?</code> from the Standard CORE 
+      wordset.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>Events</i></td>
+    <td width="79%">Defines all <a href="events.htm">PalmOS event types</a>.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>facility-ext</i></td>
+    <td width="79%">Provides <code>TIME&amp;DATE</code> from the Standard FACILITY 
+      EXT wordset.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>facility</i></td>
+    <td width="79%">Provides <code>KEY?</code> and <code>AT-XY</code> from the 
+      Standard FACILITY wordset. </td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>file</i></td>
+    <td width="79%">Provides <code>S&quot;</code> from the Standard FILE wordset.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>fonts</i></td>
+    <td width="79%">Defines all Palm OS font IDs.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>Fields</i></td>
+    <td width="79%">Helper words for Palm OS GUI field manipulation.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>Forms</i></td>
+    <td width="79%">Helper words for Palm OS GUI form manipulation.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>graphics</i></td>
+    <td width="79%">Various graphics words (<code>line</code>, <code>circle</code>, 
+      <code>rounded-rectangle</code>, etc.)</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>ids</i></td>
+    <td width="79%">Provides an easy way to specify creator IDs and resource types.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>input</i></td>
+    <td width="79%">Provides pop-up dialogs for string input.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>memo</i></td>
+    <td width="79%">Allows the creation of new memos in the Memopad application.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>memory</i></td>
+    <td width="79%">Provides the Standard MEMORY wordset.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>music</i></td>
+    <td width="79%">A simple lexicon for producing music from the Palm internal 
+      speaker.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>Mem</i></td>
+    <td width="79%">Words allowing the allocation of additional memory from the 
+      Palm OS dynamic RAM heap.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>random</i></td>
+    <td width="79%">Access to the Palm OS random number generator.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>regs</i></td>
+    <td width="79%">Displays the current contents of the sixteen MC68000 CPU data 
+      and address registers.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>resources</i></td>
+    <td width="79%">Simple access to external GUI resources from within your applications.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>roman</i></td>
+    <td width="79%">Provides Roman numeral manipulation words. Used in <i><a href="sample.htm">Duco</a></i>.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>safe</i></td>
+    <td width="79%">Adds extra error checking to a number of Quartus Forth words. 
+      Useful during debugging. </td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>simple-handler</i></td>
+    <td width="79%">A menu handler used in the <a href="sample.htm">sample sources</a>. 
+      No longer necessary, as menu events are now passed directly to the application 
+      via <b>EKEY</b>. The sample sources will soon be updated.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>sound</i></td>
+    <td width="79%">Tone generation from the Palm OS internal speaker.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>string</i></td>
+    <td width="79%">Additional words from the Standard STRING wordset.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>tester</i></td>
+    <td width="79%">John Hayes' module allowing simple <code>{ test -&gt; result 
+      }</code> tests.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>textalign</i></td>
+    <td width="79%">Right, left, and center-alignment of displayed text.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>tinylocals</i></td>
+    <td width="79%">A non-standard but quite usable implementation of variables 
+      with local scope.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>tinynums</i></td>
+    <td width="79%">Provides tiny (4x5) digits. Used by <a href="sample.htm"><i>Year</i></a>.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>toolkit</i></td>
+    <td width="79%">A number of generally useful words.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>tools-ext</i></td>
+    <td width="79%">Words from the Standard TOOLS EXT wordset.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>trig</i></td>
+    <td width="79%">Provides integer <code>SIN</code> and <code>COS</code> to 
+      three decimal places of accuracy.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>turtle</i></td>
+    <td width="79%">Simple LOGO-like 'turtle-graphics' words.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>Ver</i></td>
+    <td width="79%">A word returning the PalmOS version.</td>
+  </tr>
+  <tr> 
+    <td width="21%"><i>zstrings</i></td>
+    <td width="79%">Defining word for zero-delimited strings.</td>
+  </tr>
+</table>
+<!-- #EndEditable --> 
+<hr>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998, 1999 <a href="http://www.quartus.net/">Neal Bridges</a>. All 
+rights reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate --></HTML>

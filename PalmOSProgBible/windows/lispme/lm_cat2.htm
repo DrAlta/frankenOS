@@ -1,0 +1,2515 @@
+<html>
+<head>
+  <title>LispMe Alphabetical Catalog of Language Elements D - L</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+<p><a href="lm_cat1.htm">Catalog of Language Elements # - C</a>
+
+<h1>Alphabetic catalog of Language elements D - L</h1>
+
+<!--- date-time **********************************************************--->
+
+      <h2><a name="desc_date_time">date-time</a></h2>
+      <tt>date-time</tt> gets the current date and time.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(date-time)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td>none</td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>date-time</tt> reads the current date and time from the
+           system clock and returns them as a list of integers in the format
+           <tt>(<i>year month day hour minute second day-of-week</i>)</tt>.
+           <i>day-of-week</i> is 0 for Sunday, 1 for Monday etc.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(date-time)</tt></td>
+                   <td>=></td>
+                   <td><tt>(1999 5 13 23 48 12 4)</tt></td>
+           </table> </td>
+      </table>
+
+<!--- define *************************************************************--->
+
+      <h2><a name="desc_define">define</a></h2>
+      <tt>define</tt> associates names with values.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><table>
+           <tr><td><tt>(define <i>var expr</i>)</tt></td>
+           <tr><td><tt>(define (<i>var formals</i>)<i> expr<sub>1</sub> expr<sub>2</sub> ...</i>)</tt></td>
+           </table></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr> <td><tt><i>var</i></tt></td> <td>a variable name</td>
+             <tr> <td><tt><i>expr</i></tt></td> <td>any expression</td>
+             <tr valign=top> <td><tt><i>formals</i></tt></td>
+                  <td>a parameter specification like in a
+                      <a href="#desc_lambda"><tt>lambda</tt></a>
+                      formals list:
+                      <ul>
+                      <li><tt>(define (<i>var par<sub>1</sub></i> ...) ...)</tt>
+                        means <tt>(define <i>var</i> (lambda (<i>par<sub>1</sub></i> ...) ...))</tt>
+                      <li><tt>(define (<i>var</i> . <i>par</i>) ...)</tt>
+                        means <tt>(define <i>var</i> (lambda <i>par</i> ...))</tt>
+                      <li><tt>(define (<i>var par<sub>1</sub></i> ... . <i>par<sub>n</sub></i>) ...)</tt>
+                        means <tt>(define <i>var</i> (lambda (<i>par<sub>1</sub></i> ... . <i>par<sub>n</sub></i>) ...))</tt>
+                      </ul>
+             <tr valign=top><td><tt><i>expr<sub>i</sub></i></tt></td>
+                 <td>the expressions which are evaluated in the extended
+                 environment when the procedure is called.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>define</tt> associates a name with a value. The first form
+               simply evaluates an expression and binds a name to it. The second
+               form creates a procedure with the parameters <tt><i>formals</i></tt>
+               as described at <a href="#desc_lambda"><tt>lambda</tt></a>
+               and binds <tt><i>var</i></tt> to it.<p>
+               <a name="validdefine">In LispMe</a>, every name used
+               must have been defined before,  so every variable
+               used in <tt><i>expr<sub>i</sub></i></tt> must have been defined
+               in the same binding group (see loading), in a previously
+               loaded memo or manual definition before, or in the case of a local
+               definition, in the enclosing construct. In fact, a group
+               of definitions (like a memo to be loaded, or a list of
+               definitions enclosed in a
+               <a href="lm_cat1.htm#desc_begin"><tt>begin</tt></a> expression entered into
+               the command line) or a group of local definitions is treated like
+               a <a href="#desc_letrec"><tt>letrec</tt></a> binding group;
+               this means that every name used in this group must have been
+               defined before or must be defined in this binding group (for
+               mutual recursive definitions). This assures that every name
+               can be statically resolved at compile time and there's no
+               symbol table left to be checked at runtime.<p>
+               Each source memo must consist of a sequence of
+               <tt>define</tt>-expressions. You can enter definitions in the
+               REP-loop, and each definition will create a frame with a
+               single variable binding.<p>
+               Local definitions are allowed whereever an expression
+               sequence is. (The body of a
+               <a href="lm_cat1.htm#desc_begin"><tt>begin</tt></a>-,
+               <a href="lm_cat1.htm#desc_case"><tt>case</tt></a>-,
+               <a href="lm_cat1.htm#desc_cond"><tt>cond</tt></a>-,
+               <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a>-,
+               <a href="lm_cat2.htm#desc_let"><tt>let</tt></a>-, or
+               <a href="lm_cat2.htm#desc_letrec"><tt>letrec</tt></a>-expression)
+               In this case, all definitions must occur before any other
+               expression in the body or you'll see this
+               <a href="lm_err.htm#err_wrong_define">error</a>.<p>
+               The return value of a definition is
+               <a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a> in this
+               implementation.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>See <a href="#validdefine">here<a></td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(define pi 3.1415)</tt></td>
+                   <td>=></td>
+                   <td><i>doesn't print anything</i>
+                       and pi will have the value 3.1415</td>
+               <tr><td><tt>(define (sq x) (* x x))</tt></td>
+                   <td>=></td>
+                   <td><i>doesn't print anything</i>
+                       and the procedure <tt>sq</tt> is available</tt></td>
+           </table> </td>
+    </table>
+
+<!--- delay **************************************************************--->
+
+      <h2><a name="desc_delay">delay</a></h2>
+      <tt>delay</tt> creates a promise.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(delay <i>expr</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>expr</i></tt></td><td> any expression</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>delay</tt> packages <tt><i>expr</i></tt> together with the
+               current lexical environment into a promise,
+               which may be evaluated (using
+               <a href="#desc_force"><tt>force</tt></a>) later. The first time
+               the promise is forced, the delayed expression will be evaluated
+               in the captured environment, and the result will be memoized.
+               Subsequent forcing of this promise always returns the memoized
+               value.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(delay 5)</tt></td>
+                   <td>=></td>
+                   <td><tt>[prom]</tt></td>
+               <tr><td><tt>(force (delay 5))</tt></td>
+                   <td>=></td>
+                   <td><tt>5</tt></td>
+           </table> </td>
+    </table>
+
+<!--- delete-file ********************************************************--->
+
+      <h2><a name="desc_delete_file">delete-file</a></h2>
+      <tt>delete-file</tt> deletes a memo.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(delete-file <i>string</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string naming a memo
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>delete-file</tt> deletes the memo with name
+           <tt><i>string</i></tt> from the MemoPad database. Deleting is
+           done with the <tt>DmRemoveRecord</tt> function, so the memo
+           is actually deleted (not just its delete-flag set), so if you
+           hotsynced the memo to your desktop, the next HotSync will
+           restore it onto your Pilot, as HotSync has no indication that
+           the memo has been deleted on the Pilot and it assumes that the
+           memo was freshly created on the desktop. So there's no danger
+           loosing valuable memos when they have been hotsynced.<p>
+           The return value is <tt>#n</tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(delete-file "foo")</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt> and deletes the memo <tt>foo</tt>.</td>
+           </table> </td>
+      </table>
+
+<!--- delete-record ******************************************************--->
+
+      <h2><a name="desc_delete_record">delete-record</a></h2>
+      <tt>delete-record</tt> deletes a record in an arbitrary Pilot DB.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(delete-record <i>dbname recnum</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>dbname</i></tt></td><td>a string naming the database
+             <tr><td><tt><i>recnum</i></tt></td><td>an integer 
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>delete-record</tt> opens the Pilot database named
+           <tt><i>dbname</i></tt> (case-sensitive!) and deletes
+           the record with index <tt><i>recnum</i></tt> from it
+           (using <tt>DmRemoveRecord</tt>, not just setting the
+           <i>deleted</i> attribute). <tt>#t</tt> is returned on success or
+           <tt>#f</tt> if the database or the index doesn't exist or on
+           other errors.<p>
+           <b>Warning: Don't delete records from other applications'
+           databases when you're not absolutely sure how DBs are used by them!</b></td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(delete-record "foo" 3)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt> and the record with index 3
+                   has been deleted from the
+                   database <i>foo</i>.</td>
+           </table> </td>
+      </table>
+
+<!--- dir ****************************************************************--->
+
+      <h2><a name="desc_dir">dir</a></h2>
+      <tt>dir</tt> returns a list of all memos in the MemoPad database.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(dir <i>[category]</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>category</i></tt></td><td>a string</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>dir</tt> creates a list of the names of all memos in
+           the MemoPad database. A memo name is its first line, truncated
+           to 16 characters like all file names are handled in LispMe. Using
+           the optional <tt><i>category</i></tt> argument, you can restrict
+           the list to the specified category. If the category named doesn't
+           exists, an empty list is returned. Matching of category names
+           is case-<b>sensitive</b>, as PalmOS distinguishes case
+           in category names.<p>
+           Private records won't appear in the list if you chose <i>Hide
+           private records</i> in the security application.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(dir)</tt></td>
+                   <td>=></td>
+                   <td><tt>("; Built-ins OS2" "; Standard libra" ...)</tt>
+                   and many more. Note the truncated name.</td>
+               <tr><td><tt>(dir "foo")</tt></td>
+                   <td>=></td>
+                   <td><tt>()</tt>
+                   if you don't have a category named <tt>foo</tt>.</td>
+           </table> </td>
+      </table>
+
+<!--- disasm *************************************************************--->
+
+      <h2><a name="desc_disasm">disasm</a></h2>
+      <tt>disasm</tt> disassembles a closure.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(disasm <i>closure</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>closure</i></tt></td><td>a closure</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>disasm</tt> returns the SECD code of a closure
+               (see <a href="#desc_lambda"><tt>lambda</tt></a>) as a list.
+               You should <b>never</b> modify this list with
+               <tt>set-car!</tt> or the like, as you'll probably get
+               this <a href="lm_err.htm#err_illegal_op">error</a> or even
+               a Fatal exception!<p>
+               This procedure is intended for debugging purposes and the
+               curious LispMe user. You can obtain an opcode list by me, if
+               you're interested. 
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(disasm (lambda (n) (* n 99)))</tt></td>
+                   <td>=></td>
+                   <td><tt>(2 99 1 (0 . 0) 17 5)</tt></td>
+           </table> </td>
+    </table>
+
+<!--- display ************************************************************--->
+
+      <h2><a name="desc_display">display</a></h2>
+      <tt>display</tt> prints an object in human-readable format.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(display <i>obj [outport]</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+             <tr><td><tt><i>outport</i></tt></td><td>(optional) an output port
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>display</tt> prints an object to the
+           <a href="lm_cmd.htm#ctl_output">output field</a> or to the 
+           output port <tt><i>outport</i></tt> in
+           human-readable format, i.e. strings and chars are not escaped.
+           No space is appended after output.
+           <tt>display</tt> returns <tt><i>obj</i></tt>.
+           Printing objects is described
+           <a href="lm_synt.htm#print">here</a>.
+           For related information, see
+           <a href="lm_cat3.htm#desc_newline"><tt>newline</tt></a> and
+           <a href="lm_cat4.htm#desc_write"><tt>write</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(display "Hello,&nbsp;world")</tt></td>
+                   <td>=></td>
+                   <td><tt>"Hello,&nbsp;world"</tt> and prints
+                           <i>Hello,&nbsp;world</i> to the output area.</td>
+               <tr><td><tt>(display '((x y)))</tt></td>
+                   <td>=></td>
+                   <td><tt>"((x y))"</tt> and prints
+                           <i>((x&nbsp;y))</i> to the output area.</td>
+           </table> </td>
+      </table>
+
+<!--- do *****************************************************************--->
+
+      <h2><a name="desc_do">do</a></h2>
+      <tt>do</tt> is a general looping construct.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form (library)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(do ((<i>var init step</i>) ...) (<i>test expr</i> ...)
+                   (<i>stmt</i> ...))</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr valign=top><td><tt><i>var<sub>i</sub></i></tt></td><td> variables
+                 </tt></td>
+             <tr valign=top><td><tt><i>init<sub>i</sub></i></tt></td><td>
+                 any expression. Each variable is initialized by the
+                 corresponding expression</td>
+             <tr valign=top><td><tt><i>step<sub>i</sub></i></tt></td><td>
+                 any expression. Each expression is evaluated and its value
+                 assigned to the corresponding variable for the next iteration.
+                 corresponding expression</td>
+             <tr valign=top><td><tt><i>test</i></tt></td><td>if this predicate
+                 evaluates to <i>true</i>, the iteration is stopped and the
+                 following</td>
+             <tr valign=top><td><tt><i>expr<sub>j</sub></i></tt></td>
+                 <td>expressions are evaluated in sequence. The last value
+                 is the result of the entire <tt>do</tt> form.</td>
+             <tr valign=top><td><tt><i>stmt<sub>k</sub></i></tt></td>
+                 <td>any LispMe expression, which are evaluated in sequence
+                 when <tt><i>test</i></tt> is <i>false</i>.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>do</tt> is a general looping mechanism. First, each
+           <tt><i>init<sub>i</sub></i></tt> is evaluated in an unspecified
+           order and each <tt><i>var<sub>i</sub></i></tt> is bound to the
+           corresponding value.<p>
+           On each iteration, <tt><i>test</i></tt> is evaluated first. When
+           it is <i>true</i>, the <tt><i>expr<sub>j</sub></i></tt>
+           are evaluated in left to right order and the value of the last
+           one is returned as the value of the whole <tt>do</tt> expression.<p>
+
+           If it is <i>false</i>, the <tt><i>stmt<sub>k</sub></i></tt> are
+           evaluated in left to right order. Next, all
+           <tt><i>var<sub>i</sub></i></tt> are updated by evaluating the
+           corresponding
+           <tt><i>step<sub>i</sub></i></tt> and the next iteration begins.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(do ((i 1 (+ i 1)) (j 1 (* i j))) ((> i 6) j))</tt>
+                   <td>=></td>
+                   <td><tt>720</tt></td>
+           </table> </td>
+    </table>
+
+<!--- draw ***************************************************************--->
+
+      <h2><a name="desc_draw">draw</a></h2>
+      <tt>draw</tt> draws a line.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(draw <i>x y</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>x</i></tt></td><td>an integer
+             <tr><td><tt><i>y</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>draw</tt> draws a line from the current point stored in 
+           <a href="lm_cat1.htm#desc_gstate"><tt>*gstate*</tt></a> to (<tt><i>x,y</i></tt>)
+           using the colors, drawing mode and drawing pattern stored in
+           <a href="lm_cat1.htm#desc_gstate"><tt>*gstate*</tt></a>.
+           After that, the current point is updated
+           to (<tt><i>x,y</i></tt>).<p>
+           See <a href="lm_graph.htm">here</a> for details on the graphic state.
+           The return value is <a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a> to
+           avoid trashing the graphics.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(draw 100 80)</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt> and draws a line to (100,80)
+                           as described above.</td>
+           </table> </td>
+      </table>
+
+<!--- eof-object? ********************************************************--->
+
+      <h2><a name="desc_eofobject">eof-object?</a></h2>
+      <tt>eof-object?</tt> recognizes the end-of-file object.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(eof-object? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>eof-object?</tt> returns <tt>#t</tt> for the end-of-file
+           object, which is returned by procedures
+           <a href="lm_cat3.htm#desc_read"><tt>read</tt></a>,
+           <a href="lm_cat3.htm#desc_read_char"><tt>read-char</tt></a>,
+           <a href="lm_cat3.htm#desc_peek_char"><tt>peek-char</tt></a>, and
+           <a href="lm_cat3.htm#desc_read_line"><tt>read-line</tt></a> when
+           they encounter the end of a memo;
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(eof-object? (read (open-input-file "bar")))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt>, if the memo <i>bar</i> is empty</td>
+               <tr><td><tt>(eof-object? "baz")</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- eq? ****************************************************************--->
+
+      <h2><a name="desc_eq">eq?</a></h2>
+      <tt>eq?</tt> recognizes identical objects.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(eq? <i>obj<sub>1</sub> obj<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj<sub>1</sub></i></tt></td><td>any object
+             <tr><td><tt><i>obj<sub>2</sub></i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>eq?</tt> returns <tt>#t</tt> if
+           <tt><i>obj<sub>1</sub></i></tt> and
+           <tt><i>obj<sub>2</sub></i></tt> are identical and <tt>#f</tt>
+           otherwise. <tt>eq?</tt> identifies equal symbols, integers and
+           chars, but not reals or strings. To compare reals, use
+           <a href="#desc_eqv"><tt>eqv?</tt></a> and to compare strings use
+           <a href="lm_cat4.htm#desc_stringeq"><tt>string=?</tt></a> or 
+           <a href="#desc_equal"><tt>equal?</tt></a>. Empty lists, vectors
+           and strings are always <tt>eq?</tt>.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(eq? 'a 'b)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(eq? 'a 'a)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(eq? 1 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(eq? 1.0 1.0)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(eq? '() '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(eq? "" "")</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(eq? #() #())</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+    </table>
+
+<!--- equal? *************************************************************--->
+
+      <h2><a name="desc_equal">equal?</a></h2>
+      <tt>equal?</tt> recognizes objects with the same value.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(equal? <i>obj<sub>1</sub> obj<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj<sub>1</sub></i></tt></td><td>any object
+             <tr><td><tt><i>obj<sub>2</sub></i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>equal?</tt> returns <tt>#t</tt> if
+           <tt><i>obj<sub>1</sub></i></tt> and
+           <tt><i>obj<sub>2</sub></i></tt> have the same value and <tt>#f</tt>
+           otherwise. <tt>equal?</tt> returns <tt>#t</tt>, if
+           <a href="#desc_eqv"><tt>eqv?</tt></a> does, but also if both
+           objects are lists, vectors or strings and contain the same components.
+           In general, two objects are <tt>equal?</tt> if they print the
+           same way. <tt>equal?</tt> may not terminate on circular lists.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(equal? 'a 'b)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(equal? 'a 'a)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(equal? 1 1.0)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(equal? '(a (b) c) '(a (b) c))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(equal? #(a b c) (vector a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(equal? "abc" "abc")</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+    </table>
+
+<!--- eqv? ***************************************************************--->
+
+      <h2><a name="desc_eqv">eqv?</a></h2>
+      <tt>eqv?</tt> recognizes equivalent objects.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(eqv? <i>obj<sub>1</sub> obj<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj<sub>1</sub></i></tt></td><td>any object
+             <tr><td><tt><i>obj<sub>2</sub></i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>eq?</tt> returns <tt>#t</tt> if
+           <tt><i>obj<sub>1</sub></i></tt> and
+           <tt><i>obj<sub>2</sub></i></tt> are equivalent and <tt>#f</tt>
+           otherwise. <tt>eqv?</tt> returns <tt>#t</tt>, if 
+           <a href="#desc_eq"><tt>eq?</tt></a> does, but also if both 
+           objects are numbers and numerically the same. Different non-empty 
+           strings
+           are never considered <tt>eqv?</tt>, as modifying one string does
+           not alter the other and so they're not equivalent. (Remember that
+           strings are not shared in LispMe.)
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(eqv? 'a 'b)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(eqv? 'a 'a)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(eqv? 1 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(eqv? 1 1.0)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(eqv? '() '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(eqv? "" "")</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(eqv? "abc" "abc")</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+    </table>
+
+<!--- error **************************************************************--->
+
+      <h2><a name="desc_error">error</a></h2>
+      <tt>error</tt> aborts the evaluation with an error message.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(error <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>error</tt> aborts the current evaluation and prints
+           <tt><i>obj</i></tt> using <a href="#desc_display"><tt>display</tt></a>
+           to a message box as a
+           <a href="lm_err.htm#err_user_error">user error</a>. There's no
+           return value.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(error "Fucked up")</tt></td>
+                   <td>=></td>
+                   <td>no value, displays <i>Fucked up</i> in a message box</td>
+               <tr><td><tt>(error '(a b c d))</tt></td>
+                   <td>=></td>
+                   <td>no value, displays <i>(a b c d)</i> in a message box</td>
+           </table> </td>
+      </table>
+
+<!--- eval ***************************************************************--->
+
+      <h2><a name="desc_eval">eval</a></h2>
+      <tt>eval</tt> evaluates an expression<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(eval <i>expression</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>expression</i></tt></td><td>any valid expression</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>eval</tt> evaluates <tt><i>expression</i></tt> in the
+               current environment and returns its value.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension. The environment parameter described in
+               R<sup>5</sup>RS is not supported.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(eval '(cons 'foo '()))</tt></td>
+                   <td>=></td>
+                   <td><tt>(foo)</tt></td>
+               <tr><td><tt>(let ((a 1)) (eval 'a))</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+           </table> </td>
+    </table>
+
+<!--- even? **************************************************************--->
+
+      <h2><a name="desc_even">even?</a></h2>
+      <tt>even?</tt> tests, if a number is even.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(even? <i>int</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>int</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>even?</tt> returns <tt>#t</tt>, if <tt><i>int</i></tt>
+           is even. Otherwise it returns <tt>#f</tt>. See also
+           <a href="lm_cat3.htm#desc_odd"></tt>odd?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(even? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(even? 1.23)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- event **************************************************************--->
+
+      <h2><a name="desc_event">event</a></h2>
+      <tt>event</tt> gets an user interface event.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(event <i>wait</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>wait</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>event</tt> gets the next event from the PalmOS event
+           queue and translates it into LispMe event syntax. Depending on
+           <tt><i>wait</i></tt> it will wait (<i>true</i>) for the next
+           event to become available or return immediately (<i>false</i>), if
+           no event is queued. See also
+           <a href="lm_gui.htm#event">here</a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(event #t)</tt></td>
+                   <td>=></td>
+                   <td><tt>(pen-down 80 80)</tt>, after you tap in the center of the screen</td>
+               <tr><td><tt>(event #f)</tt></td>
+                   <td>=></td>
+                   <td><tt>(#f)</tt> when no event has been queued</td>
+           </table> </td>
+    </table>
+
+<!--- exact? *************************************************************--->
+
+      <h2><a name="desc_exact">exact?</a></h2>
+      <tt>exact?</tt> tests, if a number is exact.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(exact? <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>exact?</tt> always returns <tt>#f</tt>, as LispMe
+           doesn't support the exactness property of numbers.
+           See also <a href="#desc_inexact"></tt>inexact?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Exactness property not supported</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(exact? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+    </table>
+
+<!--- exp ****************************************************************--->
+
+      <h2><a name="desc_exp">exp</a></h2>
+      <tt>exp</tt> computes the natural antilogarithm of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(exp <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>exp</tt> returns the natural antilogarithm e<sup>x</sup>
+           of <tt><i>z</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(exp 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(exp 100)</tt></td>
+                   <td>=></td>
+                   <td><tt>2.68811714181613e+43</tt></td>
+               <tr><td><tt>(exp 3-i)</tt></td>
+                   <td>=></td>
+                   <td><tt>10.8522619141979-16.90139653515i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- expt ***************************************************************--->
+
+      <h2><a name="desc_expt">expt</a></h2>
+      <tt>expt</tt> computes the power of two numbers.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(expt <i>z<sub>1</sub> z<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z<sub>1</sub></i></tt></td><td>any number
+             <tr><td><tt><i>z<sub>2</sub></i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>expt</tt> returns the power
+           <tt><i>z<sub>1</sub><sup>z<sub>2</sub></sup></i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(expt 2 5)</tt></td>
+                   <td>=></td>
+                   <td><tt>32</tt></td>
+               <tr><td><tt>(expt 1.1 100)</tt></td>
+                   <td>=></td>
+                   <td><tt>13780.6123398223</tt></td>
+               <tr><td><tt>(expt 0 -3)</tt></td>
+                   <td>=></td>
+                   <td><tt>[inf]</tt></td>
+               <tr><td><tt>(expt +i +i)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.207879576350762</tt></td>
+           </table> </td>
+    </table>
+
+<!--- fld-changed ********************************************************--->
+
+      <h2><a name="desc_fld_changed">fld-changed</a></h2>
+      <tt>fld-changed</tt> is posted when a field is scrolled by drag-selection.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(fld-changed <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the field
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>fld-changed</tt> is the event posted when a field scrolls
+           because the user has selected some text by dragging the pen.</td>
+      </table>
+
+<!--- fld-enter **********************************************************--->
+
+      <h2><a name="desc_fld_enter">fld-enter</a></h2>
+      <tt>fld-enter</tt> is posted when a field is tapped.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(fld-enter <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the tapped field
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>fld-enter</tt> is the event posted when the user has
+           tapped a field but not yet lifted the pen.</td>
+      </table>
+
+<!--- fld-get-text *******************************************************--->
+
+      <h2><a name="desc_fld_get_text">fld-get-text</a></h2>
+      <tt>fld-get-text</tt> returns the text of a UI field.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(fld-get-text <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the field
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>fld-get-text</tt> returns the text of a field with
+           id <tt><i>id</i></tt> as a string.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(fld-get-text 1200)</tt></td>
+                   <td>=></td>
+                   <td><tt>"foobar"</tt> assuming the contents of the field were
+                   <tt>foobar</tt></td>
+           </table> </td>
+    </table>
+
+<!--- fld-set-text *******************************************************--->
+
+      <h2><a name="desc_fld_set_text">fld-set-text</a></h2>
+      <tt>fld-set-text</tt> sets the text of a UI field.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(fld-set-text <i>id obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the field
+             <tr><td><tt><i>obj</i></tt></td><td>any LispMe object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>fld-set-text</tt> prints <tt><i>obj</i></tt> using
+           <tt>display</tt> <a href="lm_synt.htm#print">formatting conventions</a>
+           and sets the printed
+           text as the contents of the user interface field
+           <tt><i>id</i></tt>. The return value is <tt><i>obj</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(fld-set-text 1200 (* 6 7))</tt></td>
+                   <td>=></td>
+                   <td><tt>42</tt> and sets the field text to <tt>42</tt></td>
+           </table> </td>
+    </table>
+
+<!--- floor **************************************************************--->
+
+      <h2><a name="desc_floor">floor</a></h2>
+      <tt>floor</tt> computes the largest whole number less than or equal to a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(floor <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>floor</tt> converts <tt><i>num</i></tt> to a floating
+           point number and returns the largest whole number less than
+           or equal to <tt><i>num</i></tt>. The result is <b>not</b> a
+           LispMe integer, it's a floating point value.<p>
+           See also
+           <a href="lm_cat1.htm#desc_ceiling"><tt>ceiling</tt></a>,
+           <a href="lm_cat3.htm#desc_round"><tt>round</tt></a>, and
+           <a href="lm_cat4.htm#desc_truncate"><tt>truncate</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(floor -4.3)</tt></td>
+                   <td>=></td>
+                   <td><tt>-5</tt></td>
+               <tr><td><tt>(floor 3.5)</tt></td>
+                   <td>=></td>
+                   <td><tt>3</tt></td>
+           </table> </td>
+    </table>
+
+<!--- for-each ***********************************************************--->
+
+      <h2><a name="desc_for_each">for-each</a></h2>
+      <tt>for-each</tt> applies a procedure to each element of a list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(for-each <i>proc list</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>proc</i></tt></td><td>a procedure of one argument
+             <tr><td><tt><i>list</i></tt></td><td>a proper list
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>for-each</tt> applies <tt><i>proc</i></tt> to each
+           element in <tt><i>list</i></tt> strictly from left to right,
+           ignoring the values returned.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Supports only one list</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(for-each write '(2 3 4 5))</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt> and prints <i>2 3 4 5</i> to the output area</td>
+           </table> </td>
+      </table>
+
+<!--- force **************************************************************--->
+
+      <h2><a name="desc_force">force</a></h2>
+      <tt>force</tt> evaluates a promise.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(force <i>prom</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>prom</i></tt></td><td>a promise
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>force</tt> evaluates a promise created by
+           <a href="#desc_delay"><tt>delay</tt></a>. If the promise hasn't
+           already been evaluated, it's evaluated now and the result is
+           memoized. Subsequent <tt>forc</tt>ing of this promise will
+           always return the memoized value.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(force (delay 5))</tt></td>
+                   <td>=></td>
+                   <td><tt>5</tt></td>
+               <tr><td><tt>(force 5)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+      </table>
+
+<!--- frm-close **********************************************************--->
+
+      <h2><a name="desc_frm_close">frm-close</a></h2>
+      <tt>frm-close</tt> is posted when a form is closed.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(frm-close <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the id of the form
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>frm-close</tt> is the event posted when a form is closed
+           by <a href="#desc_frm_goto"><tt>frm-goto</tt></a> or by
+           leaving LispMe altogether, but for some strange reasons not by
+           <a href="#desc_frm_return"><tt>frm-return</tt></a>.</td>
+      </table>
+
+<!--- frm-get-focus ******************************************************--->
+
+      <h2><a name="desc_frm_get_focus">frm-get-focus</a></h2>
+      <tt>frm-get-focus</tt> gets the UI element having the focus.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(frm-get-focus)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td>none</td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>frm-get-focus</tt> retrieves the id of the UI element
+           having the focus. If none has, <tt>#f</tt> is returned.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(frm-get-focus)</tt></td>
+                   <td>=></td>
+                   <td><tt>1100</tt> assuming UI element 1100 has the focus</td>
+           </table> </td>
+    </table>
+
+<!--- frm-goto ***********************************************************--->
+
+      <h2><a name="desc_frm_goto">frm-goto</a></h2>
+      <tt>frm-goto</tt> closes the current form and displays a new one.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(frm-goto <i>id handler</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the id of the form
+             <tr><td><tt><i>handler</i></tt></td><td>a procedure used as event handler
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>frm-goto</tt> searches the specified form
+           <tt><i>id</i></tt> in the currently open resource databases
+           (see <a href="lm_cat4.htm#desc_set_resdb"><tt>set-resdb</tt></a>)
+           and displays it after closing the current form.<p>
+           <tt><i>handler</i></tt> is installed as the event handler for the
+           new form but no continuation will be stored. Instead, 
+           <a href="#desc_frm_return"><tt>frm-return</tt></a>
+           will return to the original caller invoking the last
+           <a href="#desc_frm_popup"><tt>frm-popup</tt></a>
+           (this is a tail-call in fact). There's no return value.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td>See <a href="lm_gui.htm">here</a>
+           </td>
+    </table>
+
+<!--- frm-open ***********************************************************--->
+
+      <h2><a name="desc_frm_open">frm-open</a></h2>
+      <tt>frm-open</tt> is posted when a form is opened.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(frm-open <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the id of the form
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>frm-open</tt> is the event posted when a form is opened
+           by <a href="#desc_frm_goto"><tt>frm-goto</tt></a> or by
+           <a href="#desc_frm_popup"><tt>frm-popup</tt></a>. You should
+           place form initialization code here. Note that drawing of the
+           form is done by LispMe itself, you don't have to do this in the
+           handler.</td>
+      </table>
+
+<!--- frm-popup **********************************************************--->
+
+      <h2><a name="desc_frm_popup">frm-popup</a></h2>
+      <tt>frm-popup</tt> displays a new form, but doesn't close the old one.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(frm-show <i>id handler</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the id of the form
+             <tr><td><tt><i>handler</i></tt></td><td>a procedure used as event handler
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>frm-popup</tt> searches the specified form
+           <tt><i>id</i></tt> in the currently open resource databases
+           (see <a href="lm_cat4.htm#desc_set_resdb"><tt>set-resdb</tt></a>)
+           and pops it up over the current active form, which is not closed.<p>
+           <tt><i>handler</i></tt> is installed as the event handler for the
+           new form, after the continuation of the call has been stored.
+           This continuation will be re-activated,
+           when the event handler of the form executes 
+           <a href="#desc_frm_return"><tt>frm-return</tt></a>, which
+           is also the return value of <tt>frm-popup</tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td>See <a href="lm_gui.htm">here</a>
+           </td>
+    </table>
+
+<!--- frm-return *********************************************************--->
+
+      <h2><a name="desc_frm_return">frm-return</a></h2>
+      <tt>frm-return</tt> closes the current form and jumps to its continuation.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(frm-return <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any LispMe object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>frm-return</tt> terminates and closes the current form
+           and delivers <tt><i>obj</i></tt> to the continuation stored when
+           the corresponding <a href="#desc_frm_popup"><tt>frm-popup</tt></a>
+           was invoked. There's no return value.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td>See <a href="lm_gui.htm">here</a>
+           </td>
+    </table>
+
+<!--- frm-set-focus ******************************************************--->
+
+      <h2><a name="desc_frm_set_focus">frm-set-focus</a></h2>
+      <tt>frm-set-focus</tt> sets the focus to a UI element.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(frm-set-focus <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the element
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>frm-set-focus</tt> sets the input focus to the user interface
+           element with id
+           id <tt><i>id</i></tt>. The return value is
+           <tt><i>id</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(frm-set-focus 1100)</tt></td>
+                   <td>=></td>
+                   <td><tt>1100</tt> and sets the focus to UI element <tt>1100</tt></td>
+           </table> </td>
+    </table>
+
+<!--- frm-show ***********************************************************--->
+
+      <h2><a name="desc_frm_show">frm-show</a></h2>
+      <tt>frm-show</tt> shows/hides a UI element.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(frm-show <i>id obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the element
+             <tr><td><tt><i>obj</i></tt></td><td>any LispMe object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>frm-show</tt> sets the usable attribute of a user interface
+           element with
+           id <tt><i>id</i></tt> depending on <tt><i>obj</i></tt> where <tt>#f</tt> means
+           <i>not usable</i> and any other value <i>usable</i> and shows or 
+           hides the UI element accordingly. The return value is 
+           <tt><i>obj</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(frm-show 1300 #f)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt> and hides UI element <tt>1300</tt></td>
+           </table> </td>
+    </table>
+
+<!--- gc *****************************************************************--->
+
+      <h2><a name="desc_gc">gc</a></h2>
+      <tt>gc</tt> starts a garbage collection.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(gc)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td>none</td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>gc</tt> invokes the garbage collector explicitely.
+           The return value is <tt>#n</tt>.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(gc)</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt></td>
+           </table> </td>
+      </table>
+
+<!--- gensym *************************************************************--->
+
+      <h2><a name="desc_gensym">gensym</a></h2>
+      <tt>gensym</tt> creates a new unique symbol.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(gensym)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td>none</td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>gensym</tt> creates a new symbol, which is not
+           <tt>eq?</tt> to any other symbol, no matter if input or created
+           by a different call to <tt>gensym</tt>. This is guaranteed by
+           using <tt>#</tt> as its first char, which cannot be input.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(gensym)</tt></td>
+                   <td>=></td>
+                   <td><tt>#0</tt> (first call)</td>
+               <tr><td><tt>(gensym)</tt></td>
+                   <td>=></td>
+                   <td><tt>#147</tt> (several calls later)</td>
+           </table> </td>
+      </table>
+
+<!--- hb-addrecord *******************************************************--->
+
+      <h2><a name="desc_hb_addrecord">hb-addrecord</a></h2>
+      <tt>hb-addrecord</tt> adds a new record to a 
+        <a href="lm_hbase.htm">HanDBase</a> database.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(hb-addrecord <i>dbname</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>dbname</i></tt></td><td>a string naming a HanDBase 
+               database
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>hb-addrecord</tt> adds a new record to 
+             the HanDBase database <tt><i>dbname</i></tt>. All fields are
+             initialized with default values. The return value is the 
+             new record number, which can be used in subsequent calls
+             to <a href="#desc_hb_setfield"><tt>hb-setfield</tt></a> to 
+             set the field values.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(hb-addrecord "Parent")</tt></td>
+                   <td>=></td>
+                   <td><tt>33</tt></td>
+           </table> </td>
+      </table>
+
+<!--- hb-dir *************************************************************--->
+
+      <h2><a name="desc_hb_dir">hb-dir</a></h2>
+      <tt>hb-dir</tt> retrieves a list of all
+        <a href="lm_hbase.htm">HanDBase</a> databases.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(hb-dir)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td>none</td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>hb-dir</tt> utilizes the HanDBase API to create a
+           list of strings naming all HanDBase databases.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(hb-dir)</tt></td>
+                   <td>=></td>
+                   <td><tt>("Parent" "Son" "Babilon")</tt></td>
+           </table> </td>
+      </table>
+
+<!--- hb-info ************************************************************--->
+
+      <h2><a name="desc_hb_info">hb-info</a></h2>
+      <tt>hb-info</tt> retrieves information of a particular
+        <a href="lm_hbase.htm">HanDBase</a> database.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(hb-info <i>dbname</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>dbname</i></tt></td><td>a string naming a HanDBase 
+               database
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>hb-info</tt> returns a list describing general
+             properties of the HanDBase database <tt><i>dbname</i></tt>.
+             The <tt>car</tt> of the
+             the list is the total number of records in the database. The
+             <tt>cdr</tt> is a list of field descriptions. Each field
+             description is a list of 6 components:
+             <ol>
+               <li>The field number in the range 0-29  
+               <li>The field name as a string  
+               <li>The <a href="lm_hbase.htm#types">field datatype</a>
+               <li>The maximum field length
+               <li>A flag whether to export or print the field
+               <li>A flag whether the field is vivisble in the HanDBase record editor
+             </ol>    
+             Only fields which are not marked <i>not used</i> are included 
+             in this list
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(hb-info "Parent")</tt></td>
+                   <td>=></td>
+                   <td><tt>(10 (0 "Name" 1 41 #t #t)
+                               (1 "Age" 2 15 #f #t)
+                               (2 "Son" 10 4 #t #t))</tt></td>
+           </table> </td>
+      </table>
+
+<!--- hb-getfield ********************************************************--->
+
+      <h2><a name="desc_hb_getfield">hb-getfield</a></h2>
+      <tt>hb-getfield</tt> reads the value of a field in a specific record
+          of a particular <a href="lm_hbase.htm">HanDBase</a> database.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(hb-getfield <i>dbname recnum fldnum</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>dbname</i></tt></td><td>a string naming a HanDBase 
+               database
+             <tr><td><tt><i>recnum</i></tt></td><td>an integer denoting a record number 
+             <tr><td><tt><i>fldnum</i></tt></td><td>an integer denoting the field number 
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>hb-getfield</tt> retrieves the value of the field
+             <tt><i>fldnum</i></tt> in record <tt><i>recnum</i></tt> in the
+             HanDBase database <tt><i>dbname</i></tt>. Regardless of the
+             field's internal "type", it is returned as a string.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(hb-getfield "Parent" 7 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>"Fred"</tt></td>
+           </table> </td>
+      </table>
+
+<!--- hb-getlinks ********************************************************--->
+
+      <h2><a name="desc_hb_getlinks">hb-getlinks</a></h2>
+      <tt>hb-getlinks</tt> gets all records linked to by a specific record
+          of a particular <a href="lm_hbase.htm">HanDBase</a> database.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(hb-getlinks <i>dbname recnum fldnum</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>dbname</i></tt></td><td>a string naming a HanDBase 
+               database
+             <tr><td><tt><i>recnum</i></tt></td><td>an integer denoting a record number 
+             <tr><td><tt><i>fldnum</i></tt></td><td>an integer denoting the field number 
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>hb-getlinks</tt> retrieves the record numbers of
+             all records which are linked to from a record
+             <tt><i>recnum</i></tt> in the
+             HanDBase database <tt><i>dbname</i></tt>. The link field number is
+             given by <tt><i>fldnum</i></tt>. The result is a list whose
+             <tt>car</tt> is the name of the destination database as a string
+             and whose <tt>cdr</tt> is a list of all record numbers in the
+             destination database the record <tt><i>recnum</i></tt> is linked to.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(hb-getlinks "Parent" 7 2)</tt></td>
+                   <td>=></td>
+                   <td><tt>("Sons" 4 7 11)</tt></td>
+           </table> </td>
+      </table>
+
+<!--- hb-setfield ********************************************************--->
+
+      <h2><a name="desc_hb_setfield">hb-setfield</a></h2>
+      <tt>hb-setfield</tt> updates a value of a field in a specific record
+          of a particular <a href="lm_hbase.htm">HanDBase</a> database.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(hb-setfield <i>dbname recnum fldnum obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>dbname</i></tt></td><td>a string naming a HanDBase 
+               database
+             <tr><td><tt><i>recnum</i></tt></td><td>an integer denoting a record number 
+             <tr><td><tt><i>fldnum</i></tt></td><td>an integer denoting the field number 
+             <tr><td><tt><i>obj</i></tt></td><td>any object 
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt><i>obj</i></tt> is printed using
+             <a href="#desc_display"><tt>display</tt></a> and the resulting
+             string is used to update the field
+             <tt><i>fldnum</i></tt> in record <tt><i>recnum</i></tt> in the
+             HanDBase database <tt><i>dbname</i></tt>. The return value is
+             the object <tt><i>obj</i></tt> itself.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(hb-setfield "Parent" 7 0 "who knows?")</tt></td>
+                   <td>=></td>
+                   <td><tt>"who knows?"</tt></td>
+           </table> </td>
+      </table>
+
+<!--- if *****************************************************************--->
+
+      <h2><a name="desc_if">if</a></h2>
+      <tt>if</tt> conditionally evaluates one of two expressions.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(if <i>test consequent alternative</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr valign=top><td><tt><i>test</i></tt></td>
+                 <td>any LispMe expression. Its value determines, if
+                     <tt><i>consequent</i></tt> or <tt><i>alternative</i></tt>
+                     is evaluated.</td>
+             <tr valign=top><td><tt><i>consequent</i></tt></td>
+                 <td>any LispMe expression. It's evaluated when
+                     <tt><i>test</i></tt> is <i>true</i>.</td>
+             <tr valign=top><td><tt><i>alternative</i></tt></td>
+                 <td>any LispMe expression. It's evaluated when
+                     <tt><i>test</i></tt> is <i>false</i>.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>if</tt> evaluates <tt><i>test</i></tt> first. If this
+               evaluates to <i>true</i>, <tt><i>consequent</i></tt> is
+               evaluated and its value returned. Otherwise,
+               <tt><i>alternative</i></tt> is
+               evaluated and its value returned. Remember that
+               <a href="lm_cat1.htm#desc_nil"><tt>'()</tt></a>
+               is considered <i>true</i> in LispMe.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td><tt><i>alternative</i></tt> is not optional</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(if #t (* 4 5) '(foo))</tt></td>
+                   <td>=></td>
+                   <td><tt>20</tt></td>
+               <tr><td><tt>(if (cdr '(a)) 5 2)</tt></td>
+                   <td>=></td>
+                   <td><tt>5</tt></td>
+               <tr><td><tt>(if (eq? 1 2) 0 8)</tt></td>
+                   <td>=></td>
+                   <td><tt>8</tt></td>
+           </table> </td>
+    </table>
+
+<!--- imag-part **********************************************************--->
+
+      <h2><a name="desc_imag_part">imag-part</a></h2>
+      <tt>imag-part</tt> computes the imaginary part
+         of a complex number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(imag-part <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>imag-part</tt> computes the imaginary part
+           of the number
+           <tt><i>z</i></tt>. </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(imag-part 5.1)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(imag-part 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>2</tt></td>
+               <tr><td><tt>(imag-part 7.2@1.8)</tt></td>
+                   <td>=></td>
+                   <td><tt>7.011702942323</tt></td>
+           </table> </td>
+    </table>
+
+<!--- index->rgb *********************************************************--->
+
+      <h2><a name="desc_index2rgb">index->rgb</a></h2>
+      <tt>index->rgb</tt> retrieves the actual RGB values for a palette entry.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(index->rgb <i>col</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>col</i></tt></td><td>color number, an integer in the range 0-255
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>index->rgb</tt> reads the actual RGB values for the
+           color number <tt><i>col</i></tt> from the system colortable and
+           returns them as a newly allocated list of 3 integers each
+           in the range 0-255.<p>
+           On systems running older OS versions than 3.5, <tt>(0 0 0)</tt>
+           is returned.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(index->rgb 13)</tt></td>
+                   <td>=></td>
+                   <td><tt>(255 204 153)</tt>(256 colors)</td>
+               <tr><td><tt>(index->rgb 13)</tt></td>
+                   <td>=></td>
+                   <td><tt>(34 34 34)</tt>(16 grays)</td>
+           </table> </td>
+    </table>
+
+<!--- inexact? ***********************************************************--->
+
+      <h2><a name="desc_inexact">inexact?</a></h2>
+      <tt>inexact?</tt> tests, if a number is inexact.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(inexact? <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>inexact?</tt> always returns <tt>#t</tt>, as LispMe
+           doesn't support the exactness property of numbers.
+           See also <a href="#desc_exact"></tt>exact?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Exactness property not supported</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(inexact? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+    </table>
+
+<!--- input **************************************************************--->
+
+      <h2><a name="desc_input">input</a></h2>
+      <tt>input</tt> parses data entered in a dialog box as a LispMe object.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(input <i>prompt</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>prompt</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>input</tt> displays a dialog where the user can input
+           a LispMe object which will be returned. <tt><i>prompt</i></tt> is
+           displayed as a prompt text in the input dialog. <tt>input</tt> uses
+           the standard LispMe parser to create an object from its
+           textual representation, so all kind of <a href="lm_err.htm#err_syntax">
+           syntax errors</a> are possible. The type of the object is solely
+           determined by the data input.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension. Note that this procedure was called
+               <tt>read</tt> in earlier versions. This has been changed to avoid
+               confusion with the R<sup>4</sup>RS <tt>read</tt>.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(input "Enter your income")</tt></td>
+                   <td>=></td>
+                   <td><i>whatever you enter in the dialog</i></td>
+           </table> </td>
+      </table>
+
+<!--- input-port? ********************************************************--->
+
+      <h2><a name="desc_input_port">input-port?</a></h2>
+      <tt>input-port?</tt> recognizes a port opened for input.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(input-port? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>input-port?</tt> returns <tt>#t</tt> for a port
+           opened for input by
+           <a href="lm_cat3.htm#desc_open_input_file"><tt>open-input-file</tt></a>
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(input-port? (open-input-file "bar"))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(input-port? (open-output-file "foo"))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(input-port? "baz")</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- input-string *******************************************************--->
+
+      <h2><a name="desc_input_string">input-string</a></h2>
+      <tt>input-string</tt> reads a string entered in a dialog box.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(input-string <i>prompt</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>prompt</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>input-string</tt> displays a dialog where the user can input
+           any text which will be returned as a string. <tt><i>prompt</i></tt>
+           is displayed as a prompt text in the input dialog. <tt>input-string</tt>
+           accepts any text entered.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension. Note that this procedure was called
+               <tt>read-string</tt> in earlier versions. This has been changed to 
+               be consistent with <a href="#desc_input"><tt>input</tt></a>.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(input-string "I'm Eliza. Please state your problem.")</tt></td>
+                   <td>=></td>
+                   <td><i>whatever you enter in the dialog as a string</i></td>
+           </table> </td>
+      </table>
+
+<!--- integer ************************************************************--->
+
+      <h2><a name="desc_integer">integer</a></h2>
+      <tt>integer</tt> converts a number to integer.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(integer <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>integer</tt> converts the floating point number
+           <tt><i>num</i></tt> to an integer by truncating. If
+           <tt><i>num</i></tt> is already an integer, <tt>integer</tt>
+           just returns it. It's an <a href="lm_err.htm#err_wrong_type">
+           error</a>, if <tt><i>num</i></tt> is not in the range
+           [-16384...16383].
+           See also
+           <a href="lm_cat4.htm#desc_truncate"><tt>truncate</tt></a>.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(integer 4.897632)</tt></td>
+                   <td>=></td>
+                   <td><tt>4</tt></td>
+               <tr><td><tt>(integer 20000)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- integer2char *******************************************************--->
+
+      <h2><a name="desc_integer2char">integer->char</a></h2>
+      <tt>integer->char</tt> creates a character from its ASCII code.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(integer->char <i>int</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>int</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>integer->char</tt> returns the char with the ASCII code
+           <tt><i>int</i></tt>. Only the lower 8 bit of <tt><i>int</i></tt>
+           are used (<tt><i>int</i></tt> mod 256). You should use a tool like
+           <a href="http://astro.uchicago.edu/home/web/valdes/pilot/AsciiChart/">
+           AsciiChart</a> to see characters and their codes on your Pilot.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(integer->char 49)</tt></td>
+                   <td>=></td>
+                   <td><tt>#\1</tt></td>
+               <tr><td><tt>(integer->char 1000)</tt></td>
+                   <td>=></td>
+                   <td><tt>#\&egrave;</tt></td>
+           </table> </td>
+      </table>
+
+<!--- integer? ***********************************************************--->
+
+      <h2><a name="desc_integerp">integer?</a></h2>
+      <tt>integer?</tt> recognizes integer numbers.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(integer? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>integer?</tt> returns <tt>#t</tt> for integer numbers
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(integer? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(integer? -1.234e-55)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(integer? 3.5-17i)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(integer? 'foo)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- it *****************************************************************--->
+
+      <h2><a name="desc_it">it</a></h2>
+      <tt>it</tt> contains the result of the last evaluation.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Variable</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>it</tt></td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>it</tt> is a variable which it automatically updated
+           to the result of the last evaluation, so you can use it in
+           subsequent evaluations.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      </table>
+
+<!--- key-down ***********************************************************--->
+
+      <h2><a name="desc_key_down">key-down</a></h2>
+      <tt>key-down</tt> is posted when a graffiti char is entered.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(key-down <i>char</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>char</i></tt></td><td>the character being entered
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>key-down</tt> is the event posted when the user enters a
+           graffiti character or presses the hardware scroll buttons.</td>
+      </table>
+
+<!--- lambda *************************************************************--->
+
+      <h2><a name="desc_lambda">lambda</a></h2>
+      <tt>lambda</tt> creates a procedure.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(lambda <i>formals expr<sub>1</sub> expr<sub>2</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr valign=top><td><tt><i>formals</i></tt></td>
+                 <td>Either a single variable or a list of variables
+                     <ul>
+                     <li><tt>(<i>var<sub>1</sub> ...</i>)</tt> a proper list
+                         (which can be empty)
+                         of symbols. Each <tt><i>var<sub>i</sub></i></tt>
+                         is bound to the corresponding argument 
+                         when the procedure
+                         is called. The number of identifiers must be equal to
+                         the number of arguments. Procedures created by this
+                         form print as <tt>[clos <i>n</i>]</tt>, where
+                         <tt><i>n</i></tt> is the number of identifiers.
+                     <li><tt><i>var</i></tt> a single identifier. All arguments are gathered into
+                         a single list which is bound to <tt><i>var</i></tt>.
+                         Procedures created by this form accept any number
+                         of arguments and print as <tt>[clos -1]</tt>.
+                     <li><tt>(<i>var<sub>1</sub></i> ... . <i>var<sub>n</sub></i>)</tt>
+                         an improper (dotted) list of identifiers.
+                         Each <tt><i>var<sub>i</sub></i></tt> except
+                         <tt><i>var<sub>n</sub></i></tt>
+                         is bound to the corresponding argument when
+                         the procedure is called. After <tt><i>n-1</i></tt>
+                         arguments have been bound, additional arguments are
+                         gathered into a list which <tt><i>var<sub>n</sub></i></tt>
+                         is bound to. Procedures created by this form need
+                         <tt><i>n-1</i></tt> arguments at least and
+                         print as <tt>[clos -<i>n</i>]</tt>.
+                     </ul>
+             <tr valign=top><td><tt><i>expr<sub>i</sub></i></tt></td>
+                 <td>the expressions which are evaluated in the extended
+                 environment when the procedure is called.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>lambda</tt> creates a procedure (or lexical closure)
+           defined by
+           <ul>
+           <li> the formal argument specifier <tt><i>formals</i></tt>
+           <li> the sequence of expressions to be evaluated
+                <tt><i>expr<sub>i</sub></i></tt>
+           <li> the environment in effect when <tt>lambda</tt> is evaluated
+           </ul>
+           When the procedure is called, the following steps are executed:
+           <ol>
+           <li> each actual argument is evaluated
+           <li> the environment in effect when the procedure was created is
+                extended by one frame consisting of <tt><i>formals</i></tt>
+                which are bound to the arguments as described above
+           <li> the expressions <tt><i>expr<sub>i</sub></i></tt> are evaluated
+                in the extended environment in the order they are written
+           <li> the value of the last <tt><i>expr<sub>i</sub></i></tt> evaluated
+                is returned as the result of the application
+           </ol>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(lambda (a b) (* a (+ b 1)))</tt></td>
+                   <td>=></td>
+                   <td><tt>[clos 2]</tt></td>
+               <tr><td><tt>((lambda x x) 1 2 3 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>(1 2 3 4)</tt></td>
+               <tr><td><tt>((lambda (x y . z) z) 1 2 3 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>(3 4)</tt></td>
+           </table> </td>
+    </table>
+
+<!--- length *************************************************************--->
+
+      <h2><a name="desc_length">length</a></h2>
+      <tt>length</tt> returns the length of a list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(length <i>list</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>list</i></tt></td><td>a proper list
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>length</tt> returns the number of elements in
+           <tt><i>list</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(length '(a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>3</tt></td>
+               <tr><td><tt>(length '((a b c)))</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(length '())</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+           </table> </td>
+      </table>
+
+<!--- let ****************************************************************--->
+
+      <h2><a name="desc_let">let</a></h2>
+      <tt>let</tt> binds local variables for expressions.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(let ((<i>var form</i>) ...) <i>expr<sub>1</sub> expr<sub>2</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr valign=top><td><tt><i>var ...</i></tt></td><td> variables. Each
+                 variable is bound to the corresponding <tt><i>form</i></tt></td>
+             <tr valign=top><td><tt><i>form ...</i></tt></td> <td>any LispMe
+                 expression</td>
+             <tr valign=top><td><tt><i>expr<sub>i</sub></i></tt></td>
+                 <td>any LispMe expression. These are evaluated in sequence 
+                 in the extended environment.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>let</tt> is a binding form, which extends the lexical
+           environment by the bindings in its head and evaluates its body
+           forms in the extended environment.
+           <ol>
+           <li>Each <tt><i>form<sub>i</sub></i></tt> is evaluated in the current
+           environment in an unspecified order.
+           <li>Each <tt><i>var<sub>i</sub></i></tt> is bound to the value of
+           <tt><i>form<sub>i</sub></i></tt>.
+           <li>The <tt><i>expr<sub>i</sub></i></tt> are evaluated from left to
+           right in the extended environment.
+           <li>The value of the last <tt><i>expr<sub>i</sub></i></tt> is the
+           value of the <tt>let</tt>-form.
+           </ol>
+           To create mutual referential bindings, use
+           <a href="#desc_letrec"><tt>letrec</tt></a>.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(let ((a 2) (b 3)) (* a b))</tt></td>
+                   <td>=></td>
+                   <td><tt>6</tt></td>
+               <tr><td><tt>(let ((a 2) (b 3)) (let ((a 4)) (* a b)))</tt></td>
+                   <td>=></td>
+                   <td><tt>12</tt></td>
+           </table> </td>
+    </table>
+
+<!--- let* ***************************************************************--->
+
+      <h2><a name="desc_letstar">let*</a></h2>
+      <tt>let*</tt> binds local variables in sequence for expressions.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form (library)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(let* ((<i>var form</i>) ...) <i>expr<sub>1</sub>
+                      expr<sub>2</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr valign=top><td><tt><i>var ...</i></tt></td><td> variables. Each
+                 variable is bound to the corresponding <tt><i>form</i></tt></td>
+             <tr valign=top><td><tt><i>form ...</i></tt></td> <td>any LispMe
+                 expression</td>
+             <tr valign=top><td><tt><i>expr<sub>i</sub></i></tt></td>
+                 <td>any LispMe expression. These are evaluated in sequence 
+                 in the extended environment.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>let*</tt> is a binding form, which extends the lexical
+           environment by the bindings in its head and evaluates its body
+           forms in the extended environment.
+           <ol>
+           <li>Each <tt><i>form<sub>i</sub></i></tt> is evaluated in the current
+           environment in sequence from left to right and may refer to earlier
+           bound variables <tt><i>var<sub>&lt;i</sub></i></tt>.
+           <li>Each <tt><i>var<sub>i</sub></i></tt> is bound to the value of
+           <tt><i>form<sub>i</sub></i></tt>.
+           <li>The <tt><i>expr<sub>i</sub></i></tt> are evaluated from left to
+           right in the extended environment.
+           <li>The value of the last <tt><i>expr<sub>i</sub></i></tt> is the
+           value of the <tt>let</tt>-form.
+           </ol>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(let* ((a 2) (b 3)) (* a b))</tt></td>
+                   <td>=></td>
+                   <td><tt>6</tt></td>
+               <tr><td><tt>(let* ((a 2) (b 3) (a (+ a b))) (* a b))</tt></td>
+                   <td>=></td>
+                   <td><tt>15</tt></td>
+           </table> </td>
+    </table>
+
+<!--- letrec *************************************************************--->
+
+      <h2><a name="desc_letrec">letrec</a></h2>
+      <tt>letrec</tt> evaluates expressions in an environment with mutual
+          referential bindings.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(letrec ((<i>var form</i>) ...) <i>expr<sub>1</sub> expr<sub>2</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr valign=top><td><tt><i>var ...</i></tt></td><td> variables. Each
+                 variable is bound to the corresponding <tt><i>form</i></tt></td>
+             <tr valign=top><td><tt><i>form ...</i></tt></td> <td>any LispMe
+                 expressions</td>
+             <tr valign=top><td><tt><i>expr<sub>i</sub></i></tt></td>
+                 <td>any LispMe expression. These are evaluated in sequence 
+                 in the extended environment.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>letrec</tt> is a binding form, which extends the lexical
+           environment by the bindings in its head and evaluates its body
+           forms in the extended environment. In contrast to
+           <a href="#desc_let"><tt>let</tt></a>, each
+           <tt><i>var<sub>i</sub></i></tt> is in scope while
+           <tt><i>form<sub>j</sub></i></tt> is evaluated, so mutual recursive
+           definitions are possible.
+           <ol>
+           <li>Extend the current lexical environment with a binding for each
+           <tt><i>var<sub>i</sub></i></tt>
+           <li>Each <tt><i>form<sub>i</sub></i></tt> is evaluated in the extended
+           environment in an unspecified order.
+           <li>Each <tt><i>var<sub>i</sub></i></tt> is assigned to the value of
+           <tt><i>form<sub>i</sub></i></tt>.
+           <li>The <tt><i>expr<sub>i</sub></i></tt> are evaluated from left to
+           right in the extended environment.
+           <li>The value of the last <tt><i>expr<sub>i</sub></i></tt> is the
+           value of the <tt>letrec</tt>-form.
+           </ol>
+           It must be possible to evaluate each
+           <tt><i>form<sub>i</sub></i></tt> without using the value of a
+           <tt><i>var<sub>i</sub></i></tt> while the extended bindings are
+           "under construction", otherwise an
+           <a href="lm_err.htm#err_black_hole">error</a> will be signalled.
+           Normally, the <tt><i>form<sub>i</sub></i></tt> are
+           <a href="#desc_lambda"><tt>lambda</tt></a>- or
+           <a href="#desc_delay"><tt>delay</tt></a>-expressions, so this
+           restriction is fulfilled automatically.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr valign=bottom><td><pre>
+(letrec
+  ((even? (lambda n)
+     (if (zero? n)
+         #t
+         (odd? (- n 1)))))
+   (odd? (lambda (n)
+     (if (zero? n)
+         #f
+         (even? (- n 1))))))
+  (even? 42))</pre></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+    </table>
+
+<!--- list ***************************************************************--->
+
+      <h2><a name="desc_list">list</a></h2>
+      <tt>list</tt> creates a list from its arguments.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(list <i>obj<sub>1</sub></i> ...)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj<sub>i</sub></i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>list</tt> gathers its arguments into a list and
+           returns it.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(list 'a -3 "hello")</tt></td>
+                   <td>=></td>
+                   <td><tt>(a -3 "hello")</tt></td>
+               <tr><td><tt>(list '())</tt></td>
+                   <td>=></td>
+                   <td><tt>(())</tt></td>
+               <tr><td><tt>(list)</tt></td>
+                   <td>=></td>
+                   <td><tt>()</tt></td>
+           </table> </td>
+      </table>
+
+<!--- list2string ********************************************************--->
+
+      <h2><a name="desc_list2string">list->string</a></h2>
+      <tt>list->string</tt> converts a list of characters to a string.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(list->string <i>charlist</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>charlist</i></tt></td><td>a list of characters
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>list->string</tt> returns a newly allocated string
+           consisting of the characters in <tt><i>charlist</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(list->string '(#\F #\r #\e #\d))</tt></td>
+                   <td>=></td>
+                   <td><tt>"Fred"</tt></td>
+               <tr><td><tt>(list->string '(a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+               <tr><td><tt>(list->string '())</tt></td>
+                   <td>=></td>
+                   <td><tt>""</tt></td>
+           </table> </td>
+      </table>
+
+<!--- list2vector ********************************************************--->
+
+      <h2><a name="desc_list2vector">list->vector</a></h2>
+      <tt>list->vector</tt> converts a list to a vector.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(list->vector <i>list</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>list</i></tt></td><td>a proper list
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>list->vector</tt> returns a newly allocated vector
+           consisting of the elements of <tt><i>list</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(list->vector '(1 2 foo))</tt></td>
+                   <td>=></td>
+                   <td><tt>#(1 2 foo)</tt></td>
+               <tr><td><tt>(list->vector '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#()</tt></td>
+           </table> </td>
+      </table>
+
+<!--- list-ref ***********************************************************--->
+
+      <h2><a name="desc_list_ref">list-ref</a></h2>
+      <tt>list-ref</tt> returns an element of a list by index.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(list-ref <i>list index</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>list</i></tt></td><td>a proper list
+             <tr><td><tt><i>index</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>list-ref</tt> returns the <tt><i>index</i></tt>th
+           element of <tt><i>list</i></tt>. The index of the first
+           element is 0, and the index of the last element is the
+           length of <tt><i>list</i></tt> minus one.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(list-ref '(a b c) 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>b</tt></td>
+               <tr><td><tt>(list-ref '(a b c) 5)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+      </table>
+
+<!--- log ****************************************************************--->
+
+      <h2><a name="desc_log">log</a></h2>
+      <tt>log</tt> computes the natural logarithm of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(log <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>log</tt> returns its natural logarithm of
+           <tt><i>z</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(log 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>[-inf]</tt></td>
+               <tr><td><tt>(log 10)</tt></td>
+                   <td>=></td>
+                   <td><tt>2.30258509299404</tt></td>
+               <tr><td><tt>(log 3-4i)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.609437912431-0.927295218001612i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- log10 **************************************************************--->
+
+      <h2><a name="desc_log10">log10</a></h2>
+      <tt>log10</tt> computes the base 10 logarithm of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure (MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(log10 <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>log10</tt> returns the logarithm to base 10 of
+           <tt><i>z</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(log10 2)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.301029995663981</tt></td>
+               <tr><td><tt>(log10 1000)</tt></td>
+                   <td>=></td>
+                   <td><tt>3</tt></td>
+           </table> </td>
+    </table>
+
+<!--- lst-enter **********************************************************--->
+
+      <h2><a name="desc_lst_enter">lst-enter</a></h2>
+      <tt>lst-enter</tt> is posted when a list is tapped.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(lst-enter <i>id sel</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the tapped list
+             <tr><td><tt><i>sel</i></tt></td><td>the zero-based index of the item tapped
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>lst-enter</tt> is the event posted when the user has
+           tapped a list but not yet lifted the pen.</td>
+      </table>
+
+<!--- lst-get-sel ********************************************************--->
+
+      <h2><a name="desc_lst_get_sel">lst-get-sel</a></h2>
+      <tt>lst-get-sel</tt> returns the selected item in a UI list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(lst-get-sel <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the list
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>lst-get-sel</tt> returns the zero-based index of the
+           selected item in a user interface list. If no item is selected,
+           <tt>#f</tt> is returned. The
+           list is identified by its <tt><i>id</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(lst-get-sel 1100)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt> if the first item in the list with
+                       id 1100 is selected</td>
+           </table> </td>
+    </table>
+
+<!--- lst-get-text *******************************************************--->
+
+      <h2><a name="desc_lst_get_text">lst-get-text</a></h2>
+      <tt>lst-get-text</tt> returns a specified item text of a UI list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(lst-get-text <i>id item</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the list
+             <tr><td><tt><i>sel</i></tt></td><td>the zero-based index of the item
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>lst-get-text</tt> returns the text of the item with 
+           zero-based index <tt><i>sel</i></tt> in the user interface list
+           with id <tt><i>id</i></tt> as a string. If the specified item
+           doesn't exist in the list, <tt>""</tt> (the empty string) is returned.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(lst-get-text 1100 3)</tt></td>
+                   <td>=></td>
+                   <td><tt>"April"</tt> assuming the list of the demo program</td>
+           </table> </td>
+    </table>
+
+<!--- lst-select *********************************************************--->
+
+      <h2><a name="desc_lst_select">lst-select</a></h2>
+      <tt>lst-select</tt> is posted when a list item has been selected.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(lst-select <i>id sel</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the list
+             <tr><td><tt><i>sel</i></tt></td><td>the zero-based index of the selected item
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>lst-select</tt> is the event posted when the user has
+           selected an item in a list.</td>
+      </table>
+
+<!--- lst-set-list *******************************************************--->
+
+      <h2><a name="desc_lst_set_list">lst-set-list</a></h2>
+      <tt>lst-set-list</tt> fills a UI list with a list of items.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(lst-set-list <i>id list</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the list
+             <tr><td><tt><i>sel</i></tt></td><td>a list of any LispMe objects
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>lst-set-list</tt> prints each item in <tt><i>list</i></tt>
+           using the <a href="lm_synt.htm#print">formatting conventions</a>
+           of <tt>display</tt> and fills
+           a user interface list with the strings obtained. Please note, that
+           only one list should be filled this way at any time, as the
+           memory management is quite hairy. This restriction may be dropped
+           in the future. The return value is <tt><i>list</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(lst-set-list 1100 '(foo 3.14 "???"))</tt></td>
+                   <td>=></td>
+                   <td><tt>(foo 3.14 "???")</tt> and fills the list with items
+                           <tt>foo</tt>,<tt>3.14</tt> and <tt>???</tt></td>
+           </table> </td>
+    </table>
+
+<!--- lst-set-sel ********************************************************--->
+
+      <h2><a name="desc_lst_set_sel">lst-set-sel</a></h2>
+      <tt>lst-set-sel</tt> selects an item in a UI list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(lst-set-sel <i>id sel</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the list
+             <tr><td><tt><i>sel</i></tt></td><td>the index of the item to be selected
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>lst-set-sel</tt> selects an item in a user interface list. The
+           list is identified by its <tt><i>id</i></tt> and the item by
+           <tt><i>sel</i></tt>, which may be either a zero-based index or
+           the value <tt>#f</tt> meaning deselection of any item. The 
+           return value is <tt><i>sel</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(lst-set-sel 1100 2)</tt></td>
+                   <td>=></td>
+                   <td><tt>2</tt> and selects the 3rd item in the list with id 1100</td>
+           </table> </td>
+    </table>
+
+  <p><a href="lm_cat3.htm">Catalog of Language Elements M - R</a>
+  <p><a href="lm_cat4.htm">Catalog of Language Elements S - Z</a>
+
+  </body>
+</html>

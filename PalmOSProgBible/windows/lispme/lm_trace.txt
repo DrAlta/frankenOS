@@ -1,0 +1,50 @@
+; Tracer
+
+(define *tracing* '())
+
+(define (%remove f)
+  (define (R l)
+    (cond ((null? l) l)
+	((eq? f (caar l)) (cdr l))
+	(else (cons (car l) (R (cdr l))))))
+  (set! *tracing* (R *tracing*)))
+
+(define (writeln p . l)
+	(for-each (lambda (e) 
+	(display e p) (display " " p)) l)
+	(newline p))
+
+(define tracer 
+  (let ((depth 0)
+	(p (open-append-file "Trace")))
+    (lambda (f n) 
+      (lambda args
+	(writeln p depth ">" 
+		(cons n args))
+	(let ((old-depth depth))
+	  (set! depth (+ depth 1))
+	    (let ((res (apply f args)))
+	      (set! depth old-depth)
+	      (writeln p depth n "<" res)
+	      res))))))
+
+(macro (trace f)
+  (let ((f (cadr f)))
+    (if (assq f *tracing*)
+	(error (string-append 
+			"Already tracing "
+			 (object->string f)))
+	`(let ((of ,f) (tf (tracer , f ',f)))
+	    (set! *tracing* 
+		(cons (cons ',f of) 	
+			*tracing*))
+	    (set! ,f tf)))))
+		
+(macro (untrace f)
+  (let ((f (cadr f)))
+  (let ((of (assq f *tracing*)))
+    (%remove f)
+    (if of `(set! ,f ,(cdr of))
+	(error (string-append 
+		"Not tracing "
+		(object->string f)))))))

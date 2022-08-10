@@ -1,0 +1,41 @@
+----------Process to convert from Windows.BMP to Palm.BMP format---------------
+--------------------------------- D990611--------------------------------------
+PILRC converts the Windows format for .bmp to the palm target display. It is
+able to convert 4bpp to 2bpp but the PalmClient needs to use special WinDraw
+functions to display the image. For this reason, we demo only 1bpp images. We
+only need the Tbmpnnnn.bin files to send to the client, ignore the tFRM file.
+
+***PILRC was created by Wes Cherry (wesc@ricochet.net),  thanks Dude!
+
+The .BIN files are sent by the DmvHost program to the client in the RfSocket
+(160x150x2=3016 bytes & 160x150x4=6016 bytes). Tested today with the 2color/
+1bpp mode and it works! 
+
+___FileName: Doit.bat
+del *.bin
+pilrc -r default.res default.rcp
+dir *.bin
+
+___FileName: default.res
+FORM ID 1950 AT (0 0 159 159)
+USABLE
+MODAL
+BEGIN
+	TITLE "PilrcTest of Bitmap"
+END
+
+BITMAP ID 0 "Default.bmp"
+BITMAP ID 1 "Image1.bmp"
+BITMAP ID 2 "Image2.bmp"
+BITMAP ID 3 "Image3.bmp"
+BITMAP ID 4 "Image4.bmp"
+BITMAP ID 5 "Image5.bmp"
+BITMAP ID 6 "Image6.bmp"
+BITMAP ID 7 "Image7.bmp"
+BITMAP ID 8 "Image8.bmp"
+BITMAP ID 9 "Image9.bmp"
+BITMAP ID 10 "dcat4.bmp"
+BITMAP ID 11 "myvan3.bmp"
+BITMAPGREY ID 12 "MyVan4.bmp"
+
+

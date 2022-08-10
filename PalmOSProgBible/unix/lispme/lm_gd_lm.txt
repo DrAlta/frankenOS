@@ -1,0 +1,59 @@
+; GUI Demo
+(define (go)
+  (set-resdb "GUIdemo")
+  (frm-popup 1777 
+    (let ((f 1000))
+      (lambda (e . a)
+	(case e
+	  ((frm-open)
+		(ctl-set-val 1101 #t))
+	  ((lst-select)
+	    (fld-set-text 1002 
+	    (lst-get-text 1100 (cadr a))))
+	  ((menu)
+	      (case (car a)
+		((2223)
+		  (lst-set-sel 1100
+		  (string->object
+		    (fld-get-text 1001))))
+		((2224)
+		 (fld-set-text 1001
+			(lst-get-sel 1100)))))
+	  ((ctl-repeat)
+	      (case (car a)
+		((1600)
+		  (sound (integer (set! f 
+			(/ f 1.03))) 50) #f)
+		((1601)
+		  (sound (integer (set! f 
+			(* f 1.03))) 50) #f)))
+	  ((ctl-select)
+	      (case (car a)
+		((1900)
+		  (fld-set-text 1002 
+			(fld-get-text 1001)))
+		((1901)
+		  (ctl-set-val 1102
+		   (not (ctl-get-val 1102))))
+		((1902)
+		  (frm-return
+			(fld-get-text 1002)))
+		((1903)
+		  (fld-set-text 1001
+		    (nested)))
+		((1101)
+		  (frm-show 1903 (cadr a)))
+		(else #f)))
+	  ((pop-select) (write a) #f)
+	  (else #f))))))
+
+(define (nested)
+  (frm-popup 1888
+      (lambda (e . a)
+	(case e
+	  ((ctl-select)
+	      (case (car a)
+		((1001) (frm-return
+			(fld-get-text 1000)))
+		((1002) (frm-return 42))))
+	  (else #f)))))

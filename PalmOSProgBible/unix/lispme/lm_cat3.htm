@@ -1,0 +1,1885 @@
+<html>
+<head>
+  <title>LispMe Alphabetical Catalog of Language Elements M - R</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+<p><a href="lm_cat1.htm">Catalog of Language Elements # - C</a>
+<p><a href="lm_cat2.htm">Catalog of Language Elements D - L</a>
+
+<h1>Alphabetic catalog of Language elements M - R</h1>
+
+<!--- macro **************************************************************--->
+
+      <h2><a name="desc_macro">macro</a></h2>
+      <tt>macro</tt> replaces an expression with another one at compile time.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><table>
+           <tr><td><tt>(macro (<i>var arg</i>)<i> expr<sub>1</sub> expr<sub>2</sub> ...</i>)</tt></td>
+           </table></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr> <td><tt><i>var</i></tt></td> <td>a variable name to be
+                                                used as the keyword of a new special form</td>
+             <tr> <td><tt><i>arg</i></tt></td> <td>a symbol bound to the
+                                                original expression</td>
+             <tr valign=top><td><tt><i>expr<sub>i</sub></i></tt></td>
+                 <td>the expressions which are evaluated in the extended
+                 environment when the macro is expanded.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>macro</tt> creates a new special form with keyword
+               <tt><i>var</i></tt>.<p>
+               When compiling an expression whose first subexpression is
+               a symbol and this symbol is bound by an <tt>macro</tt> definition,
+               the entire expression (unevaluated) is bound to the parameter
+               <tt><i>arg</i></tt> and the <tt><i>expr<sub>i</sub></i></tt>
+               are evaluated in order from left to right. The last
+               <tt><i>expr<sub>i</sub></i></tt> should evaluate to another
+               expression, which is compiled instead of the original
+               expression.<p>
+
+               As macro expansions can't be interrupted by the
+               <a href="lm_cmd.htm#ctl_break">Break button</a> for
+               technical reasons, there are two limits:
+               <ul>
+               <li>a macro single expansion may take only a limited number
+                   of VM steps.
+               <li>the number of macro expansions during a single
+                   compilation is limited, too
+               </ul>
+               If you find these limits (indicated by this
+               <a href="lm_err.htm#err_macro">error</a>) too restrictive,
+               please email me at
+               <a href="mailto:bugs@lispme.de">bugs@lispme.de</a>.<p>
+
+               <tt>macro</tt>-definitions are allowed at top-level only, not
+               inside other expressions.<p>
+ 
+               Macros may be recursive.<p>
+
+               The return value of a macro definition is
+               <a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a> in this
+               implementation.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension, but according to several other macro systems</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><a name="sample_macro">
+<pre>
+(macro (my-or expr)
+  (let ((name (gensym)))
+    (cond ((null? (cdr expr)) #f)
+          ((null? (cddr expr)) (cadr expr))
+          (else `(let ((,name ,(cadr expr)))
+                   (if ,name ,name
+                     (my-or ,@(cddr expr))))))))
+</pre>
+                         </a></td>
+                   <td>=></td>
+                   <td>creates a special form <tt>my-or</tt>, which behaves
+                       exactly like <a href="#desc_or"><tt>or</tt></a>. Note
+                       the usage of
+                       <a href="lm_cat2.htm#desc_gensym"><tt>gensym</tt></a>
+                       to create a new temporary
+                       name to avoid name clashes with other symbols and how
+                       to take advantage of the
+                       <a href="#desc_quasiquote"><tt>quasiquote</tt></a>
+                       syntax.
+                       
+           </table> </td>
+    </table>
+
+<!--- macro? *************************************************************--->
+
+      <h2><a name="desc_macrop">macro?</a></h2>
+      <tt>macro?</tt> recognizes macros.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(macro? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>macro?</tt> returns <tt>#t</tt> for a macro created
+           by the <a href="#desc_macro"><tt>macro</tt></a> special form
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(macro? (lambda (x) x))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(macro? my-or)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt>, assuming the definition 
+                   <a href="#sample_macro">above</a> is used</td>
+           </table> </td>
+      </table>
+
+
+<!--- magnitude **********************************************************--->
+
+      <h2><a name="desc_magnitude">magnitude</a></h2>
+      <tt>magnitude</tt> computes the magnitude 
+         of a complex number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(magnitude <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>magnitude</tt> computes the magnitude (or absolute value)
+           of the number
+           <tt><i>z</i></tt>. </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(magnitude 5)</tt></td>
+                   <td>=></td>
+                   <td><tt>5</tt></td>
+               <tr><td><tt>(magnitude -1)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(magnitude 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>2.06155281280883</tt></td>
+           </table> </td>
+    </table>
+
+<!--- make-polar *********************************************************--->
+
+      <h2><a name="desc_make_polar">make-polar</a></h2>
+      <tt>make-polar</tt> constructs a complex number from a
+          magnitude and angle.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(make-polar <i>mag ang</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>mag</i></tt></td><td>a real number
+             <tr><td><tt><i>ang</i></tt></td><td>a real number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+          <td><tt>make-polar</tt> constructs a complex number from the
+          magnitude <tt><i>mag</i></tt> and the angle <tt><i>ang</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(make-polar 5 -2)</tt></td>
+                   <td>=></td>
+                   <td><tt>-2.08073418273571-4.546487134412841i</tt></td>
+               <tr><td><tt>(eqv? (make-polar 7.2 1.8) 7.2@1.8)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+    </table>
+
+<!--- make-rectangular ***************************************************--->
+
+      <h2><a name="desc_make_rect">make-rectangular</a></h2>
+      <tt>make-rectangular</tt> constructs a complex number from the
+          real and imaginary part.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(make-rectangular <i>re im</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>re</i></tt></td><td>a real number
+             <tr><td><tt><i>im</i></tt></td><td>a real number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+          <td><tt>make-rectangular</tt> constructs a complex number from the
+          real part <tt><i>re</i></tt> and the imaginary part <tt><i>re</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(make-rectangular 5 -2)</tt></td>
+                   <td>=></td>
+                   <td><tt>5-2i</tt></td>
+               <tr><td><tt>(make-rectangular -1.1 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>-1.1</tt></td>
+           </table> </td>
+    </table>
+
+<!--- make-string ********************************************************--->
+
+      <h2><a name="desc_make_string">make-string</a></h2>
+      <tt>make-string</tt> creates a new string.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(make-string <i>len char</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>len</i></tt></td><td>a positive integer
+             <tr><td><tt><i>char</i></tt></td><td>a character
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>make-string</tt> creates a newly allocated string of
+           length <tt><i>len</i></tt>, where each character is 
+           initialized to <tt><i>char</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Fill char is required</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(make-string 5 #\x)</tt></td>
+                   <td>=></td>
+                   <td><tt>"xxxxx"</tt></td>
+           </table> </td>
+      </table>
+
+<!--- make-vector ********************************************************--->
+
+      <h2><a name="desc_make_vector">make-vector</a></h2>
+      <tt>make-vector</tt> creates a new vector.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(make-vector <i>len fill</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>len</i></tt></td><td>a positive integer
+             <tr><td><tt><i>fill</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>make-vector</tt> creates a newly allocated vector of
+           length <tt><i>len</i></tt>, where each element is 
+           initialized to <tt><i>fill</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Fill value is required</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(make-vector 3 'havanna)</tt></td>
+                   <td>=></td>
+                   <td><tt>#(havanna havanna havanna)</tt></td>
+           </table> </td>
+      </table>
+
+
+<!--- map ****************************************************************--->
+
+      <h2><a name="desc_map">map</a></h2>
+      <tt>map</tt> applies a procedure to each element of a list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(map <i>proc list</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>proc</i></tt></td><td>a procedure of one argument
+             <tr><td><tt><i>list</i></tt></td><td>a proper list
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>map</tt> creates a newly allocated lists, where each
+           element is the result of applying <tt><i>proc</i></tt> to
+           the corresponding
+           element of <tt><i>list</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Supports only one list</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(map (lambda (x) (* x x)) '(2 3 4 5))</tt></td>
+                   <td>=></td>
+                   <td><tt>(4 9 16 25)</tt></td>
+           </table> </td>
+      </table>
+
+<!--- max ****************************************************************--->
+
+      <h2><a name="desc_max">max</a></h2>
+      <tt>max</tt> returns the largest of some objects.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(max <i>comp<sub>1</sub> <i>comp<sub>2</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>comp<sub>i</sub></i></tt></td><td>a comparable object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>max</tt> returns the largest of some objects, according to
+           the <a href="lm_cat1.htm#desc_compare"><tt>&gt;</tt></a> procedure. Note
+           that <tt>max</tt> handles chars and strings, too. At least one
+           object must be specified.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full and works for strings and
+               characters, too.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(max 50 30 10 80)</tt></td>
+                   <td>=></td>
+                   <td><tt>80</tt></td>
+               <tr><td><tt>(max "Baz" "Foo")</tt></td>
+                   <td>=></td>
+                   <td><tt>"Foo"</tt></td>
+           </table> </td>
+      </table>
+
+<!--- member, memq, memv *************************************************--->
+
+      <h2><a name="desc_member">member memq memv</a></h2>
+      <tt>member</tt>, <tt>memq</tt>, and <tt>memv</tt> search lists
+        for an element.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedures</td>
+      <tr> <td><b>Formats</b></td>
+           <td> <table>
+           <tr><td><tt>(member <i>obj list</i>)</tt></td>
+           <tr><td><tt>(memq <i>obj list</i>)</tt></td>
+           <tr><td><tt>(memv <i>obj list</i>)</tt></td>
+           </table></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+             <tr><td><tt><i>list</i></tt></td><td>a proper list
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td>These procedures return the first sublist of
+           <tt><i>list</i></tt>, whose
+           <a href="lm_cat1.htm#desc_car"><tt>car</tt></a> is <tt><i>obj</i></tt>.
+           If none is found, <tt>#f</tt> is returned. To compare
+           <tt><i>obj</i></tt> with the <tt>car</tt>, <tt>member</tt> uses
+           <a href="lm_cat2.htm#desc_equal"><tt>equal?</tt></a>, <tt>memq</tt> uses
+           <a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a>, and <tt>memv</tt> uses
+           <a href="lm_cat2.htm#desc_eqv"><tt>eqv?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(member 'b '(a b c d))</tt></td>
+                   <td>=></td>
+                   <td><tt>(b c d)</tt></td>
+               <tr><td><tt>(member 'c '(a b))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(memq '(b) '(a (b) c))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(member '(b) '(a (b) c))</tt></td>
+                   <td>=></td>
+                   <td><tt>((b) c)</tt></td>
+           </table> </td>
+    </table>
+
+<!--- menu ***************************************************************--->
+
+      <h2><a name="desc_menu">menu</a></h2>
+      <tt>menu</tt> is posted when a menu item has been selected.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(menu <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the id of the menu item
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>menu</tt> is the event posted when the user has selected
+           a menu item or invoked a menu command by a command stroke
+           shortcut.</td>
+      </table>
+
+<!--- message ************************************************************--->
+
+      <h2><a name="desc_message">message</a></h2>
+      <tt>message</tt> displays a message box.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(message <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>message</tt> prints
+           <tt><i>obj</i></tt> using <a href="lm_cat2.htm#desc_display"><tt>display</tt></a>
+           to a message box (see
+           <a href="lm_err.htm#err_user_info">User message</a>). The return value
+           is <tt><a href="lm_cat1.htm#desc_noprint">#n</a></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(message "Hello, world")</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt>, displays <i>Hello, world</i> in a message box</td>
+           </table> </td>
+      </table>
+
+<!--- min ****************************************************************--->
+
+      <h2><a name="desc_min">min</a></h2>
+      <tt>min</tt> returns the smallest of some objects.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(min <i>comp<sub>1</sub> comp<sub>2</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>comp<sub>i</sub></i></tt></td><td>a comparable object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>min</tt> returns the smallest of some objects, according to
+           the <a href="lm_cat1.htm#desc_compare"><tt>&lt;</tt></a> procedure. Note
+           that <tt>min</tt> handles chars and strings, too. At least one
+           object must be specified.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full and works for strings and
+               characters, too.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(min 50 30 10 80)</tt></td>
+                   <td>=></td>
+                   <td><tt>10</tt></td>
+               <tr><td><tt>(min "Baz" "Foo")</tt></td>
+                   <td>=></td>
+                   <td><tt>"Baz"</tt></td>
+           </table> </td>
+      </table>
+
+<!--- modulo *************************************************************--->
+
+      <h2><a name="desc_modulo">modulo</a></h2>
+      <tt>modulo</tt> divides two integers and returns the remainder.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(modulo <i>int<sub>1</sub> int<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>int<sub>1</sub></i></tt></td><td>an integer
+             <tr><td><tt><i>int<sub>2</sub></i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>modulo</tt> divides two integer numbers and returns
+           the remainder. The sign of the result is always the sign of
+           the divisor, in contrast to
+           <a href="#desc_remainder"><tt>remainder</tt></a>. Division by zero is an
+           <a href="lm_err.htm#err_div_by_zero">error</a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(modulo 13 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(modulo -13 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>3</tt></td>
+               <tr><td><tt>(modulo 13 -4)</tt></td>
+                   <td>=></td>
+                   <td><tt>-3</tt></td>
+               <tr><td><tt>(modulo -13 -4)</tt></td>
+                   <td>=></td>
+                   <td><tt>-1</tt></td>
+               <tr><td><tt>(modulo 13 0)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- negative? **********************************************************--->
+
+      <h2><a name="desc_negative">negative?</a></h2>
+      <tt>negative?</tt> tests, if a number is negative.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(negative? <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>negative?</tt> returns <tt>#t</tt>, if <tt><i>num</i></tt>
+           is negative. Otherwise it returns <tt>#f</tt>. See also
+           <a href="#desc_positive"></tt>positive?</tt></a> and
+           <a href="lm_cat4.htm#desc_zero"></tt>zero?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(negative? -17)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(negative? 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+    </table>
+
+<!--- newline ************************************************************--->
+
+      <h2><a name="desc_newline">newline</a></h2>
+      <tt>newline</tt> starts a new line in the output area.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(newline <i>[outport]</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>outport</i></tt></td><td>(optional) an output port
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>newline</tt> prints a linefeed character to the
+           <a href="lm_cmd.htm#ctl_output">output field</a> or to the
+           output port <tt><i>outport</i></tt>.
+           <tt>newline</tt> returns the line feed character.
+           For related information, see
+           <a href="lm_cat2.htm#desc_display"><tt>display</tt></a> and
+           <a href="lm_cat4.htm#desc_write"><tt>write</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(newline)</tt></td>
+                   <td>=></td>
+                   <td><tt>()</tt> and prints a linefeed
+                           to the output area.</td>
+           </table> </td>
+      </table>
+
+<!--- none? **************************************************************--->
+
+      <h2><a name="desc_none">none?</a></h2>
+      <tt>none?</tt> recognizes the non-printing object.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(none? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>none?</tt> returns <tt>#t</tt> for 
+           <a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a>
+           and <tt>#f</tt> for any other object.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(none? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(none? #n)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+      </table>
+
+<!--- not ****************************************************************--->
+
+      <h2><a name="desc_not">not</a></h2>
+      <tt>not</tt> negates a boolean value.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(not <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>not</tt> returns <tt>#t</tt> if <tt><i>obj</i></tt>
+           is <i>false</i>, otherwise it returns <tt>#t</tt>.
+           Remember that in LispMe <tt>()</tt> and <tt>#f</tt> are distinct
+           objects, so <tt>not</tt> is not the same procedure as
+           <a href="#desc_null"><tt>null?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(not '(a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(not '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(not #f)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+      </table>
+
+<!--- null? **************************************************************--->
+
+      <h2><a name="desc_null">null?</a></h2>
+      <tt>null?</tt> recognizes the empty list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(null? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>null?</tt> returns <tt>#t</tt> for the empty list
+           <tt>()</tt> and <tt>#f</tt> for any other object. Remember
+           that in LispMe <tt>()</tt> and <tt>#f</tt> are distinct
+           objects, so <tt>null?</tt> is not the same procedure as
+           <a href="#desc_not"><tt>not</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(null? '(a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(null? '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(null? #f)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- number? ************************************************************--->
+
+      <h2><a name="desc_number">number?</a></h2>
+      <tt>number?</tt> recognizes numbers.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(number? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>number?</tt> returns <tt>#t</tt> for integer, real and
+           complex numbers and <tt>#f</tt> for any other object.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(number? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(number? -1.234e-55)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(number? 3.5-17i)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(number? 'foo)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- object2string ******************************************************--->
+
+      <h2><a name="desc_object2string">object->string</a></h2>
+      <tt>object->string</tt> prints an object to a string.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(object->string <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>object->string</tt> uses the standard LispMe printer
+           to build the textual representation of <tt><i>obj</i></tt>
+           as a string. The printing convention of <a href="lm_cat4.htm#desc_write">
+           <tt>write</tt></a> is used. The resulting string is truncated
+           to 4096 characters.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension. <tt>object->string</tt> subsumes
+               R<sup>4</sup>RS procedures <tt>symbol->string</tt> and
+               <tt>number->string</tt>.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(object->string 'Foobar)</tt></td>
+                   <td>=></td>
+                   <td><tt>"foobar"</tt></td>
+               <tr><td><tt>(object->string "Foobar")</tt></td>
+                   <td>=></td>
+                   <td><tt>"\"Foobar\""</tt></td>
+               <tr><td><tt>(object->string #\x)</tt></td>
+                   <td>=></td>
+                   <td><tt>"\#\\x"</tt></td>
+               <tr><td><tt>(object->string '(a (b) c))</tt></td>
+                   <td>=></td>
+                   <td><tt>"(a (b) c)"</tt></td>
+               <tr><td><tt>(object->string -1.234)</tt></td>
+                   <td>=></td>
+                   <td><tt>"-1.234"</tt></td>
+           </table> </td>
+      </table>
+
+<!--- odd? ***************************************************************--->
+
+      <h2><a name="desc_odd">odd?</a></h2>
+      <tt>odd?</tt> tests, if a number is odd.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(odd? <i>int</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>int</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>odd?</tt> returns <tt>#t</tt>, if <tt><i>int</i></tt>
+           is odd. Otherwise it returns <tt>#f</tt>. See also
+           <a href="lm_cat2.htm#desc_even"></tt>even?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(odd? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(odd? 1.23)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- open-append-file ***************************************************--->
+
+      <h2><a name="desc_open_append_file">open-append-file</a></h2>
+      <tt>open-append-file</tt> opens an existing memo for appending output.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(open-append-file <i>string</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string naming the memo
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>open-append-file</tt> searches a memo with name
+           <tt><i>string</i></tt> and opens it for output, which will be
+           appended
+           to its former contents. If the memo doesn't exist, a new one is
+           created like by
+           <a href="#desc_open_output_file"><tt>open-output-file</tt></a>
+           For more information about files/memos see
+           <a href="lm_data.htm#pilotIO">here</a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(open-append-file "foo")</tt></td>
+                   <td>=></td>
+                   <td><tt>[outport]</tt> and opens the memo with
+                      first line <tt>foo</tt> for output</td>
+           </table> </td>
+      </table>
+
+<!--- open-input-file ****************************************************--->
+
+      <h2><a name="desc_open_input_file">open-input-file</a></h2>
+      <tt>open-input-file</tt> opens an existing memo for input.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(open-input-file <i>string</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string naming the memo
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>open-input-file</tt> searches a memo with name
+           <tt><i>string</i></tt> and returns the input port associated with
+           the opened memo. If the memo doesn't exist, an 
+           <a href="lm_err.htm#err_open_file">error</a> is raised.</td>
+           For more information about files/memos see
+           <a href="lm_data.htm#pilotIO">here</a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(open-input-file "foo")</tt></td>
+                   <td>=></td>
+                   <td><tt>[inport 4]</tt> provided there exists a new memo with
+                      first line <tt>foo</tt></td>
+           </table> </td>
+      </table>
+
+<!--- open-output-file ***************************************************--->
+
+      <h2><a name="desc_open_output_file">open-output-file</a></h2>
+      <tt>open-output-file</tt> opens a new memo for output.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(open-output-file <i>string</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string naming the memo
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>open-output-file</tt> creates a new memo with name
+           <tt><i>string</i></tt> and returns the output port associated with
+           the new memo. For more information about files/memos see
+           <a href="lm_data.htm#pilotIO">here</a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(open-output-file "foo")</tt></td>
+                   <td>=></td>
+                   <td><tt>[outport]</tt> and creates a new memo with
+                      first line <tt>foo</tt></td>
+           </table> </td>
+      </table>
+
+<!--- or *****************************************************************--->
+
+      <h2><a name="desc_or">or</a></h2>
+      <tt>or</tt> is the non-strict logical disjunction of expressions.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(or <i>expr<sub>1</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>expr<sub>i</sub></i></tt></td>
+                 <td>any expression.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>or</tt> evaluates the <tt><i>expr<sub>i</sub></i></tt> in
+               left to right order. If any expression is <i>true</i>, the
+               evaluation is finished. In any case, the value of the last
+               expression evaluated is returned.
+               Remember that <a href="#desc_nil"><tt>'()</tt></a>
+               is considered <i>true</i> in LispMe.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(or 4 5)</tt></td>
+                   <td>=></td>
+                   <td><tt>4</tt></td>
+               <tr><td><tt>(or #f "foo" 5)</tt></td>
+                   <td>=></td>
+                   <td><tt>foo</tt></td>
+               <tr><td><tt>(or)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+    </table>
+
+<!--- output-port? *******************************************************--->
+
+      <h2><a name="desc_output_port">output-port?</a></h2>
+      <tt>output-port?</tt> recognizes a port opened for output.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(output-port? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>output-port?</tt> returns <tt>#t</tt> for a port
+           opened for output by
+           <a href="#desc_open_output_file"><tt>open-output-file</tt></a>
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(output-port? (open-output-file "foo"))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(output-port? (open-input-file "bar"))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(output-port? "baz")</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- own-gui ************************************************************--->
+
+      <h2><a name="desc_own_gui">own-gui</a></h2>
+      <tt>own-gui</tt> switches event-handling of LispMe's dialog.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(own-gui <i>switch</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>switch</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td>When <tt><i>switch</i></tt> is <i>true</i>, most controls and
+           fields in LispMe's <a href="lm_cmd.htm#frm_main">main dialog</a>
+           are set unusable, so that they won't respond to events and you can
+           handle events by yourself. The only exception is the
+           <a href="lm_cmd.htm#ctl_break">break button</a> which is never
+           disabled to allow interrupting the process.<p>
+           When <tt><i>switch</i></tt> is <i>false</i>, LispMe's main
+           dialog responds to events as usual. The return value is
+           <tt><i>switch</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(own-gui #t)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+    </table>
+
+<!--- pair? **************************************************************--->
+
+      <h2><a name="desc_pair">pair?</a></h2>
+      <tt>pair?</tt> recognizes a cons cell.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(pair? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>pair?</tt> returns <tt>#t</tt> for a non-empty list (a
+           cons-cell) and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(pair? '(a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(pair? '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(pair? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- peek-char **********************************************************--->
+
+      <h2><a name="desc_peek_char">peek-char</a></h2>
+      <tt>peek-char</tt> returns the next character from an input port.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(peek-char <i>inport</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>inport</i></tt></td><td>an input port
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>peek-char</tt> reads ahead the next character from the input port
+           <tt><i>inport</i></tt> and returns it, but doesn't advance the input
+           position.
+           If the end of file is reached, a unique end-of-file object (which is recognized by
+           <a href="lm_cat2.htm#desc_eofobject"><tt>eof-object?</tt></a>) is
+           returned.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>The port parameter is not optional.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(peek-char (open-input-file "foo"))</tt></td>
+                   <td>=></td>
+                   <td><tt>#\b</tt>, assuming the memo "foo" starts with<br>
+                   <tt>bar,123...</tt></td>
+           </table> </td>
+      </table>
+
+<!--- pen-down ***********************************************************--->
+
+      <h2><a name="desc_pen_down">pen-down</a></h2>
+      <tt>pen-down</tt> is posted when the pen touches the screen.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(pen-down <i>x y</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>x</i></tt></td><td>Window-relative x coordinate in pixels
+             <tr><td><tt><i>y</i></tt></td><td>Window-relative y coordinate in pixels
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>pen-down</tt> is the first event posted when the user taps
+           the screen with the pen. This event normally causes other events
+           like <tt>lst-enter</tt> afterwards.</td>
+      </table>
+
+<!--- pen-move ***********************************************************--->
+
+      <h2><a name="desc_pen_move">pen-move</a></h2>
+      <tt>pen-move</tt> is posted when the pen is moved on the screen.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(pen-move <i>x y</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>x</i></tt></td><td>Window-relative x coordinate in pixels
+             <tr><td><tt><i>y</i></tt></td><td>Window-relative y coordinate in pixels
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>pen-move</tt> is the event posted when the user moves the
+           pen across the screen. Some kinds of UI element track pen movement
+           by themselves, so you won't see this event.</td>
+      </table>
+
+<!--- pen-up *************************************************************--->
+
+      <h2><a name="desc_pen_up">pen-up</a></h2>
+      <tt>pen-up</tt> is posted when the pen is lifted from the screen.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(pen-up <i>x y</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>x</i></tt></td><td>Window-relative x coordinate in pixels
+             <tr><td><tt><i>y</i></tt></td><td>Window-relative y coordinate in pixels
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>pen-up</tt> is the event posted when the user lifts the
+           pen from the screen. Some kinds of UI element track pen lifting
+           by themselves, so you won't see this event.</td>
+      </table>
+
+<!--- pop-select *********************************************************--->
+
+      <h2><a name="desc_pop_select">pop-select</a></h2>
+      <tt>pop-select</tt> is posted when an item in a popup-list has been selected.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(pop-select <i>pid lid newsel oldsel</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>pid</i></tt></td><td>the form id of popup trigger
+             <tr><td><tt><i>lid</i></tt></td><td>the form id of the list
+             <tr><td><tt><i>newsel</i></tt></td><td>the zero-based index of the selected item
+             <tr><td><tt><i>oldsel</i></tt></td><td>the zero-based index of the previously selected item
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>pop-select</tt> is the event posted when the user has
+           selected an item in a popup list.</td>
+      </table>
+
+<!--- port? **************************************************************--->
+
+      <h2><a name="desc_port">port?</a></h2>
+      <tt>port?</tt> recognizes any port.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(port? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>port?</tt> returns <tt>#t</tt> for an input port or
+           an output port and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(port? (open-output-file "foo"))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(port? (open-input-file "bar"))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(port? "baz")</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- positive? **********************************************************--->
+
+      <h2><a name="desc_positive">positive?</a></h2>
+      <tt>positive?</tt> tests, if a number is positive.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(positive? <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>positive?</tt> returns <tt>#t</tt>, if <tt><i>num</i></tt>
+           is positive. Otherwise it returns <tt>#f</tt>. See also
+           <a href="#desc_negative"></tt>negative?</tt></a> and
+           <a href="lm_cat4.htm#desc_zero"></tt>zero?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(positive? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(positive? 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+    </table>
+
+<!--- procedure? *********************************************************--->
+
+      <h2><a name="desc_procedure">procedure?</a></h2>
+      <tt>procedure?</tt> recognizes procedures.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(procedure? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>procedure?</tt> returns <tt>#t</tt> for a procedure
+           and <tt>#f</tt> for any other object. Procedures include both
+           closures returned by <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a>
+           and continuations created with
+           <a href="lm_cat1.htm#desc_callcc"><tt>call/cc</tt></a></td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(procedure? (lambda (x) x))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(call/cc procedure?)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(procedure? 'foo)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- promise? ***********************************************************--->
+
+      <h2><a name="desc_promise">promise?</a></h2>
+      <tt>promise?</tt> recognizes promises.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(promise? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>promise?</tt> returns <tt>#t</tt> for a promise returned
+           by <a href="lm_cat2.htm#desc_delay"><tt>delay</tt></a>
+           and <tt>#f</tt> for any other object. It doesn't matter, if the
+           promise has already been <a href="lm_cat2.htm#desc_force"><tt>force</tt></a>d.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(promise? (lambda (x) x))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(call/cc promise?)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(promise? (delay 5))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(promise? 5)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- quasiquote *********************************************************--->
+
+      <h2><a name="desc_quasiquote">quasiquote</a></h2>
+      <tt>quasiquote</tt> builds (almost) constant objects
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td> <table>
+             <tr><td><tt>(quasiquote <i>template</i>)</tt></td>
+             <tr><td><tt>`<i>template</i></tt></td>
+           </table> </td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>template</i></tt></td>
+                 <td>any object, most usually a list or a vector</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>quasiquote</tt> returns <tt><i>template</i></tt> unevaluated,
+               if it doesn't contain any of the special forms
+               <a href="lm_cat4.htm#desc_unquote">unquote</a> or
+               <a href="lm_cat4.htm#desc_unquotesplicing">unquote-splicing</a>.<p>
+
+               If a comma (called an <tt>unquote</tt> expression) appears within
+               <tt><i>template</i></tt>, the expression
+               following it is evaluated and the result is inserted into
+               the template instead of the <tt>unquote</tt> expression.<p>
+
+               If an at-sign immediately follows the comma
+               (called an <tt>unquote-splicing</tt> expression)
+               the expression must evaluate to a list and its elements are
+               inserted into the template instead of the
+               <tt>unquote-splicing</tt> expression.<p>
+
+               <tt>quasiquote</tt> forms can be nested. Substitutions are
+               made only for unquoted expressions at the same nesting level
+               of the outermost <tt>quasiquote</tt>. The nesting level
+               increases in each <tt>quasiquote</tt> and decreases in each
+               unquotation.<p>
+ 
+               In contrast to <a href="#desc_quote">quote</a>, the structure
+               returned is always newly allocated.<p>
+
+               <tt>quasiquote</tt> may be abbreviated with a back apostrophe
+               <tt>`</tt>. The Graffiti stroke for this is
+               "dot, stroke north-west and back".</td>
+
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>`(list ,(* 5 6) a b)</tt></td>
+                   <td>=></td>
+                   <td><tt>(list 30 a b)</tt></td>
+               <tr><td><tt>`#(3 4 (,(sqrt 9) 5) ,@(reverse '(x y z)) foo)</tt></td>
+                   <td>=></td>
+                   <td><tt>#(3 4 (3 5) z y x foo)</tt></td>
+               <tr><td><tt>`(a `(b ,(+ 1 2) ,(foo ,(+ 1 3) d) e) f)</tt></td>
+                   <td>=></td>
+                   <td><tt>(a (quasiquote (b (unquote (+ 1 2)) (unquote (foo 4 d)) e)) f)</tt></td>
+           </table> </td>
+    </table>
+
+<!--- quote **************************************************************--->
+
+      <h2><a name="desc_quote">quote</a></h2>
+      <tt>quote</tt> returns its unevaluated argument.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td> <table>
+             <tr><td><tt>(quote <i>obj</i>)</tt></td>
+             <tr><td><tt>'<i>obj</i></tt></td>
+           </table> </td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td>
+                 <td>any object</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>quote</tt> returns <tt><i>obj</i></tt> unevaluated.
+               Use <tt>quote</tt> to imbed constants in your code.
+               <tt>quote</tt> may be abbreviated with a single apostrophe
+               <tt>'</tt></td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(quote (a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>(a b c)</tt></td>
+               <tr><td><tt>'(a b c)</tt></td>
+                   <td>=></td>
+                   <td><tt>(a b c)</tt></td>
+               <tr><td><tt>''(a b c)</tt></td>
+                   <td>=></td>
+                   <td><tt>(quote (a b c))</tt></td>
+           </table> </td>
+    </table>
+
+<!--- quotient ***********************************************************--->
+
+      <h2><a name="desc_quotient">quotient</a></h2>
+      <tt>quotient</tt> divides two integers ignoring the remainder.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(quotient <i>int<sub>1</sub> int<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>int<sub>1</sub></i></tt></td><td>an integer
+             <tr><td><tt><i>int<sub>2</sub></i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>quotient</tt> divides two integer numbers truncating
+           the result to an integer. Division by zero is an
+           <a href="lm_err.htm#err_div_by_zero">error</a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(quotient 7 3)</tt></td>
+                   <td>=></td>
+                   <td><tt>2</tt></td>
+               <tr><td><tt>(quotient -5 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>-1</tt></td>
+               <tr><td><tt>(quotient 3 0)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- random *************************************************************--->
+
+      <h2><a name="desc_random">random</a></h2>
+      <tt>random</tt> generates a random integer.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(random <i>int</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>int</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>random</tt> generates a random number in the range
+           [0..abs(<tt><i>int</i></tt>)-1]. <tt><i>int</i></tt> may not
+           be 0 or an <a href="lm_err.htm#err_div_by_zero">error</a> 
+           results.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(random 100)</tt></td>
+                   <td>=></td>
+                   <td><tt>47</tt></td>
+               <tr><td><tt>(random 100)</tt></td>
+                   <td>=></td>
+                   <td><tt>11</tt></td>
+               <tr><td><tt>(random -2000)</tt></td>
+                   <td>=></td>
+                   <td><tt>1234</tt></td>
+               <tr><td><tt>(random 0)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- read ***************************************************************--->
+
+      <h2><a name="desc_read">read</a></h2>
+      <tt>read</tt> parses data read from an input port.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(read <i>inport</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>inport</i></tt></td><td>an input port
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>read</tt> reads an object from the input port <tt><i>inport</i></tt>.
+           It uses the standard LispMe parser to create
+           an object from its textual representation, so all kind of
+           <a href="lm_err.htm#err_syntax">syntax errors</a>
+           are possible. In this case, the input position
+           of <tt><i>inport</i></tt> is <b>not</b> advanced.
+           The type of the object is solely
+           determined by the data input. If the end of file is found while
+           reading, a unique end-of-file object (which is recognized by
+           <a href="lm_cat2.htm#desc_eofobject"><tt>eof-object?</tt></a>) is
+           returned.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>The port parameter is not optional. Use
+             <a href="lm_cat2.htm#desc_input"><tt>input</tt></a> to let the
+             user input an expression.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(read (open-input-file "foo"))</tt></td>
+                   <td>=></td>
+                   <td><tt>bar</tt>, assuming the memo "foo" starts with<br>
+                   <tt>bar,123...</tt></td>
+           </table> </td>
+      </table>
+
+<!--- read-char **********************************************************--->
+
+      <h2><a name="desc_read_char">read-char</a></h2>
+      <tt>read-char</tt> reads a single character from an input port.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(read-char <i>inport</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>inport</i></tt></td><td>an input port
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>read-char</tt> reads a single characters from the input port
+           <tt><i>inport</i></tt> and returns it.
+           If the end of file is found while
+           reading, a unique end-of-file object (which is recognized by
+           <a href="lm_cat2.htm#desc_eofobject"><tt>eof-object?</tt></a>) is
+           returned.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>The port parameter is not optional.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(read-char (open-input-file "foo"))</tt></td>
+                   <td>=></td>
+                   <td><tt>#\b</tt>, assuming the memo "foo" starts with<br>
+                   <tt>bar,123...</tt></td>
+           </table> </td>
+      </table>
+
+<!--- read-line **********************************************************--->
+
+      <h2><a name="desc_read_line">read-line</a></h2>
+      <tt>read-line</tt> reads a line of text from an input port.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(read-line <i>inport</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>inport</i></tt></td><td>an input port
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>read-line</tt> reads successive characters from the input port
+           <tt><i>inport</i></tt> until a line feed is encountered and
+           returns all chars read as a string.
+           If the end of file is found while
+           reading, a unique end-of-file object (which is recognized by
+           <a href="lm_cat2.htm#desc_eofobject"><tt>eof-object?</tt></a>) is
+           returned.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension. Use
+             <a href="lm_cat2.htm#desc_input_string"><tt>input-string</tt></a>
+             to let the user input a string.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(read-line (open-input-file "foo"))</tt></td>
+                   <td>=></td>
+                   <td><tt>"bar,123..."</tt>, assuming the memo "foo" starts with<br>
+                   <tt>bar,123...</tt></td>
+           </table> </td>
+      </table>
+
+<!--- read-record ********************************************************--->
+
+      <h2><a name="desc_read_record">read-record</a></h2>
+      <tt>read-record</tt> reads a record from an arbitrary Pilot DB.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(read-record <i>dbname recnum</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>dbname</i></tt></td><td>a string naming the database
+             <tr><td><tt><i>recnum</i></tt></td><td>an integer 
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>read-record</tt> opens the Pilot database named
+           <tt><i>dbname</i></tt> (case-sensitive!) and reads the record
+           with index <tt><i>recnum</i></tt> from there. The record is
+           returned as a string. If either the database or the index doesn't
+           exist, <tt>#f</tt> is returned.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(read-record "MemoDB" 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>"Whatever your memo contains#00"</tt></td>
+           </table> </td>
+      </table>
+
+<!--- read-resource ******************************************************--->
+
+      <h2><a name="desc_read_resource">read-resource</a></h2>
+      <tt>read-resource</tt> reads a resource from any open resource DB.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(read-resource <i>restype resid</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>restype</i></tt></td><td>a string of 4 characters
+             <tr><td><tt><i>resid</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>read-resource</tt> searches all open resource databases
+           for a resource of type <tt><i>restype</i></tt>
+           with resource id <tt><i>resid</i></tt> and returns it
+           as a string. If the resource is not found,
+           <tt>#f</tt> is returned.<p>
+           Searched resource databases are
+           <ol>
+           <li>a user interface DB opened by
+               <a href="lm_cat4.htm#desc_set_resdb"><tt>set-resdb</tt></a>
+           <li>LispMe itself
+           <li>System resources
+           </ol>
+           The <tt><i>restype</i></tt> parameter determines the type of
+           the resource to be read and is written as a string of 4 bytes,
+           which is more readable than the Pilot API convention which
+           builds a 32-bit integer from the 4 bytes. Please refer to the
+           <a href="http://palmpilot.3com.com/devzone/docs.html">PalmOS documentation</a>
+           for more detailed information about Pilot resources.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(read-resource "tSTR" 9058)</tt></td>
+                   <td>=></td>
+                   <td><tt>"There's not enough memory to grow the memo#00"</tt>,
+                   a help message from LispMe itself.</td>
+           </table> </td>
+      </table>
+
+<!--- real-part **********************************************************--->
+
+      <h2><a name="desc_real_part">real-part</a></h2>
+      <tt>real-part</tt> computes the real part
+         of a complex number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(real-part <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>real-part</tt> computes the real part
+           of the number
+           <tt><i>z</i></tt>. </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(real-part 5.1)</tt></td>
+                   <td>=></td>
+                   <td><tt>5.1</tt></td>
+               <tr><td><tt>(real-part 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.5</tt></td>
+               <tr><td><tt>(real-part 7.2@1.8)</tt></td>
+                   <td>=></td>
+                   <td><tt>-1.63585508179022</tt></td>
+           </table> </td>
+    </table>
+
+<!--- real? **************************************************************--->
+
+      <h2><a name="desc_real">real?</a></h2>
+      <tt>real?</tt> recognizes real numbers.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(real? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>real?</tt> returns <tt>#t</tt> for integer and real
+           numbers and <tt>#f</tt> for any other object.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(real? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(real? -1.234e-55)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(real? 3.5-17i)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(real? 'foo)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- rect ***************************************************************--->
+
+      <h2><a name="desc_rect">rect</a></h2>
+      <tt>rect</tt> draws a filled rectangle.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(rect <i>x y radius</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>x</i></tt></td><td>an integer
+             <tr><td><tt><i>y</i></tt></td><td>an integer
+             <tr><td><tt><i>radius</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>rect</tt> draws a filled rectangle from the current point
+           stored in 
+           <a href="lm_cat1.htm#desc_gstate"><tt>*gstate*</tt></a>
+           to (<tt><i>x,y</i></tt>)
+           using the colors, drawing pattern and drawing mode stored in
+           <a href="lm_cat1.htm#desc_gstate"><tt>*gstate*</tt></a>.
+           <tt><i>radius</i></tt> is
+           used for rectangles with rounded corners, it specifies the radius
+           of a circle by which the corners are rounded. To draw a plain
+           rectangle, use 0 for <tt><i>radius</i></tt>.
+           After that, the current point is updated
+           to (<tt><i>x,y</i></tt>).<p>
+           See <a href="lm_graph.htm">here</a> for details on the graphic state.
+           The return value is <a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a> to
+           avoid trashing the graphics.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(rect 100 80 10)</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt> and draws a rectangle to (100,80) with
+                           rounded (radius=10) corners
+                           as described above.</td>
+           </table> </td>
+      </table>
+
+<!--- remainder **********************************************************--->
+
+      <h2><a name="desc_remainder">remainder</a></h2>
+      <tt>remainder</tt> divides two integers and returns the remainder.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(remainder <i>int<sub>1</sub> int<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>int<sub>1</sub></i></tt></td><td>an integer
+             <tr><td><tt><i>int<sub>2</sub></i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>remainder</tt> divides two integer numbers and returns
+           the remainder. The sign of the result is always the sign of
+           the dividend (or 0), in contrast to
+           <a href="#desc_modulo"><tt>modulo</tt></a>. Division by zero is an
+           <a href="lm_err.htm#err_div_by_zero">error</a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(remainder 13 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(remainder -13 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>-1</tt></td>
+               <tr><td><tt>(remainder 13 -4)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(remainder -13 -4)</tt></td>
+                   <td>=></td>
+                   <td><tt>-1</tt></td>
+               <tr><td><tt>(remainder 13 0)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- reverse ************************************************************--->
+
+      <h2><a name="desc_reverse">reverse</a></h2>
+      <tt>reverse</tt> reverses a list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(reverse <i>list</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>list</i></tt></td><td>a proper list
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>reverse</tt> creates a newly allocated list consisting of
+           the elements of <tt><i>list</i></tt> in reverse order.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(reverse'(a b c d))</tt></td>
+                   <td>=></td>
+                   <td><tt>(d c b a)</tt></td>
+               <tr><td><tt>(reverse '((a b) (c d)))</tt></td>
+                   <td>=></td>
+                   <td><tt>((c d) (a b))</tt></td>
+           </table> </td>
+    </table>
+
+<!--- rgb->index *********************************************************--->
+
+      <h2><a name="desc_rgb2index">rgb->index</a></h2>
+      <tt>rgb->index</tt> finds the nearest palette entry for a color.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(rgb->index <i>r g b</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>r</i></tt></td><td>an integer in the range 0-255, red part 
+             <tr><td><tt><i>g</i></tt></td><td>an integer in the range 0-255, green part 
+             <tr><td><tt><i>b</i></tt></td><td>an integer in the range 0-255, blue part 
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>rgb->index</tt> searches the system colortable (palette)
+           for a color matching the given <tt><i>r g b</i></tt> values. The
+           algorithm is described in the SDK docs:<p>
+           <cite>
+             Palm OS SDK Reference Palm OS 3.5 supports a maximum of 256
+             colors. The number of
+             possible RGB colors greatly exceeds this amount.
+             For this reason, an exact match may not be available.
+             If there is no exact RGB match, then a luminance best-fit
+             is used if the color lookup table is entirely gray scale
+             (red, green, and blue values for each entry are identical),
+             or a shortest-distance fit in RGB space is used if the
+             palette contains colors. RGB shortest distance may not always
+             produce the actual closest perceptible color, but it's
+             relatively fast and works for the system palette.
+           </cite><p>
+           The result is an integer denoting the best palette entry.
+           On systems running older OS versions than 3.5, <tt>0</tt>
+           is returned.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(rgb->index 145 49 213)</tt></td>
+                   <td>=></td>
+                   <td><tt>46</tt> (256 colors)</td>
+               <tr><td><tt>(rgb->index 145 49 213)</tt></td>
+                   <td>=></td>
+                   <td><tt>10</tt> (16 grays)</td>
+           </table> </td>
+    </table>
+
+<!--- round **************************************************************--->
+
+      <h2><a name="desc_round">round</a></h2>
+      <tt>round</tt> rounds a number to the closest integer.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(round <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>round</tt> converts <tt><i>num</i></tt> to a floating
+           point number and returns the closest whole number.
+           The result is <b>not</b> a
+           LispMe integer, it's a floating point value.<p>
+           See also
+           <a href="lm_cat1.htm#desc_ceiling"><tt>ceiling</tt></a>,
+           <a href="lm_cat2.htm#desc_floor"><tt>floor</tt></a>, and
+           <a href="lm_cat4.htm#desc_truncate"><tt>truncate</tt></a>.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(round -4.3)</tt></td>
+                   <td>=></td>
+                   <td><tt>-4</tt></td>
+               <tr><td><tt>(round 3.5)</tt></td>
+                   <td>=></td>
+                   <td><tt>4</tt></td>
+           </table> </td>
+    </table>
+
+  <p><a href="lm_cat4.htm">Catalog of Language Elements S - Z</a>
+
+  </body>
+</html>

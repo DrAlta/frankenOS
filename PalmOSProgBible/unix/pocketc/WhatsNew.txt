@@ -1,0 +1,195 @@
+History:
+--------
+00/04/13  Added support for larger apps: 64K code + 64K strings max
+    v3.7  Fixed rare database form crash
+
+00/03/16  Fix penup event following gets(), alert()...
+   v3.61  Fixed launch() buge
+
+00/03/07  Faster, much more efficient string management
+    v3.6  getsi() - gets in place, pops up an edit field where you specify
+          Fix problems running under the 3.5 debug ROM
+          Negative numbers can now be used in initializers
+          Fixed a bug in mmdelete()
+          Removed the "Compilation Sucessful" message box (quiet on success)
+          Added predefined macros __PKTC__, __PKTC_PALM__
+          Launch pedit instead of memo pad if installed
+
+00/01/29  Implemented initializers (e.g. int x[3] = {1, 2, 3}; )
+    v3.5  Reimplemented event() to allow for a specified wait time
+
+99/12/07  Ate the penup following gets()
+   v3.11  Added textwidth() to get the width of a line of text
+          Added version() function
+          Changed Close button on Compile dialog to "Back" for keyboard nav.
+          Added samples for manipulating built-in databases (Address/Todo)
+
+99/09/22  Ate the penups immediately following alert()/confirm()
+   v3.10  Fixed a rare crash after compile bug
+          Fixed bug in dberase()
+          Added atexit() function
+
+99/09/07  Fixed a new bug that crashed small applets
+   v3.05
+
+99/08/22  Fixed clipget()
+   v3.04  Added some intelligence to TicTacToe
+             (thanks to Thaddaeus Frogley <codemonkey_uk@hotmail.com>)
+          Added runtime error for divide by zero
+          Fixed string++ (after runtime error, doesn't crash)
+          Fixed screen flash when launching applet stubs from launcher
+          Fixed order of operations with [] operator on pointers
+
+99/07/26  Changed getsd() to have the default string selected
+   v3.03  Added some vertical clipping to line() to overcome PalmOS bug
+          Re-added exit()
+
+99/06/28  Added support for forward declarations
+   v3.02  Fixed a bug in string->float conversion
+          Added getsd() [gets() with default text]
+          Added support for multi-line gets()/getsd() [use \r]
+
+99/03/28  Fixed a bug in the negation operator
+   v3.01  Enabled scrolling in database form
+          Removed Abort from Input form
+          Renamed Input ("PocketC Input" -> just plain "Input")
+          Added docs for bitwise shift operators (<< >>)
+
+99/03/10  Official release!
+    v3.0  Added string <-> char array functions
+          Fixed some operator precedences
+          Added a cool sample applet (calc)
+
+99/03/04  Fixed the crash after compilation bug
+  v3.0b6  Fixed hang during compile bug
+
+99/02/25  Fixed a macro bug
+  v3.0b5  exit() has been disabled
+          Added docs for dbenum(), along with sample code
+
+99/01/14  Fixed database incompatibility
+  v3.0b4
+
+99/01/11  Fixed clipset()
+  v3.0b2  Hopefully fixed Fatal Error problem
+          Removed compiler debugging stuff
+             (much faster compiling, much smaller output)
+          Fixed other stuff
+          Updated some function descriptions
+
+99/01/06  Added full database support
+   v3.0b  Added pointers and dynamic memory functions
+          Added a preprocessor
+          Added bitwise operators
+          Added clipboard functions
+          Added support for intercepting the hard keys
+          Added support for intercepting the menu button
+          Added mmcount()
+          Enhanced error messages
+          Significantly increased speed
+          Fixed a bug in serclose()
+          Fixed a bug in time()
+          Fixed a bug in mmopen()
+
+          Note: code compiled by 3.0 and above will not run with
+             PocketC 2.11 and under.
+
+98/09/11  Fixed a bug in saveg()
+   v2.11  Solved a HotSync bug that would cause crashes
+          Fixed problems with storing PocketC and applets in flash
+
+98/08/15  Added launch() function
+    v2.1  Added saveg(), restoreg() functions
+          serrecv() now returns an unsigned number
+          Fixed a bug in mmopen()
+          Fixed a bug in strstr()
+          Fixed a bug in clearg()
+          Changed launch behavior. Main form unconditionally active at launch.
+          Added mode 2 to time() that returns hours, minutes, and seconds
+
+98/07/06  Added support for native libraries 
+    v2.0  mmopen() now works 
+          Fixed a bug in dbwrite() 
+          Added textalign() function 
+          ".prc" generator available to registered users
+
+98/04/27  Another format() bug fixed
+    v1.0  Lower compile-time memory overhead (may help users w/o 2.0 Pro OS)
+          Comprehensive memory error checking (should reduce potential problems)
+          OS 3.0 compatible
+          float variables can be incremented/decremented
+          Change in Backup behavior of databases/applets (now, only backed up at
+              next HotSync, and then the backup bit is cleared)
+          New backup dialog          
+
+98/02/13  More format() bugs fixed
+  v1.0b5  Standard font is now reset after an applet runs
+          More error checking for out-of-memory conditions
+
+98/02/11  format() now correctly displays negative numbers
+  v1.0b4  Fixed random behavioral errors :)
+          Fixed problem related to stoping app while in getc()
+          Fixed problem related to 'Duplicate Database' error
+
+98/02/10  Fixed crashing bug with include files that weren't found
+v1.0b2-3  Fixed another out of memory error
+          Fixed applet list drawing errors
+
+98/02/09  Added format() to format floating-point output
+  v1.0b1  Added serial I/O functions
+
+98/02/02  Added sleep(), getsysval() [to get username]
+  v0.99a  Added resetaot() to reset auto off timer
+          Added "Edit Source" menu option
+          Added ability to hide include files from compile form
+             (using '/$' instead '//')
+
+98/01/31  Fixed the compile->reset problem with large programs
+   v0.99  Fixed the 'out of memory' problem
+          Added status line to compile dialog
+          Added a bitmap() function
+          Fixed another event() bug
+
+98/01/22  Fixed a bug in dbread()
+  v0.98b  Fixed a bug in compiler that caused int to be occasionally treated as
+             16 bits rather than 32.
+          Added parameter checking to tone()
+
+98/01/19  Fixed a two bugs in event() (false penDowns / improper blocking)
+  v0.98a
+
+98/01/18  Fixed another compiler bug
+   v0.98  Fixed a bug in hex()'s output of negative numbers
+          Added frame2() which allows specification of frame widths
+          * Added database I/O (see documentation)
+          * Added Memo Pad I/O
+          * Added new event mechanism
+          Added deletetion form for user databases (files)
+          Added strstr() to search for a substring in a string
+          Added mathlib() to test for the presence of the MathLib
+          Removed disabling of execution after expiration
+
+98/01/14  Fixed a bug in compiler output
+  v0.97b  Fixed a bug in hex()
+          Added XOR to list of available colors for rect(), line(), and frame()
+          Added '\x' as a string escape sequence (e.g. "CR = \x0d")
+
+98/01/12  Fixed a bug introduced in 0.97 (Reset if file contains > 7 functions)
+  v0.97a  Fixed a bug in string comparisons
+
+98/01/11  Fixed several memory bugs (hopefully solving the compile->reset problem)
+   v0.97  Documented several math functions [sqrt(), log() log10(), exp()]
+          Added confirm() function (Alert with Yes/No buttons)
+          Added support for 'include'
+          Automatically switch from Compile form back to Main after compiling
+
+98/01/05  Fixed bugs in several built-in functions
+          Added frame() function (draws an empty rectangle)
+          Added date/time functions
+          Added support for hex in source
+          Added hex() function (converts int to hex string)
+
+98/01/03  Fixed bugs in puts(), wait()
+          Added a "Goto..." button for compile errors
+
+97/12/29  Initial release

@@ -1,0 +1,63 @@
+; Little schemer 19
+; pages 165-175 of "The Seasoned
+; Schemer", some minor syntactic
+; derivations
+
+(define (atom? a)
+	(and (not (pair? a))
+		(not (null? a))))
+(define two-in-a-row?
+	(letrec ((W (lambda (a lat)
+		(cond ((null? lat) #f)
+		(else
+		(let ((nxt (car lat)))
+			(or (eq? nxt a)
+			(W nxt 
+				(cdr lat)))))))))
+	(lambda (lat) (if (null? lat) #f
+		(W (car lat) (cdr lat))))))
+
+(define leave #f)
+(define walk (lambda (l)
+	(cond ((null? l) '())
+		((atom? (car l)) 
+			(leave (car l)))
+		(else
+			(walk (car l))
+		   	(walk (cdr l))))))
+(define (start-it l)
+	(call/cc (lambda (here)
+		(set! leave here)
+		(walk l))))
+(define fill #f)
+(define waddle (lambda (l)
+	(cond ((null? l) '())
+		((atom? (car l)) 
+			(call/cc (lambda (rest)
+				(set! fill rest)
+				(leave (car l))))
+			(waddle (cdr l)))
+	(else (waddle (car l))
+		  (waddle (cdr l))))))
+(define (get-first l)
+	(call/cc (lambda (here)
+		(set! leave here)
+		(waddle l)
+		(leave '()))))
+(define (get-next)
+	(call/cc (lambda (again)
+		(set! leave again)
+		(fill 'dummy))))
+(define two-in-a-row*?
+	(lambda (l)
+		(let ((fst (get-first l)))
+		(if (atom? fst)
+		   (two-in-a-row-b*? fst)
+		   #f))))
+(define two-in-a-row-b*?
+	(lambda (a)
+		(let ((n (get-next)))
+		(if (atom? n)
+		  (or (eq? n a)
+			(two-in-a-row-b*? n))
+		  #f))))

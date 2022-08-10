@@ -1,0 +1,1273 @@
+<html>
+<head>
+  <title>LispMe Alphabetical Catalog of Language Elements S - Z</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+<p><a href="lm_cat1.htm">Catalog of Language Elements # - C</a>
+<p><a href="lm_cat2.htm">Catalog of Language Elements D - L</a>
+<p><a href="lm_cat3.htm">Catalog of Language Elements M - R</a>
+
+<h1>Alphabetic catalog of Language elements S - Z</h1>
+
+<!--- set! ***************************************************************--->
+
+      <h2><a name="desc_set">set!</a></h2>
+      <tt>set!</tt> modifies a variable.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(set! <i>var expr</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>var</i></tt></td><td>an identifier</td>
+             <tr><td><tt><i>expr</i></tt></td><td>any expression</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>set!</tt> evaluates <tt><i>expr</i></tt> and assigns the
+               value to <tt><i>var</i></tt>. <tt><i>var</i></tt> must be
+               bound (by
+               <a href="lm_cat2.htm#desc_define"><tt>define</tt></a>,
+               <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a>,
+               <a href="lm_cat2.htm#desc_let"><tt>let</tt></a>, or
+               <a href="lm_cat2.htm#desc_letrec"><tt>letrec</tt></a>),
+               or an <a href="lm_err.htm#err_undef">error</a> results.<p>
+               Though R<sup>4</sup>RS doesn't specify a return value for
+               <tt>set!</tt>, in LispMe the assigned value is returned.
+               </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(let ((a 0)) (set! a 3) a)</tt></td>
+                   <td>=></td>
+                   <td><tt>3</tt></td>
+               <tr><td><tt>(let ((a 0)) (set! b 3) b)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- set-car! ***********************************************************--->
+
+      <h2><a name="desc_setcar">set-car!</a></h2>
+      <tt>set-car!</tt> modifies the car component of a pair.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(set-car! <i>pair obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>pair</i></tt></td><td>a pair</td>
+             <tr><td><tt><i>obj</i></tt></td><td>any object</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>set-car!</tt> changes the
+               <a href="lm_cat1.htm#desc_car"><tt>car</tt></a> component of
+               <tt><i>pair</i></tt>
+               to <tt><i>obj</i></tt> and returns the modified
+               <tt><i>pair</i></tt>.
+               </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(let ((a '(a b c))) (set-car! a 3) a)</tt></td>
+                   <td>=></td>
+                   <td><tt>(3 b c)</tt></td>
+           </table> </td>
+    </table>
+
+<!--- set-cdr! ***********************************************************--->
+
+      <h2><a name="desc_setcdr">set-cdr!</a></h2>
+      <tt>set-cdr!</tt> modifies the cdr component of a pair.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(set-cdr! <i>pair obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>pair</i></tt></td><td>a pair</td>
+             <tr><td><tt><i>obj</i></tt></td><td>any object</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>set-cdr!</tt> changes the
+               <a href="lm_cat1.htm#desc_cdr"><tt>cdr</tt></a> component of
+               <tt><i>pair</i></tt>
+               to <tt><i>obj</i></tt> and returns the modified
+               <tt><i>pair</i></tt>.
+               </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(let ((a '(a b c))) (set-cdr! a 3) a)</tt></td>
+                   <td>=></td>
+                   <td><tt>(a . 3)</tt></td>
+           </table> </td>
+    </table>
+
+<!--- set-palette ********************************************************--->
+
+      <h2><a name="desc_set_palette">set-palette</a></h2>
+      <tt>set-palette</tt> modifies a palette entry.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(set-palette <i>index r g b</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>index</i></tt></td><td>an integer in the range 0-255, the index  
+             <tr><td><tt><i>r</i></tt></td><td>an integer in the range 0-255, red part 
+             <tr><td><tt><i>g</i></tt></td><td>an integer in the range 0-255, green part 
+             <tr><td><tt><i>b</i></tt></td><td>an integer in the range 0-255, blue part 
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>set-palette</tt> modifies the current colortable
+           (palette) by setting the entry <tt><i>index</i></tt> to the
+           given <tt><i>r g b</i></tt> values. Though according to the
+           SDK, only indexes from 231 to 254 should be used for user-defined
+           colors, you can modify any index using this procedure. 
+           The value returned is <tt><i>index</i></tt>.<p>
+
+           On systems running older OS versions than 3.5, this procedure
+           does nothing.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(set-palette 231 35 78 250)</tt></td>
+                   <td>=></td>
+                   <td><tt>231</tt> and makes the first user-defined color
+                    a nice <font color="#234efa">medium blue</font></td>
+           </table> </td>
+    </table>
+
+<!--- set-resdb **********************************************************--->
+
+      <h2><a name="desc_set_resdb">set-resdb</a></h2>
+      <tt>set-resdb</tt> sets the name of the resource DB for the user interface.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(set-resdb <i>str</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>str</i></tt></td><td>a string or <i>false</i>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>set-resdb</tt> sets the name of the resource database
+           being used in future calls to user interface functions. Only
+           one resource DB can be active at any time, if another DB is
+           already open, it'll be closed. Note, that the DB name is case-sensitive.
+           The parameter <tt>#f</tt> closes the current resource DB. The return
+           value is <tt><i>str</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(set-resdb "demo")</tt></td>
+                   <td>=></td>
+                   <td><tt>"demo"</tt> and sets <tt>demo</tt> as current resource DB</td>
+           </table> </td>
+    </table>
+
+<!--- sin ****************************************************************--->
+
+      <h2><a name="desc_sin">sin</a></h2>
+      <tt>sin</tt> computes the sine of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(sin <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>sin</tt> computes the sine of the number <tt><i>z</i></tt>.
+           <tt><i>z</i></tt> is an angle measured in radians.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>sin <var>z</var> = sin<var>x</var> cosh<var>y</var> +
+                   <var>i</var> cos<var>x</var> sinh<var>y</var>
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(sin 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(sin 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.841470984807896</tt></td>
+               <tr><td><tt>(sin 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.80369269553218+3.18286944833715i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- sinh ***************************************************************--->
+
+      <h2><a name="desc_sinh">sinh</a></h2>
+      <tt>sinh</tt> computes the hyperbolic sine of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(sinh <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>sinh</tt> computes the hyperbolic sine of the number
+           <tt><i>z</i></tt>.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>sinh <var>z</var> = sinh<var>x</var> cos<var>y</var> +
+                   <var>i</var> cosh<var>x</var> sin<var>y</var>
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(sinh 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(sinh 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.1752011936438</tt></td>
+               <tr><td><tt>(sinh 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>-0.216852162920789+1.02534738858398i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- sound **************************************************************--->
+
+      <h2><a name="desc_sound">sound</a></h2>
+      <tt>sound</tt> plays a (pseudo-)musical sound.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(sound <i>freq time</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>freq</i></tt></td><td>an integer >= 128
+             <tr><td><tt><i>time</i></tt></td><td>a positive integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>sound</tt> plays a sound of frequency <tt><i>freq</i></tt>
+           (measured in Hertz) for <tt><i>time</i></tt> milliseconds.
+           <tt><i>time</i></tt> and <tt><i>freq</i></tt>must be positive or an
+           <a href="lm_err.htm#err_invalid_parm">error</a> results.<p>
+           Frequencies below 128 seem to be wrongly reproduced by the Pilot,
+           so they're not allowed.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(sound 440 1000)</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt> and plays reference "a" for 1 second</td>
+           </table> </td>
+      </table>
+
+<!--- sqrt ***************************************************************--->
+
+      <h2><a name="desc_sqrt">sqrt</a></h2>
+      <tt>sqrt</tt> computes the square root of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(sqrt <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>sqrt</tt> returns the square root of a number
+           <tt><i>z</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(sqrt 9)</tt></td>
+                   <td>=></td>
+                   <td><tt>3</tt></td>
+               <tr><td><tt>(sqrt 2)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.41421356237309</tt></td>
+               <tr><td><tt>(sqrt -2)</tt></td>
+                   <td>=></td>
+                   <td><tt>+1.41421356237309i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- string2list ********************************************************--->
+
+      <h2><a name="desc_string2list">string->list</a></h2>
+      <tt>string->list</tt> converts a string to the list of its characters.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(string->list <i>string</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>string->list</tt> returns a newly allocated list of the
+           characters in <tt><i>string</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(string->list "Foobar")</tt></td>
+                   <td>=></td>
+                   <td><tt>(#\F #\o #\o #\b #\a #\r)</tt></td>
+               <tr><td><tt>(string->list "\\#ff")</tt></td>
+                   <td>=></td>
+                   <td><tt>(#\\ #\&yuml;)</tt></td>
+               <tr><td><tt>(string->list "")</tt></td>
+                   <td>=></td>
+                   <td><tt>()</tt></td>
+           </table> </td>
+      </table>
+
+<!--- string2object ******************************************************--->
+
+      <h2><a name="desc_string2object">string->object</a></h2>
+      <tt>string->object</tt> parses a string as a LispMe object.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(string->object <i>string</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>string->object</tt> uses the standard LispMe parser
+           to create an object from its textual representation
+           <tt><i>string</i></tt>, so all kind of <a href="lm_err.htm#err_syntax">
+           syntax errors</a> are possible. The type of the object is solely
+           determined by the contents of <tt><i>string</i></tt>.
+           <tt><i>string</i></tt> must not be larger than 4096 characters.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension. <tt>string->object</tt> subsumes 
+               R<sup>4</sup>RS procedures <tt>string->symbol</tt> and
+               <tt>string->number</tt>.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(string->object "Foobar")</tt></td>
+                   <td>=></td>
+                   <td><tt>foobar</tt></td>
+               <tr><td><tt>(string->object "\"Foobar\"")</tt></td>
+                   <td>=></td>
+                   <td><tt>"Foobar"</tt></td>
+               <tr><td><tt>(string->object "(a (b) c)")</tt></td>
+                   <td>=></td>
+                   <td><tt>(a (b) c)</tt></td>
+               <tr><td><tt>(string->object "1E3")</tt></td>
+                   <td>=></td>
+                   <td><tt>1000</tt></td>
+           </table> </td>
+      </table>
+
+<!--- string-append ******************************************************--->
+
+      <h2><a name="desc_string_append">string-append</a></h2>
+      <tt>string-append</tt> concatenates strings.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(string-append <i>string<sub>i</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string<sub>i</sub></i></tt></td><td>any string
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>string-append</tt> returns a newly allocated string,
+           which is the concatenation of all the <tt>string<sub>i</sub></tt>
+           in the order written.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(string-append "foo" "&nbsp;bar" "baz")</tt></td>
+                   <td>=></td>
+                   <td><tt>"foo&nbsp;barbaz"</tt></td>
+               <tr><td><tt>(string-append "hello")</tt></td>
+                   <td>=></td>
+                   <td><tt>"hello"</tt> (use this idiom to copy a string)</td>
+               <tr><td><tt>(string-append)</tt></td>
+                   <td>=></td>
+                   <td><tt>""</tt></td>
+           </table> </td>
+      </table>
+
+<!--- string-length ******************************************************--->
+
+      <h2><a name="desc_string_length">string-length</a></h2>
+      <tt>string-length</tt> counts the characters in a string.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(string-length <i>string</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>string-length</tt> returns the number of characters in
+           <tt><i>string</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(string-length "Foobar")</tt></td>
+                   <td>=></td>
+                   <td><tt>6</tt></td>
+               <tr><td><tt>(string-length "\\#ff")</tt></td>
+                   <td>=></td>
+                   <td><tt>2</tt></td>
+               <tr><td><tt>(string-length "")</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+           </table> </td>
+      </table>
+
+<!--- string-ref *********************************************************--->
+
+      <h2><a name="desc_string_ref">string-ref</a></h2>
+      <tt>string-ref</tt> returns a character in a string by index.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(string-ref <i>string index</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string
+             <tr><td><tt><i>index</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>string-ref</tt> returns the <tt><i>index</i></tt>th
+           character of <tt><i>string</i></tt>. The index of the first
+           character is 0, and the index of the last character is the
+           length of <tt><i>string</i></tt> minus one.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(string-ref "baz" 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>#\a</tt></td>
+               <tr><td><tt>(string-ref "hello" 5)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+      </table>
+
+<!--- string-set! ********************************************************--->
+
+      <h2><a name="desc_string_set">string-set!</a></h2>
+      <tt>string-set!</tt> replaces a character in a string.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(string-set! <i>string index char</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string
+             <tr><td><tt><i>index</i></tt></td><td>an integer
+             <tr><td><tt><i>char</i></tt></td><td>a character
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>string-set!</tt> replaces the <tt><i>index</i></tt>th
+           character of <tt><i>string</i></tt> by <tt><i>char</i></tt>.
+           The modified string is returned.
+           The index of the first
+           character is 0, and the index of the last character is the
+           length of <tt><i>string</i></tt> minus one. It's no error to
+           modify a constant string in LispMe, as all values are
+           heap-allocated and strings are never shared, so the examples
+           are valid.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(string-set! "baz" 2 #\r)</tt></td>
+                   <td>=></td>
+                   <td><tt>"bar"</tt></td>
+               <tr><td><tt>(string-set! "hello" -1 #\x)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+      </table>
+
+<!--- string=? ***********************************************************--->
+
+      <h2><a name="desc_stringeq">string=?</a></h2>
+      <tt>string=?</tt> compares two strings.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(string=? <i>string<sub>1</sub> string<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string<sub>1</sub></i></tt></td><td>a string
+             <tr><td><tt><i>string<sub>2</sub></i></tt></td><td>a string
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>string=?</tt> returns <tt>#t</tt>, if both strings consist
+           of the same characters at corresponding index positions and both
+           strings have the same length. Otherwise <tt>#f</tt> is returned.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(string=? "ab" "abc")</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(string=? "foo" "foo")</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(string=? "Foo" "foo")</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- string? ************************************************************--->
+
+      <h2><a name="desc_string">string?</a></h2>
+      <tt>string?</tt> recognizes strings.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(string? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>string?</tt> returns <tt>#t</tt> for a string
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(string? #\x)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(string? "x")</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(string? 'x)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- substring **********************************************************--->
+
+      <h2><a name="desc_substring">substring</a></h2>
+      <tt>substring</tt> returns s substring of a string.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(substring <i>string start end</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>string</i></tt></td><td>a string
+             <tr><td><tt><i>start</i></tt></td><td>an integer
+             <tr><td><tt><i>end</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>substring</tt> returns a newly allocated substring
+           of <tt><i>string</i></tt> starting at index
+           <tt><i>start</i></tt> including characters up to index
+           <tt><i>end</i>-1</tt>. The index of the first
+           character is 0, and the index of the last character is the
+           length of <tt><i>string</i></tt> minus one.
+           If <tt><i>end</i></tt> is less or equal to <tt><i>start</i></tt>,
+           the empty string is returned. <tt><i>end</i></tt> may be greater
+           than the length of <tt><i>string</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>It's no error, when the second index <tt><i>end</i></tt>
+               is out of bounds. In this case, the empty string or all
+               characters upto the end of <tt><i>string</i></tt> are
+               returned.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(substring "foobar" 2 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>"ob"</tt></td>
+               <tr><td><tt>(substring "foobar" 3 100)</tt></td>
+                   <td>=></td>
+                   <td><tt>"bar"</tt></td>
+               <tr><td><tt>(substring "foobar" 4 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>""</tt></td>
+               <tr><td><tt>(substring "foobar" 7 8)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+      </table>
+
+<!--- symbol? ************************************************************--->
+
+      <h2><a name="desc_symbol">symbol?</a></h2>
+      <tt>symbol?</tt> recognizes symbols.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(symbol? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>symbol?</tt> returns <tt>#t</tt> for a symbol
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(symbol? 'foo)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(symbol? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(symbol? '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- tan ****************************************************************--->
+
+      <h2><a name="desc_tan">tan</a></h2>
+      <tt>tan</tt> computes the tangent of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(tan <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>tan</tt> computes the tangent of the number <tt><i>z</i></tt>.
+           <tt><i>z</i></tt> is an angle measured in radians.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>tan <var>z</var> = sin 2<var>x</var> / (cos 2<var>x</var> +
+                   cosh 2<var>y</var>) + <var>i</var> sinh 2<var>x</var> /
+                   (cos 2<var>x</var> + cosh 2<var>y</var>)
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(tan 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(tan 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.5574077246549</tt></td>
+               <tr><td><tt>(tan 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.0302159873228775+0.979940849961738i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- tanh ***************************************************************--->
+
+      <h2><a name="desc_tanh">tanh</a></h2>
+      <tt>tanh</tt> computes the hyperbolic tangent of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(tanh <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>tanh</tt> computes the hyperbolic tangent of the number
+           <tt><i>z</i></tt>.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>tanh <var>z</var> = sinh 2<var>x</var> / (cosh 2<var>x</var> +
+                   cos 2<var>y</var>) + <var>i</var> sin 2<var>x</var> /
+                   (cosh 2<var>x</var> + cos 2<var>y</var>)
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(tanh 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(tanh 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.761594155955765</tt></td>
+               <tr><td><tt>(tanh 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.32128658377119-0.850878121144937i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- text ***************************************************************--->
+
+      <h2><a name="desc_text">text</a></h2>
+      <tt>text</tt> prints an object as graphic text.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(text <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>text</tt> formats <tt><i>obj</i></tt> in
+           human-readable format and prints it as graphic text to the graphic
+           screen. Printing uses the graphics state
+           <a href="lm_cat1.htm#desc_gstate"><tt>*gstate*</tt></a> 
+           for starting coordinates, font, colors and drawing mode.
+           The current point in <tt>*gstate*</tt> is not updated.<p>
+           See <a href="lm_graph.htm">here</a> for details on the graphic state.
+           The return value is <a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a> to
+           avoid trashing the graphics.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(text "Hello,&nbsp;world")</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt> and prints
+                           <i>Hello,&nbsp;world</i> as described above.</td>
+           </table> </td>
+      </table>
+
+<!--- truncate ***********************************************************--->
+
+      <h2><a name="desc_truncate">truncate</a></h2>
+      <tt>truncate</tt> computes the integer component of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(truncate <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>truncate</tt> converts <tt><i>num</i></tt> to a floating
+           point number and returns the integer part of it.
+           The result is <b>not</b> a
+           LispMe integer, it's a floating point value.<p>
+           See also
+           <a href="lm_cat1.htm#desc_ceiling"><tt>ceiling</tt></a>,
+           <a href="lm_cat2.htm#desc_floor"><tt>floor</tt></a>,
+           <a href="lm_cat2.htm#desc_integer"><tt>integer</tt></a>, and
+           <a href="lm_cat3.htm#desc_round"><tt>round</tt></a>.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(truncate -4.3)</tt></td>
+                   <td>=></td>
+                   <td><tt>-4</tt></td>
+               <tr><td><tt>(truncate 3.5)</tt></td>
+                   <td>=></td>
+                   <td><tt>3</tt></td>
+           </table> </td>
+    </table>
+
+<!--- unquote ************************************************************--->
+
+      <h2><a name="desc_unquote">unquote</a></h2>
+      <tt>unquote</tt> evaluates an expression in a <tt>quasiquote</tt> template.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td> <table>
+             <tr><td><tt>(unquote <i>exp</i>)</tt></td>
+             <tr><td><tt>,<i>exp</i></tt></td>
+           </table> </td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>exp</i></tt></td>
+                 <td>any expression</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>unquote</tt> evaluates <tt><i>exp</i></tt> in a
+               <a href="lm_cat3.htm#desc_quasiquote"><tt>quasiquote</tt></a>
+               expression. The result is inserted into the template in place
+               of the <tt>unquote</tt> expression.
+               It's an <a href="lm_err.htm#err_unquote">error</a> when <tt>unquote</tt>
+               appears outside of a <tt>quasiquote</tt> expression.
+               <tt>unquote</tt> may be abbreviated with a comma
+               <tt>,</tt></td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td>See
+               <a href="lm_cat3.htm#desc_quasiquote"><tt>quasiquote</tt></a>
+           </td>
+    </table>
+
+<!--- unquote-splicing ***************************************************--->
+
+      <h2><a name="desc_unquotesplicing">unquote-splicing</a></h2>
+      <tt>unquote-splicing</tt> evaluates an expression in a <tt>quasiquote</tt> template
+          and splices it into the template.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td> <table>
+             <tr><td><tt>(unquote-splicing <i>exp</i>)</tt></td>
+             <tr><td><tt>,@<i>exp</i></tt></td>
+           </table> </td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>exp</i></tt></td>
+                 <td>any expression</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>unquote-splicing</tt> evaluates <tt><i>exp</i></tt> in a
+               <a href="lm_cat3.htm#desc_quasiquote"><tt>quasiquote</tt></a>
+               expression. The expression must evaluate to a list. The opening
+               and closing parentheses of this list are removed and all items
+               are inserted in place of the <tt>unquote-splicing</tt> expression.
+               It's an <a href="lm_err.htm#err_unquote">error</a> when
+               <tt>unquote-splicing</tt>
+               appears outside of a <tt>quasiquote</tt> expression.
+               It's also an <a href="lm_err.htm#err_splice">error</a> when
+               the context is not a list or a vector.
+               <tt>unquote-splicing</tt> may be abbreviated with comma at-sign
+               <tt>,@</tt></td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td>See
+               <a href="lm_cat3.htm#desc_quasiquote"><tt>quasiquote</tt></a>
+           </td>
+    </table>
+
+<!--- vector *************************************************************--->
+
+      <h2><a name="desc_vector">vector</a></h2>
+      <tt>vector</tt> creates a vector from its arguments.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(vector <i>obj<sub>1</sub></i> ...)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj<sub>i</sub></i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>vector</tt> gathers its arguments into a vector and
+           returns it.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(vector 'a -3 "hello")</tt></td>
+                   <td>=></td>
+                   <td><tt>#(a -3 "hello")</tt></td>
+               <tr><td><tt>(vector '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#(())</tt></td>
+               <tr><td><tt>(vector)</tt></td>
+                   <td>=></td>
+                   <td><tt>#()</tt></td>
+           </table> </td>
+      </table>
+
+
+<!--- vector2list ********************************************************--->
+
+      <h2><a name="desc_vector2list">vector->list</a></h2>
+      <tt>vector->list</tt> converts a vector to a list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(vector->list <i>vec</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>vec</i></tt></td><td>a vector
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>vector->list</tt> returns a newly allocated list of the
+           elements of the vector <tt><i>vec</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(vector->list #(foo bar))</tt></td>
+                   <td>=></td>
+                   <td><tt>(foo bar)</tt></td>
+               <tr><td><tt>(vector->list (make-vector 10 42))</tt></td>
+                   <td>=></td>
+                   <td><tt>(42 42 42 42 42 42 42 42 42 42)</tt></td>
+           </table> </td>
+      </table>
+
+<!--- vector-length ******************************************************--->
+
+      <h2><a name="desc_vector_length">vector-length</a></h2>
+      <tt>vector-length</tt> counts the elements in a vector.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(vector-length <i>vec</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>vec</i></tt></td><td>a vector
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>vector-length</tt> returns the number of elements in
+           <tt><i>vec</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(vector-length #(foo bar))</tt></td>
+                   <td>=></td>
+                   <td><tt>2</tt></td>
+               <tr><td><tt>(vector-length (make-vector 97 #n))</tt></td>
+                   <td>=></td>
+                   <td><tt>97</tt></td>
+               <tr><td><tt>(vector-length (vector))</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+           </table> </td>
+      </table>
+
+<!--- vector-ref *********************************************************--->
+
+      <h2><a name="desc_vector_ref">vector-ref</a></h2>
+      <tt>vector-ref</tt> returns an element of a vector by index.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(vector-ref <i>vec index</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>vec</i></tt></td><td>a vector
+             <tr><td><tt><i>index</i></tt></td><td>an integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>vector-ref</tt> returns the <tt><i>index</i></tt>th
+           element of <tt><i>vec</i></tt>. The index of the first
+           element is 0, and the index of the last element is the
+           length of <tt><i>vec</i></tt> minus one.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(vector-ref #(foo bar) 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>bar</tt></td>
+               <tr><td><tt>(vector-ref #(0 1 2 3)  5)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+      </table>
+
+<!--- vector-set! ********************************************************--->
+
+      <h2><a name="desc_vector_set">vector-set!</a></h2>
+      <tt>vector-set!</tt> modifies an element in a vector.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(vector-set! <i>vec index obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>vec</i></tt></td><td>a vector
+             <tr><td><tt><i>index</i></tt></td><td>an integer
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>vector-set!</tt> replaces the <tt><i>index</i></tt>th
+           element of <tt><i>vec</i></tt> by <tt><i>obj</i></tt>.
+           The modified vector is returned.
+           The index of the first
+           element is 0, and the index of the last element is the
+           length of <tt><i>vec</i></tt> minus one. It's no error to
+           modify a constant vector in LispMe, as all values are
+           heap-allocated and constant vectors are never shared, so the
+           examples are valid.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(vector-set! #(1 2 3) 2 #\r)</tt></td>
+                   <td>=></td>
+                   <td><tt>#(1 2 #\r)</tt></td>
+               <tr><td><tt>(vector-set! (make-vector 10 'jamaica) -4 'rum)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+      </table>
+
+
+<!--- vector? ************************************************************--->
+
+      <h2><a name="desc_vectorp">vector?</a></h2>
+      <tt>vector?</tt> recognizes vectors.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(vector? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>vector?</tt> returns <tt>#t</tt> for a vector
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(vector? '(1 2 3))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(vector? '#(1 2 3))</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(vector? 'x)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- wait ***************************************************************--->
+
+      <h2><a name="desc_wait">wait</a></h2>
+      <tt>wait</tt> waits for a time given.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(wait <i>time</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>time</i></tt></td><td>a positive integer
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>waits</tt> waits for <tt><i>time</i></tt> milliseconds.
+           <tt><i>time</i></tt> must be positive or an
+           <a href="lm_err.htm#err_invalid_parm">error</a> results.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(wait 1000)</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt> after waiting 1 second</td>
+           </table> </td>
+      </table>
+
+<!--- wait-pen ***********************************************************--->
+
+      <h2><a name="desc_waitpen">wait-pen</a></h2>
+      <tt>wait-pen</tt> waits for a pen tap and returns its coordinates.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(wait-pen)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td>none</td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>wait-pen</tt> waits for a pen tap.
+           When the pen event occurs, the
+           pen coordinates are
+           <a href="lm_cat1.htm#desc_cons"><tt>cons</tt></a>ed
+           into a pair <tt>(<i>x</i> . <i>y</i>)</tt>,
+           which is returned. Both x and y coordinates are in the range [0..160].
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(wait-pen)</tt></td>
+                   <td>=></td>
+                   <td><tt>(80 . 80)</tt> assuming, you tapped exactly into
+                           the center of the screen.</td>
+           </table> </td>
+      </table>
+
+<!--- write **************************************************************--->
+
+      <h2><a name="desc_write">write</a></h2>
+      <tt>write</tt> prints an object in machine-readable format.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(write <i>obj [outport]</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+             <tr><td><tt><i>outport</i></tt></td><td>(optional) an output port
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>write</tt> prints an object to the
+           <a href="lm_cmd.htm#ctl_output">output field</a> or to the
+           output port <tt><i>outport</i></tt> in
+           machine-readable format, i.e. strings and chars are escaped as
+           described <a href="lm_synt.htm#print">here</a>.
+           A space character is appended after each object written.
+           <tt>write</tt> returns <tt><i>obj</i></tt>.
+           For related information, see
+           <a href="lm_cat2.htm#desc_display"><tt>display</tt></a> and
+           <a href="lm_cat3.htm#desc_newline"><tt>newline</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>optional port parameter not supported</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(write "Hello,&nbsp;world")</tt></td>
+                   <td>=></td>
+                   <td><tt>"Hello,&nbsp;world"</tt> and prints
+                           <i>"Hello,&nbsp;world" </i> to the output area.</td>
+               <tr><td><tt>(write '((x y)))</tt></td>
+                   <td>=></td>
+                   <td><tt>"((x y))"</tt> and prints
+                           <i>((x&nbsp;y))</i> to the output area.</td>
+           </table> </td>
+      </table>
+
+<!--- write-record ********************************************************--->
+
+      <h2><a name="desc_write_record">write-record</a></h2>
+      <tt>write-record</tt> writes a record to an arbitrary Pilot DB.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(write-record <i>dbname recnum obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>dbname</i></tt></td><td>a string naming the database
+             <tr><td><tt><i>recnum</i></tt></td><td>an integer 
+             <tr><td><tt><i>obj</i></tt></td><td>either a string or <tt>#f</tt>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>write-record</tt> opens the Pilot database named
+           <tt><i>dbname</i></tt> (case-sensitive!). <tt><i>recnum</i></tt>
+           must be a valid index for the database. If <tt><i>obj</i></tt>
+           is a string, a new record (filled with the string's contents)
+           is tried to be inserted into the database at the position
+           <tt><i>recnum</i></tt> and the actual insertion position is
+           returned as an integer.<p>
+           If <tt><i>obj</i></tt> is the value <i>false</i>, the record with
+           index <tt><i>recnum</i></tt> is (permanently) deleted from the
+           database (using <tt>DmRemoveRecord</tt>, not just setting the
+           <i>deleted</i> attribute) and <tt>#t</tt> is returned on success.<p>
+           If the database or the index doesn't exist or any other error
+           occurs, <tt>#f</tt> is returned in both cases.<p>
+           <b>Warning: Don't try to create records for other apps when
+           you're not absolutely sure about their data layout. Those apps
+           often assume valid data in their databases and can crash badly
+           otherwise!</b></td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension.</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(write-record "foo" 9999 "#01#02#03")</tt></td>
+                   <td>=></td>
+                   <td><tt>5</tt> and wrote successfully a record
+                   containing the 3 bytes <tt>"#01#02#03"</tt> to the 
+                   database <i>foo</i> at the last index (which is 5).</td>
+           </table> </td>
+      </table>
+
+<!--- zero? **************************************************************--->
+
+      <h2><a name="desc_zero">zero?</a></h2>
+      <tt>zero?</tt> tests if a number is equal to zero.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(zero? <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>zero?</tt> returns <tt>#t</tt>, if <tt><i>num</i></tt>
+           is equal to zero. Otherwise it returns <tt>#f</tt>. See also
+           <a href="lm_cat3.htm#desc_positive"></tt>positive?</tt></a> and
+           <a href="lm_cat3.htm#desc_negative"></tt>negative?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(zero? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(zero? 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+    </table>
+
+  </body>
+</html>

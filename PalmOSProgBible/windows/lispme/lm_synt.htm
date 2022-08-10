@@ -1,0 +1,312 @@
+<html>
+<head>
+  <title>LispMe Syntax</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe syntax</h1>
+  <h2>Syntactic elements</h2>
+    <h3><a name="synt_id">Identifiers</a></h3>
+      Identifiers (atoms) are similar to identifiers in other programming languages,
+      but they may consist of a larger set of characters. Allowed characters
+      are:
+      <ul>
+        <li>upper case characters <tt>A B C D E F G H I J K L M N O P Q R S T
+            U V W X Y Z</tt>
+        <li>lower case characters <tt>a b c d e f g h i j k l m n o p q r s t
+            u v w x y z</tt>
+        <li>digits <tt>0 1 2 3 4 5 6 7 8 9</tt>
+        <li>ASCII punctuation characters <tt>! $ % & * + - / : &lt; = > ? ^ _ ~</tt>
+        <li>all non-ASCII Pilot characters with the exception of
+            <tt>numericSpaceChr</tt> (<tt>##80</tt> on PalmOS 3.2 and lower,
+               <tt>##19</tt> on PalmOS3.3) and <tt>##a0</tt> (<tt>nonBreakSpaceChr</tt>), which
+            are treated as white space.
+     </ul>
+    A symbol can consist of upto 256 characters from the above set with the
+    exception that tokens starting with a digit or <tt>+</tt> or <tt>-</tt>
+    followed by a digit are interpreted as <a href="#number">numbers</a>.<p>
+
+    Using the option <a href="lm_cmd.htm#cmd_case">Case-sensitive symbols</a>
+    you can determine, if symbols are case-insensitive or not. 
+    Case-insensitive symbols are generally converted to lower case.
+    Unfortunately this doesn't apply to accented/national characters, as
+    the Pilot ROM routines don't convert these characters.
+
+    <h3><a name="number">Numbers</a></h3>
+      LispMe supports integer, real and complex numbers.
+      Any number entered which is too large to represented as a 15 bit
+      signed integer
+      (-16384 to 16383), is automatically converted to floating point.<p>
+      LispMe supports inputting decimal numbers only. It accepts real
+      numbers according to this grammar:
+<pre>
+real     ::= [sign] ureal.
+ureal    ::= mantissa [exponent].
+sign     ::= '+' | '-'.
+mantissa ::= digit+ ['.' digit*]
+           | '.' digit+.
+exponent ::= ('e' | 'E') ['+' | '-'] digit+.
+</pre>
+      Real numbers are represented in IEEE-754 64 bit double
+      precision format, which means about 15 decimal digits accuracy.<p>
+
+      Complex numbers can be written according to this grammar:
+<pre>
+complex  ::= real
+           | real sign ureal 'i'
+           | real 'i'
+           | sign 'i'
+           | real '@' real.
+</pre>
+      The <tt>@</tt>-syntax denotes complex numbers in polar form,
+      left to the <tt>@</tt> is the magnitude, right is the angle.<p>
+
+      LispMe does not support the exactness property required by
+      R<sup>4</sup>RS, nor does it support big integers or rationals.
+
+    <h3>Characters</h3>
+      Character objects are denoted by prefixing the character with
+      <tt>#\</tt>. LispMe doesn't know special character names
+      like <tt>#\space</tt> and <tt>#\newline</tt>, but you can create
+      those values with the
+      <a href="lm_cat2.htm#desc_integer2char"><tt>integer->char</tt></a>
+      function or use the <i>hex syntax</i>, which is an extension to
+      R<sup>4</sup>RS: Two hash chars <tt>##</tt> followed by two
+      hexadecimal digits (0-9, a-f) denote a character whose code is
+      the value of the two hex digits given.
+      <h4>Examples</h4>
+      <tt>#\&uuml;</tt> denotes the lower case german
+      character <i>&uuml;</i> (<i>u umlaut</i>)<br>
+      <tt>##0a</tt> denotes the carriage return/linefeed char 
+      on the pilot
+
+    <h3>Strings</h3>
+      Strings are sequences of characters enclosed within double quotation
+      marks <tt>"</tt>. Any character from the Pilot char set can be written
+      in a string with three exceptions:
+      <ul>
+        <li><tt>"</tt> the double quotation would terminate the string
+        <li><tt>\</tt> the backslash introduces an escape sequence
+        <li><tt>#</tt> the hash sign introduces a hexadecimal character
+      </ul>
+      These characters in a string must be preceeded by a backslash <tt>\</tt>.
+      <a name="hex">The</a> <tt>#</tt> syntax is a LispMe extension,
+      which allows an arbitrary
+      character to be included in a string. After the <tt>#</tt> exactly
+      two hexadecimal digits (0-9, a-f) are expected, which denote the
+      character to be included.<p>
+      In contrast to C or C++, you <b>can</b> have <tt>#00</tt> bytes
+      in a string.
+
+      <h4>Example</h4>
+      <tt>"a\\#0aa\#"</tt> denotes a string consisting of
+      letter a, backslash, linefeed (hex 0a), letter a, hash sign.
+
+    <h3>Other literals</h3>
+      There're 3 special literals all beginning with a hash sign <tt>#</tt>
+      <ul>
+        <li><a href="lm_cat1.htm#desc_false"><tt>#f</tt></a> denotes
+            the boolean value <i>false</i>.
+        <li><a href="lm_cat1.htm#desc_true"><tt>#t</tt></a> denotes
+            the boolean value <i>true</i>.
+        <li><a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a> denotes
+            a value which doesn't print.
+      </ul>
+
+    <h3>Pairs and lists</h3>
+      A pair (or dotted pair) is a data structure consisting of two
+      components, called the <i>car</i> and the <i>cdr</i>. A pair
+      consisting of the <i>car</i> component <tt><i>a</i></tt> and the
+      <i>cdr</i> component <tt><i>b</i></tt> is written
+      <tt>(<i>a</i> . <i>b</i>)</tt>. If one of the components is a number,
+      you should write a space character between the number and the dot to
+      avoid confusion with a decimal point.
+      LispMe's scanner munches as much input as possible when recognizing
+      tokens, so be picky with spaces, especially with dotted pairs/floating
+      point numbers. Notice the difference:<p>
+      <tt>(a.1)</tt> is read as <tt>(a 0.1)</tt> (list)<p>
+      <tt>(a. 1)</tt> is read as <tt>(a . 1)</tt> (dotted pair)<p>
+
+      A list is either a special value <tt>()</tt> called the empty list, or
+      a pair, whose <i>cdr</i> component is a list, for example
+      <tt>(1 . (2 . (3 . ())))</tt> There's also a shorter syntax for lists
+      which omits both the dot and the parentheses around the <i>cdr</i>
+      component, so this example can also be written <tt>(1 2 3)</tt>. Lists
+      of these form (the last <i>cdr</i> is the empty list) are called
+      proper lists. Improper lists don't have the empty list as their last
+      <i>cdr</i>, like <tt>(1 . (2 . (3 . 4)))</tt>, which can be written
+      as <tt>(1 2 3 . 4)</tt>, too. It's an
+      <a href="lm_err.htm#err_multi_dot">error</a> to write more than one
+      dot in a list.
+      
+    <h3>Vectors</h3>
+      Vectors are sequences of arbitrary objects, which can be accessed by
+      an integer index in constant time. Vector constants are written like
+      lists, but they start with <tt>#(</tt> and are terminated by <tt>)</tt>.
+      In contrast to lists, there are no "dotted" vectors. In contrast to
+      R<sup>4</sup>RS, vector constants need not to be quoted in LispMe.
+
+    <h3><a name="comment">Comments</a></h3>
+      A semicolon <tt>;</tt> starts a comment. All characters following it
+      upto the end of the current line are ignored. Note that there must
+      be a hard line feed (Graffiti stroke <i>downward slash</i>), word
+      wrapping to the next line is not considered a line feed.
+
+  <h2>The LispMe Reader</h2>
+  Anything after a complete expression is ignored by the reader and any
+  incomplete expression is automatically completed with closing parentheses.
+  
+  So<p>
+    <tt>(+ 3 (* 7 4)) (foo bar) quux</tt><p>
+  and<p>
+    <tt>(+ 3 (* 7 4</tt><p>
+  both read as <tt>(+ 3 (* 7 4))</tt> and evaluate to 31.<p>
+  When loading memos, <tt>(begin</tt> is stuffed into the read buffer before
+  the actual memo contents is read, so a source memo must be a sequence of
+  <a href="lm_cat2.htm#desc_define"><tt>define</tt></a> expressions not
+  enclosed in parentheses. Instead, the outermost list is automatically
+  completed by the loading mechanism.
+
+
+  <h2><a name="grammar">Valid LispMe expressions</a></h2>
+    LispMe expressions (programs, see <a href="lm_sema.htm#sema_rep">here</a>)
+    are in fact nested lists and may be viewed as data, too, but not all 
+    nested lists are valid programs. LispMe programs must follow this grammar:
+    <pre>
+<i>expression</i>   ::= <i>literal</i>
+               | <i>identifier</i>
+               | <i>special_form</i>
+               | <i>application</i>
+               | (quasiquote <i>qq-template</i>)
+               | `<i>qq-template</i>
+
+<i>literal</i>      ::= <i>number</i>
+               | <i>character</i>
+               | <i>string</i>
+               | #f | #t | #n | '()
+               | #( <i>object*</i> )
+               | (quote <i>object</i>)
+               | '<i>object</i>
+
+<i>special_form</i> ::= (<i>keyword component*</i>)
+
+<i>application</i>  ::= (<i>expression+</i>)
+
+<i>qq-template</i>  ::= <i>object</i> including unquote and
+                        unquote-splicing special forms
+</pre>
+    <tt><i>object</i></tt> means the written representation of any LispMe object
+    and <tt><i>component</i></tt> is a syntactic component different for
+    (and described at) each keyword in the <a href="lm_cat1.htm">LispMe catalog</a>.
+    This grammar is ambiguous due to special forms, but this ambiguity is
+    resolved by reserving names used as keywords in special forms. A
+    <tt><i>qq-template</i></tt> may be any LispMe object but is most commonly
+    a list or vector, which may contain
+    <a href="lm_cat4.htm#desc_unquote"><tt>unquote</tt></a> and
+    <a href="lm_cat4.htm#desc_unquotesplicing"><tt>unquote-splicing</tt></a>
+    special forms.
+
+  <h2><a name="print">Printing of objects</a></h2>
+
+    <h3>Symbols</h3>
+      Symbols are printed in lower-case. There's no escape mechanism for
+      funny characters in symbols, as these cannot be input or generated.
+
+    <h3>Numbers</h3>
+      Numbers are printed in decimal without leading zeros. If floating
+      point numbers don't have decimal places, the decimal point is
+      omitted, too. At most 15 decimal places are printed where the last
+      decimal digit may not be rounded correctly. Exponential notation
+      is used for numbers larger than 10<sup>15</sup> or smaller than
+      10<sup>-4</sup>. (similar to the C format string <tt>"%.15g"</tt>)<p>
+      Complex numbers always print in rectangular form, where the real and
+      imaginary part are both printed as described for real numbers.<p>
+      <a name="print_nan">The</a> special real
+      values <i>infinity</i>, <i>-infinity</i>
+      and <i>not-a-number</i> print as <tt>[inf]</tt>, <tt>[-inf]</tt>
+      and <tt>[nan]</tt>. A complex number having an infinite component
+      prints as <tt>[cinf]</tt> (complex infinity).
+
+    <h3>Characters</h3>
+      <a href="lm_cat2.htm#desc_display"><tt>display</tt></a> and
+      <a href="lm_cat4.htm#desc_write"><tt>write</tt></a> 
+      print characters differently. <tt>write</tt> prefixes a character
+      with <tt>#\</tt> or uses <tt>##</tt> for characters with ASCII codes
+      &lt;32 and <tt>display</tt> just prints the character itself.
+
+    <h3>Strings</h3>
+      <a href="lm_cat2.htm#desc_display"><tt>display</tt></a> and
+      <a href="lm_cat4.htm#desc_write"><tt>write</tt></a> 
+      print strings differently. <tt>display</tt> just prints the contents
+      of the string <b>without</b> any escape chars and without double quotes.
+      <tt>write</tt> encloses the string in double quotes and escapes the
+      characters <tt>"</tt>, <tt>\</tt> and <tt>#</tt> with a backslash
+      <tt>\</tt> and writes all characters with ASCII codes &lt;32 in
+      <a href="#hex">hex notation</a>.
+
+    <h3>Pairs and lists</h3>
+      The dot notation is avoided whenever possible. To avoid stack overflow
+      in the printer, deeply nested lists (the limit in configurable in the
+      <a href="lm_cmd.htm#frm_preferences">preferences dialog</a>)
+      print as <tt>[deep]</tt>. Expressions which are to long for the
+      output are abbreviated with <tt>...</tt> and a
+      <a href="lm_err.htm#err_output_trunc">warning</a> is given.<p>
+      By selecting the option <a href="lm_cmd.htm#frm_quotes">Print quotes</a>,
+      you can make LispMe print <tt>quote</tt>-expressions in the abbreviated
+      form.
+
+    <h3>Vectors</h3>
+      Vectors are printed using the standard syntax <tt>#( ... )</tt>. The
+      depth limit (like with lists) applies to vectors, too.
+
+    <h3>Closures</h3>
+      Closures print as <tt>[clos <i>n</i>]</tt>, where <tt><i>n</i></tt>
+      indicates the number of arguments
+      <ul>
+      <li><tt><i>n</i></tt>&gt;=0 means exactly <tt><i>n</i></tt> arguments
+      <li><tt><i>n</i></tt>&lt;0 means at least |<tt><i>n</i></tt>|-1 arguments
+         (= |<tt><i>n</i></tt>| arguments, the last one being the rest argument)
+      </ul>
+      See <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a> for more info.
+
+    <h3>Continuations</h3>
+      Continuations (see <a href="lm_cat1.htm#desc_callcc"><tt>call/cc</tt></a>)
+      print as <tt>[cont]</tt>.
+
+    <h3>Promises</h3>
+      Promises (see <a href="lm_cat2.htm#desc_delay"><tt>delay</tt></a>)
+      print as <tt>[prom]</tt>.
+
+    <h3>Ports</h3>
+      Output ports print as <tt>[outport]</tt> and input ports as
+      <tt>[inport <i>n</i>]</tt>, where <tt><i>n</i></tt> is the current
+      read position from the beginning of the memo. The special end-of-file
+      object (returned by <a href="lm_cat3.htm#desc_read"><tt>read</tt></a>, for
+      example) prints as <tt>[eof]</tt>.
+
+    <h3>Macros</h3>
+      Macros (see <a href="lm_sema.htm#sema_macro"><tt>here</tt></a>)
+      print as <tt>[macro]</tt>.
+
+    <h3>Summary of specially printed objects</h3>
+      <table border>
+        <tr><td><tt>[-inf]</tt><td>negative infinity</tr>
+        <tr><td><tt>[cinf]</tt><td>complex infinity</tr>
+        <tr><td><tt>[clos <i>n</i>]</tt><td>closure</tr>
+        <tr><td><tt>[cont]</tt><td>continuation</tr>
+        <tr><td><tt>[deep]</tt><td>deeply nested list or vector</tr>
+        <tr><td><tt>[eof]</tt><td>end-of-file object</tr>
+        <tr><td><tt>[inf]</tt><td>positive infinity</tr>
+        <tr><td><tt>[inport <i>n</i>]</tt><td>input port</tr>
+        <tr><td><tt>[macro]</tt><td>macros</tr>
+        <tr><td><tt>[nan]</tt><td>not a number</tr>
+        <tr><td><tt>[outport]</tt><td>output port</tr>
+        <tr><td><tt>[prom]</tt><td>promise</tr>
+        <tr><td><tt>#<i>n</i></tt><td>a symbol created by <tt>gensym</tt></tr>
+      </table>
+
+</body>
+</html>

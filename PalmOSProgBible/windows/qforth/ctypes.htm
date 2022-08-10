@@ -1,0 +1,189 @@
+<HTML><!-- #BeginTemplate "/Templates/Quartus.dwt" -->
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Quartus Forth: C Typedefs</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" background="graph.gif">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif"><img src="dfpc.gif" width="64" height="93" align="right" border="0">Quartus 
+  Forth Manual</font></h1>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" --> 
+<h2><font face="Arial, Helvetica, sans-serif">C Typedefs</font></h2>
+<p>In 3Com's documentation, arguments for system functions are described using 
+  C typedefs. Many of these typedefs refer to exactly the same underlying data 
+  type. The table below lists all of the typedefs 3Com defines, with their representation 
+  and examples of those values in Quartus Forth.</p>
+<table width="100%" border="1">
+  <tr> 
+    <td width="26%" height="75"> 
+      <div align="center"> 
+        <h4><font face="Arial, Helvetica, sans-serif">C typedef</font></h4>
+      </div>
+    </td>
+    <td width="26%" height="75"> 
+      <div align="center"> 
+        <h4><font face="Arial, Helvetica, sans-serif">Representing</font></h4>
+      </div>
+    </td>
+    <td width="24%" height="75"> 
+      <div align="center"> 
+        <h4><font face="Arial, Helvetica, sans-serif">Example values in Quartus 
+          Forth</font></h4>
+      </div>
+    </td>
+    <td width="24%" height="75"> 
+      <div align="center"> 
+        <h4><font face="Arial, Helvetica, sans-serif">Quartus Forth Stack Diagram 
+          Notation</font></h4>
+        <h4><font face="Arial, Helvetica, sans-serif">( <i>argument</i> -- <i>result</i> 
+          )</font></h4>
+      </div>
+    </td>
+  </tr>
+  <tr> 
+    <td colspan="4"> 
+      <div align="center"><font face="Arial, Helvetica, sans-serif">Fixed Size 
+        Data Types</font></div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="26%"> 
+      <p>typedef char <b>SByte</b><br>
+        typedef char <b>Char</b></p>
+    </td>
+    <td width="26%">8 bits {-128..127}</td>
+    <td width="24%"> 
+      <p><kbd>-128</kbd></p>
+      <p><kbd> char A</kbd></p>
+    </td>
+    <td width="24%">( <i>name[&gt;byte]</i> -- <i>name</i> )</td>
+  </tr>
+  <tr> 
+    <td width="26%"> 
+      <p>typedef unsigned char <b>Byte</b><br>
+        typedef unsigned char <b>UChar</b></p>
+    </td>
+    <td width="26%">8 bits {0..255}</td>
+    <td width="24%"><kbd>64</kbd></td>
+    <td width="24%">( <i>name[&gt;byte]</i> -- <i>name</i> )</td>
+  </tr>
+  <tr> 
+    <td width="26%">typedef unsigned char <b>Boolean</b></td>
+    <td width="26%">8 bits {0=false, non-zero=true}</td>
+    <td width="24%"> 
+      <p><kbd>TRUE</kbd></p>
+      </td>
+    <td width="24%">( <i>name?</i> )</td>
+  </tr>
+  <tr> 
+    <td width="26%"> 
+      <p>typedef unsigned short <b>UInt</b><br>
+        typedef unsigned short <b>UInt16</b><br>
+        typedef unsigned short <b>Word</b><br>
+        typedef unsigned short <b>UShort</b></p>
+    </td>
+    <td width="26%">16 bits {0..65535}</td>
+    <td width="24%"><kbd>41288</kbd></td>
+    <td width="24%">( <i>u</i> )</td>
+  </tr>
+  <tr> 
+    <td width="26%"> 
+      <p>typedef short <b>SWord</b><br>
+        typedef short <b>Short</b><br>
+        typedef short <b>Int16</b><br>
+        typedef short <b>Int</b><br>
+        typedef short <b>Err</b></p>
+    </td>
+    <td width="26%">16 bits {-32768..32767}</td>
+    <td width="24%"><kbd>-15000</kbd></td>
+    <td width="24%">( <i>n</i> )</td>
+  </tr>
+  <tr> 
+    <td width="26%"> 
+      <p>typedef unsigned long <b>UInt32</b><br>
+        typedef unsigned long <b>DWord</b><br>
+        typedef unsigned long <b>ULong</b> </p>
+    </td>
+    <td width="26%">32 bits {0..4294967295}</td>
+    <td width="24%"><kbd>8675309.</kbd></td>
+    <td width="24%">( <i>u.</i> )</td>
+  </tr>
+  <tr> 
+    <td width="26%">typedef DWord <b>LocalID</b></td>
+    <td width="26%">32 bits representing a database ID</td>
+    <td width="24%">returned by DmFindDatabase, DmGetDatabase, etc.</td>
+    <td width="24%">( <i>localID.</i> )</td>
+  </tr>
+  <tr> 
+    <td width="26%"> 
+      <p>typedef long <b>Long</b><br>
+        typedef long <b>SDWord</b><br>
+        typedef long <b>Int32</b></p>
+    </td>
+    <td width="26%">32 bits {-2147483648..2147483647} <br>
+    </td>
+    <td width="24%"><kbd>-12345678.</kbd></td>
+    <td width="24%">( <i>d.</i> )</td>
+  </tr>
+  <tr> 
+    <td colspan="4"> 
+      <div align="center"><font face="Arial, Helvetica, sans-serif">Pointer Types</font></div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="26%"> 
+      <p>typedef void* <b>VoidPtr</b><br>
+        typedef VoidPtr* <b>VoidHand</b><br>
+        typedef SByte* <b>SBytePtr</b><br>
+        typedef Byte* <b>BytePtr</b><br>
+        typedef SWord* <b>SWordPtr</b><br>
+        typedef Word* <b>WordPtr</b><br>
+        typedef unsigned short* <b>UInt16Ptr</b><br>
+        typedef SDWord* <b>SDWordPtr</b><br>
+        typedef DWord* <b>DWordPtr</b><br>
+        typedef Boolean* <b>BooleanPtr</b><br>
+        typedef Char* <b>CharPtr</b><br>
+        typedef UChar* <b>UCharPtr</b><br>
+        typedef Short* <b>ShortPtr</b><br>
+        typedef UShort* <b>UShortPtr</b><br>
+        typedef Int* <b>IntPtr</b><br>
+        typedef UInt* <b>UIntPtr</b><br>
+        typedef Long* <b>LongPtr</b><br>
+        typedef ULong* <b>ULongPtr</b><br>
+        typedef char* <b>Ptr</b><br>
+        typedef Ptr* <b>Handle</b></p>
+    </td>
+    <td width="26%">32 bits representing an address in memory</td>
+    <td width="24%"> 
+      <p><kbd>here &gt;abs</kbd></p>
+      <p><kbd><br>
+        32. MemHandleNew</kbd></p>
+    </td>
+    <td width="24%">( <i>&amp;name.</i> )</td>
+  </tr>
+  <tr> 
+    <td width="26%">typedef Long (*<b>ProcPtr</b>)()</td>
+    <td width="26%">32 bits representing the address of a function</td>
+    <td width="24%"><kbd> ' type xt&gt;abs</kbd></td>
+    <td width="24%">( <i>&amp;funcname.</i> )</td>
+  </tr>
+</table>
+<!-- #EndEditable --> 
+<hr>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998, 1999 <a href="http://www.quartus.net/">Neal Bridges</a>. All 
+rights reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate --></HTML>

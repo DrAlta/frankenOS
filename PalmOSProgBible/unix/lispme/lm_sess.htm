@@ -1,0 +1,117 @@
+<html>
+<head>
+  <title>LispMe sessions</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe sessions</h1>
+
+  Beginning with version 2.5, LispMe supports multiple sessions in contrast
+  to the single session in earlier versions.<p>
+
+  Each LispMe session is like a single process in a multiprocessing operating
+  system. You can switch between sessions at any time (even during evaluation)
+  and restart the session later.<p>
+
+  <h2>Using sessions</h2>
+
+  All sessions are totally separate from each other, there's no way of
+  communication (except external resources like MemoPad I/O) between them.
+  That's not a problem as the idea behind them is not concurrent programming
+  (you could do this using continuations in a single session much better), but
+  to provide the framework to switch between many small utility programs
+  written in LispMe without having to pop and reload Memos in a single session.<p>
+
+  A session database holds of course not only the Scheme program loaded, but
+  also all data, so for simple applications you don't have to write code
+  to save your data e.g. to a memo, as your data won't be lost when
+  switching to another session. Have a look how the
+  <a href="lm_samp.htm#samp_calc">Calculator sample program</a> does
+  <b>not</b> explicitly save its state on exit (it's not handling
+  the <a href="lm_cat2.htm#desc_frm_close"><tt>frm-close</tt></a> event)
+
+  <h2><a name="start">Using starter icons</a></h2>
+  This is even more faciliated by the option to create starter icons, which
+  start LispMe together with a specific session database. So now your dream
+  has come true: Write Scheme programs on your Pilot, create dialogs for them,
+  and execute them by a simple tap in the application launcher!<p>
+
+  A starter application is a tiny program which
+  appears in the Pilot application launcher and starts LispMe with a
+  selected session database and simulates tapping the
+  <a href="lm_cmd.htm#ctl_eval">Eval button</a>.
+  So the steps to create a stand-alone LispMe program are:
+  <ol>
+    <li>Go to the <a href="lm_cmd.htm#frm_sess">Session dialog</a>, create
+      a new session and switch to it.
+    <li>Change its <a href="lm_cmd.htm#frm_sizes">memory settings</a>
+    <li><a href="lm_cmd.htm#frm_load">Load</a> all needed memos
+    <li>Enter the start expression into the input field
+    <li>Test it
+    <li>Go to the <a href="lm_cmd.htm#frm_sess">Session dialog</a> again and
+        check the icon checkbox.
+    <li>You might want to select another category for it in the application
+        launcher
+  </ol>
+
+  Normally starter icons show in the application launcher as
+  <img src="lm_ica.gif" alt="Big icon"> (or
+  <img src="lm_icas.gif" alt="Small icon"> in list view), but you can 
+  create your own ones by including a <tt>tAIB</tt> resource with id
+  9000 (instead of 1000 for big icon) and/or a <tt>tAIB</tt> resource
+  with id 9001 (instead of 1001 for small icon) in the resource DB used
+  by your app. The resource DB must be open at the moment you create the
+  starter app by checking the checkbox, since LispMe looks
+  <i>in this moment</i> for icons with IDs 9000 and 9001 in all open 
+  resource DBs. If you didn't define icons, LispMe will find its own
+  default icons depicted above.<p>
+
+  <h2>Backing up and beaming sessions</h2>
+  Each LispMe session is stored in a separate Pilot database, which has the
+  same name as the session. You can backup and restore these databases
+  like any other <tt>.pdb</tt> fiel and transfer it to other Pilots
+  running LispMe (please make sure that LispMe version numbers match!)
+  with a tool like <a href="http://www.inkverse.com/beambox.html">BeamBox</a><p>
+
+  A LispMe session is (almost) fully self-contained, so you can backup
+  and restore (or beam to other Palm devices) a LispMe session, even when 
+  it's running, and it will continue in the exactly same state when it
+  left your Pilot. This always works for a self-contained session,
+  the problems are external references. In case of LispMe, these can be:
+  <ul>
+    <li>Open ports: These are identified by their Unique IDs in the MemoDB
+        database. A broken reference will be indicated by the error
+        message <a href="lm_err.htm#err_lost_file">memo vanished</a>
+    <li>Open GUI resource DBs (obtained from
+        <a href="lm_cat4.htm#desc_set_resdb"><tt>set-resdb</tt></a>), which store the entire
+        name of the database. When a database with this name exists on the
+        other Pilot, all is assumed OK, when not, no open GUI database
+        is assumed which may cause the code to fail in benign way.
+    <li>The latest-loaded memo, which is simple a record number in the
+        <tt>MemoDB</tt> database. This record number most certainly identifies
+        another memo on the target Pilot, it may even not exist.
+    
+  </ul> 
+
+
+  <h2>Technical background</h2>
+  When you check the icon option in the session list to create a starter
+  icon, a new program is created in fact, which simply starts LispMe
+  using a special launch code and the name of the session database to
+  start. The database name of the starter is the same as the session database
+  name, but the high bit of the first char in the name is flipped. So don't
+  be alarmed when you find those strange looking <tt>.prc</tt> names on
+  your Pilot. You can delete a starter app any time you want and recreate
+  it via the session list.<p>
+
+  The creator ID of all starter apps must be distinct, so LispMe
+  searches an unused one beginning with <tt>fbLA</tt>. So you should <b>not</b>
+  try to transfer a starter app to another Pilot, as the creator ID might
+  already be in use there. Just transfer the session database and create
+  the starter app on the other Pilot.<p>
+
+</body>
+</html>

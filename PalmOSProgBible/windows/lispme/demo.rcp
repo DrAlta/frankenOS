@@ -1,0 +1,64 @@
+//********************************************************************/
+// Resources for 'GUIdemo' LispMe UI demo                            */
+//********************************************************************/
+
+MENU ID 2222
+  BEGIN
+    PULLDOWN "Options  "
+      BEGIN
+        MENUITEM "Set List" 2223 "S"
+        MENUITEM SEPARATOR
+        MENUITEM "Get List" 2224 "G"
+      END
+  END
+
+FORM ID 1777 AT (0 0 160 160)
+MENUID 2222
+BEGIN
+  TITLE "LispMe Demo GUI"
+
+  LABEL "Demo controls"   1003 AT (5 16) FONT 1
+  FIELD 1001  0  40 40 16 FONT 0 LEFTALIGN UNDERLINED USABLE
+                                 MAXCHARS 20
+  FIELD 1002 80  40 40 16 FONT 0 LEFTALIGN UNDERLINED USABLE
+                                 MAXCHARS 20
+
+  LIST "January" "February" "March" "April" "May" "June" "July"
+       "August" "September" "October" "November" "December"
+    1100 AT (2 60 65 AUTO)
+    USABLE VISIBLEITEMS 7 FONT 0
+
+  PUSHBUTTON "AM"  1300 AT (75 60 AUTO AUTO) GROUP 99
+  PUSHBUTTON "FM"  1301 AT (PREVRIGHT 60 AUTO AUTO) GROUP 99
+
+  CHECKBOX "Check me" 1101 AT (75 81 AUTO AUTO) FONT 1
+  CHECKBOX "Me too"   1102 AT (75 95 AUTO AUTO) FONT 1
+
+
+  POPUPTRIGGER "PTrigger" 1400 AT (80 126 AUTO AUTO)
+  POPUPLIST    1400 1401
+  LIST "Spring" "Summer" "Autumn" "Winter"
+       1401 AT (80 100 50 AUTO)
+       NONUSABLE VISIBLEITEMS 4 FONT 0
+
+  SELECTORTRIGGER "Popup" ID 1903 AT (80  110 AUTO AUTO)
+
+  REPEATBUTTON "\002" 1600 AT (120 20 8 AUTO) NOFRAME FONT 4
+  REPEATBUTTON "\003" 1601 AT (130 20 8 AUTO) NOFRAME FONT 4
+
+  BUTTON "Press Me"  ID 1900 AT (  1 146 AUTO AUTO)
+  BUTTON "Or me"     ID 1901 AT ( 61 146 AUTO AUTO)
+  BUTTON "OK"        ID 1902 AT (111 146 AUTO AUTO)
+
+  GRAFFITISTATEINDICATOR AT (144 147)
+END
+
+FORM ID 1888 AT (20 50 120 60)
+MODAL
+BEGIN
+  TITLE "Nested dialog"
+  FIELD 1000  20 20 80 16 FONT 1 LEFTALIGN UNDERLINED USABLE
+                                           MAXCHARS 30
+  BUTTON "OK"        ID 1001 AT (20 40 AUTO AUTO)
+  BUTTON "Cancel"    ID 1002 AT (60 40 AUTO AUTO)
+END

@@ -1,0 +1,48 @@
+<html>
+<title>strtoc.c</title>
+<body>
+<b>strtoc.c</b> (<a href="strtoc.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// Hack it up
+
+</font><font color=000000>hackitup(</font><font color=0000ff>string </font><font color=000000>str) {
+  </font><font color=0000ff>pointer </font><font color=000000>ptr;
+  </font><font color=0000ff>string </font><font color=000000>ret;
+  </font><font color=0000ff>int </font><font color=000000>i, len;
+
+  </font><font color=008000>// determine the required length
+  </font><font color=000000>len = </font><font color=000000><b>strlen</b></font><font color=000000>(str) + </font><font color=0000a0>1</font><font color=000000>;
+  </font><font color=008000>// allocate enough space
+  </font><font color=000000>ptr = </font><font color=000000><b>malloc</b></font><font color=000000>(len);
+  </font><font color=008000>// set the type of the memory block to char
+  </font><font color=000000><b>settype</b></font><font color=000000>(ptr, len, </font><font color=000080>'c'</font><font color=000000>);
+  </font><font color=008000>// fill the block with the chars from the string
+  </font><font color=000000><b>strtoc</b></font><font color=000000>(str, ptr);
+
+  </font><font color=008000>// process each char
+  </font><font color=0000ff>for </font><font color=000000>(i=</font><font color=0000a0>0</font><font color=000000>;i&lt;len;i++) {
+    </font><font color=0000ff>if </font><font color=000000>(ptr[i]==</font><font color=000080>'A'</font><font color=000000>) ptr[i] = </font><font color=000080>'4'</font><font color=000000>;
+    </font><font color=0000ff>else if </font><font color=000000>(ptr[i]==</font><font color=000080>'E'</font><font color=000000>) ptr[i] = </font><font color=000080>'3'</font><font color=000000>;
+  }
+
+  </font><font color=008000>// rebuild the return string
+  </font><font color=000000>ret = </font><font color=000000><b>ctostr</b></font><font color=000000>(ptr);
+  </font><font color=008000>// release the memory block
+  </font><font color=000000><b>free</b></font><font color=000000>(ptr);
+  </font><font color=0000ff>return </font><font color=000000>ret;
+}
+
+main() {
+  </font><font color=0000ff>string </font><font color=000000>str;
+
+  str = </font><font color=000000><b>gets</b></font><font color=000000>(</font><font color=000080>"Enter a string:"</font><font color=000000>);
+  </font><font color=0000ff>if </font><font color=000000>(str) {
+    str = </font><font color=000000><b>strupr</b></font><font color=000000>(str);
+    </font><font color=000000><b>puts</b></font><font color=000000>(hackitup(str) + </font><font color=000080>"\n"</font><font color=000000>);
+  } </font><font color=0000ff>else </font><font color=000000>{
+    </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"User cancelled\n"</font><font color=000000>);
+  }
+}</pre>
+</body>
+</html>

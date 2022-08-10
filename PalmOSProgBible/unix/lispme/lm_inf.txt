@@ -1,0 +1,32 @@
+; Infinite streams
+(define ones (cons 1 (delay ones)))
+(define nat (cons 1
+		 (delay (+str ones nat))))
+(define (+str s1 s2)
+	(cons (+ (car s1) (car s2))
+		(delay (+str
+			(force (cdr s1))
+			(force (cdr s2))))))
+(define (filter p s)
+   (if (p (car s))
+	(cons (car s)
+	    (delay (filter p
+			(force (cdr s)))))
+	(filter p (force  (cdr s)))))
+(define fibs
+	(letrec
+		((fibgen (lambda (a b) 
+		(cons a (delay (fibgen b 
+					(+ a b)))))))
+	(fibgen 0 1)))
+(define (primes)
+	(letrec ((sieve (lambda (s)
+	  (cons (car s)
+	 	(delay (sieve (filter 
+		  (lambda (n) 
+	(> (remainder n (car s)) 0))
+		(force (cdr s)))))))))
+	(sieve (force (cdr nat)))))
+(define (print s)
+	(write (car s))
+	(print (force (cdr s))))

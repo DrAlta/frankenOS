@@ -1,0 +1,505 @@
+<HTML><!-- #BeginTemplate "/Templates/Quartus.dwt" -->
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Quartus Forth: asm68k Documentation</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" background="graph.gif">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif"><img src="dfpc.gif" width="64" height="93" align="right" border="0">Quartus 
+  Forth Manual</font></h1>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" --> 
+<h2 ALIGN=Left> <font face="Arial, Helvetica, sans-serif"><I>asm68k</I> Documentation</font><BR>
+</h2>
+<h3> <font face="Arial, Helvetica, sans-serif">Table of Contents</font> </h3>
+<UL>
+  <LI> <A HREF="#general">General Information</A> 
+  <LI> <A HREF="#implementation">Implementation Details</A> 
+  <LI> <A HREF="#caveats">Caveats</A> 
+  <LI> <A HREF="#modes">Addressing Modes</A> 
+  <LI> <A HREF="#directives">Assembler Directives</A> 
+  <LI> <A HREF="#mnemonics">Assembler Mnemonics and Addressing Modes</A> 
+  <LI> <A HREF="#registers">Quartus Forth Registers</A> 
+  <LI> <A HREF="#history">Change History</A> 
+</UL>
+<h3> <I><font face="Arial, Helvetica, sans-serif"><a name="general"><!-- --></a>asm68k</font></I><font face="Arial, Helvetica, sans-serif"> 
+  General Information</font> </h3>
+<P> <I>asm68k</I> is a full-featured symbolic assembler for the Motorola 68000 
+  processor, ported to run in Quartus Forth. With it you can write assembler code 
+  directly for the CPU in the PalmPilot, either as wholly-assembler code words, 
+  or as inline assembler sequences embedded within Forth words. Features of <I>asm68k</I> 
+  include:<BR>
+<UL>
+  <LI> 119 mnemonic instructions 
+  <LI> 13 addressing modes 
+  <LI> Structured conditionals 
+    <UL>
+      <LI> <CODE>IF</CODE>...<CODE>THEN</CODE>...<CODE>ELSE</CODE> 
+      <LI> <CODE>BEGIN</CODE>...<CODE>AGAIN</CODE> 
+      <LI> <CODE>BEGIN</CODE>...<CODE>UNTIL</CODE> 
+      <LI> <CODE>BEGIN</CODE>...<CODE>WHILE</CODE>...<CODE>REPEAT</CODE> 
+      <LI> <CODE>FOR</CODE>...<CODE>NEXT</CODE> 
+    </UL>
+  <LI> Prefix or postfix operation 
+</UL>
+<P> As at version 1.21, the source for the assembler is in two files, <B>asm68k</B> 
+  and <B>asm68k.part2</B>, together totalling 7191 bytes. When compiled it occupies 
+  approximately 7516 bytes of code space, and 292 bytes of data space. 
+<P> To use it, <A HREF="http://www.quartus.net/files/">download</A> 
+  both of the files and import each of them to your pilot as memos using the Pilot 
+  Desktop software. From the Quartus Forth command line, type: <CODE><B>include 
+  asm68k</B></CODE> <I>&lt;enter&gt;</I> 
+<P> You will see:&nbsp;<CODE>Loading asm68k v1.21...done.</CODE> 
+<P> Check the <A HREF="http://www.quartus.net/files/">File Area</A> 
+  for sample assembler code to get you started. 
+<P> The original author of <I>asm68k</I> was Michael Perry of <B>F83</B> fame 
+  (an early and very popular implementation of the Forth-83 standard, together 
+  with Henry Laxen). The listing appeared in a special edition of Dr. Dobb's Journal, 
+  <I>the Toolbook of Forth</I>. &nbsp;His source (F83 compatible, in block format) 
+  can be found at <A HREF="ftp://ftp.taygeta.com/pub/Forth/Compilers/cross/68000/68kasm.arc">ftp://ftp.taygeta.com/pub/Forth/Compilers/cross/68000/68kasm.arc</A>. 
+<h3> <font face="Arial, Helvetica, sans-serif"><A NAME="implementation"><!-- --></A><I>asm68k</I> 
+  Implementation Details</font> </h3>
+<P> 68000 mnemonics are implemented in <I>asm68k</I> as Forth words that process 
+  operand information from the data stack and compile machine instructions into 
+  code space. In <CODE>prefix</CODE> mode, the remainder of the current line is 
+  evaluated before operand information is processed. 
+<P> The mnemonics are normal non-immediate words, which means that in order to 
+  assemble instructions, they must execute either in interpretation state, or 
+  from within another immediate word. Here's an example: 
+<PRE>code under+ ( a b c -- a+c b )
+  tos 2 sp d) add
+  ] drop [
+end-code
+</PRE>
+<P> Note that because <CODE>drop</CODE> is a Forth word, we must switch into compilation 
+  state with <CODE>]</CODE>before it and back into interpretation state with <CODE>[</CODE> 
+  after. Here's a differently-coded but otherwise identical implementation of 
+  <CODE>under+</CODE>: 
+<PRE>: under+ ( a b c -- a+c b )
+  [ also assembler  tos 2 sp d) add  previous ]
+  drop
+;
+</PRE>
+<P> Here we switch into interpretation state with <CODE>[</CODE> to assemble the 
+  <CODE>add</CODE> instruction, and then back into compilation state with <CODE>]</CODE> 
+  to compile <CODE>drop</CODE>. 
+<P> Another word: 
+<PRE>code 2- ( n -- n-2 )
+  2 tos subq
+end-code inline
+</PRE>
+<h3> </h3>
+<h3> <font face="Arial, Helvetica, sans-serif"><A NAME="caveats"><!-- --></A><I>asm68k</I> 
+  Caveats</font> </h3>
+<P> When mixing Forth and assembler within a definition, bear in mind that the 
+  following words have a different meaning&nbsp;when found in the <CODE>ASSEMBLER</CODE> 
+  wordlist: 
+<P> <CODE># 0&lt; 0= &lt; &gt; A0 AGAIN AND BEGIN D0 ELSE FOR IF MOVE NEXT OR 
+  REPEAT SWAP THEN UNTIL WHILE</CODE> 
+<h3> </h3>
+<h3> <font face="Arial, Helvetica, sans-serif"><I><a name="modes"><!-- --></a>asm68k</I> 
+  Addressing Modes </font></h3>
+<P> 
+<TABLE BORDER CELLPADDING="5">
+  <TR> 
+    <TD> 
+      <P ALIGN=Left> <B>Addressing Mode</B> 
+    </TD>
+    <TD><B>Generation</B></TD>
+    <TD><B>asm68k Syntax</B></TD>
+    <TD><B>asm68k Example (Postfix)</B></TD>
+  </TR>
+  <TR> 
+    <TD COLSPAN=4> 
+      <P> <I>Register Direct Addressing</I> 
+    </TD>
+  </TR>
+  <TR> 
+    <TD>Data register direct</TD>
+    <TD>ea = Dn</TD>
+    <TD><CODE><B>Dn</B></CODE></TD>
+    <TD><CODE>d0 d1 move</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>Address register direct</TD>
+    <TD>ea = An</TD>
+    <TD><CODE><B>An</B></CODE></TD>
+    <TD><CODE>a3 a0 move</CODE></TD>
+  </TR>
+  <TR> 
+    <TD COLSPAN=4> 
+      <P> <I>Absolute Data Addressing</I> 
+    </TD>
+  </TR>
+  <TR> 
+    <TD>Absolute short</TD>
+    <TD>ea = (next word)</TD>
+    <TD><CODE><B>n #)</B></CODE></TD>
+    <TD><CODE>3700 #) d0 move</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>Absolute long</TD>
+    <TD>ea = (next two words)</TD>
+    <TD><CODE><B>n L#)</B></CODE></TD>
+    <TD><CODE>123456. l#) jmp</CODE></TD>
+  </TR>
+  <TR> 
+    <TD COLSPAN=4> 
+      <P> <I>Program Counter Relative Addressing</I> 
+    </TD>
+  </TR>
+  <TR> 
+    <TD>Relative with offset</TD>
+    <TD>ea = PC + d<SUB>16</SUB></TD>
+    <TD><CODE><B>n PCD)</B></CODE></TD>
+    <TD><CODE>d0 56 pcd) .b move</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>Relative with index and offset</TD>
+    <TD>ea = PC + Xn + d<SUB>8</SUB></TD>
+    <TD><CODE><B>n Xn PCDI)</B></CODE></TD>
+    <TD><CODE>100 d1 pcdi) a0 lea</CODE></TD>
+  </TR>
+  <TR> 
+    <TD COLSPAN=4> 
+      <P> <I>Register Indirect Addressing</I> 
+    </TD>
+  </TR>
+  <TR> 
+    <TD>Register indirect</TD>
+    <TD>ea = (An)</TD>
+    <TD><CODE><B>An )</B></CODE></TD>
+    <TD><CODE>d0 a0 )&nbsp;.b move</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>Postincrement register indirect</TD>
+    <TD>ea = (An), An := An + N</TD>
+    <TD><CODE><B>An )+</B></CODE></TD>
+    <TD><CODE>a7 +) d7 .w move</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>Predecrement register indirect</TD>
+    <TD>An := An &#150; N, ea = (An)</TD>
+    <TD><CODE><B>An -)</B></CODE></TD>
+    <TD><CODE>d0 a6 -) .w move</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>Register indirect with offset</TD>
+    <TD>ea = (An) + d<SUB>16</SUB></TD>
+    <TD><CODE><B>n An D)</B></CODE></TD>
+    <TD><CODE>15 a1 d) .b clr</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>Indexed register indirect with offset</TD>
+    <TD>ea = (An) + (Xn) + d<SUB>8</SUB></TD>
+    <TD><CODE><B>n Xn An DI)</B></CODE></TD>
+    <TD><CODE>16 d0 a0 di) .l neg</CODE></TD>
+  </TR>
+  <TR> 
+    <TD COLSPAN=4> 
+      <P> <I>Immediate Data Addressing</I> 
+    </TD>
+  </TR>
+  <TR> 
+    <TD>Immediate</TD>
+    <TD>data = next word(s)</TD>
+    <TD><CODE><B>n #</B></CODE></TD>
+    <TD><CODE>42 # d0 move</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>Quick immediate</TD>
+    <TD>Inherent data</TD>
+    <TD><CODE><B>n</B></CODE></TD>
+    <TD><CODE>7 d1 addq</CODE></TD>
+  </TR>
+</TABLE>
+<h3><I><font face="Arial, Helvetica, sans-serif"><a name="directives"><!-- --></a>asm68k</font></I> 
+  <font face="Arial, Helvetica, sans-serif"><B>Assembler Directives</B></font> 
+</h3>
+<P> 
+<TABLE BORDER CELLPADDING="5">
+  <TR> 
+    <TD><B>Assembler Directive</B></TD>
+    <TD><B>Action</B></TD>
+    <TD><B>Example</B></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>.W</CODE></TD>
+    <TD>Cause subsequent generation of word-sized operations (2-byte)</TD>
+    <TD><CODE>d0 d1 .w move</CODE></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>.L</CODE></TD>
+    <TD>Cause subsequent generation of long-sized operations (4-byte)</TD>
+    <TD><CODE>24 # d5 .l add</CODE></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>.B</CODE></TD>
+    <TD>Cause subsequent generation of byte-sized operations (1-byte)</TD>
+    <TD><CODE>3 a1 d) .b clr</CODE></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>ASSEMBLER</CODE></TD>
+    <TD>Replace the first wordlist in the search-order with the ASSEMBLER wordlist.</TD>
+    <TD></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>FORTH</CODE></TD>
+    <TD>Replace the first wordlist in&nbsp;the search-order with the FORTH wordlist.</TD>
+    <TD></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>CODE</CODE> <I>&lt;name&gt;</I> ... <CODE>END-CODE</CODE></TD>
+    <TD>Creates <I>&lt;name&gt;</I>, saves the current search-order, performs 
+      <CODE>.W ALSO ASSEMBLER</CODE> and assembles code until <CODE>END-CODE</CODE>, 
+      which restores the&nbsp;former search-order. <I>&nbsp;&lt;name&gt;</I> becomes 
+      a findable Forth word that can be flagged <CODE>IMMEDIATE</CODE> or <CODE>INLINE</CODE>.</TD>
+    <TD> 
+      <PRE>code under+
+  tos 2 sp d) add
+  ] drop [
+end-code
+</PRE>
+    </TD>
+  </TR>
+  <TR> 
+    <TD><CODE>POSTFIX</CODE></TD>
+    <TD>Switch the assembler to postfix mode (the default), where operands preceed 
+      instructions.</TD>
+    <TD></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>PREFIX</CODE></TD>
+    <TD>Switch the assembler to prefix mode, where operands follow instructions.&nbsp;Note 
+      that in this mode, each mnemonic/operand sequence must be on its own line.</TD>
+    <TD> 
+      <PRE>code rot-
+  prefix
+  move tos d0
+  move sp ) tos
+  move 2 sp d) sp )
+  move d0 2 sp d)
+  postfix
+end-code
+</PRE>
+    </TD>
+  </TR>
+  <TR> 
+    <TH COLSPAN=3> 
+      <P> <I>Structured Conditionals (8-bit displacement)</I> 
+    </TH>
+  </TR>
+  <TR> 
+    <TD><CODE>0= 0&lt;&gt; 0&lt; 0&gt;= &lt; &gt;= &lt;= &gt;</CODE></TD>
+    <TD>Branch conditions; use where <I>&lt;condition&gt; </I>appears below. &nbsp;Note: 
+      these test&nbsp;the flags&nbsp;in&nbsp;the&nbsp;68000&nbsp;status&nbsp;register, 
+      and do not consume cells&nbsp;from&nbsp;the stack as do their Forth&nbsp;counterparts.</TD>
+    <TD></TD>
+  </TR>
+  <TR> 
+    <TD><I>&lt;condition&gt;</I> <CODE>IF</CODE> ... <CODE>ELSE</CODE> ... <CODE>THEN</CODE></TD>
+    <TD>Conditional branching, as in&nbsp;Forth.</TD>
+    <TD> 
+      <PRE>0&lt; if
+  d0 neg
+else
+  1 d0 subq
+then
+</PRE>
+    </TD>
+  </TR>
+  <TR> 
+    <TD><CODE>BEGIN</CODE> ... <CODE>AGAIN</CODE></TD>
+    <TD>A simple&nbsp;loop. &nbsp;As in&nbsp;Forth.</TD>
+    <TD></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>BEGIN</CODE> ... <I>&lt;condition&gt;</I> <CODE>UNTIL</CODE></TD>
+    <TD>As&nbsp;in&nbsp;Forth.</TD>
+    <TD></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>BEGIN</CODE> ... <I>&lt;condition&gt;</I><CODE> WHILE</CODE> ... 
+      <CODE>REPEAT</CODE></TD>
+    <TD>As in Forth.</TD>
+    <TD></TD>
+  </TR>
+  <TR> 
+    <TD><CODE>D</CODE><I>n</I> <CODE>FOR</CODE> ... <CODE>NEXT</CODE></TD>
+    <TD>Loops backwards&nbsp;from&nbsp;D<I>n</I>-1&nbsp;to 0.</TD>
+    <TD></TD>
+  </TR>
+</TABLE>
+<h3><font face="Arial, Helvetica, sans-serif"><A NAME="mnemonics"><!-- --></A><I>asm68k</I> 
+  Assembler Mnemonics and Addressing Modes</font> </h3>
+<P> 
+<TABLE BORDER CELLPADDING="5">
+  <TR> 
+    <TD><B>Addressing Modes</B></TD>
+    <TD><B>Instructions</B></TD>
+  </TR>
+  <TR> 
+    <TD>( )</TD>
+    <TD><CODE>RESET NOP RTE RTS</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( n )</TD>
+    <TD><CODE>ANDI&gt;SR EORI&gt;SR ORI&gt;SR STOP TRAP</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( n ea )</TD>
+    <TD><CODE>ORI ANDI SUBI ADDI EORI CMPI ADDQ SUBQ MOVEM&gt; MOVEM&lt;</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( n An )</TD>
+    <TD><CODE>LINK</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( n Dn )</TD>
+    <TD><CODE>MOVEQ</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( ea )</TD>
+    <TD><CODE>SET SNI SLS SCC SCS SNE SEQ SVC SVS SPL SMI SSE SLT SGT SLE JSR 
+      JMP MOVE&gt;CCR MOVE&lt;SCR MOVE&gt;SCR NBCD PEA TAS CLR NOT NEG NEGX TST</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( ea ea )</TD>
+    <TD><CODE>MOVE</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( ea An )</TD>
+    <TD><CODE>ADDA CMPA LEA SUBA</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( ea Dn )</TD>
+    <TD><CODE>CMP CHK DIVU DIVS MULU MULS</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( ea Dn ) ( Dn ea )</TD>
+    <TD><CODE>ADD AND OR SUB</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( ea Dn ) ( ea n # )</TD>
+    <TD><CODE>BCHG BCLR BSET BTST</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( An )</TD>
+    <TD><CODE>MOVE&lt;USP MOVE&gt;USP UNLK</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( Dn )</TD>
+    <TD><CODE>EXT SWAP</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( Dn ea )</TD>
+    <TD><CODE>EOR</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( Dm Dn ) ( m # Dn ) ( ea )</TD>
+    <TD><CODE>ASL ASR LSL LSR ROL ROR ROXL ROXR</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( Da d An ) ( d An Da )</TD>
+    <TD><CODE>MOVEP</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( Dn Dm ) ( An@- Am@ )</TD>
+    <TD><CODE>ABCD SBCD ADDX SUBX</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( An@+ Am@+ )</TD>
+    <TD><CODE>CMPM</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( Xn Xa )</TD>
+    <TD><CODE>EXG</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( target )</TD>
+    <TD><CODE>BRA BSR BHI BLS BCC BCS BNE BEQ BVC BVS BPL BMI BGE BLT BGT BLE</CODE></TD>
+  </TR>
+  <TR> 
+    <TD>( target Dn )</TD>
+    <TD><CODE>DBRA DBHI DBLS DBCC DBCS DBNE DBEQ DBVC DBVS DBPL DBMI DBGE DBLT 
+      DBGT DBLE</CODE></TD>
+  </TR>
+</TABLE>
+<h3> </h3>
+<h3> <font face="Arial, Helvetica, sans-serif"><A NAME="registers"><!-- --></A>Quartus 
+  Forth Registers</font> </h3>
+<P> 
+<TABLE BORDER CELLPADDING="2">
+  <TR> 
+    <TD><B>Register</B></TD>
+    <TD><B>Symbolic name</B></TD>
+    <TD><B>Purpose within Quartus Forth</B></TD>
+  </TR>
+  <TR> 
+    <TD>A2</TD>
+    <TD>CS</TD>
+    <TD>Codespace segment pointer</TD>
+  </TR>
+  <TR> 
+    <TD>A4</TD>
+    <TD>SP</TD>
+    <TD>Data stack pointer</TD>
+  </TR>
+  <TR> 
+    <TD>A5</TD>
+    <TD>DS</TD>
+    <TD>Dataspace segment pointer</TD>
+  </TR>
+  <TR> 
+    <TD>A7</TD>
+    <TD>RP</TD>
+    <TD>Return stack pointer</TD>
+  </TR>
+  <TR> 
+    <TD>D7</TD>
+    <TD>TOS</TD>
+    <TD>Top element of the data stack</TD>
+  </TR>
+</TABLE>
+<P> 
+<h3> <font face="Arial, Helvetica, sans-serif"><A NAME="history"><!-- --></A><I>asm68k</I> 
+  Change History</font> </h3>
+<P> 
+<TABLE BORDER CELLPADDING="5">
+  <TR> 
+    <TD>1998.7.20</TD>
+    <TD>Fixed a bug relating to <CODE>MULU</CODE>.<BR>
+      Released version 1.21.</TD>
+  </TR>
+  <TR> 
+    <TD>1998.7.5</TD>
+    <TD>Fixed a bug in the original source affecting <I>imm</I> words.<BR>
+      Fixed a bug affecting <I>isr</I> words.<BR>
+      Released version 1.2.</TD>
+  </TR>
+  <TR> 
+    <TD>1998.7.5</TD>
+    <TD>Removed <CODE>LABEL</CODE>, due to a conflict with the semantics of <CODE>CODE</CODE> 
+      in my port.<BR>
+      Released version 1.1.</TD>
+  </TR>
+</TABLE>
+<P> 
+<!-- #EndEditable --> 
+<hr>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998, 1999 <a href="http://www.quartus.net/">Neal Bridges</a>. All 
+rights reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate --></HTML>

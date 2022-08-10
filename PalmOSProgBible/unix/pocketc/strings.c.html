@@ -1,0 +1,23 @@
+<html>
+<title>strings.c</title>
+<body>
+<b>strings.c</b> (<a href="strings.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// String Sample
+</font><font color=0000ff>string </font><font color=000000>str;
+main() {
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"String Library\n"</font><font color=000000>);
+   </font><font color=0000ff>while </font><font color=000000>(str=</font><font color=000000><b>gets</b></font><font color=000000>(</font><font color=000080>"Enter a string:"</font><font color=000000>)) {
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\nString\"" </font><font color=000000>+ str + </font><font color=000080>"\""</font><font color=000000>);
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\nLength = " </font><font color=000000>+ </font><font color=000000><b>strlen</b></font><font color=000000>(str));
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\nLeft3 = " </font><font color=000000>+ </font><font color=000000><b>strleft</b></font><font color=000000>(str,</font><font color=0000a0>3</font><font color=000000>));
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\nRight3 = " </font><font color=000000>+ </font><font color=000000><b>strright</b></font><font color=000000>(str,</font><font color=0000a0>3</font><font color=000000>));
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\n2-6 = " </font><font color=000000>+ </font><font color=000000><b>substr</b></font><font color=000000>(str, </font><font color=0000a0>1</font><font color=000000>, </font><font color=0000a0>5</font><font color=000000>));
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\nLower = " </font><font color=000000>+ </font><font color=000000><b>strlwr</b></font><font color=000000>(str));
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\nUpper = " </font><font color=000000>+ </font><font color=000000><b>strupr</b></font><font color=000000>(str));
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\n"</font><font color=000000>);
+   }
+}</pre>
+</body>
+</html>

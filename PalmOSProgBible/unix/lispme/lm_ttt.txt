@@ -1,0 +1,180 @@
+; Tic-Tac-Toe
+
+(define result #f)
+
+(define (init-board)
+	(cls) (set-pattern #t)
+	(move 25 0) (rect 28 81 0)
+	(move 52 0) (rect 55 81 0)
+	(move 0 25) (rect 81 28 0)
+	(move 0 52) (rect 81 55 0)
+	(list 0 0 0 0 0 0 0 0 0))
+
+(define (mark who where)
+   (let ((x (* 27 
+		(remainder where 3)))
+	(y (* 27
+		(quotient where 3))))
+  (cond (who ; Human: draw O
+	(move (+ x 2) (+ y 2))
+	(set-pattern #t)
+	(rect (+ x 24) (+ y 24) 11)
+	(move (+ x 4) (+ y 4))
+	(set-pattern #f)
+	(rect (+ x 22) (+ y 22) 9))
+    (else ; Pilot: draw X
+	(set-pattern #t)
+	(move (+ x 2) (+ y 2))
+	(draw (+ x 23) (+ y 23))
+	(move (+ x 3) (+ y 2))
+	(draw (+ x 24) (+ y 23))
+	(move (+ x 23) (+ y 2))
+	(draw (+ x 2) (+ y 23))
+	(move (+ x 23) (+ y 3))
+	(draw (+ x 2) (+ y 24))))))
+
+;;; get user's move
+(define (human bo)
+  (move 90 36) 
+  (text "Tap a square") 
+  (let ((p (wait-pen)))
+    (let ((x (car p)) 
+	    (y (cdr p)))
+      (if (> x 81) 
+	(result "Player resigns")
+	(let ((mv (+ (quotient x 27)
+		(* 3 (quotient y 27)))))
+	(cond ((memq mv 
+			(poss-moves bo))
+	  	(mark #t mv)
+		(do-move 1 mv bo))
+	(else (human bo))))))))
+
+(define (index val)
+  (lambda (bo)
+   (letrec ((pm (lambda (b m x)
+     (cond ((null? b) m)
+	((eq? (car b) val)
+	    (pm (cdr b) (cons x m)
+		    (+ x 1)))
+	(else (pm (cdr b) m (+ x 1))))
+	)))
+  (pm bo '() 0))))
+
+(define (poss-moves bo) 
+	((index 0) bo)) 
+
+(define (do-move who where board)
+  (if (eq? where 0)
+	(cons who (cdr board))
+	(cons (car board)
+	   (do-move who (- where 1) 
+		(cdr board)))))
+
+(define (subset s1 s2)
+   (cond ((null? s1) #t)
+	((null? s2) #f)
+	(else (let
+		((d (- (car s1) (car s2))))
+	   (cond ((> d 0) #f)
+		((< d 0)
+		   (subset s1 (cdr s2)))
+		(else
+		   (subset (cdr s1) (cdr s2))
+))))))
+
+(define (evaluate bo)
+  (letrec (
+	(any-subset (lambda (s ls)
+	  (if (null? ls) #f
+	     (or (subset  (car ls) s)
+		(any-subset s (cdr ls))))))
+	(winner (lambda (ps)
+	  (any-subset ps 
+		'((2 1 0) (5 4 3) (8 7 6) 
+		(6 3 0) (7 4 1) (8 5 2)
+		(8 4 0) (6 4 2)))))
+	(crs (lambda (l1 l2)
+		(if (null? l1) 0
+		(+ (* (car l1) (car l2))
+		  (crs (cdr l1) (cdr l2)))))))
+  (let ((me ((index -1) bo))
+	(you ((index 1) bo)))
+	(cond ((and (>= (length you) 3)
+			 (winner you)) 1000)
+		((and (>= (length me) 3)
+			(winner me)) -1000)
+	(else (crs bo '(2 1 2 1 5 1 2 1 2)))
+))))
+
+(define (extend who) 
+  (lambda (bo)
+    (map (lambda (m)
+	(let ((nb (do-move who m bo)))
+	  (list nb m (evaluate nb))))
+	(poss-moves bo))))
+
+(define (find p l)
+  (letrec ((f (lambda (l m)
+    (cond ((null? l)  m)
+	((p m (car l))
+		(f (cdr l) m))
+	(else (f (cdr l) (car l)))))))
+  (f (cdr l) (car l))))
+ 
+(define (not-loose p)
+  (or (eq? (caddr p) -1000)
+    (not (lost ((extend 1) (car p))))))
+
+(define (lost ps)
+  (if (null? ps) #f
+	(or (eq? (caddr (car ps)) 1000)
+		(lost (cdr ps)))))
+
+(define (stupid bo)
+   (let ((moves (poss-moves bo)))
+      (list-ref moves
+	(random (length moves)))))
+
+(define (static bo)
+  (cadr (find (lambda (a b)
+		(< (caddr a) (caddr b)))
+	((extend -1) bo))))
+
+(define (smart bo)
+  (let ((ps (filter not-loose
+		 ((extend -1) bo))))
+    (if (null? ps)
+	(result "Pilot resigns")
+	(cadr (find (lambda (a b)
+	     (< (caddr a) (caddr b)))
+	ps)))))
+
+(define (pilot algo)
+  (lambda (bo)
+    (move 90 36)
+    (set-pattern #t) 
+    (text "I'm thinking...")
+    (let ((mv (algo bo)))
+ 	(mark #f mv)
+	(do-move -1 mv bo))))
+
+(define (ttt who algo)
+  (letrec ((go (lambda (bo who)
+    (let ((new
+      ((if who human (pilot algo)) bo)))
+      (let ((v (evaluate new)))
+	(cond ((eq? v 1000) 
+			(result "You win!"))
+		((eq? v -1000)
+			(result "Pilot wins!"))
+		((null? (poss-moves new))
+			(result "Draw!"))
+		(else (go new (not who))))
+    )))))
+  (own-gui #t)
+  (message
+    (call/cc (lambda (k)
+	(set! result k)
+	(go  (init-board) who))))
+  (own-gui #f)))

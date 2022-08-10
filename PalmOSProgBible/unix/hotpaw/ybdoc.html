@@ -1,0 +1,2666 @@
+<HTML>
+<HEAD>
+<TITLE>HotPaw yBasic Documentation (preliminary v0.2)</TITLE>
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+<A NAME="Top"></A> 
+<H2 ALIGN="CENTER">HotPaw Basic </H2>
+<H4 ALIGN="CENTER">for the Palm Computing Platform</H4>
+<H3 ALIGN="CENTER">Owner's Manual</A> </H3>
+
+<H5><P ALIGN="CENTER"><A HREF="#Operating_Manual">Operating Manual | </A>
+<A HREF="#Programmer's_Guide">Programmer's Guide | </A>
+<A HREF="#Language_Definition">Language Definition</A><BR>
+<A HREF="#Legal_Notices">Legal Notices | </A>
+<A HREF="#License">License | </A>
+<A HREF="#Appendices">Appendices</A><BR>
+Newest documentation
+at:  &lt;<a href="http://www.hotpaw.com/rhn/hotpaw">
+http://www.hotpaw.com/rhn/hotpaw/
+</a>&gt;
+</P></H5>
+
+<H3>Contents</H3>
+<BLOCKQUOTE>
+<H5>Contents
+&nbsp<A HREF="#Legal_Notices"><B>Legal Notices</B></A>
+&nbsp <A HREF="#License"><B>License</B></A><BR>
+<A NAME="S1"></A><BR>
+
+<B>Section I - </B><A HREF="#Operating_Manual"><B>Operating Manual</B></A><BR>
+<B>1.0 </B><A HREF="#Introducing_BASIC_and_HotPaw_Basic"><B>Introducing BASIC and HotPaw Basic</B></A> &nbsp
+<B>2.0 </B><A HREF="#Installation"><B>Installation</B></A> &nbsp
+<B>3.0 </B><A HREF="#Orienting"><B>Orientation</B></A>&nbsp
+<B>4.0 </B><A HREF="#Getting_Started"><B>Getting Started </B></A>&nbsp
+<B>5.0 </B><A HREF="#FAQs"><B>FAQs</B></A><BR>
+<A NAME="S2"></A>
+<BR>
+<B>Section II - </B><A HREF="#Programmer's_Guide"><B>Programmer's Guide </B></A><BR>
+<B>6.0 </B><A HREF="#Writing_Programs"><B>Writing Programs</B></A>&nbsp
+<B>7.0 </B><A HREF="#Program_Execution"><B>Program Execution</B></A>&nbsp
+<B>8.0 </B><A HREF="#Example_Code"><B>Example Code</B></A>&nbsp
+<B>9.0 </B><A HREF="#Example_Programs"><B>Example Programs</B></A>&nbsp
+<B>10.0 </B><A HREF="#Some_Warnings"><B>Some Warnings</B></A><BR>
+<A NAME="S3"></A>
+<BR>
+<B>Section III - </B><A HREF="#Language_Definition"><B>Language Definition</B></A><BR>
+<B>Basic language</B>
+<B>11.0 </B><A HREF="#Synopsis"><B>Synopsis</B></A>&nbsp
+<B>12.0 </B><A HREF="#Description"><B>Description</B></A>&nbsp
+<B>14.0 </B><A HREF="#Conventions"><B>Conventions</B></A>&nbsp
+<B>15.0 </B><A HREF="#Basic_Basic"><B>Basic Basic</B></A>&nbsp<BR>
+<B>PalmOS Features</B>
+<B>16.0 </B><A HREF="#Palm_OS_Interface_Basic"><B>PalmOS Interface Commands</B></A>&nbsp
+<B>17.0 </B><A HREF="#Palm_OS_Database_Basic"><B>PalmOS Database Commands</B></A>&nbsp
+<B>18.0 </B><A HREF="#Palm_OS_Scripting_Basic"><B>PalmOS Scripting Commands</B></A>&nbsp
+<B>19.0 </B><A HREF="#Macintosh_Commands"><B>Macintosh Commands </B></A><B><BR>
+<A NAME="App0"></A>
+<BR>
+<A HREF="#Appendices"><B>Appendices </B></A><BR>
+<B>Appendix 1 - </B><A HREF="#Reserved_Words_and_Symbols"><B>Reserved Words and Symbols</B>
+</A>
+&nbsp
+<B>Appendix 2 - </B>
+<A HREF="#Unimplemented_Keywords"><B>Unimplemented Standard Keywords</B>
+</A>
+&nbsp
+<B>Appendix 3 - </B><A HREF="#Diagnostics"><B>Diagnostics</B></A>&nbsp
+<B>Appendix 4 - </B><A HREF="#Advanced_Topics"><B>Advanced Topics</B>
+</A>
+&nbsp
+<B>Appendix 5 - </B><A HREF="#Changes"><B>Changes</B></A>&nbsp
+<B>Appendix 6 - </B><A HREF="#Bugs"><B>Bugs</B></A>
+</B>
+</BLOCKQUOTE>
+</H5>
+
+<!-- test -->
+
+<BR>
+<H2><B>Section I -
+<A NAME="Operating_Manual">HotPaw Basic Operating Manual</B></A>
+<font size=1>(<A HREF="#Top">Top</A>)</font>
+</H2>
+
+</B> </B>
+
+<A NAME="S1"></A>
+<H5>( <B>1.0 </B><A HREF="#Introducing_BASIC_and_HotPaw_Basic"><B>Introducing BASIC and HotPaw Basic</B></A>&nbsp
+<B>2.0 </B><A HREF="#Installation"><B>Installation</B></A> &nbsp
+<B>3.0 </B><A HREF="#Orienting"><B>Orientation</B></A>&nbsp
+<B>4.0 </B><A HREF="#Getting_Started"><B>Getting Started </B></A>&nbsp
+<B>5.0 </B><A HREF="#FAQs"><B>FAQs</B></A> )</H5>
+
+<A NAME="S1.1"></A>
+<H2>1.0 <A NAME="Introducing_BASIC_and_HotPaw_Basic">
+Introducing BASIC and HotPaw Basic</A>
+<A HREF="#S1"><font size=1>(Up)</font></A>
+</H2>
+
+<H5><P ALIGN="CENTER">( 1.1 <A HREF="#What_is_HotPaw_Basic?">
+What is HotPaw Basic</A>
+&nbsp 1.2 <A HREF="#HotPaw_Basic_Interpreter_History">
+HotPaw Basic Interpreter History</A>
+&nbsp 1.3 <A HREF="#BASIC_Programming_Language_History">
+BASIC Programming Language History</A> )
+</P></H5>
+
+<B>1.1</B><A NAME="What_is_HotPaw_Basic?">
+<B>What is HotPaw Basic</B></A>
+&nbsp<A HREF="#S1.1"><font size=1>(Up)</font></A>
+
+<BLOCKQUOTE>The BASIC programming language has been in use for over 3
+decades; it's
+continued popularity is due to its simplicity and ease of learning.
+HotPaw brings this language to the palm of your hand and enables you to
+better use your Palm handheld as a true personal computer.</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw(tm) Basic is a full-featured and easy-to-use scripting
+language which allows you to create and execute small Basic programs
+directly on your Palm handheld organizer/computer.</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw Basic has many features including: <BR>
+<BLOCKQUOTE>* over 75 functions and 30 commands built-in<BR>
+* execution of Basic programs contained in your MemoPad<BR>
+* simple built-in dialogs for displaying results and prompting for input parameters<BR>
+* custom form creation with user definable buttons, fields and checkboxes<BR>
+* access to several standard database formats (JFile Pro, HanDBase, DB and List) instead of a proprietary format<BR>
+* sound and graphics drawing commands (including COLOR support)<BR>
+* programmable ToDo, DateBook appointment and alarm creation<BR>
+* serial port and infrared (SIR) communication<BR>
+* support for the majority of the ANSI/ISO Minimal Basic programming language standard, as well as many MSBasic(tm) functions and statements<BR>
+* support for double precision floating point arithmetic and for the MathLib transcendental function library</BLOCKQUOTE></BLOCKQUOTE>
+<BLOCKQUOTE>HotPaw Basic comes with several example programs, as well
+as a small application which allows you to start a Basic program
+directly from the Application Launcher (or even a button
+press).</BLOCKQUOTE>
+
+<B><DL> <DT>1.2 <A NAME=
+"HotPaw_Basic_Interpreter_History">HotPaw Basic Interpreter History </A>
+&nbsp<A HREF="#S1.1"><font size=1>(Up)</font></A>
+</DT> </DL> </B>
+<BLOCKQUOTE>Basic is an easy to learn computer programming
+language, invented at Dartmouth college around 1963. Various Tiny Basic
+implementations were written around 1976 for use in early personal
+computers with very limited memory configurations (8 KBytes, or
+less).</BLOCKQUOTE>
+
+<BLOCKQUOTE>An earlier PalmPilot Basic interpreter, called cbasPad,
+was an experimental Tiny BASIC interpreter (written in
+portable C) which could run in the very tight memory requirements of a
+USR Pilot 1000 (PalmOS 1.0). It had many deficiencies due to these
+restrictions.
+HotPaw cbasPad Pro Basic is an new interpreter supporting
+a full version of the Basic language and taking advantage of many new
+features
+of PalmOS 3.0 and above, including much better support for accurate
+floating point math and for database access.
+</BLOCKQUOTE>
+
+<B><DL>
+<DT>1.3 <A NAME=
+"BASIC_Programming_Language_History">BASIC Programming Language History</A>
+&nbsp<A HREF="#S1.1"><font size=1>(Up)</font></A></DT>
+</DL> </B>
+<BLOCKQUOTE>The BASIC programming language was developed in 1963 at
+Dartmouth College by Professors John G. Kemeny and Thomas Kurtz. It was
+meant as a simple, easy to learn method for even non-science students
+to learn to write computer programs. The acronym "BASIC" originally
+stood for "Beginner's All-purpose Symbolic Instruction
+Code".</BLOCKQUOTE>
+
+<BLOCKQUOTE>The year 1964 was in an era when even the smallest
+computers were larger than refrigerators and cost several times more
+than a single-family house. Computers sat inside special rooms and had
+to be shared by many students and researchers. Students would
+communicate with these minicomputers via teletypes, which were consoles
+that had keyboards, but no pointing device and no video display,
+instead having only a slow printer capable of printing one line at a
+time.</BLOCKQUOTE>
+
+<BLOCKQUOTE>Because of the simplicity and small size of the original
+BASIC programming language, it was widely adopted in the late '70's and
+early '80's as the most common and prevalent language for almost all
+personal computers. Microsoft's first product was a BASIC interpreter
+for the Altair computer. Most personal computers of this era (the Apple
+II, TRS-80, Commodore-64, Timex Sinclair, and the original IBM PC) came
+with a BASIC interpreter included. Many dozens of books on programming
+in BASIC were also published during this era. Since this occurred
+before the advent of the internet and before CDROMS were widely
+available, most people typed-in BASIC programs that were published in
+books and magazines.</BLOCKQUOTE>
+
+<BLOCKQUOTE>Most early BASIC interpreters had an interactive mode,
+where one could type simple commands and see results after hitting the
+"return" key. For instance, typing the commands:
+<BR>
+<CODE>
+LET A = 7<BR>
+LET B = A + 2<BR>
+PRINT B<BR>
+</CODE>
+would result in the console printing "9" (the result of 7 + 2)
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>These simple BASIC interpreters also had a stored program
+mode, where one would write a many line program, with each line
+numbered; be able to save the program and to run the program at a later
+time.</BLOCKQUOTE>
+
+<BLOCKQUOTE>In order for BASIC to be a complete programming language it
+included statements to allow calculation, simple logic, input, output,
+looping and conditional branching.</BLOCKQUOTE>
+
+<BLOCKQUOTE>Currently, the Basic programming language is used as the
+core of Visual Basic, Visual Basic for Application (VBA), and VBScript
+(or basicscript) for web page scripting.</BLOCKQUOTE>
+
+<A NAME="S1.2"></A>
+<H2>2.0 <A NAME="Installation">Installation</A>
+&nbsp <A HREF="#S1"><font size=1>(Up)</font></A></H2>
+
+<H5>
+<P ALIGN="CENTER">2.1 <A HREF="#System_Requirements">System Requirements</A>
+&nbsp 
+2.2 <A HREF="#Loading_HotPaw_Basic_Application">Loading HotPaw Basic Application</A> &nbsp 
+2.3 <A HREF="#Installing_HotPaw_Basic_Programs">Installing HotPaw Basic Programs</A> &nbsp
+2.4 <A HREF="#Important_Notes_for_cbasPad_classic_-0.xx-_users">Important Notes for cbasPad classic users</A> &nbsp
+2.5 <A HREF="#Important_Note_for_new_HotPaw_Basic_users">Important Note for new HotPaw Basic users</A></P></H5>
+
+<B>2.1 <A NAME="System_Requirements">System Requirements</A>
+&nbsp<A HREF="#S1.2"><font size=1>(Up)</font></A></DT>
+</B>
+<BLOCKQUOTE>
+PalmOS 3.0 or later (Palm III, Palm Vx, etc.) is
+REQUIRED.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>The MathLib.prc (1.0 or 1.1) library is required. See:
+&lt;http://www.probe.net/~rhuebner/mathlib.html&gt;
+or <br>
+&lt;<a href="ftp://ftp.rahul.net/pub/rhn/mathlib11.zip">
+ftp://ftp.rahul.net/pub/rhn/mathlib11.zip
+</a>&gt;
+.</BLOCKQUOTE>
+
+<BLOCKQUOTE>The use of the SwitchHack extension for switching between
+the MemoPad and the HotPaw Basic interpreter is highly
+recommended.</BLOCKQUOTE>
+
+<B> 2.2 <A NAME=
+"Loading_HotPaw_Basic_Application">Loading HotPaw Basic Application</A>
+&nbsp<A HREF="#S1.2"><font size=1>(Up)</font></A>
+</B>
+
+<BLOCKQUOTE>
+You can download HotPaw Basic from
+&lt;<a href="http://www.hotpaw.com/rhn/hotpaw/">
+http://www.hotpaw.com/rhn/hotpaw/
+</a>&gt;
+<br>
+or from PalmGearHQ
+&lt;<a href="http://www.palmgear.com">
+http://www.palmgear.com/
+</a>&gt;
+<br>
+HotPaw Basic will run in demo mode or trial mode for 30 days
+after first installation.  Licenses for registered versions
+can be obtained at PalmGearHQ.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>To prevent possible data loss, be sure to make backup
+copies of all your important data prior to installing and operating
+this application.<BR>
+
+<BR>
+Install (the usual way), using the 3Com/Palm Install and HotSync
+utilities on a Windows or MacOS based PC, or using the linux pilot-xfer
+utility on a computer running linux or unix.<BR>
+
+You can have both HotPaw Basic,
+and the older cbasPad Classic Tiny-Basic interpreter,
+installed on your
+Palm handheld at the same time; however cbasPad should be installed
+and run first if you want to share the ScratchPad.
+</BLOCKQUOTE>
+
+<B><DL>
+<DT>2.3 <A NAME="Installing_HotPaw_Basic_Programs">Installing HotPaw Basic Programs</A>
+&nbsp<A HREF="#S1.2"><font size=1>(Up)</font></A></DT>
+</DL> </B>
+<BLOCKQUOTE>Basic programs are text files or memos containing
+statements in the Basic language. The HotPaw Basic application can run
+Basic programs whose text is contained in memos of the built-in Palm
+MemoPad.</BLOCKQUOTE>
+
+<BLOCKQUOTE>If you have a HotPaw compatible Basic program on your
+desktop PC, you can copy and paste the Basic program text into the
+Desktop MemoPad application and HotSync. On a linux system, you can use
+the pilot-link install-memo utility to copy a short text file into your
+Palm MemoPad.</BLOCKQUOTE>
+
+<B><DL>
+<DT>
+
+2.4 <A NAME="Important_Notes_for_cbasPad_classic_-0.xx-_users">Important Notes for cbasPad classic users</A>
+&nbsp<A HREF="#S1.2"><font size=1>(Up)</font></A></DT>
+</DL>
+</B><BLOCKQUOTE>HotPaw Basic now runs programs from the MemoPad.</BLOCKQUOTE>
+<BLOCKQUOTE>Many commands and functions have changed or been removed!</BLOCKQUOTE>
+<BLOCKQUOTE>Some old cbasPad programs may be compatible; but one needs to test each program for compatibility.</BLOCKQUOTE>
+<B><DL>
+<DT>2.5 <A NAME="Important_Note_for_new_HotPaw_Basic_users">Important Note for new HotPaw Basic users</A>
+&nbsp<A HREF="#S1.2"><font size=1>(Up)</font></A></DT>
+</DL>
+</B><BLOCKQUOTE>This manual assumes you already know a little about the classic BASIC programming language. </BLOCKQUOTE>
+
+<br>
+<A NAME="S1.3"></A>
+<H2>3.0 <A NAME="Orienting">The HotPaw Basic Application - Orientation</A>
+&nbsp <A HREF="#S1"><font size=1>(Up)</font></A></H2>
+
+<H5><P ALIGN="CENTER">
+3.1 <A HREF="#PalmOS_Menu_Items">PalmOS Menu Items</A> &nbsp
+3.2 <A HREF="#PalmOS_PalmOS_Buttons">PalmOS PalmOS Buttons</A></P></H5>
+
+<B>
+3.1 <A NAME="PalmOS_Menu_Items">PalmOS Menu Items</A>
+&nbsp<A HREF="#S1.3"><font size=1>(Up)</font></A>
+</B>
+
+<BLOCKQUOTE>
+<B>
+MAIN PROGRAM LIST VIEW<BR>
+</B>
+HotPaw Basic starts on its main page and displays available programs.
+<BR>
+<B>New</B> 
+&nbsp;&nbsp; Opens ScratchPad.<BR>
+<B>Edit</B> &nbsp;&nbsp; Opens a selected program in whichever editing
+program it was written. If the program was written in ScratchPad,
+ScratchPad is opened. If it was written in MemoPad, MemoPad is
+opened.<BR>
+<B>Run</B> &nbsp;&nbsp; Runs a selected program.<BR>
+<B>Get Info</B> &nbsp;&nbsp; Displays Application Info
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>EDIT SCRATCHPAD VIEW<BR>
+Go to top of page</B> &nbsp;&nbsp; Move cursor to top of page.<BR>
+<B>Go to bottom</B> &nbsp;&nbsp; Move cursor to bottom of page.<BR>
+<B>Execute Selection</B> &nbsp;&nbsp; Run HotPaw Basic
+Interpreter on selected item. <BR>
+<B>Copy</B> &nbsp;&nbsp; Allows copying selected text to the clipboard.<BR>
+<B>Paste</B> &nbsp;&nbsp; Allows copying of text from the clipboard.<BR>
+<B>Delete Page</B> &nbsp;&nbsp; Allows deleting the current ScratchPad Page.</BLOCKQUOTE>
+<B><DL>
+<DT>3.2 <A NAME="PalmOS_PalmOS_Buttons">PalmOS PalmOS Buttons</A>&nbsp<A HREF="#S1.3"><font size=1>(Up)</font></A></DT>
+</DL>
+<BLOCKQUOTE>MAIN PROGRAM LIST VIEW</B><BR>
+<B>New</B>
+&nbsp;&nbsp; In ScratchPad mode, starts a new scratchpad in the edit mode.<BR>
+<B>Edit</B>
+&nbsp;&nbsp; Allows editing the current program. Uses the MemoPad for
+editing programs that are contained in the MemoPad.<BR>
+<B>Run</B> &nbsp;&nbsp; Runs the selected program.</BLOCKQUOTE>
+<BLOCKQUOTE><B>EDIT SCRATCHPAD VIEW</B><BR>
+<B>Done</B>
+&nbsp;&nbsp; When editing, exits to the Main List View.
+When executing a program, halts execution.<BR>
+<B>SelectAll</B>
+&nbsp;&nbsp; Selects all test in the current ScratchPad page.<BR>
+<B>Exec</B> &nbsp;&nbsp; Starts executing the currently selected text
+as a sequence of Basic statements. </BLOCKQUOTE>
+
+<A NAME="S1.4"></A><H2>4.0 <A NAME="Getting_Started">Getting Started</A>&nbsp<A HREF="#S1"><font size=1>(Up)</font></A></H2>
+
+<!--
+<H5><P ALIGN="CENTER">4.1 <A HREF="#Tutorial">Tutorial</A></H4></P>
+-->
+
+<B>4.1 <A NAME="Tutorial">Tutorial</A>&nbsp<A HREF="#S1.4"><font size=1>(Up)</font></A>
+</B>
+<BLOCKQUOTE>Try entering a short Basic program into your Palm MemoPad.
+<br>
+Start a new Memo (in any category).
+<br>
+Any memo starting with the '#' character and ending with
+the 4 characters ".bas" in the first line will be recognized as a Basic
+program in the HotPaw Basic Show Programs selection
+screen.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+Here's an example first line:
+<BR>
+<BR>
+<BLOCKQUOTE>
+<CODE>
+# My Example 1 .bas<BR>
+</CODE>
+</BLOCKQUOTE>
+<BR>
+Here's a short test program that will ask you to guess a number:
+<BR>
+<BLOCKQUOTE>
+<CODE>
+#guess_a_number.bas<BR>
+x = 0<BR>
+# set the variable "secret" to a number between 1 and 5<BR>
+secret = 1 + rnd(5)<BR>
+while (x &lt;&gt; secret)<BR>
+input "Guess a number between 1 and 5", x<BR>
+wend<BR>
+display a$; " is correct!"<BR>
+end
+</CODE>
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>Switch to the Basic application. If there is not a border
+around a list of programs, use the menubar to select "Show Programs".
+If you can't see your new program, check the name to make sure it
+starts with a # and ends with .bas on the first line. </BLOCKQUOTE>
+
+<BLOCKQUOTE>Select your program and hit the "Exec" button to execute
+it.</BLOCKQUOTE>
+
+<BLOCKQUOTE>If you use the Hackmaster extension utility, then try using
+the SwitchHack extension to switch back and forth between Basic to the
+MemoPad application when writing and testing your Basic
+programs.</BLOCKQUOTE>
+
+<BLOCKQUOTE>The "Show ScratchPad" is for small calculations that do not
+require any loops or subroutines. Just enter a list of equations and a
+print statement for the result, then the statements you wish executed,
+and hit the "Exec" button.</BLOCKQUOTE>
+
+<A NAME="S1.6"><H2>5.0 <A NAME="FAQs">FAQs</A>
+&nbsp <A HREF="#S1"><font size=1>(Up)</font></A></H2>
+
+<BLOCKQUOTE><B>Q: How do I share my HotPaw Basic programs? &nbsp<A
+HREF="#S1.6"><font size=1>(Up)</font></A></B><BR>
+
+A: Because HotPaw Basic programs are contained in MemoPad memo's as
+plain text, one can HotSync them to the desktop and email (or post on
+the web) the contents of these memo's as text files.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>Q: Can HotPaw Basic compile stand-alone prc applications?
+&nbsp<A HREF="#S1.6"><font size=1>(Up)</font></A></B><BR>
+
+A: No. A compiler is a completely different, much bigger, and far more
+complex application. </BLOCKQUOTE>
+
+<BLOCKQUOTE>There are already a several compilers for Palm handhelds,
+among them Quartus Forth for on-board compilation, and Metrowerks
+Codewarrior for Palm for a complete Mac/Win hosted IDE.</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw Basic is designed for people who want to be able to
+see and modify programs and scripts directly on their Palm
+handheld.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>Q: What's the difference between HotPaw Basic and
+cbasPad? &nbsp<A HREF="#S1.6"><font size=1>(Up)</font></A></B><BR>
+
+A: cbasPad classic was written as a spare time hobby in 1996 for
+USRobotic Pilot 1000's and 5000's running PalmOS 1.0 with only 128k/512k
+of memory.  Some of the arithmetic and math routines built into PalmOS 1.0
+which cbasPad classic depends upon, are neither reliable or accurate.
+Because of its design for the single segment restriction of PalmOS 1.0,
+cbasPad classic is no longer expandable. In spite of its
+limitations, cbasPad classic will remain free for non-commercial and
+non-mission-critical use on old PalmOS 1.0 devices.</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw Basic was written to take advantage of Palm 3.x and
+has a more complete feature set and much more accurate math calculation
+capability.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>Q: Where are the other FAQs? &nbsp<A HREF="#S1.6"><font
+size=1>(Up)</font></A></B><BR>
+
+A: There are several Palm Platform related FAQ's on the Web. <BR>
+
+Try these URL's:<BR>
+&lt;<a href="http://www.nicholson.com/rhn/palmfaq.txt">
+http://www.nicholson.com/rhn/palmfaq.txt
+</a>&gt;
+<BR>
+&lt;http://www.palmpilotfaq.com/&gt;
+</BLOCKQUOTE>
+
+<BR>
+<H2><B>Section II -
+<A NAME="Programmer's_Guide">HotPaw Basic Programmer's Guide </B></A>
+<font size=1>(<A HREF="#Top">Top</A>)</font>
+</H2>
+
+<H5><P ALIGN="CENTER">6.0 <A HREF="#Writing_Programs">Writing Programs</A>&nbsp
+7.0 <A HREF="#Program_Execution">Program Execution</A> &nbsp
+8.0 <A HREF="#Example_Code">Example Code</A>&nbsp
+9.0 <A HREF="#Example_Programs">Example Programs</A>&nbsp
+10.0 <A HREF="#Some_Warnings">Some Warnings</A></P></H5>
+
+<H2>6.0 <A NAME="Writing_Programs">Writing Programs</A><A NAME="S2.1"></A>&nbsp<A HREF="#S2"><font size=1>(Up)</font></A></H2>
+
+<H5><P ALIGN="CENTER">6.1 <A HREF="#Overview">Overview &nbsp</A> 6.2 <A HREF="#Syntax_Tips">Syntax Tips</A></H4></P>
+<B>
+6.1 <A NAME="Overview">Overview </A><A HREF="#S2.1"><font size=1>(Up)</font></A><BR>
+
+</B><BLOCKQUOTE>The HotPaw Basic language is mostly compatible with
+books on programming in the BASIC language that were published between
+1977 and 1988. Since these books are mostly out of print, your best bet
+is to try your local public library. HotPaw Basic is a subset of the
+full Basic language; so some features present in a full version of the
+Basic language are not present. One key difference from "classic" BASIC
+programming is that line numbers are optional and not required in
+HotPaw cbasPad Basic (when running programs written in the
+MemoPad).</BLOCKQUOTE>
+
+<BLOCKQUOTE>There is a fairly complete list of www pointers to
+information on the generic Basic language near the end of my 'Basic'
+web page
+at: &lt;http://www.nicholson.com/rhn/basic/&gt;
+</BLOCKQUOTE>
+
+<B>6.2 <A NAME="Syntax_Tips">Syntax Tips </A><A HREF="#S2.1"><font size=1>(Up)</font></A><BR>
+</B>
+<BLOCKQUOTE>
+* You can write a Basic program in the built-in Palm MemoPad. <BR>
+* Memos are limited to about 4000 characters in length.<BR> 
+* To create longer programs, one can use the
+
+<BLOCKQUOTE>
+&#9;<CODE>#include &lt;#TITLE&gt;</CODE>
+</BLOCKQUOTE>
+
+comment (pragma).  HotPaw Basic will find a memo with the
+string "#TITLE" as its first line
+or at the beginning of its first line;
+and then insert lines from the found memo as in-line statements.
+This "include" pragma may not be nested.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>* ALL keywords must entered in be lower case.</BLOCKQUOTE>
+<BLOCKQUOTE>* Multiple statements may be used on one line when separated by the colon (":") character.</BLOCKQUOTE>
+<BLOCKQUOTE>* All lines have a maximum length limit of 80 characters.</BLOCKQUOTE>
+<BLOCKQUOTE>* Comment lines in HotPaw cbasPro Basic start with the '#' character.</BLOCKQUOTE>
+
+<H2>7.0 <A NAME="Program_Execution">Program Execution</A>&nbsp<A NAME="S2.7"></A><A HREF="#S2"><font size=1>(Up)</font></A></H2>
+
+<H5><P ALIGN="CENTER">( 7.1 <A HREF="#Using_MemoPad">Using MemoPad </A>
+&nbsp 7.2 <A HREF="#Using_HotPaw_Basic_ScratchPad">Using HotPaw Basic
+ScratchPad </A><A NAME="S2.7"></A>&nbsp<A HREF="#S2"></A> )</P></H5>
+
+<B><DL>
+<DT>7.1 <A NAME="Using_MemoPad">Using MemoPad &nbsp</A><A HREF="#S2.7"><font size=1>(Up)</font></A><BR>
+</DT> </DL></B>
+
+<BLOCKQUOTE><B>How HotPaw Basic interprets text files stored in
+MemoPad.</B></BLOCKQUOTE>
+
+<BLOCKQUOTE>* Unnumbered statements in the MemoPad are automatically
+given sequential line numbers incrementing by 1 from the previous line.
+Any numeric line number labels present should be in increasing order
+and differ by at least the number of intervening lines plus
+one.</BLOCKQUOTE>
+
+<BLOCKQUOTE>* All statements after the first "run" command are ignored.
+A "run" command is automatically assumed at the end of a Basic program
+contained in the MemoPad.</BLOCKQUOTE>
+
+<BLOCKQUOTE>* Program execution terminates after encountering the "end"
+statement.</BLOCKQUOTE>
+
+<BLOCKQUOTE>* If you have a Basic program entitled "#startup.bas"
+(without the quote marks, of course) in your MemoPad, then you may use the
+  included yLaunch.prc application to launch yBasic and automatically
+  run your startup Basic program.</BLOCKQUOTE>
+
+<B><DL> <DT>7.2 <A NAME="Using_HotPaw_Basic_ScratchPad">Using HotPaw
+Basic ScratchPad &nbsp</A><A HREF="#S2.7"><font
+size=1>(Up)</font></A></DT> </DL> </B>
+
+<BLOCKQUOTE><B>When and how to use the ScratchPad</B></BLOCKQUOTE>
+
+<BLOCKQUOTE>* Use the ScratchPad most commonly for direct execution
+statements, e.g. calculations or sequences of statements that
+require no branches, loops or subroutines. <BR>
+* One can write very short Basic programs in the ScratchPad,
+but with several limitations: <BR>
+1) programs must start with a "new" statement and end with a "run"
+statement (without line numbers), <BR>
+2) all other statements must have sequential and non-overlapping line
+numbers.<BR>
+(This mode is primarily for backward compatibility with
+old cbasPad programs.)</BLOCKQUOTE>
+
+<BLOCKQUOTE>* Execute statements in the
+ScratchPad view without line numbers by:<BR>
+Select the statement you wish to have executed.<BR>
+Hit the "Exec" button.</BLOCKQUOTE>
+
+<BLOCKQUOTE>* Stop a running program by:<BR>
+Hit the "Done" button or the Calendar application button. </BLOCKQUOTE>
+
+<BLOCKQUOTE>* Stop a running program when an input dialog is present by:<BR>
+Use the "Stop" menu item</BLOCKQUOTE>
+
+<BLOCKQUOTE>* If you have a Basic program entitled "startup.bas"
+(without the quote marks, of course) in your MemoPad, then you may use
+the included yLaunch.prc application to launch yBasic and automatically
+run your startup Basic program.</BLOCKQUOTE>
+
+<br>
+
+<H2>8.0 <A NAME="Example_Code">Example Statements</A>&nbsp<A HREF="#S2"><font size=1>(Up)</font></A></H2>
+<CODE><BLOCKQUOTE># this is a comment line (because of the leading '#').</BLOCKQUOTE>
+<BLOCKQUOTE># multiple statements per line allowed.<BR>
+x = 7 : y = 3 + 4</BLOCKQUOTE>
+<BLOCKQUOTE># a "?" statement prints 1 line to a dialog box.<BR>
+? "hello ", 23+7</BLOCKQUOTE>
+<BLOCKQUOTE># Arrays must be dimensioned before use.</BLOCKQUOTE>
+<BLOCKQUOTE># Here's an example of a loop to initialize an array:</CODE><BR>
+<CODE>dim a(4) : for i=0 to 4 : a(i) = i : next i</BLOCKQUOTE></CODE>
+
+<BR>
+<A NAME="S2.4"><H2>9.0 <A NAME="Example_Programs">Example Programs</A>
+&nbsp <A HREF="#S2"><font size=1>(Up)</font></A></H2>
+
+<H5><P ALIGN="CENTER">( 
+9.1 <A HREF="#Loop_and_Print">Loop and Print</A>&nbsp
+9.2 <A HREF="#Input_and_Display">Input and Display</A>&nbsp
+9.3 <A HREF="#Financial_Calculation">Financial Calculation</A>&nbsp
+9.4 <A HREF="#Graphics">Graphics</A>&nbsp
+9.5 <A HREF="#Database">Database</A>&nbsp
+9.6 <A HREF="#Dynamic_Button">Dynamic Button </A>&nbsp
+9.7 <A HREF="#Benchmark">Benchmark</A> )</P></H5>
+
+<BLOCKQUOTE>
+Here are a few example programs.
+Cut and paste these examples into your desktop MemoPad;
+then perform a HotSync operation to install them onto your Palm handheld.
+Make sure to cut after the "--" marks so that the Memo begins with a the
+pound sign character: "#".
+<br>
+<br>
+Check with your Palm handheld MemoPad
+to make sure that the very first character in the Memo is
+a <b>#</b> character and that the last 4 characters on the first line
+of the memo end in <b>.bas</b> with no trailing spaces.  
+Then the example program should then show up in the HotPaw Basic
+"Show Programs" display.  If there is not a rectangle drawn around
+the display, select "Show Programs" from the HotPaw Basic menu.  If the
+program does not show up, use the MemoPad to check the first line
+of the Basic program and make sure the first line was not changed, nor
+a new first line added, during the transfer process.
+</BLOCKQUOTE>
+
+<B>9.1 <A NAME="Loop_and_Print">Loop and Print </A>&nbsp<A HREF="#S2.4"><font size=1>(Up)</font></A>
+</B>
+
+<BLOCKQUOTE>-- --&#9;cut here &#9;-- --<BR>
+<CODE>
+# example 1 .bas<BR>
+# enter this into the MemoPad and start yBasic<BR>
+# prints a small "TIMES THREE" multiplication table<BR>
+#<BR>
+for i=1 to 4<BR>
+print 3 * i,<BR>
+next I<BR>
+print<BR>
+end</CODE><BR>
+-- --&#9;cut here &#9;-- --</BLOCKQUOTE>
+<B> <DL> <DT>
+9.2 <A NAME="Input_and_Display">Input and Display</A>
+&nbsp<A NAME="S2.9.2"></A><A HREF="#S2.4"><font size=1>(Up)</font></A>
+</DT> </DL> </B>
+
+<BLOCKQUOTE><B>
+9.2.1 <A NAME="blank">(this space left blank)</A></B>
+&nbsp<A HREF="#S2.9.2"><font size=1>(Up)</font></A>
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>9.2.2
+<A NAME="Writing_To_The_MemoPad">Writing to the MemoPad</A></B>
+&nbsp<A HREF="#S2.9.2"><font size=1>(Up)</font></A><BR>
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>-- --&#9;cut here &#9;-- --<BR>
+<CODE>#memopad table .bas<BR>
+open new "memo","trig table 1" as #4<BR>
+m = db.index :' memo number<BR>
+for d = 0 to 180 step 15<BR>
+r = fn rad(d)<BR>
+print #4, d,sin(r),cos(r)<BR>
+next d<BR>
+close #4<BR>
+end</CODE><BR>
+-- --&#9;cut here &#9;-- --
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>9.2.3 <A NAME="MemoPad_Read">
+MemoPad Read</A>
+&nbsp<A HREF="#S2.9.2"><font size=1>(Up)</font></A><BR> </B>
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>-- --&#9;cut here &#9;-- --<BR>
+<CODE>#memopad table .bas<BR>
+m = db.find("memo","trig table")<BR>
+if (m &lt; 0) then end :' not found<BR>
+open "memo",m as #1<BR>
+input #1,title$<BR>
+input #1,a$<BR>
+display a$ :' display 1st non-title line<BR>
+close #1<BR>
+end</CODE><BR>
+-- --&#9;cut here &#9;-- --
+</BLOCKQUOTE>
+
+<B> <DL> <DT>
+9.3 <A NAME="Financial_Calculation">Financial Calculation</A>
+&nbsp<A HREF="#S2.4"><font size=1>(Up)</font></A>
+</DT> </DL> </B>
+
+<BLOCKQUOTE>
+-- --&#9;cut here &#9;-- --<BR>
+<CODE># loan payment .bas<BR>
+# calculates loan payments<BR>
+for i=0 to 17:s$(i)="":next I<BR>
+s$(0)="Principal"<BR>
+s$(2)="Years"<BR>
+s$(4)="Interest %<BR>
+s$(6)="Periods/Yr":s$(7)=12<BR>
+L50:<BR>
+j=form(9,5,"Payment Calc")<BR>
+if (j=0) then end<BR>
+i=(val(s$(5))/100)/val(s$(7))<BR>
+p=val(s$(1))<BR>
+n=12*val(s$(3))<BR>
+a=fn pmt(p,i,n)<BR>
+a$=str$(a,8,2)<BR>
+s$(8)="Payment"<BR>
+s$(9)="$"+a$<BR>
+goto L50<BR>
+end</CODE><BR>
+-- --&#9;cut here &#9;-- --</BLOCKQUOTE>
+<B><DL>
+<DT><BR>
+9.4 <A NAME="Graphics">Graphics</A>&nbsp<A HREF="#S2.4"><font size=1>(Up)</font></A></DT>
+</DL>
+</B><BLOCKQUOTE>-- --&#9;cut here &#9;-- --<BR>
+<CODE># circle demo .bas<BR>
+draw -1 :' clear screen<BR>
+cx = 80 : cy = 80 :' set center<BR>
+r = 30 :' set radius<BR>
+moveto cx+r,cy<BR>
+for a = 0 to 6.28 step 0.1<BR>
+x = cos(a)<BR>
+y = sin(a)<BR>
+lineto cx+r*x, cx-r*y<BR>
+next d<BR>
+w = fn pen(0) :' wait for tap<BR>
+end</CODE><BR>
+-- --&#9;cut here &#9;-- --</BLOCKQUOTE>
+<B><DL>
+<DT><BR>
+9.5 <A NAME="Database">Database</A>&nbsp<A HREF="#S2.4"><font size=1>(Up)</font></A></DT>
+</DL>
+</B><BLOCKQUOTE>Create and explore a new database.<BR>
+-- --&#9;cut here &#9;-- --<BR>
+<CODE># db new+find .bas<BR>
+# create a new DB database<BR>
+# fill it with 5 records<BR>
+# and search for 1 item<BR>
+f$ = "test-db-1"<BR>
+mydb=open f$ as new "DBOS",4<BR>
+if mydb&lt;0 then end<BR>
+d=fn days(fn date$(0))<BR>
+for i=0 to 5<BR>
+# make up some fields<BR>
+s$(20)=chr$(asc("A")+i) +"2"<BR>
+s$(21)=right$(fn date$(d+i),4)<BR>
+s$(23)="00" + str$( i)<BR>
+s$(22)=str$(timer)<BR>
+put mydb,i,104<BR>
+next I<BR>
+# now find a record<BR>
+j=db.find(f$,"C")<BR>
+if j &gt;= 0 then<BR>
+rem # get 2nd field<BR>
+a$=get$(mydb,j,2)<BR>
+endif<BR>
+# display found item<BR>
+? j,a$<BR>
+end</CODE><BR>
+-- --&#9;cut here &#9;-- --</BLOCKQUOTE>
+
+<B>9.6 <A NAME="Dynamic_Button">Dynamic Button</A>&nbsp<A HREF="#S2.4"><font size=1>(Up)</font></A></B><BR>
+</B><BLOCKQUOTE>-- --&#9;cut here &#9;-- --<BR>
+<CODE># mybutton.bas<BR>
+draw -1<BR>
+form btn 60,80,40,12,"DoIt",1<BR>
+form fld 60,120,80,12,"Nobody",1<BR>
+draw "Enter your name",60,100<BR>
+x = asc(input($1)) "'wait for button<BR>
+? "Your name is ",s$(0);"."<BR>
+end</CODE>
+-- --&#9;cut here &#9;-- --</BLOCKQUOTE>
+<DL>
+<DT><BR>
+<B>9.7 <A NAME="Benchmark">Benchmark</A>&nbsp<A HREF="#S2.4"><font size=1>(Up)</font></A></DT>
+</DL>
+</B><BLOCKQUOTE>-- --&#9;cut here &#9;-- --<BR>
+# <CODE>sieve.bas<BR>
+# prime number sieve benchmark<BR>
+# from Byte magazine 1984<BR>
+new<BR>
+20 t = fn 17<BR>
+25 s = 8192 : rem full size<BR>
+30 dim f%(s+2)<BR>
+40 for i = 0 to s-1 : f%(i) = 1 : next I<BR>
+50 c=0<BR>
+60 for i = 0 to s-1<BR>
+70 if f%(i) = 0 then 110<BR>
+80 p = i+i+3 : if i+p &gt; s then 100<BR>
+90 for k = i+p to s step p : f%(k) = 0 : next k<BR>
+100 c = c+1<BR>
+110 next I<BR>
+120 ? c ; " primes found in " ;<BR>
+130 t =(fn 17)-t : t=t/100<BR>
+140 ? t ; " seconds"<BR>
+150 end<BR>
+run</CODE><BR>
+-- --&#9;cut here &#9;-- --</BLOCKQUOTE>
+<H2>10.0 <A NAME="Some_Warnings">Some Warnings</A>&nbsp<A HREF="#S2"><font size=1>(Up)</font></A></H2>
+<BLOCKQUOTE>Remember that the s$() array can be modified by db and form
+commands.</BLOCKQUOTE>
+
+<BLOCKQUOTE>Divide by 0 errors are not trapped, the return "NaN" (not a
+number).</BLOCKQUOTE>
+
+<BR>
+<H2>Section III -
+<A NAME="Language_Definition">HotPaw Basic Language Definition</A>
+<font size=1>(<A HREF="#Top">Top</A>)</font>
+<A NAME="S3"> </A>
+</H2>
+<H5><P ALIGN="CENTER">(
+11.0 <A HREF="#Synopsis">Synopsis</A>&nbsp
+12.0 <A HREF="#Description">Description</A>&nbsp
+13.0 <A HREF="#Flags">Flags</A>&nbsp
+14.0 <A HREF="#Conventions">Conventions</A>&nbsp
+15.0 <A HREF="#Basic_Basic">Basic Basic</A>&nbsp
+Palm O/S Stuff &nbsp
+16.0 <A HREF="#Palm_OS_Interface_Basic">PalmOS Interface Commands</A>&nbsp
+17.0 <A HREF="#Palm_OS_Database_Basic">PalmOS Database Commands</A>&nbsp
+18.0 <A HREF="#Palm_OS_Scripting_Basic">PalmOS Scripting Commands</A>&nbsp
+19.0 <A HREF="#Macintosh_Commands">Macintosh Commands</A> ) </P></H5>
+
+<BLOCKQUOTE>
+A much more complete HotPaw Basic BASIC language reference is located here:
+<br>
+&lt;<a href="http://www.hotpaw.com/rhn/hotpaw/language_manual.txt">
+http://www.hotpaw.com/rhn/hotpaw/language_manual.txt
+</a>&gt;
+</BLOCKQUOTE>
+
+<H2>11.0 <A NAME="Synopsis">Synopsis</A>&nbsp<A HREF="#S3"><font size=1>(Up)</font></A></H2>
+
+<BLOCKQUOTE>
+HotPaw Basic Programs are executed by the
+HotPaw Basic programming language interpreter (a PalmOS application).
+To run, start the HotPaw Basic application,
+select a program written according to the HotPaw Basic
+language description, and tap the "Execute" button.
+HotPaw Basic Programs contained
+in the MemoPad must begin with the "#" comment
+character and the first line must end with the string
+".bas".&nbsp;
+</BLOCKQUOTE>
+
+<H2>12.0 <A NAME="Description">Description</A>&nbsp<A HREF="#S3"><font size=1>(Up)</font></A></H2>
+
+<BLOCKQUOTE>See below for the BASIC language commands and statements that
+the interpreter recognizes. See the README file for tutorial and PalmOS
+specific commands and functions.</BLOCKQUOTE>
+
+<H2>13.0 <A NAME="Flags">Flags</A>&nbsp<A HREF="#S3"><font size=1>(Up)</font></A></H2>
+<BLOCKQUOTE>None</BLOCKQUOTE>
+<H2>14.0 <A NAME="Conventions">Conventions</A>&nbsp<A HREF="#S3"><font size=1>(Up)</font></A></H2>
+<BLOCKQUOTE><B>EXPR </B>&nbsp &nbsp An expression that evaluates to a numeric value.</BLOCKQUOTE>
+<BLOCKQUOTE><B>STRINGEXPR </B>&nbsp &nbsp A string expression.</BLOCKQUOTE>
+<BLOCKQUOTE><B>VAR </B> &nbsp &nbsp A numeric variable.</BLOCKQUOTE>
+<BLOCKQUOTE><B>STRINGVAR</B>&nbsp &nbsp A string variable. Name must end with a "<B>$</B>"</BLOCKQUOTE>
+<BLOCKQUOTE><B>INTEGERVAR</B>&nbsp &nbsp A 32-bit integer var. Name must end with a "<B>%</B>".</BLOCKQUOTE>
+<BLOCKQUOTE>Subroutine names starting with "fn" are reserved for the built-in fn and def fn functions.</BLOCKQUOTE>
+<BLOCKQUOTE>Hexadecimal numbers can be entered by preceding them with a "0x" as in 0x02ae, or by "&amp;h" as in &amp;h0172.</BLOCKQUOTE>
+<BLOCKQUOTE>Multiple statements may be given on one line, separated by colons:<BR>
+&#9;&#9;<CODE>10 INPUT X : PRINT X : STOP</BLOCKQUOTE></CODE>
+
+<BR>
+<H2>15.0 <A NAME="Basic_Basic">Basics of the BASIC language</A><A NAME="S3.5"></A>&nbsp<A HREF="#S3"><font size=1>(Up)</font></A></H2>
+
+<H5><P ALIGN="CENTER">15.1 <A HREF="#Operators">Operators</A>&nbsp
+15.2 <A HREF="#Commands_and_Statement_Keywords">Commands and Statement Keywords</A>&nbsp
+15.3 <A HREF="#Functions">Functions</A>&nbsp
+15.4 <A HREF="#Special_Functions_and_Commands">Special Functions and Commands</A>&nbsp
+15.5 <A HREF="#Variables_and_Constants">Variables and Constants</A>&nbsp
+15.6 <A HREF="#Expressions_and_Operators">Expressions and Operators</A>&nbsp
+15.7 <A HREF="#Flow_of_Control_Statements">Flow of Control Statements</A>&nbsp</P></H5>
+<B>
+15.1 <A NAME="Operators">Operators</A>&nbsp<A HREF="#S3.5"><font size=1>(Up)</font></A>
+<BLOCKQUOTE>+, -, *, /, mod, ^, =, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=, and, or, xor, not, &amp;</BLOCKQUOTE>
+<BLOCKQUOTE>15.1.1 Arithmetic</B><BR>
++ - * / mod ^</BLOCKQUOTE>
+<BLOCKQUOTE><B>15.1.2 Logical</B><BR>
+= &lt;&gt; &gt; &gt;= &lt; &lt;= and or xor not &amp;</BLOCKQUOTE>
+
+<B><DL>
+<DT>15.2 <A NAME="Commands_and_Statement_Keywords">Commands and Statement Keywords</A>&nbsp<A HREF="#S3.5"><font size=1>(Up)</font></A></DT>
+</B></DL>
+
+<BLOCKQUOTE>
+A much more complete reference to BASIC language statements is located here:
+<br>
+&lt;<a href="http://www.hotpaw.com/rhn/hotpaw/language_manual.txt">
+http://www.hotpaw.com/rhn/hotpaw/language_manual.txt
+</a>&gt;
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>data, dim, else, end, endif, for, gosub, goto, if, let,
+new, next, read, rem, restore, return, run, step, then, to, wend,
+while</B></BLOCKQUOTE>
+
+<!--
+<BLOCKQUOTE>
+data read restore<BR>
+dim<BR>
+end run new : rem<BR>
+for to step next<BR>
+goto gosub return<BR>
+if then else endif<BR>
+let <BR>
+while wend
+</BLOCKQUOTE>
+-->
+<DL>
+
+<DT><B>
+15.3 <A NAME="Functions">Functions</A></B>
+&nbsp<A HREF="#S3.5"><font size=1>(Up)</font></A></DT>
+
+</DL>
+<b><BLOCKQUOTE>
+abs(), acos(), asc(), asin(), atn(), bool(), chr$(),
+cos(), exp(), field($), hex$(), instr$(),int(), lcase$(), left$(),
+len(), log(), log10(), mid$(), right$(),rnd(), sgn(), sin(), sqr(),
+str$(), tan(), ucase$(), val()
+</BLOCKQUOTE></b>
+
+<BLOCKQUOTE><B>chr$(c)</B> Returns string of ascii char c, length 1</BLOCKQUOTE>
+<BLOCKQUOTE><B>exp(x)</B>&nbsp &nbsp e ^ of x</BLOCKQUOTE>
+<BLOCKQUOTE><B>hex$(n)</B>&nbsp &nbsp Returns hex string of value n</BLOCKQUOTE>
+<BLOCKQUOTE><B>int(x</B>&nbsp &nbsp Truncates toward zero.</BLOCKQUOTE>
+<BLOCKQUOTE><B>len(a$)</B>&nbsp &nbsp Returns length of string a$</BLOCKQUOTE>
+<BLOCKQUOTE><B>log(x)</B>&nbsp &nbsp Natural log of x</BLOCKQUOTE>
+<BLOCKQUOTE><B>log10(x)</B>&nbsp &nbsp Log base 10 of x</BLOCKQUOTE>
+<BLOCKQUOTE><B>mid$(a$, n, m)</B>&nbsp &nbsp Returns substring of a$
+starting at n length m</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>rnd(n)</B>&nbsp &nbsp Returns a Pseudo random integer in
+the range 0..n-1</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>sin(x) cos(x) tan(x) atn(x)</B>&nbsp &nbsp Trig
+functions for x in radians</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>sqr(x)</B>&nbsp &nbsp Square root of x</BLOCKQUOTE>
+<BLOCKQUOTE><B>str$(x)</B>&nbsp &nbsp Returns string representation of
+x</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>val(a$)</B>&nbsp &nbsp Returns numeric value of a$ or
+0</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>round(x)</B>&nbsp &nbsp Rounds to nearest
+integer.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>round(x,d)</B>&nbsp &nbsp Rounds to d places right of
+the decimal point.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>round(x,0,n)</B>&nbsp &nbsp Rounds to about n
+significant digits.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>str$(x,n)</B>&nbsp &nbsp Returns string padded to n
+characters</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>str$(x,n,2)</B>&nbsp &nbsp Returns n char string with 2
+decimal places</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>
+fn str$(x,1,14)
+</B>&nbsp &nbsp
+Returns double precision (15 decimal places) conversion to string
+ (exponential notation).
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>mid$(a$, n, 1)</B>&nbsp &nbsp Returns a single character
+out of a$</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>field$(a$,n, "," )</B>&nbsp &nbsp Returns the Nth field
+(comma seperated)</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>instr(a$, b$)</B>&nbsp &nbsp Finds b$ in a$ or returns 0
+for not found</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>
+fn strw(a$,n,0)
+</B>&nbsp &nbsp
+Returns width in screen pixels of the 1st n chars of a string
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>
+fn trim$(a$)
+</B>&nbsp &nbsp
+Trims off leading and trailing white space.  Returns trimmed string.
+</BLOCKQUOTE>
+
+<B><DL>
+<DT>15.4 <A NAME="Special_Functions_and_Commands">Special Functions and Commands</A>&nbsp<A HREF="#S3.5"><font size=1>(Up)</font></A></DT>
+</DL>
+
+<BLOCKQUOTE>
+display, as, call, close, db$(), draw, end sub, oef,
+eval(), find(), float(), fn, form, fre, get$(), input, input$(),
+inputbox, kill, morse, msgbox, on, op, open, peek$(), peek(), poke,
+print, ?, put, sound, sub(), timer, using, varptr()
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+</B>
+<B>fre</B>&nbsp &nbsp Returns amount of dynamic heap memory left<BR>
+<B>timer</B>&nbsp &nbsp Returns running seconds timer<BR>
+<B>timer(100)</B>&nbsp &nbsp Returns running tickcount timer (100ths of
+a second on a Palm III)<BR>
+
+</BLOCKQUOTE>
+
+<B><DL>
+<DT>15.5 <A NAME="Variables_and_Constants">Variables and Constants</A>
+&nbsp<A HREF="#S3.5"><font size=1>(Up)</font></A></DT>
+</DL>
+<BLOCKQUOTE>15.5.1 Constants</B><BR>
+<BR>
+Hex constants may be entered by preceding with "0x".<BR>
+<BR>
+Floating point constants may use the "e" notation, e.g. -2e3, 6.022e23,
+6.6261e-34</BLOCKQUOTE>
+
+<BLOCKQUOTE>Floating point numbers and variables are represented by a
+format similar to IEEE double. This is a binary format, which means
+that many decimal fractions will not be exactly
+represented.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>16.5.2 Variables</B><BR>
+<BR>
+Variable names may be up to 15 characters in length.</BLOCKQUOTE>
+<BLOCKQUOTE>Integer variable names must end with the '%' character.</BLOCKQUOTE>
+<BLOCKQUOTE>String variables must end with the '$' character.</BLOCKQUOTE>
+<BLOCKQUOTE>There is a limit of 63 string variables.</BLOCKQUOTE>
+<BLOCKQUOTE>String arrays must be dimensioned before use (except s$()
+and r$()).  String arrays are limited to one dimension and may not be
+redimensioned.</BLOCKQUOTE>
+
+<BLOCKQUOTE>There are 2 built-in string arrays: r$() and s$(), both
+auto-dimensioned to 64 elements: e.g. r$(0)...r$(63).</BLOCKQUOTE>
+
+<BLOCKQUOTE>The string array S$(0) to S$(63) is for passing parameters
+and for temporary use by many of the built-in database, dialog, display
+and code resource functions and commands. </BLOCKQUOTE>
+
+<B><DL>
+<DT>15.6 <A NAME="Expressions_and_Operators">Expressions and Operators</A>
+&nbsp<A HREF="#S3.5"><font size=1>(Up)</font></A></DT>
+</DL>
+<BLOCKQUOTE>Assignment<BR>
+</B>let a = b + 2</B><BR>
+Using the "let" keyword before an assignment is optional.<BR>
+Example: <CODE>a = b + 2</CODE><BR></BLOCKQUOTE>
+<BLOCKQUOTE><B>Complexity</B><BR>
+Arithmetic expressions are limited in complexity to around 8 levels of parenthesis so as to not overflow the very small PalmOS application stack.<BR>
+Example: <CODE>a = (b^2 + (d/(2+2))) * c</BLOCKQUOTE>
+<BLOCKQUOTE><B>"and", "or", "xor" and "not"</B><BR>
+</CODE>"<CODE>and</CODE>", "<CODE>or</CODE>" and "<CODE>xor</CODE>" operators do bit-wise operations.<BR>
+"<CODE>not</CODE>" is a boolean operator and only returns 1 or 0.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>"amp;"</B><BR>
+Use the "&amp;" or the "+" operator for string concatenation.<BR>
+Example: <CODE>a$ = "hello "</CODE><BR>
+Example: <CODE>b$ = a$ &amp; "there!"&#9;' -&gt; result "hello there!" </CODE>
+</BLOCKQUOTE>
+
+<B><DL>
+<DT>15.7 <A NAME="Flow_of_Control_Statements">Flow of Control Statements</A>
+&nbsp<A HREF="#S3.5"><font size=1>(Up)</font></A></DT>
+</DL> </B>
+
+<BLOCKQUOTE><B>end</B>, <B>if then endif, Multiline block IF ENDIF</B>,
+<B>Standard BASIC subroutine usage, Named subroutines usage, goto, on
+goto,</B></BLOCKQUOTE>
+
+<BLOCKQUOTE><B>:</B>
+&nbsp &nbsp A colon may be used to separate multiple statements on one line.<BR>
+<!--
+&nbsp &nbsp Example: a = 1 : b = 2
+-->
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>end</B> &nbsp &nbsp Program execution ends at the first end command.<BR>
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>if then endif</B><BR>
+<BLOCKQUOTE>Standard single line IF THEN<BR>
+<BLOCKQUOTE>Example:<BR>
+<CODE>if x &gt; 1 then y = 2<BR>
+if y = 3 then goto 300</CODE></BLOCKQUOTE></BLOCKQUOTE>
+<BLOCKQUOTE>Multistatement IF THEN (acts as a single block if-endif)<BR>
+<BLOCKQUOTE>Example:<BR>
+<CODE>if x > 1 then 6 = 2; z = 3</CODE></BLOCKQUOTE></BLOCKQUOTE>
+<BLOCKQUOTE>Multiline block IF ENDIF (No "then" keyword used.)<BR>
+<BLOCKQUOTE>Example:<BR>
+<CODE>if (x &gt; 1)<BR>
+y = 2<BR>
+z = 3<BR>
+endif</CODE><BR></BLOCKQUOTE></BLOCKQUOTE></BLOCKQUOTE>
+
+<BLOCKQUOTE><B>for step next</B><BR>
+<BLOCKQUOTE>
+#Example: <BR>
+<CODE>
+for i=1 to 5 step 2 : print i : next I<BR>
+</CODE>
+</BLOCKQUOTE> </BLOCKQUOTE>
+<BLOCKQUOTE>
+<B>while wend</B><BR>
+<BLOCKQUOTE>
+#Example: <BR>
+<CODE>
+n = 1<BR>
+while (n &lt; 100) : rem - loop until this condition is false<BR>
+n = n * 2<BR>
+wend<BR>
+print n<BR>
+</CODE>
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>gosub sub return</B><BR>
+<BLOCKQUOTE>Standard BASIC subroutine usage<BR>
+<BLOCKQUOTE>Example:<BR>
+</B><CODE>100 gosub 500<BR>
+200 end<BR>
+...<BR>
+500 print x+1<BR>
+510 return</CODE></BLOCKQUOTE></BLOCKQUOTE>
+
+<BLOCKQUOTE>Named subroutines usage<BR>
+<BLOCKQUOTE>Example:<BR>
+<CODE>gosub foo(5)<BR>
+end<BR>
+sub foo(x)<BR>
+print x+1<BR>
+end sub</CODE>
+</BLOCKQUOTE></BLOCKQUOTE>
+
+<BLOCKQUOTE>(Note that HotPaw Basic user-defined subroutines are static
+(no true local variables), and may not be used recursively.  The name
+of a user-defined subroutine may be used as a global return
+variable.)
+</BLOCKQUOTE></BLOCKQUOTE>
+
+<BLOCKQUOTE>
+<B>goto N</B>
+<B>on N goto M</B>
+&nbsp &nbsp No example. (Old syntax.  See BASIC programming books.)
+</BLOCKQUOTE>
+<BLOCKQUOTE><B>labelx:<BR>
+goto labelx<BR>
+<BLOCKQUOTE></B>No example.  An initial variable name followed by a
+colon is a label that can be used as a target by a GOTO statement.
+This allow using GOTO statements in programs without 
+using line numbers.
+</BLOCKQUOTE></BLOCKQUOTE>
+
+<H2>16.0 <A NAME="Palm_OS_Interface_Basic">
+PalmOS Interface Commands and Functions</A>
+<A NAME="S3.b"></A>
+&nbsp<A HREF="#S3"><font size=1>(Up)</font></A></H2>
+
+<H5><P ALIGN="CENTER">16.1 <A HREF="#Output_Commands">Output Commands</A>&nbsp
+16.2 <A HREF="#Input_Functions">Input Functions</A>&nbsp
+16.3 <A HREF="#Dialog_Form_Functions">Dialog Form Functions</A>&nbsp
+16.4 <A HREF="#Math_Functions">Math Functions</A>&nbsp
+16.5 <A HREF="#Date_and_Time_Functions">Date and Time Functions</A> &nbsp
+16.6 <A HREF="#Financial_Functions">Financial Functions</A> &nbsp
+16.7 <A HREF="#Graphics_Commands">Graphics Commands</A>&nbsp
+16.75 <A HREF="#Advanced Form Statements">Advanced Form Statements</A>&nbsp
+16.8 <A HREF="#Sound_Commands">Sound Commands</A>&nbsp
+16.9 <A HREF="#Serial_Port_Commands">Serial Port Commands </A>&nbsp
+16.14 <A HREF="#Miscellaneous_Commands">Miscellaneous Commands</A></H4></P>
+<B><DL>
+
+<DT>16.1 <A NAME="Output_Commands">Output Commands</A>&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></B></DT>
+</DL>
+
+<BLOCKQUOTE>
+<B>
+msgbox(message$ [ , title$ [ , n ] ] )
+</B>
+<br>
+Displays a
+message box with a message string.  If n = 2 then display "OK" &
+"Cancel" buttons. The test message will word-wrap up to 2
+lines.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+<B>msgbox(line1$ + chr$(10) + line2$ [...] )</B><BR>
+Displays 2 lines (up to 3 lines are possible)
+separated by linefeeds (hex 0x0A).
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+<B>print x,y</B>
+&nbsp &nbsp Display x and y in a message box.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+<B>?</B>
+&nbsp &nbsp Same as PRINT command (for compatibility with old programs)
+</BLOCKQUOTE>
+
+<B><DL>
+
+<DT>16.2 <A NAME="Input_Functions">Input Functions</A>&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></B></DT>
+</DL>
+<BLOCKQUOTE><B>fn pen(0), fn pen(1), fn pen(2),fn pen(3), fn pen(4), fn pen(5), get$("data",n), inkey$, input [ prompt$ , ] stringvar$, input$( prompt$, [ title$ [ , n ] ] ), input$(1), input$(1), return 0, val(input$(prompt$))</BLOCKQUOTE></B>
+<BLOCKQUOTE><B>input [ prompt$ , ] stringvar$</B>&nbsp &nbsp
+uses input$() dialog to LINE INPUT 1 string
+(for compatibility with old programs)</BLOCKQUOTE>
+<BLOCKQUOTE><B>input$( prompt$,[title$[ , default$ ] ] )</BLOCKQUOTE></B>
+<BLOCKQUOTE><B>input$( prompt$, [ title$ [ , n ] ] )</B>&nbsp &nbsp
+Displays input dialog &amp; Returns input string.  If n = 1 then only
+display "OK" button.  If n = 2 then display both "OK" & "Cancel".  Use
+val(input$(prompt$)) to input a number</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>input$(1)</B>
+&#9;
+&nbsp &nbsp
+Waits for 1 graffiti char
+or button press; captures presses on the rightmost 5 button (11 up,
+12 down, 5,6,7 = 3 app buttons). Leftmost app button halts interpreter.
+</BLOCKQUOTE>
+
+<!--
+<BLOCKQUOTE><B>return 0 </B>&nbsp &nbsp For a tap or ascii value for graffiti</BLOCKQUOTE>
+-->
+
+<BLOCKQUOTE>Use <B>val(input$(prompt$))</B>&nbsp &nbsp
+to input a number.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>inkey$</B>&nbsp &nbsp Checks for 1 graffiti char or button press <BR>
+nonblocking, returns "" for no input</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn pen(0)</B>&nbsp &nbsp Waits for a pen tap (blocking); returns x</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn pen(1)</B>&nbsp &nbsp Returns last pen x coordinate</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn pen(2)</B>&nbsp &nbsp Returns last pen y coordinate</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn pen(3)</B>&nbsp &nbsp Returns tickcount time of last pen tap </BLOCKQUOTE>
+<BLOCKQUOTE><B>fn pen(4)</B>&nbsp &nbsp Returns non-zero if the pen is still down</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn pen(5)</B>&nbsp &nbsp Waits for a display tap, key or graffiti char</BLOCKQUOTE>
+<BLOCKQUOTE><B>get$("data",n)</B>&nbsp &nbsp Returns line from current program page with "#" comment character stripped</BLOCKQUOTE>
+
+<B><DL>
+<DT>16.3 <A NAME="Dialog_Form_Functions">Dialog Form Functions</A>&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></DT>
+</DL></B>
+
+<BLOCKQUOTE><B>form(0)</B>
+&nbsp &nbsp Returns last msgbox or dialog button status; also clears
+the button status to 0.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>form(9,n,title$)</B>
+&nbsp &nbsp Displays n line 2 column form from 2 to 9 lines</BLOCKQUOTE>
+<BLOCKQUOTE><BLOCKQUOTE>
+S$(0), S$(2) ... are the prompt strings<BR>
+S$(1), S$(3) ... are the default & return values.  Return value is 1
+for OK, 2 for A button, 3 for B button
+</BLOCKQUOTE></BLOCKQUOTE>
+
+<BLOCKQUOTE><B>form(10,n,title$)</B>
+&nbsp &nbsp Displays n line single column form<BR>
+<BLOCKQUOTE>s$(0), s$(2) ... will display text, 1st line bolded<BR>
+if s$(0) is empty, s$(1) will display as an input field
+</BLOCKQUOTE></BLOCKQUOTE>
+
+<BLOCKQUOTE><B>form(12,0,title$)</B>
+&nbsp &nbsp Displays 2 column form (with 8 rows) with a calculator keypad<BR>
+<BLOCKQUOTE>
+s$(0), s$(2)display text at the top and bottom<BR>
+s$(2), s$(4) ... are the prompt strings<BR>
+s$(3), s$(5) ... are the default and return values<BR>
+return values are 0 for Done, 1 for OK, 2 for Calc button, and 3 for
+Calc2 button
+</BLOCKQUOTE></BLOCKQUOTE>
+
+<B><DL>
+<DT>16.4 <A NAME="Math_Functions">Math Functions</A>
+&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></DT>
+</DL>
+<BLOCKQUOTE>16.4.1 <A NAME="Numeric_Functions">Numeric Functions</A> </BLOCKQUOTE>
+<BLOCKQUOTE>atn(x,y) </B>&nbsp &nbsp 4 quadrant arctan, <BR>
+only if MathLib is present. Mathlib.prc should be installed for accurate transcendental functions.</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn deg(r)</B>&nbsp &nbsp Converts radians to degrees</BLOCKQUOTE>
+<BLOCKQUOTE><B>
+fn rad(d)
+</B>
+&nbsp &nbsp
+Converts degrees to radians
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>
+fn snorm(x)
+</B>
+&nbsp &nbsp
+statistics library function.
+returns the standard normal integral (-inf to x).
+This function is only available if the
+bcmdsnorm.prc bcmd-extension is installed.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>16.4.2 <A NAME="String_Functions">String Functions</A></B>
+</BLOCKQUOTE>
+<BLOCKQUOTE><B>ucase$(a$)</B>&nbsp &nbsp Returns uppercase string</BLOCKQUOTE>
+<BLOCKQUOTE><B>lcase$(a$)</B>&nbsp &nbsp Returns lowercase string</BLOCKQUOTE>
+<BLOCKQUOTE><B>right$(a$,n)</B>&nbsp &nbsp Returns the right justified substring of a$</BLOCKQUOTE>
+<BLOCKQUOTE><B>left$(a$,n)</B>&nbsp &nbsp Returns the leftmost n char substring of a$</BLOCKQUOTE>
+<BLOCKQUOTE><B>eval(q$)</B>&nbsp &nbsp Evaluates string q$ as a numeric expression ("1+2")</BLOCKQUOTE>
+<BLOCKQUOTE><B>16.4.3 <A NAME="Arrays">Arrays</A></BLOCKQUOTE>
+</B><BLOCKQUOTE>Arrays must be dimensioned before use (except s$() and r$()).</BLOCKQUOTE>
+<BLOCKQUOTE>String arrays are limited to one dimension.</BLOCKQUOTE>
+<BLOCKQUOTE>Numeric arrays must be dimensioned before use with the DIM statement.  Numeric arrays are limited to two dimensions.</BLOCKQUOTE>
+<BLOCKQUOTE>&nbsp &nbsp
+<CODE>
+dim a(10), b(10,10)
+</CODE>
+</BLOCKQUOTE>
+<B><DL>
+<DT>16.5 <A NAME="Date_and_Time_Functions">Date and Time Functions</A>&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></DT>
+</DL></B>
+<BLOCKQUOTE><B>fn date$(0)</B> Returns todays date as 8-digit string, e.g. "19991225"</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn date$(0,1)</B>&nbsp &nbsp Returns todays date as in text form, e.g. "Dec 25, 1999"</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn date$(-1)</B>&nbsp &nbsp Returns 8-digit string result from date chooser</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn time$(0)</B>&nbsp &nbsp Returns 6-digit time string, e.g. "120000"</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn time$(-1)</B>&nbsp &nbsp Results from time chooser dialog</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn days(m)</B>&nbsp &nbsp Converts 8-digit date number to days from 1904</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn days(d$)</B>&nbsp &nbsp Converts 8-digit date string to days from 1904</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn dayow(n)</B>&nbsp &nbsp returns day-of-week (1=Sunday) from 8-digit date</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn date$(n)</B>&nbsp &nbsp Converts days from 1904 to 8-digit string</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn wait(n)</B>&nbsp &nbsp Delays n seconds (uses 0.02 second increments).<BR>
+returns &gt; -1 if a screen tap occurred before timeout.</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn sleep(n)</B>&nbsp &nbsp Sleeps for between n &amp; n+60 seconds (n &gt;= 120).<BR>
+returns approximate seconds elapsed</BLOCKQUOTE>
+
+<B><DL>
+<DT>16.6 <A NAME="Financial_Functions">Financial Functions</A>&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></DT>
+</DL></B>
+
+<BLOCKQUOTE><B>fn pmt(p, r, n)</B>
+&nbsp &nbsp
+Calculate payment, given principle, interest% and number of periods</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>fn pv(a, r, n)</B>&nbsp &nbsp Calculate present
+value</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>fn fv(a, r, n)</B>&nbsp &nbsp Calculate future value</BLOCKQUOTE>
+
+<b><DL>
+<DT>16.7 <A NAME="Graphics_Commands">Graphics Commands</A>&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></DT>
+</DL></b>
+
+<BLOCKQUOTE><B>draw -1</B> Clears the middle of the display</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw x1,y1,x2,y2,1</B>
+&nbsp &nbsp Draws line on display [0..159]</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw x1,y1,x2,y2,2</B>&nbsp &nbsp Draws gray line</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw x1,y1,x2,y2,-1</B>&nbsp &nbsp Erases a line</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw x1,y1,x2,y2,4</B>&nbsp &nbsp Draws rectangle (topLeft, extent)</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw x1,y1,x2,y2,5</B>&nbsp &nbsp Draws gray rectangle</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw x1,y1,x2,y2,7</B>&nbsp &nbsp Draws filled rectangle</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw x1,y1,x2,y2,-7</B>&nbsp &nbsp Erases rectangle</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw circle x1,y1,r</B>&nbsp &nbsp Draw circle of radius r</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw circle x1,y1,r,7</B>&nbsp &nbsp Paint a filled circle</BLOCKQUOTE>
+<BLOCKQUOTE><B>moveto x1,y1</B>&nbsp &nbsp Sets current pen location to x1,y1</BLOCKQUOTE>
+<BLOCKQUOTE><B>lineto x2,y2</B>&nbsp &nbsp Draws a line from current loc to x2,y2</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw t$, x,y [,f]</B>&nbsp &nbsp Draws text t$ (optionally with font f)</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw t$, x,y, 32</B> &nbsp &nbsp Draws text using SingleHander jumbo font. This requires installation of the singlehand.prc app</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn colord()</B>&nbsp &nbsp Returns the color depth available or 0 for PalmOS versions prior to 3.5</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn colord(n)</B>&nbsp &nbsp Where n = 1,2,4 (&amp; PalmOS &gt;= 3.5 only) sets grayscale depth to n if possible.  Returns prior depth</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn scrn(x,y,k)</B>&nbsp &nbsp Returns index, r, g or b value of screen pixel at (x,y) for k = 0, 1, 2 or 3 respectively under PalmOS 3.5 or later.</BLOCKQUOTE>
+
+<!--
+<BLOCKQUOTE><B>* WARNING *</B> the bitmap commands are in beta test.
+Only try this if you have backed up all your important or valuable
+data.</BLOCKQUOTE>
+-->
+
+<BLOCKQUOTE><B>draw x,y, w,h, 100,a$(0)</B>&nbsp &nbsp Draws a 1 bit/pix bitmap.<BR>
+w &amp; h must be less than or equal to 32.  Bitmap described row-wise by hex strings which are contained in string array a$(0) .. a$(n).  Bitmap strings must be multiples of 4 in length and the beginning of each row is byte aligned.</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw x,y, 0,k, 400,s$</B>&nbsp &nbsp Draws resource ('Tbmp') bitmap bitmap with resource ID k contained in the prc or app named by the variable s$. Draws nothing if prc or resource is missing.</BLOCKQUOTE>
+<BLOCKQUOTE>If you have the new PalmOS 3.5 color ROMS:</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw color r,g,b,c</B>&nbsp &nbsp  Sets the foreground color for c = 1, background color for c = 2, text color for c = 3,  r,g,b for red green blue respectively [0 thru 255]</BLOCKQUOTE>
+<BLOCKQUOTE><B>draw color i,-1,0,c</B>&nbsp &nbsp  Sets the color by color index [0-255]</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>fn rgb2i(r,g,b)</B>
+&nbsp &nbsp Returns color index of nearest RGB color</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>draw circle x1,y1,r,a1,a2</B>&nbsp &nbsp  Paint a filled arc from a1 to a2 radians</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>fn test(-100)</B>&nbsp &nbsp  Returns PalmOS version or
+highest version supported (e.g. 3.1, 3.5 ...) or negative for old
+non-color yBasic</BLOCKQUOTE>
+
+<B><DL> <DT>
+16.75 <A NAME="Advanced Form Statements">Advanced Form Statements
+&nbsp</A><A HREF="#S3.b"><font size=1>(Up)</font></A>
+</DT> </DL></B>
+
+<BLOCKQUOTE>Dynamic objects (buttons, field, checkboxes) should only be
+added near the beginning of a program (after a "draw,-1" statement) and
+before any user interaction (print or input). Form buttons should be
+created before any other form items. There is a limit of 15 form
+buttons, 2 pop-up list and 32 total form items. The total amount of
+list selections among all pop-up lists is 63.</BLOCKQUOTE>
+
+<BLOCKQUOTE>See the "#counter.bas" example program, which uses both
+form commands to create buttons, and database commands to save data
+between program runs.</BLOCKQUOTE>
+
+<BLOCKQUOTE>Use "draw -1" to clear the form before adding any dynamic objects.</BLOCKQUOTE>
+<BLOCKQUOTE>Draw text and graphics only when done creating all form items.</BLOCKQUOTE>
+<BLOCKQUOTE>Dynamic objects will change the behavior of the current running main Basic program form. Form statements may only be used in a program contained in a Memo or run from a program select view.</BLOCKQUOTE>
+<BLOCKQUOTE>Form statements will produce an error message when run from the ScratchPad Edit view.</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+** <b>Warning:  The use of dynamic forms under PalmOS 3.0 and
+earlier is NOT recommended by Palm.</b>
+These commands have only been tested under PalmOS 3.1 and later. **
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>form btn x,y,w,h, title$, 1</B>&#9;Creates one button x,y location. w,h width &amp; height.&#9;</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn btnkey()</B>
+&nbsp &nbsp Returns ascii keycode of last
+form item. The first button returns 14 to "form(0)" or ascii key
+chr$(14) to the "input$(1)" function. Note that if you use the "form
+btn" statement more than once, for instance in a loop, you will get
+multiple buttons that will return different key codes. Use "fn
+btncode()" to get the keycode for that new button.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>form fld x,y, w,h, default$, 1 </B>&nbsp &nbsp Creates a text input field. w is in pixel units, h is normally set to 12 </BLOCKQUOTE>
+<BLOCKQUOTE><B>form cbx x,y, w,h, "", 1</B>&nbsp &nbsp Creates a 14x14 checkbox. w&amp;h are dummy parameters. First field or checkbox returns a string in s$(0) after a form btn press. Second field or checkbox returns in s$(1), etc.</BLOCKQUOTE>
+<BLOCKQUOTE><B>form lst x,y, n,sel, a$, 1 </B>&nbsp &nbsp Creates a pop-up list with trigger at x,y. <B>n</B> is the number of items in a list ( &lt; 31 ). <B>a$</B> must be a dimensioned array larger than n the 1st list element is taken from a$(1). <B>sel</B> is the initially selected item number. Form fields, checkboxes and lists return their value in array strings s$(0) thru s$(19) after any form button is pressed. <B>s$(0)</B> gets the value of the first field created, s$(1) the next, etc...</BLOCKQUOTE>
+<BLOCKQUOTE><B>form title 0,0,0,0, newtitle$,1 </B>&nbsp &nbsp Changes form title to the string newtitle$</BLOCKQUOTE>
+<BLOCKQUOTE><B>form redraw 0,0,0,0, "", -1 </B>&nbsp &nbsp Erases all graphics except for form objects.</BLOCKQUOTE>
+<BLOCKQUOTE><B>form reset 0,0,0,0, newtitle$, -1 </B>&nbsp &nbsp clears all dynamic objects from dynamic form and resets initial btnkey count to 14&#9;</BLOCKQUOTE>
+<BLOCKQUOTE><B>form btn 0,160,0,0, qbtn$, 1 </B>&nbsp &nbsp if qbtn$ is less than 6 characters in length changes the title of the "Quit" button to the contents of qbtn$, and sets that buttons keycode to ctrl-c (ASCII 0x03)</BLOCKQUOTE>
+<B><DL>
+<DT>16.8 </B><A NAME="Sound_Commands"><B>Sound Commands</A>&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></B></DT>
+</DL>
+<BLOCKQUOTE><b>sound f,d,v</b>
+&nbsp;&nbsp;
+{ f = frequency in Hz }, { d = duration in mS }, { v = volume 0..63 }
+</BLOCKQUOTE>
+<BLOCKQUOTE><b>morse string$, wpm, freq, vol, [ cwpm ]</b>
+&nbsp;&nbsp;
+{ wpm = words per minute code speed },
+{ cwpm Farnsworth }
+</BLOCKQUOTE>
+
+<B><DL><DT>16.9 <A NAME="Serial_Port_Commands">Serial Port Commands</A>
+&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></DT></B></DL>
+
+<BLOCKQUOTE>Warning: </B>Using serial port I/O will drain the battery
+much faster than normal.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>open "com1:", baud_rate as #5</B>&nbsp;&nbsp; Sets baud_rate { 2400..19200 }</BLOCKQUOTE>
+<BLOCKQUOTE><B>open "com1:",rate,ir as #5</B>&nbsp;&nbsp; Opens serial port in SIR Ir mode. The serial port only stays open during a program execution, and is automatically closed at the end of a program or "exec selection".</BLOCKQUOTE>
+<BLOCKQUOTE><B>open ... #5 else label</B>&nbsp;&nbsp; goto statement@label on open error</BLOCKQUOTE>
+<BLOCKQUOTE><B>open "PalmPrint: for output as #5</B>&nbsp &nbsp Enables Stevens Creek Software print server.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>close #5</B>&nbsp;&nbsp; Closes serial port</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>fn serial(5)</B>&nbsp;&nbsp; Returns number of input bytes waiting</BLOCKQUOTE>
+<BLOCKQUOTE><B>input #5, a$</B>&nbsp;&nbsp; Waits for 1 line of text</BLOCKQUOTE>
+<BLOCKQUOTE><B>get$(#5, 0)</B>&nbsp;&nbsp; Returns 1 ascii byte from serial port, or returns -1 if no input is waiting</BLOCKQUOTE>
+<BLOCKQUOTE><B>get$(#5, n)</B>&nbsp;&nbsp; Returns a string up to n bytes long</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>print #5, a$</B>&nbsp;&nbsp; Prints to serial port</BLOCKQUOTE>
+<BLOCKQUOTE><B>put #5,byte</B>&nbsp;&nbsp; Serial output one byte</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>put #5,-3</B>&nbsp &nbsp Start break.</BLOCKQUOTE>
+<BLOCKQUOTE><B>put #5,-2</B>&nbsp &nbsp Stop break.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>fn serial(-5)</B>&nbsp &nbsp Get CTS (2) and DSR (1) status.</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn serctrl(7,2,0)</B>&nbsp &nbsp Sets 7 bits, even parity, return 0.</BLOCKQUOTE>
+
+<BLOCKQUOTE>Only descriptor #5 is recognized for serial port use.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+The serial port only stays open during program execution,
+and is automatically closed at the end of a program or "exec
+selection".
+</BLOCKQUOTE>
+
+
+<DL> <B>
+<DT>16.14 <A NAME="Miscellaneous_Commands">Miscellaneous Commands</A>
+&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></DT>
+</B></DL>
+
+<BLOCKQUOTE><b>fn linenum(label)</b>
+&nbsp &nbsp Returns line number for any label.  This is very useful when trying to debug.</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn battery()</B>&nbsp;&nbsp; Returns scaled battery voltage (V*100)</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn p(18)</B>&nbsp;&nbsp; Returns memory address of the clipboard text</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn p(19)</B>&nbsp;&nbsp; Returns length of the clipboard text</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn p(36)</B>&nbsp;&nbsp; Returns current memo get$ offset</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn p(66)</B>&nbsp;&nbsp; Force warm reset of PalmOS</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn p(67)</B>&nbsp;&nbsp; Relaunches the HotPaw Basic interpreter application</BLOCKQUOTE>
+<BLOCKQUOTE><B>fn ftr(sig$, n)</B>&nbsp &nbsp Reads Feature Manager long int.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>Warning: Use of undocumented fn or fn p() numbers may
+cause your Palm to crash or Corrupt data.</BLOCKQUOTE>
+
+</B>
+
+<br>
+
+<H2>17.0 <A NAME="Palm_OS_Database_Basic">MemoPad and Database Commands</A>
+<A NAME="S3.c"></A>
+&nbsp<A HREF="#S3"><font size=1>(Up)</font></A></H2>
+
+<H5><P ALIGN="CENTER">( 17.1 <A HREF="#MemoPad">MemoPad Access</A>
+17.2 <A HREF="#DB_(DBOS)">DB Database ('DBOS')</A>
+17.3 <A HREF="#List_(LSdb)">List Database ('LSdb')</A>
+17.4 <A HREF="#JFile_Pro_(JFil)">JFile Pro('JFil')</A>
+17.5 <A HREF="#JFile_(JBas)">JFile ('JBas')</A>
+17.6 <A HREF="#HanDBase_(PmDB)">HanDBase ('PmDB')</A>
+17.7 <A HREF="#MobileDB_(Mdb1)">MobileDB ('Mdb1')</A>
+17.8 <A HREF="#Aportis_(REAd)">Aportis Doc Text ('REAd')</A>
+17.9 <A HREF="#Database_Functions">General Database Functions</A> )
+</P></H5>
+
+<B>
+17.1 <A NAME="MemoPad">MemoPad Access</A>
+&nbsp<A NAME="S3.c1"></A><A HREF="#S3.c"><font size=1>(Up)</font></A>
+</B>
+
+<B>
+<H5><P ALIGN="CENTER">
+( 17.1.1 <A HREF="#MemoPad_(file)_Database_Commands">
+MemoPad Access Commands</A>
+17.2 <A HREF="#MemoPad_(file)_Database_Functions">
+MemoPad Access Functions</A> )
+</P></H5>
+</B>
+
+<B>
+17.1.1 <A NAME="MemoPad_(file)_Database_Commands">
+MemoPad Access Commands</A>
+&nbsp<A HREF="#S3.c1"><font size=1>(Up)</font></A>
+</B>
+
+<BLOCKQUOTE>
+<B>open "memo",n as #1</B>
+&nbsp &nbsp Opens memo number n for r/w #1 thru #4 are legal file nos.
+Use db.find to get n from title$
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+<B>open new "memo",title$ as #4</B>
+&nbsp &nbsp
+Creates and opens new memo. The title string must not be
+blank.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db.index</B>&nbsp &nbsp Returns the new memo index
+number</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>print #4, x$</B>&nbsp &nbsp Appends to open memo. Memos
+are limited to 4k characters. Use db.len to check for truncation
+&nbsp &nbsp
+&#9;&#9;</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>input #1, a$</B>&nbsp &nbsp Inputs one line from open
+memo</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>close #1</B>&nbsp &nbsp Kill
+"memo",(db.find("memo"),n,-9. Deletes memo n</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>chain n</B>&nbsp &nbsp runs Basic program in memo index
+n. Does not clear variables. Use db.find("memo", title$) to find n. n
+must be greater than 0.  Use fn launch() to start other
+applications.</BLOCKQUOTE>
+
+<BLOCKQUOTE>Only descriptors #1 thru #4 are allowed for MemoPad
+files.</BLOCKQUOTE>
+
+<B>17.1.2
+<A NAME="MemoPad_(file)_Database_Functions">
+MemoPad Access Functions</A>
+&nbsp<A HREF="#S3.c1"><font size=1>(Up)</font></A></B>
+
+<BLOCKQUOTE><B>db.find("memo", t$)</B>
+&nbsp &nbsp
+Finds memo with title t$, returns index; searches in reverse order, so always finds last/latest</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db.find("memo", t$, 0) </B>&nbsp &nbsp Searches in forward order</BLOCKQUOTE>
+<BLOCKQUOTE><B>db.len("memo", n)</B>&nbsp &nbsp Returns length of memo #n</BLOCKQUOTE>
+<BLOCKQUOTE><B>db$("memo", n, 0)</B>&nbsp &nbsp Returns first line of memo #n</BLOCKQUOTE>
+<BLOCKQUOTE><B>db$("memo", n)</B>&nbsp &nbsp Returns the next line or memo #n</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db$("memo", n, k)</B>&nbsp &nbsp
+ Returns text at byte offset k</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>
+eof</B>&nbsp &nbsp Returns true if last input or db$
+read was past end of memo</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>
+fn newcat(n)&nbsp &nbsp
+</B>
+returns 0.
+Sets the category of the next new record or memo to category number n.
+</BLOCKQUOTE>
+    
+<br>
+Note that the level of support varies for each type of database listed below.
+
+<DL>
+<H3>17.2.0 <A NAME="DB_(DBOS)">DB Database ('DBOS') Access</A>
+&nbsp<A NAME="S3.c2"></A><A HREF="#S3.c"><font size=1>(Up)</font></A></H3>
+
+<H5><P ALIGN="CENTER">(
+17.2.2 <A HREF="#DBOS_Reading_From_Database_Field">Reading From Database Field</A> 
+17.2.3 <A HREF="#DBOS_Searching">Searching</A>
+17.2.4 <A HREF="#DBOS_Modifying_A_Database_Field">Modifying A Database Field</A> 
+17.2.5 <A HREF="#DBOS_Adding_Records">Adding Records</A>
+17.2.6 <A HREF="#DBOS_Creating_New_Database">Creating New Database</A> )
+</P> </H5>
+
+<BLOCKQUOTE>The <B>DB</B> application
+is a Free Open Source database for the PalmOS, ctype = "DBOS", <BR>
+found 
+at:  &lt;<a href="http://vger.rutgers.edu/~tdyas/pilot/">
+http://vger.rutgers.edu/~tdyas/pilot/
+</a>&gt;
+</BLOCKQUOTE>
+
+<H4>17.2.2
+<A NAME="DBOS_Reading_From_Database_Field">
+Reading From DB, List, JFile Pro, JFile, HanDBase or MobileDB Database Field</A>
+&nbsp<A HREF="#S3.c2"><font size=1>(Up)</font></A></H4>
+
+<BLOCKQUOTE><B>db$(dbname$, r, f)</B>&#9;
+&nbsp&nbsp
+Returns field f of record r
+first record has r = 0. Only returns first 63 characters of any longer
+fields. This function may modify s$(20) thru s$(29)</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db$(dbname$, r, f, z)</B>
+&nbsp&nbsp
+If field f of record r is longer than z characters then returns up to
+63 characters of field f starting with the z-th byte
+(offset).</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db$(d, r, f)</B>
+&nbsp&nbsp
+Returns field f of database index d.  Database d must be opened first.
+</BLOCKQUOTE>
+
+<H4>17.2.3 <A NAME="DBOS_Searching">
+Searching a DB, List or JFile Pro Database</A>
+&nbsp<A HREF="#S3.c2"><font size=1>(Up)</font></A></H4>
+
+<BLOCKQUOTE><B>db.find(dbname$, x$)</B>
+&nbsp&nbsp
+Finds x$ in first record of database dbname$. Returns -1 for failure
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>open DATABASE_NAME$</B>
+&nbsp&nbsp
+Open for r/w</BLOCKQUOTE>
+<BLOCKQUOTE><B>db.index</B>
+&nbsp&nbsp
+Returns last opened db index</BLOCKQUOTE>
+
+<H4>17.2.4 <A NAME="DBOS_Modifying_A_Database_Field">
+Modifying a DB, List, JFile Pro or HanDBase Database Field</A>
+&nbsp<A HREF="#S3.c2"><font size=1>(Up)</font></A></H4>
+
+<BLOCKQUOTE><B>let db$(dbname$, r, f) = x$ </B>
+&nbsp&nbsp
+Modifies 1 field of a database, record r. Field f this statements may modify s$(20 thru 39). The LET keyword is optional.</BLOCKQUOTE>
+<BLOCKQUOTE><B>let db$(d, r, f) = x$</B>
+&nbsp&nbsp
+...with database id #d.  r must be in range and d must be open</BLOCKQUOTE>
+
+<H4>17.2.5 <A NAME="DBOS_Adding_Records">Adding Records to DB Databases</A>
+&nbsp<A HREF="#S3.c2"><font size=1>(Up)</font></A></H4>
+
+</B><BLOCKQUOTE>It is up to your program to make sure that you only add
+records of the proper format. Only text fields are currently
+supported.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>put d,new,(n)</B>
+&nbsp&nbsp
+Adds a new db record with n fields taken from s$(20) thu s$(20+n), (max of 19 fields usable).&#9;</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db.index</B>
+&nbsp&nbsp
+Returns new index.</BLOCKQUOTE>
+
+<H4>17.2.6 <A NAME="DBOS_Creating_New_Database">
+Creating New DB ('DBOS') Database</A>
+&nbsp <A HREF="#S3.c2"><font size=1>(Up)</font></A></H4>
+
+<BLOCKQUOTE><B>db.open dbname$ as new "DBOS",n </B>
+&nbsp&nbsp
+Creates a new DB database with n fields per record</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db.open ... else label </B>
+&nbsp&nbsp
+Goto statement@label on open error</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db.index</B>
+&nbsp&nbsp
+Returns last created or opened db index.</BLOCKQUOTE>
+<BLOCKQUOTE>Only one new database can be created and accessed at a
+time. Creating a new database will close all other databases. Therefore
+any new database should be created before opening any other databases
+for access.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>kill dbname$,dbindex,-99,-9 '- deletes database </B>
+&nbsp&nbsp
+Index must match database name</BLOCKQUOTE>
+
+<H3>17.3.0 <A NAME="List_(LSdb)">List Databases (type 'LSdb')</A>
+&nbsp<A NAME="S3.c3"></A><A HREF="#S3.c"><font size=1>(Up)</font></A></H3>
+
+<H5><P ALIGN="CENTER"> (
+17.3.2 <A HREF="#LSdb_Reading_From_Database_Field">
+Reading From List Database Field</A> 
+17.3.3 <A HREF="#LSdb_Searching">Searching List Databases</A>
+17.3.4 <A HREF="#LSdb_Modifying_A_Database_Field">
+Modifying A List Database Field</A> 
+17.3.5 <A HREF="#LSdb_Adding_Records">Adding Records to a List Database</A>
+17.3.6 <A HREF="#LSdb_Creating_New_Database">
+Creating a New List ('LSdb') Database</A> )
+</P></H5>
+
+<BLOCKQUOTE><B>List</B>
+is a Freeware 3 column database application, ctype = "LSdb",<BR>
+found 
+at:  &lt;<a href="http://www.magma.ca/~roo/list/list.html">
+http://www.magma.ca/~roo/list/list.html</a>
+&gt;
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>The level of support varies for each type of database.
+HotPaw Basic can create new databases of ctype "LSdb".</BLOCKQUOTE>
+
+<H4>17.3.2 <A NAME="LSdb_Reading_From_Database_Field">
+Reading From List Database Field</A>
+&nbsp<A HREF="#S3.c3"><font size=1>(Up)</font></A></H4>
+
+<BLOCKQUOTE>
+See above (
+<A HREF="#DBOS_Reading_From_Database_Field">Reading From Database Field</A>)
+</BLOCKQUOTE>
+
+<H4>17.3.3 <A NAME="LSdb_Searching">Searching List Databases</A>
+&nbsp<A HREF="#S3.c3"><font size=1>(Up)</font></A></H4>
+
+<BLOCKQUOTE>
+See above (
+<A HREF="#DBOS_Searching">Database Searching</A>)
+</BLOCKQUOTE>
+
+<H4>17.3.4 <A NAME="LSdb_Modifying_A_Database_Field">
+Modifying A List Database Field</A>
+&nbsp<A HREF="#S3.c3"><font size=1>(Up)</font></A></H4>
+
+<BLOCKQUOTE><B>let db$(dbname$, r, f) = x$</B>
+&nbsp&nbsp
+Modifies 1 field of a database, record r. Field f this statements may
+modify s$(20 thru 39). The LET keyword is optional.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>let db$(d, r, f) = x$</B>
+&nbsp&nbsp
+With database id #d r must be in range and d must be open</BLOCKQUOTE>
+
+<BLOCKQUOTE>If the database is of ctype "LSdb" then the above
+statement will work only if all fields are shorter than 63
+characters.</BLOCKQUOTE>
+
+<BLOCKQUOTE>Warning: Any longer fields in the List database record
+modified may be silently truncated.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db.len(dbname$, -16)</B>
+&nbsp&nbsp
+Returns count of non-deleted records in database. Note that deleted
+records may appear in the middle of some databases.</BLOCKQUOTE>
+
+<H4>17.3.5 <A NAME="LSdb_Adding_Records">Adding Records to List Databases</A>
+&nbsp<A HREF="#S3.c3"><font size=1>(Up)</font></A></B></H4>
+
+<BLOCKQUOTE><B>put d,new,103</B> Adds a new db record with n fields
+taken from s$(20) thu s$(23)</BLOCKQUOTE>
+
+<H4>17.3.6 <A NAME="LSdb_Creating_New_Database">
+Creating New List ('LSdb') Database</A>
+&nbsp<A HREF="#S3.c3"><font size=1>(Up)</font></A></H4>
+
+<BLOCKQUOTE><B>db.open dbname$ as new "LSdb",3</>
+&nbsp&nbsp
+Creates a new List database with 3 fields per record.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db.index</B>
+&nbsp&nbsp
+Returns last created or opened db index. </BLOCKQUOTE>
+
+<BLOCKQUOTE>Only one new database can be created and accessed at a
+time. Creating a new database will close all other databases. Therefore
+any new database should be created before opening any other databases
+for access.</BLOCKQUOTE>
+
+<H4>17.4 <A NAME="JFile_Pro_(JFil)">JFile Pro (JFil) &nbsp</A><A NAME="S3.c5"></A><A HREF="#S3.c"><font size=1>(Up)</font></A></H4>
+<B>
+
+<DL>
+<BLOCKQUOTE>
+<DT>JFile Pro</B> is a shareware database application, ctype = "JFil".
+Only reading this database format is currently supported.</DT>
+</BLOCKQUOTE>
+</DL>
+
+<H4>17.4.1 Reading a JFile or JFile Pro database field:</H4>
+
+<BLOCKQUOTE>
+See above (
+<A HREF="#DBOS_Reading_From_Database_Field">Reading From Database Field</A>)
+</BLOCKQUOTE>
+
+<H4>17.4.2 Searching a JFile Pro database</H4>
+
+<BLOCKQUOTE>
+See above (
+<A HREF="#DBOS_Searching">DB Database Searching</A>)
+</BLOCKQUOTE>
+
+<H4>17.4.3 Modifying a JFile Pro database field:</H4>
+
+<BLOCKQUOTE>
+See above (
+<A HREF="#DBOS_Modifying_A_Database_Field">Modifying A Database Field</A>)
+</BLOCKQUOTE>
+
+<H3>17.5.0 <A NAME="JFile_(JBas)">JFile<A>
+&nbsp<A NAME="S3.c4"></A><A HREF="#S3.c"><font size=1>(Up)</font></A></H3>
+
+<BLOCKQUOTE>JFile is
+an obsolete database application, ctype = "JBas",<BR>
+found
+at &lt;<a href="http://www.land-j.com/pilprogs.html">
+http://www.land-j.com/pilprogs.html
+</a>&gt;
+See JFile Pro for a newer application from this author.
+</BLOCKQUOTE>
+
+<H4>17.5.4 Adding JFile database records</H4>
+<BLOCKQUOTE>It is up to your program to make sure that you only add
+records of the proper format. Only text fields are currently
+supported.
+<br>
+<B>put d,new,(n)</B>
+Adds a new db record with n fields taken from s$(20) thu s$(20+n),
+(max of 19 fields usable).
+<br>
+<B>db.index</B>
+&nbsp&nbsp
+Returns new record index.</BLOCKQUOTE>
+
+<H3>17.6 <A NAME="HanDBase_(PmDB)">HanDBase
+&nbsp</A><A NAME="S3.c6"></A><A HREF="#S3.c"><font size=1>(Up)</font></A></H3>
+<BLOCKQUOTE>
+HanDBase</B>is a commercial database application, ctype = "PmDB".
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>HanDBase databases are supported by calling code in the
+actual HanDBase application.  If a registered copy of the HanDBase
+application is not installed, HotPaw Basic commands to access HanDBase
+databases will fail.
+</BLOCKQUOTE>
+
+<H4>17.6.1 Reading a HanDBase field:</H4>
+
+<BLOCKQUOTE>
+See above (
+<A HREF="#DBOS_Reading_From_Database_Field">Reading From Database Field</A>)
+</BLOCKQUOTE>
+
+<H4>17.6.4 Modifying a HanDBase Database Field</H4>
+
+<BLOCKQUOTE>
+See above (
+<A HREF="#DBOS_Modifying_A_Database_Field">Modifying A Database Field</A>)
+</BLOCKQUOTE>
+
+<H3>17.7 <A NAME="MobileDB_(Mdb1)">MobileDB
+&nbsp</A><A NAME="S3.c7"></A><A HREF="#S3.c"><font size=1>(Up)</font></A></H3>
+<B>
+<BLOCKQUOTE>MobileDB</B> is a Commercial database application,
+ctype = "Mdb1".
+Only field reads are supported for MobileDB databases.
+Note that for MobileDB databases,
+the actual data records start with record number 4.
+</BLOCKQUOTE>
+
+<H4>17.6.1 Reading a MobileDB database field:</H4>
+
+<BLOCKQUOTE>
+See above (
+<A HREF="#DBOS_Reading_From_Database_Field">Reading From Database Field</A>)
+</BLOCKQUOTE>
+
+<H3>17.8 <A NAME="Aportis_(REAd)">Doc format text</A>
+&nbsp<A NAME="S3.c8"></A><A HREF="#S3.c"><font size=1>(Up)</font></A></H3>
+
+<BLOCKQUOTE>
+For Doc format text databases (Aportis "Doc" format, ctype 'REAd'):
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db$(d, r, k)</B>
+&nbsp &nbsp
+Reads a string from record r starting at offset k.
+Uncompresses compressed Doc format text.
+<br>
+A max of 63 characters at a time can be read.
+Record number r must be greater than 0.
+Returned string may include a CR or LF at the end.
+Sets eof if k is past end of record.
+Use db.find() to get database index d.&#9;
+</BLOCKQUOTE>
+
+<H3>17.9 <A NAME="Database_Functions">Misc. Database Functions</A>
+&nbsp<A NAME="S3.c9"></A><A HREF="#S3.c"><font size=1>(Up)</font></A></H3>
+
+<BLOCKQUOTE><B>db.open name$</B>
+&nbsp &nbsp
+Returns access index for named database or returns -1 for not found.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>db.len(dbname$)</B>
+&nbsp &nbsp
+Returns number of records in database.</BLOCKQUOTE>
+<BLOCKQUOTE><B>db.len(dbname$,r)</B> &nbsp &nbsp Returns length in bytes of record r.</BLOCKQUOTE>
+<BLOCKQUOTE><B>db.find(dbname$)</B>&nbsp &nbsp Returns db index# of named database</BLOCKQUOTE>
+<BLOCKQUOTE><B>db.len(dbindex)</B>&nbsp &nbsp Returns number of records in database #</BLOCKQUOTE>
+<BLOCKQUOTE><B>db.len(dbindex,r)</B>&nbsp &nbsp Returns length in bytes of record r</BLOCKQUOTE>
+<BLOCKQUOTE><B>db.peek(dbindex, r, n, 1)</B>&nbsp &nbsp Returns byte n of record r</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+<B>db.peek(dbindex, r, n, 64)</B>
+&nbsp &nbsp
+Returns string starting at byte offset n
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+<B><db.peek(dbindex, 0x74535452, id, 64)</B>
+&nbsp &nbsp
+Returns a string resource with resource the given resource id number.
+<br>
+The database referenced by dbindex
+must be a resource database (e.g. from a .prc file).
+</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>err</B>&nbsp &nbsp Returns a negative number if any database open or read errors occur.</BLOCKQUOTE>
+<BLOCKQUOTE><B>err(0)</B>&nbsp &nbsp Returns error code and then clears it.</BLOCKQUOTE>
+<H2>18.0 <A NAME="Palm_OS_Scripting_Basic"><B>PalmOS Scripting Commands</B></A><A NAME="S3.d"></A>&nbsp<A HREF="#S3"><font size=1>(Up)</font></A></H2>
+<BLOCKQUOTE><B>find("date", 0, 19991225 )</B>&nbsp &nbsp Finds 1st DateBook record on Dec 25, 1999</BLOCKQUOTE>
+<BLOCKQUOTE><B>find("date", -12, 19991225)</B>&nbsp &nbsp Finds subsequent DateBook records on given date. Use val(fn date$(0)) for today's date</BLOCKQUOTE>
+<BLOCKQUOTE><B>get$("date", n, 10)</B>&nbsp &nbsp Reads DateBook record #n into s$(20 thru 29)<BR>
+<BLOCKQUOTE><B>s$(20)</B>&nbsp &nbsp title<BR>
+<B>s$(21)</B> = year<BR>
+<B>s$(22)</B> = month<BR>
+<B>s$(23)</B> = day<BR>
+<B>s$(24)</B> = hour (blank for "UnTimed")<BR>
+<B>s$(25)</B> = minute<BR>
+<B>s$(26)</B> = ending hour<BR>
+<B>s$(27)</B> = ending minute<BR>
+<B>s$(28)</B> = alarm minutes (0 for no alarm)<BR>
+<B>s$(29)</B> = first 63 characters of note</BLOCKQUOTE></BLOCKQUOTE>
+<BLOCKQUOTE><B>put "date",new,10</B> Creates new DateBook entry from data in s$(20..29)</BLOCKQUOTE>
+<BLOCKQUOTE><B>find("todo", title$, n)</B>&nbsp &nbsp Finds ToDo record with given title starting search with record n.  Return -1 for none found.</BLOCKQUOTE>
+<BLOCKQUOTE><B>find("todo", -11, d)</B>&nbsp &nbsp Finds 1st ToDo record matching 8-digit date d</BLOCKQUOTE>
+<BLOCKQUOTE><B>find("todo", -12, d)</B>&nbsp &nbsp Finds subsequent ToDo's matching 8-digit date d</BLOCKQUOTE>
+<BLOCKQUOTE><B>find("todo", -13, d)</B>&nbsp &nbsp Finds 1st undone ToDo record due on or before d</BLOCKQUOTE>
+<BLOCKQUOTE><B>find("todo", -14, d)</B>&nbsp &nbsp Finds subsequent undone ToDo's due</BLOCKQUOTE>
+<BLOCKQUOTE><B>find("todo", -16, n)</B>&nbsp &nbsp Finds ToDo record modified since last HotSync starting search with record n</BLOCKQUOTE>
+<BLOCKQUOTE><B>get$("todo", n, 10)</B>&nbsp &nbsp Reads ToDo list record #n into s$(20 thru 29).  s$(20 will contain "error" if the ToDo is not found.<BR>
+<BLOCKQUOTE><B>s$(20)</B> = description (up to 63 characters only)<BR>
+<B>s$(21)</B> = year (or blank for no Due Date)<BR>
+<B>s$(22)</B> = month<BR>
+<B>s$(23)</B> = day<BR>
+<B>s$(24)</B> = priority<BR>
+<B>s$(25)</B> = done<BR>
+<B>s$(26)</B> = category number<BR>
+<B>s$(27)</B> = category name<BR>
+<B>s$(29)</B> = first 63 characters of note</BLOCKQUOTE></BLOCKQUOTE>
+<BLOCKQUOTE><B>put "todo", new, 10</B>&nbsp &nbsp Creates ToDo entry from data in s$()</BLOCKQUOTE>
+<BLOCKQUOTE><B>put "todo", n, 10</B>&nbsp &nbsp Modifies ToDo record #n modifying only non-blank fields in s$(20..29).  A category number will override any category name.<BR>
+<B>WARNING:</B>&nbsp &nbsp The order of records (possibly every record number( is changed in the ToDo database when any ToDo record is changed or modified.  So you can't just loop through the ToDoDB by record number.</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>get("addr", n, 20)</B>
+&nbsp &nbsp Reads Address Book record entry #n into s$(20..39)</BLOCKQUOTE>
+
+<BLOCKQUOTE><B>fn.launch(app$, n)</B>&nbsp &nbsp Launch application by app Creator or appname.  Use -1 for no data index, e.g. i=fn launch("lnch", 01) to return to Launcher</BLOCKQUOTE>
+<H2>18.0 <A NAME="Macintosh_Commands">
+Macintosh Chipmunk Basic Compatible Commands</A>
+&nbsp<A HREF="#S3"><font size=1>(Up)</font></A></H2>
+<BLOCKQUOTE><B>moveto VAL, VAL</B>&nbsp &nbsp Sets the (x,y) location of the graphics pen.</BLOCKQUOTE>
+<BLOCKQUOTE><B>lineto VAL, VAL</B>&nbsp &nbsp Draws a line from the current pen location to location (x,y) in the graphics window.</BLOCKQUOTE>
+<BLOCKQUOTE><B>sound VAL, VAL, VAL</B>&nbsp &nbsp The parameters are: frequency{in Hz}, milliseconds_duration, volume{0..63}</BLOCKQUOTE>
+<B><DL>
+</DL>
+
+<BR>
+<H2><A NAME="Appendices">Appendices </H2>
+<H5><P ALIGN="CENTER"><B>Appendix 1 - </B><A HREF="#Reserved_Words_and_Symbols"><B>Reserved Words and Symbols &nbsp</B></A>
+<B>Appendix 2 - </B><A HREF="#Unimplemented_Keywords"><B>Unimplemented ISO/ANSI Minimal Basic Standard Keywords &nbsp</B></A>
+<B>Appendix 3 - </B><A HREF="#Diagnostics"><B>Diagnostics</B></A>&nbsp
+<B>Appendix 4 - </B><A HREF="#Advanced_Topics"><B>Advanced Topics &nbsp</B></A>
+<B>Appendix 5 - </B><A HREF="#Changes"><B>Changes</B></A>&nbsp
+<B>Appendix 6 - </B><A HREF="#Bugs"><B>Bugs</B></A> </P></H5>
+
+<H2>Appendix 1 -
+<A NAME="Reserved_Words_and_Symbols"><B>Reserved Words and Symbols</A>
+&nbsp<A HREF="#App0"><font size=1>(Up)</font></A></B></H2>
+
+<BLOCKQUOTE>
++ - * / ^ mod and or xor not &gt; &lt; &gt;= &lt;= = () sqr
+log exp sin cos tan atn abs sgn int rnd val asc len mid$ right$
+left$ str$ chr$ lcase$ ucase$ goto if then else endif gosub return for
+to step next while wend select case rem let dim erase data read restore
+field$&#9;input print open for output append as close# load save random
+lof loc get put inkey$ input$ eof files fgetbyte# fseek# fputbyte run
+stop end exit quit cont renum new clear date$ time$ timer sound morse
+say doevents home cls gotoxy htab vtab pos graphics sprite pset moveto
+lineto window scrn mouse varptr peek poke fre push pop isarray sub call
+usr def fn type class extends string integer single double asin acos
+sinh cosh tanh log10 floor true false ubound eqv imp static option
+degrees radians redim do loop until break method private public local
+menu dialog memstat() draw play bload bsave min max mat each resume
+function key is each set width swap db$ morse dialog
+msgbox
+</BLOCKQUOTE>
+
+<H2>Appendix 2 - <A NAME="Unimplemented_Keywords">
+Unimplemented ISO/ANSI Minimal Basic Standard Keywords</A>
+&nbsp<A HREF="#App0"><font size=1>(Up)</font></B></A></H2>
+
+<BLOCKQUOTE><B>option base [ 0 | 1 ]</B>
+&nbsp &nbsp(default sets array lower bound to 0)<BR>
+<B>tab</B>&nbsp &nbsp(this command is not implemented)<BR>
+<B>def fn</B>
+&nbsp &nbsp(this command is not implemented)
+</BLOCKQUOTE>
+
+
+<H2>Appendix 3 - <A NAME="Diagnostics">Diagnostic and Error Messages</A>
+ &nbsp<A HREF="#App0"><font size=1>(Up)</font></A></H2>
+
+<B><H3>Error Message Details</H3></B>
+<BLOCKQUOTE><B>Out of Memory</B>  Too long a program. Too large an array.&#9;Too many variables.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Out of string memory </B>Too many string variables. Too large a string array.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Line number too big </B>Line number greater than 30000.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Line number duplicated </B>Duplicate line number. Too many lines between numbered lines. Unwanted line break in a program line (creating an extra line number.)</BLOCKQUOTE>
+<BLOCKQUOTE><B>Unsupported subroutine call </B>Subroutine call inside an expression.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Undefined line or subroutine </B>Subroutine target not found</BLOCKQUOTE>
+<BLOCKQUOTE><B>Out of Data </B>Read statement without enough data statements</BLOCKQUOTE>
+<BLOCKQUOTE><B>IF without ENDIF or THEN</B> Missing statement.<BR>
+<B>Missing THEN error Missing</B> statement.<BR>
+<B>Missing ENDIF</B> Missing statement.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Missing GOSUB</B> RETURN found outside of a called subroutine</BLOCKQUOTE>
+<BLOCKQUOTE><B>Unsupported index var </B>Label, string variable or constant as FOR index.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Missing FOR </B>NEXT found without a matching FOR statement.</BLOCKQUOTE>
+<BLOCKQUOTE><B>FOR w/o NEXT<BR>
+WHILE without WEND</B><BR>
+</BLOCKQUOTE>
+<BLOCKQUOTE><B>WEND without WHILE</B> Missing loop control statements.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Syntax error</B> Miscellaneous errors in statement syntax.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Type mismatch error</B> String/numeric parameter mismatch</BLOCKQUOTE>
+<BLOCKQUOTE><B>Subscript err</B> Missing subscript. Subscripting a non-array variable.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Nesting error</B> Expression too complex. Too many parenthesis.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Program line too long</B> Program line longer than 80 characters.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Include file not found</B> #include &lt;&gt; pragma with incorrect memo title or spelling.</BLOCKQUOTE>
+<BLOCKQUOTE><B>ScratchPad programs require line numbers and a 'run' command</B>. LOOP or GOSUB was found in direct execution mode.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Missing return, next or wend</B> Program ended inside a loop or subroutine.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Form item error</B> Too many buttons, fields or checkboxes. Attempting to recreate a previously created button. Running a From statement from the ScratchPad Edit view.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Only #5 available for serial</B> </BLOCKQUOTE>
+<BLOCKQUOTE><B>Only #5 available for printer</B> OPEN #5 ... statement used with a number other than #5.</BLOCKQUOTE>
+<BLOCKQUOTE><B>Out-of-range error</B></BLOCKQUOTE>
+<BLOCKQUOTE><B>Database not open</B> Database not opened for write. Database closed by prior database or memo creation statement. </BLOCKQUOTE>
+<BLOCKQUOTE>Many errors are unreported.</BLOCKQUOTE></BLOCKQUOTE>
+
+<br>
+
+<H2><B>Appendix 4 -
+<A NAME="Advanced_Topics">Advanced Topics &nbsp</A><A NAME="App4"></A>
+<A HREF="#App0"><font size=1>(Up)</font></A></B></H2>
+
+<H5><P ALIGN="CENTER">(
+A4.1 <A HREF="#A4_functions">Advanced Functions</A>&nbsp
+A4.10 <A HREF="#A4_features">features</A>&nbsp
+A4.6 <A HREF="#A4_examples">Example Programs</A> )
+</P></H5>
+
+<A NAME="A4_functions"></A>
+Advanced functions:
+<BLOCKQUOTE>
+<B>varptr(y)</B>&nbsp &nbsp Returns memory address of variable y (or y$)<BR>
+<B>peek(a)</B>&nbsp &nbsp Returns the 8-bit byte at address a<BR>
+<B>peek(a,2)</B>...&nbsp &nbsp 16-bit value at word aligned address a<BR>
+<B>peek(a,4)</B>...&nbsp &nbsp 32-bit value at word aligned address a<BR>
+<B>peek$(a) </B>&nbsp &nbsp Returns zero terminated string at address a<BR>
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+Warning: Peek, Poke and Call are dangerous statements. You
+can lock up your Palm unit and corrupt ALL your data when using the poke
+and call statements. Use at your own risk. HotSync and backup often if
+you want try these functions. Memory above the dynamic heap is
+protected and cannot be poked without an OS write enable call. (Please
+read the PalmOS SDK docs for details).
+</BLOCKQUOTE>
+
+<A NAME="A4_features"></A>
+<pre>
+Advanced Features (registered versions only):
+
+  The registered version of HotPaw Basic can use added commands to
+  support laser bar code scanning using Symbol SPT 1500/1700 model
+  handhelds.  Registered owners please contact HotPaw for details.
+
+  Doc format support:
+  
+    chain 1, docfilename$
+	'- runs a program contained in a Doc file.
+	'- (maximum program length of 8k characters).
+  
+  pedit32 support:
+  
+    chain n, "Memo32DB"
+	'- runs a program contained in pedit32 memo #n
+  
+    db.find("Memo32DB", title$)
+    	'- finds pedit32 memo by title string.
+
+  The "chain" statements only works when used in programs contained
+  in the MemoPad.
+
+Debugging Aids:
+
+  In order to save memory, HotPaw Basic does not store the text
+  of program lines or the text location when loading a program.
+  Thus, the only way for it to display a program line with a given
+  line number is to actually load the program again from the main
+  program selector view.  The "fn debugline(n)" function will set
+  a listing breakpoint that will stop loading whenever the next
+  program line with line number n is read.  After viewing the line,
+  you can tap the screen to continue loading, or hit the
+  "Applications" icon to exit HotPaw Basic.
+
+    fn debugline(n)	'- sets listing breakpoint, returns 0
+    
+  Another way is to find linenumbers is to add some statements
+  with labels, then print the following function value for the
+  desired labels:
+
+    fn linenum(label)	'- returns line number for any label
+</pre>
+
+<B><DL>
+<DT>A4.3.1 <A NAME="Advanced_Feature_-_Code_Plugin_Functions">
+Advanced Feature - Code Plugin Functions</A>
+&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></DT>
+</DL></B>
+
+<BLOCKQUOTE>
+HotPaw Basic can call 'code' resource plugins modules.  These can be
+developed similarly to DA code modules.  The resource type must be
+'bCmd' or 'BCmd' and the code ResID must be 1000.
+The executable routine must be at
+the start of the code resource, use no globals, and should be
+prototyped:
+<BR>
+'bCmd'
+<br>
+<CODE>
+long int main(long int param, long int param2, char *s64);
+</CODE>
+<BR>
+'BCmd'
+<br>
+<CODE>
+double main(double param, double param2, char *s64);
+</CODE>
+Call from yBasic by using:<BR>
+<CODE>
+fn bcmd("module_name", param) '- returns a -1 on errors
+</CODE>
+The database name in this example should be
+"<CODE>bcmdmodule_name</CODE>".
+The second calling parameter is optional and set to zero if not present
+in the bcmd function call.  The s64 character pointer will point to
+s$(48) which is only 64 chars in length.  There will be a source code
+example on the HotPaw web site.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>DA (Desk accessory) modules may also be called; the
+parameter is ignored. <BR>
+See &lt;http://member.nifty.ne.jp/yamakado/da/&gt;
+for details on using and writing DA's.</BLOCKQUOTE>
+
+<B><DT>A4.3.2 <A NAME="Advanced_Feature_-_Laser_Bar_Code_Scanning">
+Advanced Feature - Laser Bar Code Scanning</A>
+&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></B>
+
+<BLOCKQUOTE>The registered version of HotPaw Basic can use added
+commands to support laser bar code scanning using Symbol SPT 1500/1700
+model handhelds.  Registered owners may contact HotPaw for
+details.</BLOCKQUOTE>
+
+<B><DT>A4.3.3 <A NAME="Advanced_Feature_-_Feature_Manager_Data_Storage">
+Advanced Feature - Feature Manager Data Storage</A>
+&nbsp<A HREF="#S3.b"><font size=1>(Up)</font></A></B>
+
+<BLOCKQUOTE>
+To save a Feature Manager feature (32-bit), use the command
+<br>
+<b>put "ftr", "cBA3", n, d</b>
+&nbsp&nbsp
+with the feature number #n in the range
+1024...1123, and d the 32-bit data you wish to store.
+Feature manager data is saved between application uses.
+</BLOCKQUOTE>
+
+<A NAME="A4_examples"></A>
+<H3>Advanced Example Programs</H3>
+<H5><P ALIGN="CENTER">
+A4.6 <A HREF="#Scripting_Palm_Apps_Examples">Scripting Palm Apps Examples
+&nbsp</A>
+A4.7 <A HREF="#Serial_Port">Serial Port</A>
+</P></H5>
+
+<B>A4.6 <A NAME="Scripting_Palm_Apps_Examples">Scripting Palm Apps Examples</A>
+&nbsp<A NAME="App4.1"</A><A HREF="#App4"><font size=1>(Up)</font></A></B>
+<H5><P ALIGN="CENTER">A4.6.1 <A HREF="#Find_Today's_Appointments">Find Today's Appointments</A>
+A4.6.2 <A HREF="#Count_Items_In_ToDo_List">Count Items In ToDo List</A> 
+A4.6.3 <A HREF="#Find_ToDo_Items_Due_Today">Find ToDo Items Due Today</A>  
+A4.6.4 <A HREF="#Today's_Due_ToDos_Into_DateBook">Today's Due ToDos Into DateBook</A> 
+A4.6.5 <A HREF="#Put_Appointments_in_ToDo_list">Put Appointments in ToDo
+list</A><BR></P></H5>
+
+<BLOCKQUOTE><B>A4.6.1</B><A NAME="Find_Today's_Appointments"><B>Find
+Today's Appointments (datebooktoday.bas)
+&nbsp</A><A HREF="#App4.1"><font size=1>(Up)</font></A></B><BR>
+
+-- --&#9;cut here &#9;-- --<BR>
+<CODE># datebook today .bas<BR>
+# find todays DateBook items<BR>
+d=val(fn date$(0))<BR>
+k=find("date",0,d)<BR>
+while (k &gt;= 0)<BR>
+if k &lt; 0 then end<BR>
+a$ = get$("date",k,10)<BR>
+? k,a$<BR>
+k=find("date",-12,d)<BR>
+wend<BR>
+end<BR>
+</CODE>-- --&#9;cut here &#9;-- --</BLOCKQUOTE>
+<BLOCKQUOTE><B>A4.6.2</B><A NAME="Count_Items_In_ToDo_List"><B>Count Items In ToDo List(countdonetodos.bas)&nbsp</B></A><A HREF="#App4.1"><font size=1>(Up)</font></A><BR>
+</B>-- --&#9;cut here &#9;-- --<BR>
+<CODE># count done todos .bas<BR>
+# counts up items in your ToDo list<BR>
+c=db.len("ToDoDB")<BR>
+n=0<BR>
+# count only priority 2<BR>
+p=2 : p$=str$(p)<BR>
+for i=0 to c-1<BR>
+get$("todo",i,10)<BR>
+draw str$(i),80,80<BR>
+# count only done todos<BR>
+if s$(25) = "1" and s$(24) = p$<BR>
+n=n+1<BR>
+endif<BR>
+next I<BR>
+? n," done todos with priority ", p<BR>
+end<BR>
+</CODE>-- --&#9;cut here &#9;-- --</BLOCKQUOTE>
+<BLOCKQUOTE><B>A4.6.3</B><A NAME="Find_ToDo_Items_Due_Today"><B>Find ToDo Items Due Today (todotoday.bas) &nbsp</A><A HREF="#App4.1"><font size=1>(Up)</font></A></B><BR>
+</B>-- --&#9;cut here &#9;-- --<BR>
+<CODE># todo today .bas<BR>
+# find ToDos due today<BR>
+k=0<BR>
+k=find("todo", -11, val(fn date$(0)) )<BR>
+30:<BR>
+if k&lt;0 then end<BR>
+a$=get$("todo",k,10)<BR>
+if s$(25)="0" then ? k, a$<BR>
+# ? "+",k,a$,s$(25)<BR>
+k=find("todo", -12, val(fn date$(0)) )<BR>
+goto 30<BR>
+end<BR>
+</CODE>-- --&#9;cut here &#9;-- --</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+<B>A4.6.4 </B>
+<A NAME="Today's_Due_ToDos_Into_DateBook">
+<B>Today's Due ToDos Into DateBook</B></A>
+&nbsp<A HREF="#App4.1"><font size=1>(Up)</font></A><BR>
+
+<CODE># put todays due ToDos into DateBook</CODE><BR>
+(left blank...)
+</BLOCKQUOTE>
+
+<DL> <DT>
+</DT> </DL>
+
+<BLOCKQUOTE>
+<B>A4.6.5 </B>
+<A NAME="Put_Appointments_in_ToDo_list">
+<B>Put Appointments in ToDo list (datebook2todo.bas)</B></A>
+&nbsp <A HREF="#App4.1"><font size=1>(Up)</font></A>
+
+-- --&#9;cut here &#9;-- --<BR>
+<CODE>
+#datebook2todo.bas<BR>
+# HotPaw Basic ( cbasPad Pro ) program<BR>
+#&#9;to make new ToDo's<BR>
+#&#9;from todays appointments.<BR>
+t$="make new ToDo ?"<BR>
+d=val(fn date$(0)) :' today date<BR>
+k=find("date",0,d) :' find 1st<BR>
+while (k &gt;= 0) :' anything?<BR>
+a$ = get$("date",k,10) :' get it<BR>
+s$(24) = 5 :' priority 5<BR>
+s$(25) = 0 :' not complete<BR>
+s$(26) = 0 :' unfiled<BR>
+s$(27) = ""<BR>
+s$(29) = "" :' no note<BR>
+y = msgbox(a$,t$,2)<BR>
+if (y = 1)<BR>
+put "todo",new,10 :' make todo<BR>
+endif<BR>
+k=find("date",-12,d) :' find next<BR>
+wend<BR>
+msgbox( "done")<BR>
+end<BR>
+</CODE>
+-- --&#9;cut here &#9;-- --
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+<B>A4.7</B>
+<A NAME="Serial_Port"><B>Serial Port</B></A>
+&nbsp<A HREF="#App4"><font size=1>(Up)</font></A>
+<BR>
+
+-- --&#9;cut here &#9;-- --<BR>
+<CODE>
+# serial port I/O<BR>
+# emulates a 1 line terminal<BR>
+# at 19200 baud<BR>
+open "com1:",19200 as #5<BR>
+a$=""<BR>
+k$=inkey$<BR>
+while asc(k$) &lt;&gt; 12<BR>
+# use the scroll down button to exit<BR>
+if len(k$) &gt; 0<BR>
+rem # send graffiti out serial port<BR>
+print #5,k$;<BR>
+if asc(k$) = 10<BR>
+print #5, chr$(13);<BR>
+endif<BR>
+endif<BR>
+# check for serial input<BR>
+s = fn serial(5)<BR>
+if s &gt; 0 then<BR>
+a$ = a$ + get$(#5,s)<BR>
+rem # display input<BR>
+draw a$+" ",10,90<BR>
+if len(a$) &gt; 32 then a$=""<BR>
+endif<BR>
+k$=inkey$<BR>
+wend<BR>
+close #5<BR>
+end</CODE><BR>
+-- --&#9;cut here &#9;-- --
+</BLOCKQUOTE>
+
+<DL>
+<DT>
+<BR>
+
+<B><H2>Appendix 5 - 
+<A NAME="Changes">Changes </A>
+<A HREF="#App0"><font size=1>(Up)</font></A></H2></B>
+
+<BLOCKQUOTE>
+HotPaw cbasPad Pro Basic Version 1.2.0 (2000May25)
+Added some HanDBase search capability.
+Fixed an algebraic operator precedence bug.
+Fixed a problem with reading Doc file strings that cross pages.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+HotPaw cbasPad Pro Basic Version 1.1.9 (2000May08)
+Added database functions to check type and creator.
+Fixed a compatibility bug in the val("") function.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+HotPaw cbasPad Pro Basic Version 1.1.8 (2000May02)
+Added double precision numeric input capability.
+Added a double precision number display routine (str$()).
+Added fn trim$().
+Added a method to set the open new memo category.
+Added a standard normal (statistics) bcmd extension.
+Uploaded new html documentation to website.
+Fixed a bug in reading data from "Doc" files.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+HotPaw cbasPad Pro Basic Version 1.1.7 (2000Apr14)
+Added a way to display source code at a given line number.
+Added support for programs contained in pedit32 memos.
+Added support for programs contained Doc files.
+Added the capability to read string resources.
+Fixed a problem with reading Address/Phone List records.
+Fixed a problem creating "no time" datebook appointments.
+Fixed a problem with using fn time$(-1) bug in pre 3.5 OS versions.
+Fixed a bug in using the "exit while" statement.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+HotPaw cbasPad Pro Basic Version 1.1.6 (2000Mar24)
+Fixed a bug with integer variable comparisons.
+Fixed a bug with the default popup list selection.
+Added beta test support for custom launchcode calls.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.1.5 (2000Mar16)<BR>
+Added beta test support for custom launchcode calls.  Fixed a problem
+with rounding numbers smaller than one. Fixed a problem with finding a
+program in the last Memo. Fixed a problem with stopping programs in the
+ScratchPad.</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.1.4(2000Mar14)<BR>
+Added the asin() and acos() inverse trig functions. Added a significant
+figure option to the round() function. Added "Doc" format string read
+support. Added a method to print the linenumbers of labels. Added beta
+test support for 7-bit serial port mode. Fixed a problem with HotSync
+behavior of modified ToDo's. Fixed a problem with
+db.peek().</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.1.3 (2000Mar08)<BR>
+Added support for writing HanDBase database fields. Added support for
+determining HanDBase database size. Added support for reading MobileDB
+database fields. Added the "elseif" statement. Improved automatic width
+of form pop-up lists.  Increased the max number of form popup lists to
+4. Removed some syntax restrictions on bitmap drawing commands. Fixed a
+bug in the mid$() function. Fixed a bug in fn pen(0) waiting for a tap.
+Fixed an occasional crash when stopping inside dialogs. Fixed a crash
+caused by trying to empty the scratchpad.</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.1.2 (2000Mar01)<BR>
+Added day-of-week function. Added draw bitmap resource command. Changed
+form lists to now return values on selection. Changed Application Icon
+and Added Color Icon. Changed fn test(). Fixed a problem with large and
+small hex bitmaps. Fixed a bug in finding repeated datebook events.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.1.0 (2000Feb21)<BR>
+Fixed a bug in the "line too long" error message. </BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.0.9 (2000Feb20)<BR>
+Added the field$() function to find the Nth string field. Documented
+the instr() function. Fixed fn wait(). Fixed an occasional memory error
+with #include files. Fixed a memo scroll position bug. Fixed a form
+reset bug.</BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.0.8 (2000Feb16)<BR>
+Increased the max number of form popup lists to 2. Increased popup list
+selections limit to 63 items total. Fixed a bug with print data hiding
+input fields. Fixed a problem with setting form titles. </BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.0.7 (2000Feb11)<BR>
+Added the "fn strw()" string pixel width function. Added the "form
+redraw" command. Added the "form lst" command to create a pop-up list.
+Fixed a bug with the db.find() command and open memos. </BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.0.6 (2000Feb10)<BR>
+Added up/down button field selection to built-in form 12. Fixed a bug
+in chaining from yLaunch'd programs. Fixed a bug in JFile Pro database
+writes. </BLOCKQUOTE>
+
+<BLOCKQUOTE>HotPaw cbasPad Pro Basic Version 1.0.5 (2000Feb09)<BR>
+Added beta test COLOR drawing support for PalmOS 3.5 running under the
+POSE emulator. Added circular arcs drawing support. Added the form
+reset command. Added ability to find repeating DateBook events. Added
+the "eof" function. Added the "stop" command. Fixed a bug where
+yLaunch required a "new" statement. Fixed a problem in using db$() to
+read from memos. </BLOCKQUOTE>
+
+<BLOCKQUOTE>(see Versions history for older revision notes)</BLOCKQUOTE>
+
+<br>
+<H2>Appendix 6 - <A NAME="Bugs">Bugs </A>
+<A HREF="#Top"><font size=1>(Up)</font></A></H2>
+</B><BLOCKQUOTE>Many string functions (except +, MID$, LEN and INSTR) silently truncate their results to 63 characters (e.g. without warning).</BLOCKQUOTE>
+<BLOCKQUOTE>Comments starting with ' sometimes can't be used after statements that can end with a string parameter. ( : ' should always work.)</BLOCKQUOTE>
+<BLOCKQUOTE>There are many undocumented graphics and database commands and keywords in the PalmOS runtime engine. See the accompanying README and HotPaw Basic
+Quick-Reference file.</BLOCKQUOTE>
+<BLOCKQUOTE>&nbsp;</BLOCKQUOTE>
+
+<H2><A NAME="License">License </A>
+<font size=1>(<A HREF="#Top">Top</A>)</font>
+</H2>
+
+<BLOCKQUOTE>
+TITLE. HotPaw Basic ("the Software") is Copyright 1999 by
+Ronald H Nicholson, Jr., All Rights Reserved. Title, ownership rights,
+and intellectual property rights in the Software shall remain in Ronald
+H. Nicholson, Jr. The Software is protected by the copyright laws and
+treaties of the United States.</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+TERMS: 
+Ronald H. Nicholson, Jr. grants you the right to use this copy
+of the Software if you agree to the following license terms:
+<br>
+You may use the Software without a license key and in Demo mode
+for educational or non-commercial purposes.
+<br>
+You may not reverse engineer, decompile, or disassemble the
+Software or license key database.  
+<br>
+You may transfer or copy a license key or license key database
+for the Software only if required in the normal use of one PalmOS
+handheld unit.  You may also make one copy of the Software license
+key if required for backup purposes.  You are required to keep
+all HotPaw license keys confidential.  You may not loan, rent,
+transfer or assign the license key to another user except with
+(a) the permission of HotPaw and (b) as a permanent transfer of
+the Software and the license key.
+<br>
+Commercial distribution of the Software is not allowed without
+the express permission of the copyright holder.  Contact HotPaw
+for details about obtaining a license.
+<br>
+Usage of the Software is also subject to the following limitations
+and disclaimers.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+DISTRIBUTION. Contact HotPaw for details on obtaining a
+license.</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+WARRANTY AND DISCLAIMER. The HotPaw Basic application is
+distributed in the hope that it might be useful, but WITHOUT ANY
+WARRANTY OF ANY KIND; not even the implied warranties of
+MERCHANTABILITY, fitness for ANY particular purpose, or for
+non-infringement.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+LIMITATION OF LIABILITY. UNDER NO CIRCUMSTANCES AND UNDER
+NO LEGAL THEORY, TORT, CONTRACT, OR OTHERWISE, SHALL RONALD NICHOLSON,
+HOTPAW OR ITS SUPPLIERS OR RESELLERS BE LIABLE TO YOU OR ANY OTHER
+PERSON FOR ANY INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
+OF ANY CHARACTER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF
+GOODWILL, WORK STOPPAGE, COMPUTER FAILURE OR MALFUNCTION, OR ANY AND
+ALL OTHER COMMERCIAL DAMAGES OR LOSSES. IN NO EVENT WILL HOTPAW BE
+LIABLE FOR ANY DAMAGES IN EXCESS OF THE AMOUNT HOTPAW RECEIVED FROM YOU
+FOR A LICENSE TO THIS SOFTWARE, EVEN IF RONALD NICHOLSON OR HOTPAW
+SHALL HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGES, OR FOR ANY
+CLAIM BY ANY OTHER PARTY. THIS LIMITATION OF LIABILITY SHALL NOT APPLY
+TO LIABILITY FOR DEATH OR PERSONAL INJURY TO THE EXTENT APPLICABLE LAW
+PROHIBITS SUCH LIMITATION. FURTHERMORE, SOME JURISDICTIONS DO NOT ALLOW
+THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO
+THIS LIMITATION AND EXCLUSION MAY NOT APPLY.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+HIGH RISK ACTIVITIES. HotPaw Basic is not fault-tolerant
+and is not designed, manufactured or intended for use or resale as
+on-line control equipment in hazardous environments requiring fail-safe
+performance, such as in the operation of nuclear facilities, aircraft
+navigation or communication systems, air traffic control, direct life
+support machines, or weapons systems, in which the failure of the
+Software could lead directly to death, personal injury, or severe
+physical or environmental damage ("High Risk Activities"). Ronald
+Nicholson, HotPaw, and its suppliers SPECIFICALLY disclaim ANY express
+or implied warranty of fitness for High Risk Activities.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+If you do not agree to the terms of this LICENSE, you are
+not authorized to use the Software.
+</BLOCKQUOTE>
+
+<H2><A NAME="Legal_Notices">More Legal Notices </A>
+<font size=1>(<A HREF="#Top">Top</A>)</font>
+</H2>
+<BLOCKQUOTE>
+Information in this document is subject to change
+without notice and does not represent a commitment on the part of 
+HotPaw or Palm Computing.
+There is no warranty that this document is accurate (it isn't).
+The software described in this document is furnished under a
+license agreement or nondisclosure agreement.
+The software may be used or copied only in accordance with the terms
+of the agreement.
+It is against the law to copy this software for any purpose other than the
+purchaser's personal use.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+PalmPilot and and the PalmPilot logo are registered
+trademarks of Palm Computing. Palm, PalmOS and HotSync are trademarks
+of Palm Computing. <BR> HotPaw and cbasPad are trademarks of the HotPaw
+company.<BR> Applesoft and Macintosh are registered trademarks of Apple
+Computer Inc.<BR> MS BASIC and MSDOS are registered trademarks of
+Microsoft Corporation.
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>Portions of this document are
+Copyright (C) 1989 Dave Gillespie.<BR>
+This document is Copyright 1990-2000 Ronald H. Nicholson, Jr.
+(rhn@nicholson.com) ALL RIGHTS RESERVED</BLOCKQUOTE>
+
+<B><I><FONT FACE="Arial">&copy 2000
+By Ronald H. Nicholson, Edited by Charlene A. Gibson</P>
+</FONT> </I></B>
+
+<BLOCKQUOTE>All rights reserved.<BR>
+Document number 122399-00052503 </BLOCKQUOTE><BR>
+
+</BODY>
+</HTML>

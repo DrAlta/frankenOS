@@ -1,0 +1,155 @@
+<html>
+<head>
+  <title>LispMe Installation</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>Installation</h1>
+  <h2>Backing up your databases</h2>
+    Please backup your databases before installing LispMe. It's very
+    unlikely that LispMe destroys other databases and it never happened
+    in any test, but better safe than sorry...
+
+  <h2>Deleting older versions</h2>
+    <b>Please delete any older versions of LispMe with the Memory application
+    before installing V2.7</b>. The DB format has changed and a crash is 
+    possible when LispMe finds an earlier version of its memory dump, though
+    LispMe now employs a heap check to recognize old databases.
+
+  <h2>Choosing versions</h2>
+    Starting with V2.4, only PalmOS2 and later are supported and only 
+    one executable <tt>LispMe.prc</tt> is included in the
+    distribution. Sorry, but there's no LispMe for PalmOS1 anymore. The
+    reasons for this are:
+    <ul>
+    <li>I wanted to include floating point numbers and the FP support in V1.0
+    is positively braindead. Including gcc's FP library would fatten LispMe's
+    code, but OS2 includes decent IEEE FP routines (not for I/O, these are
+    still braindead) and supports shared libraries. So using the ROM FP code
+    for basic operations and the freely available
+    <a href="http://www.probe.net/~rhuebner/mathlib.html">MathLib</a>
+    for transcendental functions induced minimal overhead for FP in LispMe.
+    <li>The ever-increasing memory needs of newer LispMe versions can't be
+    fulfilled by PalmOS1 anymore. Believe me, I tried, but it wasn't usable
+    anymore...
+    <li>Last but not least: Scrollbar for output field
+    </ul>
+
+    There's no special version for the Palm III, instead LispMe checks the OS
+    version and uses additional resources (especially twice the stack space)
+    when it recognizes a Palm III.
+ 
+    So it's easy: If you're running PalmOS1, forget it, if
+    you're running PalmOS2 or later, just install <tt>LispMe.prc</tt>.
+
+    Later OS additions like color should be handled properly by LispMe.
+    I'm currently not planning to abandon V2.0 support, as LispMe doesn't
+    critically need 3.0 features.  
+
+  <h2><a name="math">Needing math?</a></h2>
+    LispMe supports transcendental
+    functions like <a href="lm_cat1.htm#desc_atan"><tt>atan</tt></a>. However,
+    LispMe does not implement these functions, but uses a standard Pilot
+    library called
+    <a href="http://www.probe.net/~rhuebner/mathlib.html">MathLib</a> 
+    for this purpose. LispMe will work
+    without MathLib, but you can't use transcendental functions without it.
+    MathLib is included in this package for your convenience. So if you
+    already installed MathLib or decide to dispense with it, go to the next
+    section. Otherwise install <tt>MathLib.prc</tt>.
+
+  <h2><a name="resources">Want to develop interactive programs?</a></h2>
+    To create dialogs for LispMe, there're
+    <a href="lm_gui.htm#rsrc">several possibilities</a>. To create resources
+    directly on your Pilot, you can install <tt>RsrcEdit.prc</tt>.<p>
+    In any case you should install <tt>GUIdemo.prc</tt> in the <tt>gui</tt>
+    subdirectory. This file contains the unified resources of the 4
+    <a href="lm_samp.htm#gui_samples">User interface Sample programs</a>.
+ 
+  <h2>Installing Parentheses Hack</h2>
+    You have to install HackMaster to use Parentheses Hack. You probably
+    already installed it, but if not, go
+    <a href="http://www.daggerware.com/hackmstr.htm">here</a> to get it.
+    Parentheses Hack simplifies entering of LispMe programs, but isn't
+    really necessary for LispMe to work. For details see
+    <a href="lm_parh.htm">here</a>.<p>
+ 
+    Just use your favorite installation tool to install <tt>ParHack.prc</tt>
+    and activate it via HackMaster. Don't forget to deactivate Parentheses
+    Hack in HackMaster before installing a new version!</tt>
+
+  <h2><a name="samples">Setting up MemoPad and installing demos</a></h2>
+    LispMe expects all memos to be loaded in the MemoPad category <tt>LispMe</tt>.
+    If this is the first time you install LispMe, you should create a MemoPad
+    category <tt>LispMe</tt> (case <b>does</b> matter) in your desktop MemoPad.
+    Import the file <tt>samples.csv</tt> into this category (unselect the
+    <i>private</i> field in the import dialog), even if you already installed
+    an earlier version of LispMe, since some demos have changed. If you modified
+    earlier demos, you have to carefully mix your changes with the new demos.<p>
+    Alternatively, you can use the <tt>install-memo</tt> tool from the
+    <a href="ftp://uiarchive.cso.uiuc.edu/pub/systems/PalmOS/">Pilot Link suite</a> to
+    transfer each <tt>.txt</tt> file in the <tt>sample</tt> directory.
+    Invoke it with
+<pre>
+    install-memo -c LispMe <i>port</i> samples/*.txt
+</pre>
+    The new or changed sample programs are
+    <ul>
+      <li>; Handbase utilities
+      <li>; Graphics demo
+      <li>; Graphics utilities
+      <li>; drawing modes
+    </ul>
+
+  <h2><a name="memory">Pilot setup</a></h2>
+    If you've been using LispMe 2.4 or ealier, the startup
+    dialog will be unfamiliar to you,
+    but LispMe supports <a href="lm_sess.htm">multiple sessions</a>
+    now, so you have to create a new session and give it a name first.
+    See <a href="lm_cmd.htm#frm_sess">here</a> how to create, modify and
+    delete sessions.<p>
+    You should change the session's memory preferences. Select
+    <a href="lm_cmd.htm#frm_sizes">Memory Sizes</a>
+    according to these guidelines:
+    <ul>
+      <li>The sizes you select directly affect the size of the database
+          LispMe uses.
+      <li>The default memory sizes are much too low for some demos to
+          load. To load the <a href="lm_samp.htm#stdlib">standard library</a>
+          you need at least 8k. Some other demos require even more.
+      <li>If you don't need floating point, leave the setting at its minimum
+          (8 bytes)
+      <li>Set the atom size to the maximum you'll probably need (atoms aren't
+          garbage collected)
+      <li>The heap size almost doesn't affect performance. 4 times collecting
+          a 32k heap is about the same as 32 times collecting a 4k heap.
+          (Unless your code struggles along the maximum size and forces a
+          garbage collection every few machine steps)
+      <li>The output size doesn't affect performance,
+      <li>Selecting a big heap size sometimes makes trouble in tight memory
+          situations.
+          See <a href="lm_cmd.htm#frm_preferences">here</a> for
+          tips dealing with this situation.
+      <li>PalmOS3 is much more stable when changing memory sizes.
+     </ul>
+
+  <h2>That's it!</h2>
+    Have a look at the demos and have fun with LispMe!
+
+<h1>Removing LispMe</h1>
+  Are you sure you really want to do this? OK, removing LispMe from your Pilot
+  involves two steps:
+  <ol>
+    <li>Remove all starter icons. The easiest way to do this is starting Lispme,
+        going to the <a href="lm_cmd.htm#frm_sess">sessions dialog</a> and
+        uncheck all checkboxes in the column labeled <b>Icon</b>
+    <li>Removing LispMe itself in the standard app launcher. All session
+        datbases will be deleted, too.
+  </ol>
+  If you omitted the first step, that's no problem, just delete each starter
+  application with the launcher.   
+</body>
+</html>

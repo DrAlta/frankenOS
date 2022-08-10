@@ -1,0 +1,57 @@
+; Form navigation
+
+(define (h1 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2002) (frm-goto  3000 h2))
+        ((2003) (fld-set-text 2001 
+		(frm-popup 2100 h11)))
+        ((2004) (frm-return 'd1))))
+    (else #f)))
+
+(define (h11 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2102) (frm-goto  2200 h12))
+        ((2103) (fld-set-text 2101 
+		(frm-popup 2110 h111)))
+        ((2104) (frm-return 'd11))))
+    (else #f)))
+
+(define (h111 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2112) (frm-goto  2120 h112))
+        ((2114) (frm-return 'd111))))
+    (else #f)))
+
+(define (h112 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2122) (frm-goto  2110 h111))
+        ((2124) (frm-return 'd112))))
+    (else #f)))
+
+(define (h12 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2202) (frm-goto  2100 h11))
+        ((2204) (frm-return 'd12))))
+    (else #f)))
+
+(define (h2 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((3002) (frm-goto  2000 h1))
+        ((3004) (frm-return 'd2))))
+    (else #f)))
+
+(define (go)
+  (set-resdb "GUIdemo")
+  (frm-popup 2000 h1))

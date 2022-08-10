@@ -1,0 +1,62 @@
+/**********************************************************************/
+/*                                                                    */
+/* parhack.rcp: Resource definitions for Parentheses hack             */
+/*                                                                    */
+/* LispMe System (c) FBI Fred Bayer Informatics                       */
+/*                                                                    */
+/* Distributed under the GNU General Public License;                  */
+/* see the README file. This code comes with NO WARRANTY.             */
+/*                                                                    */
+/* Modification history                                               */
+/*                                                                    */
+/* When?      What?                                              Who? */
+/* -------------------------------------------------------------------*/
+/* 27.07.1997 New                                                FBI  */
+/* 25.10.1999 Prepared for GPL release                           FBI  */
+/* 01.04.2000 Prepared for GCC 2.0 and SDK 3.5                   FBI  */
+/*                                                                    */
+/**********************************************************************/
+
+#include "parhack.h"
+
+//********************************************************************/
+// tAIN needed for hackmaster                                        */
+//********************************************************************/
+APPLICATIONICONNAME ID IDDMain "Parentheses Hack"
+
+//********************************************************************/
+// TRAP resource for hackmaster (hex a13b)                           */
+//********************************************************************/
+TRAP ID 1000 41275
+
+//********************************************************************/
+// FORMS                                                             */
+//********************************************************************/
+FORM ID IDDMain AT (2 2 156 156)
+USABLE MODAL
+HELPID IDDMain
+BEGIN
+    TITLE "About Parentheses Hack"
+    LABEL "Parentheses Hack 1.3"                1001 22  20 FONT 2
+    LABEL "© 2000 by Fred Bayer"                1002 32  38 FONT 0
+    LABEL "Freeware!"                           1003 50  52 FONT 1
+    LABEL "Simplifies entering LispMe programs" 1004  4  66 FONT 0
+    LABEL "Tap info button for details"         1005 22  78 FONT 0
+    LABEL "fred@lispme.de"                      1006 45  96 FONT 0
+    LABEL "http://www.lispme.de/"               1007 30 110 FONT 0
+    BUTTON "OK"  ID 1000     AT (5 140 AUTO AUTO)
+END
+
+//********************************************************************/
+// STRINGS                                                           */
+//********************************************************************/
+STRING ID IDDMain "No more hassles counting parentheses when "\
+                  "writing LispMe programs!\n\n"\
+                  "When writing a closing parenthesis, this "\
+                  "hack flashes the matching opening one. It "\
+                  "knows LispMe's syntax and won't be fooled "\
+                  "by parentheses in strings or comments.\n\n"\
+                  "Highlight a parenthesis and write an 'o' and "\
+                  "the matching parenthesis will be selected. "\
+                  "Or write an 's' and the whole SEXP will be "\
+                  "selected."

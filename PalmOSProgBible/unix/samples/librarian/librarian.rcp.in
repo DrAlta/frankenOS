@@ -1,0 +1,477 @@
+// librarian.rcp
+// Resource definition file for Librarian
+// ©2000 Lonnon R. Foster
+
+#include "librarianRsc.h"
+
+APPLICATIONICONNAME ID 100 "Librarian"
+APPLICATION         ID 1   "LFlb"
+VERSION             ID 1   "VERSION_STAMP"
+
+ICON      "largeicon.bmp"
+SMALLICON "smallicon.bmp"
+
+
+///////////
+// Forms //
+///////////
+
+FORM ID ListForm 0 0 160 160
+MENUID ListMenuBar
+USABLE
+BEGIN
+    TITLE "Librarian List"
+    TABLE ID ListTable AT (0 16 160 121) ROWS 11 COLUMNS 6
+        COLUMNWIDTHS 113 10 10 10 10 6
+    BUTTON "New"     ID ListNewButton AT (1 147 26 12)
+    BUTTON "Show..." ID ListShowButton AT (33 147 38 12)
+    REPEATBUTTON "\001" ID ListScrollUpRepeating AT (147 144 13 8) NOFRAME
+        FONT 5
+    REPEATBUTTON "\002" ID ListScrollDownRepeating AT (147 152 13 8) NOFRAME
+        FONT 5
+    POPUPTRIGGER "" ID ListCategoryPopTrigger AT (160 1 1 AUTO) RIGHTANCHOR
+    LIST "" ID ListCategoryList AT (86 1 72 1) VISIBLEITEMS 1 NONUSABLE
+    LIST "Got it" "Want it" "On order" "Loaned" ID ListBookStatusList
+        AT (0 140 52 1) VISIBLEITEMS 4 NONUSABLE
+    LIST "In print" "Out of print" "Not published" ID ListPrintStatusList
+        AT (55 140 80 1) VISIBLEITEMS 3 NONUSABLE
+    LIST "Hardcover" "Paperback" "Trade paper" "Other" ID ListFormatStatusList
+        AT (55 143 80 1) VISIBLEITEMS 4 NONUSABLE
+    LIST "Unread" "Read" ID ListReadStatusList AT (97 152 40 1)
+        VISIBLEITEMS 2 NONUSABLE
+END
+
+
+FORM ID RecordForm 0 0 160 160
+MENUID RecordMenuBar
+USABLE
+BEGIN
+    TITLE "Librarian View"
+    GADGET ID RecordDisplayGadget AT (0 17 160 127)
+    LABEL "" ID RecordCategoryLabel AT (127 0)
+    BUTTON "Done" ID RecordDoneButton AT (1 147 35 12)
+    BUTTON "Edit" ID RecordEditButton AT (42 147 35 12)
+    BUTTON "New"  ID RecordNewButton AT (83 147 35 12)
+    REPEATBUTTON "\001" ID RecordScrollUpRepeating AT (147 144 13 8) NOFRAME
+        FONT 5
+    REPEATBUTTON "\002" ID RecordScrollDownRepeating AT (147 152 13 8) NOFRAME
+        FONT 5
+END
+
+
+FORM ID EditForm 0 0 160 160
+MENUID EditMenuBar
+USABLE
+BEGIN
+    TITLE "Librarian Edit"
+    TABLE ID EditTable AT (0 18 160 121) ROWS 11 COLUMNS 2
+        COLUMNWIDTHS 45 115
+    BUTTON "Done"       ID EditDoneButton AT (1 147 35 12)
+    BUTTON "Details..." ID EditDetailsButton AT (42 147 42 12)
+    BUTTON "Note"       ID EditNoteButton AT (90 147 35 12)
+    REPEATBUTTON "\001" ID EditScrollUpRepeating AT (147 144 13 8) NOFRAME
+        FONT 5
+    REPEATBUTTON "\002" ID EditScrollDownRepeating AT (147 152 13 8) NOFRAME
+        FONT 5
+    POPUPTRIGGER "" ID EditCategoryPopTrigger AT (160 1 1 AUTO) RIGHTANCHOR
+    LIST "" ID EditCategoryList AT (86 1 72 1) VISIBLEITEMS 1 NONUSABLE
+    GRAFFITISTATEINDICATOR AT (135 150)
+END
+
+
+FORM ID DetailsForm 2 31 156 127
+FRAME
+USABLE
+MODAL
+SAVEBEHIND
+HELPID DetailsHelpString
+DEFAULTBTNID DetailsCancelButton
+BEGIN
+    TITLE "Book Details"
+    LABEL "Category:" AUTOID AT (19 18) FONT 1
+    POPUPTRIGGER "Unfiled" ID DetailsCategoryPopTrigger AT (71 18 1 AUTO)
+        LEFTANCHOR
+    LIST "" ID DetailsCategoryList AT (74 19 72 1) VISIBLEITEMS 1 NONUSABLE
+    LABEL "Private:" AUTOID AT (27 33) FONT 1
+    CHECKBOX "" ID DetailsPrivateCheckbox AT (72 31 14 14)
+    LABEL "Book status:" AUTOID AT (5 48) FONT 1
+    POPUPTRIGGER "On order" ID DetailsBookStatusPopTrigger AT (71 48 52 12)
+        LEFTANCHOR
+    LIST "Got it" "Want it" "On order" "Loaned" ID DetailsBookStatusList
+        AT (74 48 52 1) VISIBLEITEMS 4 NONUSABLE
+    POPUPLIST DetailsBookStatusPopTrigger DetailsBookStatusList
+    LABEL "Print status:" AUTOID AT (3 63) FONT 1
+    POPUPTRIGGER "Not published" ID DetailsPrintStatusPopTrigger
+        AT (71 63 80 12) LEFTANCHOR
+    LIST "In print" "Out of print" "Not published" ID DetailsPrintStatusList
+        AT (74 63 80 1) VISIBLEITEMS 3 NONUSABLE
+    POPUPLIST DetailsPrintStatusPopTrigger DetailsPrintStatusList
+    LABEL "Format:" AUTOID AT (28 78) FONT 1
+    POPUPTRIGGER "Trade paper" ID DetailsFormatPopTrigger AT (71 78 80 12)
+        LEFTANCHOR
+    LIST "Hardcover" "Paperback" "Trade paper" "Other" ID DetailsFormatList
+        AT (74 78 80 1) VISIBLEITEMS 4 NONUSABLE
+    POPUPLIST DetailsFormatPopTrigger DetailsFormatList
+    LABEL "Read:" AUTOID AT (39 93) FONT 1
+    CHECKBOX "" ID DetailsReadCheckbox AT (72 91 14 14)
+    BUTTON "OK"        ID DetailsOKButton AT (5 111 25 12)
+    BUTTON "Cancel"    ID DetailsCancelButton AT (PrevRight+5 PrevTop 35 12)
+    BUTTON "Delete..." ID DetailsDeleteButton AT (PrevRight+5 PrevTop 40 12)
+    BUTTON "Note"      ID DetailsNoteButton AT (PrevRight+5 PrevTop 28 12)
+END
+
+
+FORM ID PrefsForm 2 2 156 156
+FRAME
+USABLE
+MODAL
+SAVEBEHIND
+HELPID PrefsHelpString
+DEFAULTBTNID PrefsCancelButton
+BEGIN
+    TITLE "Librarian Preferences"
+    LABEL "Show in List:" AUTOID AT (9 15) FONT 1
+    PUSHBUTTON "Author, Title" ID PrefsShowAuthorTitlePushButton
+        AT (10 30 136 12) GROUP 1
+    PUSHBUTTON "Title, Author" ID PrefsShowTitleAuthorPushButton
+        AT (10 43 136 12) GROUP 1
+    PUSHBUTTON "Title Only" ID PrefsShowTitleOnlyPushButton
+        AT (10 56 136 12) GROUP 1
+    CHECKBOX "Show Book Status" ID PrefsShowBookStatusCheckbox
+        AT (7 74 110 12) FONT 1
+    CHECKBOX "Show Print Status" ID PrefsShowPrintStatusCheckbox
+        AT (7 88 112 12) FONT 1
+    CHECKBOX "Show Book Format" ID PrefsShowFormatCheckbox
+        AT (7 102 112 12) FONT 1
+    CHECKBOX "Show Read/Unread" ID PrefsShowReadUnreadCheckbox
+        AT (7 116 116 12) FONT 1
+    BUTTON "OK"     ID PrefsOKButton AT (4 140 36 12)
+    BUTTON "Cancel" ID PrefsCancelButton AT (PrevRight+5 PrevTop 36 12)
+END
+
+
+FORM ID DeleteForm 2 61 156 97
+FRAME
+USABLE
+MODAL
+SAVEBEHIND
+HELPID DeleteHelpString
+DEFAULTBTNID DeleteCancelButton
+BEGIN
+    TITLE "Delete Book"
+    FORMBITMAP AT (8 19) BITMAP 10005
+    LABEL "Delete selected bookrecord?" AUTOID AT (32 19) FONT 1
+    CHECKBOX "Save archive copy on PC" ID DeleteArchiveCheckbox
+        AT (12 45 140 30) FONT 1
+    BUTTON "OK"     ID DeleteOKButton AT (5 80 36 12)
+    BUTTON "Cancel" ID DeleteCancelButton AT (PrevRight+5 PrevTop 36 12)
+END
+
+
+FORM ID AboutForm 2 2 156 156
+FRAME
+USABLE
+MODAL
+SAVEBEHIND
+BEGIN
+    TITLE "About Librarian"
+    FORMBITMAP AT (3 19) BITMAP ApplicationIconBitmap
+    LABEL "Librarian" AUTOID AT (38 18) FONT 2
+    LABEL "Version VERSION_STAMP" AUTOID AT (38 34) FONT 0
+    LABEL "©2000 Lonnon R. Foster" AUTOID AT (38 52) FONT 0
+    LABEL "<lonnonf@pobox.com>" AUTOID AT (38 64) FONT 0
+    BUTTON "OK" ID AboutOKButton AT (CENTER 140 36 12)
+END
+
+
+FORM ID SortForm 51 70 58 20
+FRAME
+USABLE
+MODAL
+SAVEBEHIND
+BEGIN
+    TITLE ""
+    LABEL "Sorting..." AUTOID AT (5 4)
+END
+
+
+///////////
+// Menus //
+///////////
+
+MENU ID ListMenuBar
+BEGIN
+    PULLDOWN "Record"
+    BEGIN
+        MENUITEM "Beam Category" ID ListRecordBeamCategory
+    END
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "Font" ID OptionsFont    "F"
+	MENUITEM "About Librarian" ID OptionsAboutLibrarian
+    END
+END
+
+
+MENU ID ListV20MenuBar
+BEGIN
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "About Librarian" ID OptionsV20AboutLibrarian
+    END
+END
+
+
+MENU ID ListV35MenuBar
+BEGIN
+    PULLDOWN "Record"
+    BEGIN
+        MENUITEM "Beam Category" ID ListRecordBeamCategory
+    END
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "Font" ID        OptionsV35Font      "F"
+	MENUITEM "Security..." ID OptionsV35Security  "H"
+	MENUITEM "About Librarian" ID OptionsV35AboutLibrarian
+    END
+END
+
+
+MENU ID RecordMenuBar
+BEGIN
+    PULLDOWN "Record"
+    BEGIN
+        MENUITEM "Beam Book"      ID RecordBeamBook       "B"
+	MENUITEM "Delete Book..." ID RecordDeleteBook     "D"
+	MENUITEM "Duplicate Book" ID RecordDuplicateBook  "T"
+	MENUITEM SEPARATOR
+	MENUITEM "Attach Note"    ID RecordAttachNote     "A"
+	MENUITEM "Delete Note"    ID RecordDeleteNote     "O"
+    END
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "Font"           ID OptionsFont          "F"
+	MENUITEM "About Librarian" ID OptionsAboutLibrarian
+    END
+END
+
+
+MENU ID RecordV20MenuBar
+BEGIN
+    PULLDOWN "Record"
+    BEGIN
+	MENUITEM "Delete Book..." ID RecordV20DeleteBook     "D"
+	MENUITEM "Duplicate Book" ID RecordV20DuplicateBook  "T"
+	MENUITEM SEPARATOR
+	MENUITEM "Attach Note"    ID RecordV20AttachNote     "A"
+	MENUITEM "Delete Note"    ID RecordV20DeleteNote     "O"
+    END
+    PULLDOWN "Options"
+    BEGIN
+	MENUITEM "About Librarian" ID OptionsV20AboutLibrarian
+    END
+END
+
+
+MENU ID EditMenuBar
+BEGIN
+    PULLDOWN "Record"
+    BEGIN
+        MENUITEM "Beam Book"      ID RecordBeamBook       "B"
+	MENUITEM "Delete Book..." ID RecordDeleteBook     "D"
+	MENUITEM "Duplicate Book" ID RecordDuplicateBook  "T"
+	MENUITEM SEPARATOR
+	MENUITEM "Attach Note"    ID RecordAttachNote     "A"
+	MENUITEM "Delete Note"    ID RecordDeleteNote     "O"
+    END
+    PULLDOWN "Edit"
+    BEGIN
+        MENUITEM "Undo"           ID EditUndo           "U"
+	MENUITEM "Cut"            ID EditCut            "X"
+	MENUITEM "Copy"           ID EditCopy           "C"
+	MENUITEM "Paste"          ID EditPaste          "P"
+	MENUITEM "Select All"     ID EditSelectAll      "S"
+	MENUITEM SEPARATOR
+	MENUITEM "Keyboard"       ID EditKeyboard       "K"
+	MENUITEM "Graffiti Help"  ID EditGraffitiHelp   "G"
+    END
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "Font"           ID OptionsFont        "F"
+	MENUITEM "About Librarian" ID OptionsAboutLibrarian
+    END
+END
+
+
+MENU ID EditV20MenuBar
+BEGIN
+    PULLDOWN "Record"
+    BEGIN
+	MENUITEM "Delete Book..." ID RecordV20DeleteBook     "D"
+	MENUITEM "Duplicate Book" ID RecordV20DuplicateBook  "T"
+	MENUITEM SEPARATOR
+	MENUITEM "Attach Note"    ID RecordV20AttachNote     "A"
+	MENUITEM "Delete Note"    ID RecordV20DeleteNote     "O"
+    END
+    PULLDOWN "Edit"
+    BEGIN
+        MENUITEM "Undo"           ID EditUndo           "U"
+	MENUITEM "Cut"            ID EditCut            "X"
+	MENUITEM "Copy"           ID EditCopy           "C"
+	MENUITEM "Paste"          ID EditPaste          "P"
+	MENUITEM "Select All"     ID EditSelectAll      "S"
+	MENUITEM SEPARATOR
+	MENUITEM "Keyboard"       ID EditKeyboard       "K"
+	MENUITEM "Graffiti Help"  ID EditGraffitiHelp   "G"
+    END
+    PULLDOWN "Options"
+    BEGIN
+	MENUITEM "About Librarian" ID OptionsV20AboutLibrarian
+    END
+END
+
+
+////////////
+// Alerts //
+////////////
+
+ALERT ID RomIncompatibleAlert
+ERROR
+BEGIN
+    TITLE   "System Incompatible"
+    MESSAGE "System Version 2.0 or greater is required "\
+            "to run this application."
+    BUTTONS "OK"
+END
+
+
+ALERT ID DeleteNoteAlert
+CONFIRMATION
+BEGIN
+    TITLE   "Delete Note"
+    MESSAGE "Delete current note?"
+    BUTTONS "Yes" "No"
+END
+
+
+/////////////
+// Strings //
+/////////////
+
+STRING ID NoTitleRecordString "-Untitled-"
+
+STRING ID NoAuthorRecordString "-No author-"
+
+STRING ID FindHeaderString "Librarian"
+
+STRING ID UntitledBeamString "a book by "
+
+STRING ID NoAuthorBeamString "a book"
+
+STRING ID DupIndicatorString "(copy)"
+
+STRING ID DetailsHelpString
+    "• To create a note from the Librarian List screen, tap the blank "\
+    "area to the right of the book name.\n"\
+    "\n"\
+    "• The category displayed in the Librarian List screen is assigned "\
+    "automatically to new book entries."
+
+STRING ID PrefsHelpString
+    "• Use the Show in List push buttons to control what data the "\
+    "Librarian List view shows for each book record.  The Show in List "\
+    "selection also controls how the book records are sorted in Librarian's "\
+    "database.\n"\
+    "\n"\
+    "• The check boxes toggle status indicator columns for each book in "\
+    "the Librarian List view.  Each indicator is a one letter abbreviation "\
+    "for a property of its book record.  Tapping the appropriate indicator "\
+    "displays a popup list, from which you may choose a new value for that "\
+    "particular property.  The abbreviations are defined below:\n"\
+    "\n"\
+    "Book Status:\n"\
+    "  G	Got this book\n"\
+    "  W	Want this book\n"\
+    "  O	On order\n"\
+    "  L	Loaned\n"\
+    "\n"\
+    "Print Status:\n"\
+    "  +	In print\n"\
+    "  -	Out of print\n"\
+    "  !	Not published\n"\
+    "\n"\
+    "Book Format:\n"\
+    "  H	Hardcover\n"\
+    "  P	Paperback\n"\
+    "  T	Trade paperback\n"\
+    "  ?	Other\n"\
+    "\n"\
+    "Read/Unread:\n"\
+    "  R	Read\n"\
+    "  U	Unread"
+
+STRING ID DeleteHelpString
+    "The Save archive copy on PC option will store deleted records in an "\
+    "archive file on your desktop computer at the next HotSync operation.  "\
+    "Some records will be hidden but not deleted until then."
+
+
+//////////////////////
+// App Info Strings //
+//////////////////////
+
+CATEGORIES ID CategoryAppInfoStr
+    "Unfiled"
+    "Fiction"
+    "Nonfiction"
+    ""
+    ""
+    ""
+    ""
+    ""
+    ""
+    ""
+    ""
+    ""
+    ""
+    ""
+    ""
+    ""
+
+CATEGORIES ID EditFieldLabelsAppInfoStr
+    "Title"
+    "Last Name"
+    "First Name"
+    "Publisher"
+    "Year"
+    "Printing"
+    "ISBN"
+    "Price"
+
+CATEGORIES ID BookStatusAppInfoStr
+    "Got this book"
+    "Want this book"
+    "On order"
+    "Loaned"
+
+CATEGORIES ID PrintStatusAppInfoStr
+    "In print"
+    "Out of print"
+    "Not published"
+
+CATEGORIES ID ReadStatusAppInfoStr
+    "Unread"
+    "Read"
+
+CATEGORIES ID FormatStatusAppInfoStr
+    "Hardcover"
+    "Paperback"
+    "Trade paperback"
+    "Other format"
+
+
+/////////////
+// Bitmaps //
+/////////////
+
+BITMAP ID ApplicationIconBitmap "largeicon.bmp"

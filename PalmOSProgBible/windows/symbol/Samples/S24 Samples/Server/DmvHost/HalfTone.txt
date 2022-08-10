@@ -1,0 +1,65 @@
+The question was raised sometime back on what the best way was to include a 
+bitmap into the Palm Pilot Construtor.  The following is a process I came up 
+with that works for me. The goal is to create a 160x150x1bpp windows .bmp image
+and get it into the Palm Pilot Constructor.
+
+Assume the target display is currently 160x150x1bpp (leave 10 pixels for the
+form title).  The problem is, how do we display an image with the best 
+resolution on this device?  Since the display doesn't even support 16 shades of
+grey, we must use a half-tone process which is black or white (1Bit Per Pixel).
+
+----------Process for building a half-tone image for the PalmPilot-------------
+Start at the beginning with a picture of a head and crop to 160x150.  Using 
+Adobe Photoshop to get image to 256 shades of grey.  Save as Tony2.bmp,
+(160x150x256). I was unable to save any bitmap at 4bpp in Adobe for some 
+reason, so I switched to PaintShopPro55 at this point.
+
+Step2: Reduce color count to 16 from 256
+Input Tony2.bmp (160x150x256) into PaintShopPro5 for color reduction. To get 
+image into 4bpp (16 shades of grey).  I'm thinking you get a better half-tone
+image from 16 shades of grey as opposed to 256 shades of grey.  This may not
+be true.
+
+From PaintShopPro5:
+  Colors/Decrease Color Depth/16 colors/Pallette=Opt. Method=Near->Tony3a.bmp
+  Colors/Decrease Color Depth/16 colors/Pallette=Opt. Method=Error->Tony3b.bmp
+
+The best image is Tony3b.bmp (160x150x16) = 12.1K. Save same as .gif = 7.4K,
+Save as .jpg = 7.2K, no perceived visual best in this case (.jpg vs. .gif).
+
+Step3: Half-tone 16 color image
+Load Tony3b.bmp back into Adobe to HalfTone:
+1. Image/Mode/GreyScale/Discard color info
+2. Image/Mode/Bitmap/Halftone Screen (always make input res = output res)
+   Freq = max & save as Tony3C.bmp (160x150x2) @ 3.1K
+3. At this point Tony3c.bmp should be the same size as Tony3b.bmp but only
+   2 colors.
+
+Step4: Create the Constructure bitmap resource
+Now lets make Tony3c.bmp our Palm bitmap resource default:
+1. From Constructor 1.1.2, select Bitmaps/Edit/New BitMap Resource->
+   creates a new bitmap object named untitled.
+2. Select the new untitled bitmap/Edit/Edit Resource->opens up a white 
+   edit image.
+3. With the image above selected, Options/Set Image Size/chg from
+   16x16 to 160x150/Resize.
+4. At this point we have a 160x150x1bpp blank bitmap resource.
+
+Step5: Import half-tone image into the Constructure as a bitmap
+Now we need to get our Windows.bmp file into this projects .rsrc file:
+1. From PaintShopPro5 open Tony4.bmp(160x150x2) & copy (to clipboard).
+2. From Constructor select our new bitmap resource/edit/paste
+3. You should now see the image in the untitled contructor bitmap window.
+
+Step6: Link Constructor bitmap to Constructor form
+Now we need to link this image object to the form bitmap resource:
+1. From Constructor Select Forms/Edit/New Form Resource.
+   This should create a new form named untitled & ID = NNNN
+2. Double click on the new form.
+   You should see the layout properties & and the Layout appearance windows.
+3. From the Constructor select/Window/Catalog.
+   This should show you all the drag and drop objects for the construtor.
+4. Drag a button to our new form and stretch to cover the whole form display.
+5. Drag a Form Bitmap to the new form.
+6. Change this Bitmaps Resource ID to match the ID of the bitmap in step5.
+7. Your new form should now be displaying the image you selected in Step5. 

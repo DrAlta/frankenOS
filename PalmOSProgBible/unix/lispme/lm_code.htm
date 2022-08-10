@@ -1,0 +1,419 @@
+<html>
+<head>
+  <title>LispMe coding techniques</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe coding techniques</h1>
+  This document is about some less familiar coding practices
+  used in LispMe.
+
+  <h2>Creating launcher icons</h2>
+  It's not just the icons, LispMe creates complete Pilot applications
+  (though rather minimalistic ones) which in turn start LispMe with a 
+  special launch code when tapped. These applications consist of the 
+  minimal set of resources possible:<p>
+  <table border>
+    <tr><th>Res type<th>Res id<th>description
+    <tr><td>code<td>0001<td>68000 application code
+    <tr><td>Talt<td>1000<td>an alert displayed when LispMe is not installed
+    <tr><td>tAIB<td>1000<td>big icon for launcher
+    <tr><td>tAIB<td>1001<td>small icon for launcher (Palm III and later)
+    <tr><td>tAIN<td>1000<td>application name for launcher. This name also
+                            identifies the LispMe program database.
+  </table><p>
+  Other resources (e.g. <tt>rloc</tt>) are not necessary for such a tiny
+  application.<p>
+
+  The launcher code is compiled and linked
+  just like any other C
+  application with the GNU C compiler but no <tt>.prc</tt> file is built
+  from it, instead it is put into the LispMe <tt>.prc</tt> but using the
+  id number 9001. So this code fragment is part of LispMe, but will never
+  be called directly by PalmOS. But when LispMe creates a launcher icon,
+  it copies this resource to the newly created resource database, this
+  time using the special id 1, making it the code executed when tapping
+  the icon.<p> 
+
+  As no C runtime library (<tt>crt0.o</tt>) is needed and to reduce the
+  code size further, the object is linked with the option
+  <tt>-nostartfiles</tt> and handles the necessary system calls itself.<p>
+
+  One problem is that the LispMe program database and the launcher app
+  should have the same name, but they can't, as every database name must
+  be unique. You can't use a hashing scheme to create an internal name
+  for the launcher app, the mapping must be reversible. So I simply 
+  inverted the highest bit of the session name (= LispMe program
+  database name) to create the launcher app's name.
+
+    
+  <h2>Using <tt>NewFloatMgr</tt></h2>
+
+  GCC doesn't handle <tt>NewFloatMgr.h</tt> correctly (in version 0.5.0).
+  On the other hand, using arithmetic operators like <tt>+</tt> in a C
+  program use the emulated operations from the C runtime library, not the
+  Pilot system traps, which creates bloated PRC files.<p>
+  The following code snippet shows how to access the system traps with
+  GCC.
+
+<pre>
+#define _DONT_USE_FP_TRAPS_ 1
+#include &lt;Common.h>
+#include &lt;System/SysAll.h>
+#include &lt;SysTraps.h>
+#include &lt;System/NewFloatMgr.h>
+
+void SysTrapFlpLToF(FlpDouble*, Long) SYS_TRAP(sysTrapFlpEmDispatch);
+
+/* convert a long to double */
+double longToDouble(long l)
+{
+  FlpCompDouble fcd;
+  asm("moveq.l %0,%%d2" : : "i" (sysFloatEm_d_itod) : "d2");
+  SysTrapFlpLToF(&amp;fcd.fd, l);
+  return fcd.d;
+}
+
+Long SysTrapFlpFToL(FlpDouble) SYS_TRAP(sysTrapFlpEmDispatch);
+
+/* convert a double to long */
+long doubleToLong(double d)
+{
+  FlpCompDouble fcd;
+  fcd.d = d;
+  asm("moveq.l %0,%%d2" : : "i" (sysFloatEm_d_dtoi) : "d2");
+  return SysTrapFlpFToL(fcd.fd);
+}
+
+void SysTrapBinOp(FlpDouble*, FlpDouble, FlpDouble) SYS_TRAP(sysTrapFlpEmDispatch);
+
+/* the same interface is used for all basic arithmetic operations */
+double genericDoubleOp(double a, double b, long opcode)
+{
+  FlpCompDouble fcda, fcdb, fcds;
+  fcda.d = a; fcdb.d = b;
+  asm("move.l %0,%%d2" : : "g" (opcode) : "d2");
+  SysTrapBinOp(&amp;fcds.fd, fcda.fd, fcdb.fd);
+  return fcds.d;
+}
+
+/* basic arithmetic operations */
+#define addDouble(a,b) genericDoubleOp(a,b,sysFloatEm_d_add)
+#define subDouble(a,b) genericDoubleOp(a,b,sysFloatEm_d_sub)
+#define mulDouble(a,b) genericDoubleOp(a,b,sysFloatEm_d_mul)
+#define divDouble(a,b) genericDoubleOp(a,b,sysFloatEm_d_div)
+
+SDWord SysTrapCompare(FlpDouble, FlpDouble) SYS_TRAP(sysTrapFlpEmDispatch);
+
+/* compare 2 doubles for equality */
+Boolean eqDouble(double a, double b)
+{
+  FlpCompDouble fcda, fcdb;
+  fcda.d = a; fcdb.d = b;
+  asm("moveq.l %0,%%d2" : : "i" (sysFloatEm_d_feq) : "d2");
+  return SysTrapCompare(fcda.fd, fcdb.fd);
+}
+
+/* compare 2 doubles for less or equal */
+Boolean leqDouble(double a, double b)
+{
+  FlpCompDouble fcda, fcdb;
+  fcda.d = a; fcdb.d = b;
+  asm("moveq.l %0,%%d2" : : "i" (sysFloatEm_d_fle) : "d2");
+  return SysTrapCompare(fcda.fd, fcdb.fd);
+}
+
+</pre>
+You should get the idea how to extend this for other operations. By the way,
+you <em>can</em> use floating point constants in your code, they are
+correctly converted into their IEEE bit pattern by GCC!
+
+<h2><a name="fpio">Printing and scanning IEEE floating point</a></h2>
+  Though you could use <tt>SysTrapFlpFToA</tt> or <tt>SysTrapFlpAToF</tt>,
+  I don't recommend so, as the ROM routines
+  <ul>
+    <li>provide only 9 digits of accuracy
+    <li>can't handle exponents >99
+    <li>don't provide error checking
+  </ul>
+  Unfortunately, not even the otherwise excellent
+  <a href="http://www.probe.net/~rhuebner/mathlib.html">MathLib</a>
+  supports floating point IO, so I had to write my own for
+  <a href="lm_index.htm">LispMe</a>.<p>
+
+  Here's my printing function for doubles:
+
+<pre>
+/**********************************************************************/
+/* Formatting parameters                                              */
+/**********************************************************************/
+#define NUM_DIGITS   15
+#define MIN_FLOAT    4
+#define ROUND_FACTOR 1.0000000000000005 /* NUM_DIGITS zeros */
+
+/**********************************************************************/
+/* FP conversion constants                                            */
+/**********************************************************************/
+static double pow1[] =
+{
+  1e256, 1e128, 1e064,
+  1e032, 1e016, 1e008,
+  1e004, 1e002, 1e001
+};
+
+static double pow2[] =
+{
+  1e-256, 1e-128, 1e-064,
+  1e-032, 1e-016, 1e-008,
+  1e-004, 1e-002, 1e-001
+};
+
+void printDouble(double x, Char* s)
+{
+  FlpCompDouble fcd;
+  short e,e1,i;
+  double *pd, *pd1;
+  char sign = '\0';
+  short dec = 0;
+
+  /*------------------------------------------------------------------*/
+  /* Round to desired precision                                       */
+  /* (this doesn't always provide a correct last digit!)              */
+  /*------------------------------------------------------------------*/
+  x = mulDouble(x, ROUND_FACTOR);
+
+  /*------------------------------------------------------------------*/
+  /* check for NAN, +INF, -INF, 0                                     */
+  /*------------------------------------------------------------------*/
+  fcd.d = x;
+  if ((fcd.ul[0] &amp; 0x7ff00000) == 0x7ff00000)
+    if (fcd.fdb.manH == 0 &amp;&amp; fcd.fdb.manL == 0)
+      if (fcd.fdb.sign)
+        StrCopy(s, "[-inf]");
+      else
+        StrCopy(s, "[inf]");
+    else
+      StrCopy(s, "[nan]");
+  else if (FlpIsZero(fcd))
+    StrCopy(s, "0");
+  else
+  {
+    /*----------------------------------------------------------------*/
+    /* Make positive and store sign                                   */
+    /*----------------------------------------------------------------*/
+    if (FlpGetSign(fcd))
+    {
+      *s++ = '-';
+      FlpSetPositive(fcd);
+    }
+
+    if ((unsigned)fcd.fdb.exp &lt; 0x3ff) /* meaning x &lt; 1.0 */
+    {
+      /*--------------------------------------------------------------*/
+      /* Build negative exponent                                      */
+      /*--------------------------------------------------------------*/
+      for (e=1,e1=256,pd=pow1,pd1=pow2; e1; e1>>=1, ++pd, ++pd1)
+        if (!leqDouble(*pd1, fcd.d))
+        {
+          e += e1;
+          fcd.d = mulDouble(fcd.d, *pd);
+        }
+      fcd.d = mulDouble(fcd.d, 10.0);
+
+      /*--------------------------------------------------------------*/
+      /* Only print big exponents                                     */
+      /*--------------------------------------------------------------*/
+      if (e &lt;= MIN_FLOAT)
+      {
+        *s++ = '0';
+        *s++ = '.';
+        dec = -1;
+        while (--e)
+          *s++ = '0';
+      }
+      else
+        sign = '-';
+    }
+    else
+    {
+      /*--------------------------------------------------------------*/
+      /* Build positive exponent                                      */
+      /*--------------------------------------------------------------*/
+      for (e=0,e1=256,pd=pow1,pd1=pow2; e1; e1>>=1, ++pd, ++pd1)
+        if (leqDouble(*pd, fcd.d))
+        {
+          e += e1;
+          fcd.d = mulDouble(fcd.d, *pd1);
+        }
+      if (e &lt; NUM_DIGITS)
+        dec = e;
+      else
+        sign = '+';
+    }
+
+    /*----------------------------------------------------------------*/
+    /* Extract decimal digits of mantissa                             */
+    /*----------------------------------------------------------------*/
+    for (i=0;i&lt;NUM_DIGITS;++i,--dec)
+    {
+      Long d = doubleToLong(fcd.d);
+      *s++ = d + '0';
+      if (!dec)
+        *s++ = '.';
+      fcd.d = subDouble(fcd.d, longToDouble(d));
+      fcd.d = mulDouble(fcd.d, 10.0);
+    }
+
+    /*----------------------------------------------------------------*/
+    /* Remove trailing zeros and decimal point                        */
+    /*----------------------------------------------------------------*/
+    while (s[-1] == '0')
+      *--s = '\0';
+    if (s[-1] == '.')
+      *--s = '\0';
+
+    /*----------------------------------------------------------------*/
+    /* Append exponent                                                */
+    /*----------------------------------------------------------------*/
+    if (sign)
+    {
+      *s++ = 'e';
+      *s++ = sign;
+      StrIToA(s, e);
+    }
+    else
+      *s = '\0';
+  }
+}
+
+</pre>
+
+  The scanning function is too deeply interwoven with the rest of
+  LispMe's scanner, I'll extract it when I've got more time!
+
+  <h2>Using more than 32k code segment</h2>
+
+  <b>The new prc-tools 2.0 support multi-segmented applications where
+  each segment can be upto 32k and intersegment jumps are only a little
+  slower than intrasegment jumps. So the technique described below is
+  no more necessary and starting with V2.7 LispMe is now a multi-segment
+  program itself. However, if you don't want to migrate from 0.5 to
+  2.0 now, the following might still be useful for you. Please
+  note, that in fact this trick doesn't work anymore with 2.0!</b><p>
+
+  It has often been said, that this is not possible, but this is
+  <em>wrong</em>. In fact, there're two ways to overcome the 32k
+  limit. The first one is using shared libraries, which has some
+  problems (e.g. accessing global data) and the second one is
+  described here.<p>
+
+  Your <tt>PilotMain()</tt> is <em>not</em> the first function called
+  when your app starts. The (normal) entry point is a function <tt>start()</tt>,
+  which is buried in the object module <tt>crt0.o</tt>. (This module is
+  automatically put at the beginning of the code section by the linker)
+  <tt>start()</tt> relocates the data segment and calls some "hooks"
+  (I don't know, what these hooks exactly do, but it seems
+  that you need them).<p>
+
+  The PalmOS starts an app by simply jumping to adress 0, where the
+  <tt>start()</tt> function is put by the linker.<p>
+
+  Now here comes the problem: <tt>start()</tt> is at the very beginning
+  of the code segment, then your code follows and the hooks are at the
+  very end, so to call the hooks from <tt>start()</tt>, they must be
+  within 32k (the range of the relative branch instructions of the 68000),
+  so normally your code mustbe &lt;32k.<p>
+
+  <center>
+  <table cellpadding=8>
+    <tr><td align=right>/</td><td><tt>start()</tt></td>
+    <tr><td align=right>&lt;32k</td><td><i>your code</i></td>
+    <tr><td align=right>\</td><td><i>hooks</i></td>
+  </table>
+  </center>
+
+  Now the trick is to put <tt>start()</tt> <em>in the middle</em> of
+  your objects and provide an entry function <tt>myStart()</tt>
+  at adress 0, which simply calls <tt>start()</tt>.<p>
+
+  When <tt>start()</tt> is within 32k of <tt>myStart()</tt> and the
+  hooks are within 32k of <tt>start()</tt>, you have <b>TWO</b>
+  32k ranges to put your code. Of course you must ensure (by shuffling
+  your functions and objects) that calls between your functions don't
+  exceed the 32k branch limit.<p>
+ 
+  <center>
+  <table cellpadding=8>
+    <tr><td align=right>/</td><td><tt>myStart()</tt></td>
+    <tr><td align=right>&lt;32k</td><td><i>your code</i></td>
+    <tr><td align=right>\<br>/</td><td><tt>start()</tt></td>
+    <tr><td align=right>&lt;32k</td><td><i>more of your code</i></td>
+    <tr><td align=right>\</td><td><i>hooks</i></td>
+  </table>
+  </center>
+
+  That's the theory, to make this work you have to do the following:
+  <ol>
+    <li>Increase the coderes size in the file <tt>pilot.ld</tt>. Here's mine:
+
+<pre>
+MEMORY 
+        {
+        coderes   : ORIGIN = 0x10000, LENGTH = <font color="#ff0000">65535</font>
+        datares   : ORIGIN = 0x0, LENGTH = 32767
+        }
+
+SECTIONS
+{
+        .text :
+        {
+          *(.text)
+          . = ALIGN(4);
+          bhook_start = .;
+          *(bhook)
+          bhook_end = .;
+          . = ALIGN(4);
+          ehook_start = .;
+          *(ehook)
+          ehook_end = .;
+        } > coderes
+        .data :
+        {
+          data_start = .;
+          *(.data)
+        } > datares
+        .bss :
+        {
+        bss_start = .;
+          *(.bss)
+          *(COMMON)
+        } > datares
+        end = ALIGN( 4 );
+        edata = ALIGN( 4 );
+}
+</pre>
+
+  <li>Compile the following file (<tt>start.c</tt>):
+ 
+<pre>
+extern unsigned long start();
+unsigned long myStart()
+{
+  return start();
+}
+</pre>
+
+  <li>Link with a command like this:<br>
+
+  <tt>$(CC) $(LDFLAGS) -nostartfiles start.o <var>some objects</var>
+  $(CRT0) <var>more objects</var> $(LIBS) -o<var>yourprog</var></tt><p>
+
+  The option <tt>-nostartfiles</tt> tells the linker not to automatically use
+  <tt>crt0.o</tt> as the first object.
+
+  </ol>
+</body>
+</html>

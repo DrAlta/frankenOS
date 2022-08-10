@@ -1,0 +1,8 @@
+; count change
+(define coins '(50 20 10 5 2 1))
+;(define coins '(50 25 10 5 1))
+(define (cc am c)
+	(if (eq? am 0) 1
+	(if (or (< am 0) (null? c)) 0
+	(+ (cc (- am (car c)) c)
+	      (cc am (cdr c))))))

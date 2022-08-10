@@ -1,0 +1,1335 @@
+"; Built-ins
+(define(car x)(car x))
+(define(cdr x)(cdr x))
+(define(caar x)(caar x))
+(define(cadr x)(cadr x))
+(define(cdar x)(cdar x))
+(define(cddr x)(cddr x))
+(define(caaar x)(caaar x))
+(define(caadr x)(caadr x))
+(define(cadar x)(cadar x))
+(define(caddr x)(caddr x))
+(define(cdaar x)(cdaar x))
+(define(cdadr x)(cdadr x))
+(define(cddar x)(cddar x))
+(define(cdddr x)(cdddr x))
+(define(gensym)(gensym))
+(define(boolean? x)(boolean? x))
+(define(null? x)(null? x))
+(define(pair? x)(pair? x))
+(define(number? x)(number? x))
+(define(complex? x)(complex? x))
+(define(real? x)(real? x))
+(define(integer? x)(integer? x))
+(define(char? x)(char? x))
+(define(string? x)(string? x))
+(define(symbol? x)(symbol? x))
+(define(procedure? x)(procedure? x))
+(define(continuation? x)(continuation? x))
+(define(promise? x)(promise? x))
+(define(none? x)(none? x))
+(define(macro? x)(macro? x))
+(define(input-port? x)(input-port? x))
+(define(output-port? x)(output-port? x))
+(define(eof-object? x)(eof-object? x))
+(define(not x)(not x))
+(define(call/cc x)(call/cc x))
+(define(force x)(force x))
+(define(display x.r)(if(null? r)(display x)(display x(car r))))
+(define(write x.r) (if(null? r)(write x)(write x(car r))))
+(define(open-input-file f)(open-input-file f))
+(define(open-output-file f)(open-output-file f))
+(define(open-append-file f)(open-append-file f))
+(define(read p)(read p))
+(define(read-char p)(read-char p))
+(define(peek-char p)(peek-char p))
+(define(read-line p)(read-line p))
+(define(dir.r)(if(null? r)(dir)(dir(car r))))
+(define(delete-file x)(delete-file x))
+(define(draw x y)(draw x y))
+(define(rect x y r)(rect x y r))
+(define(text o)(text o))
+(define(string->list s)(string->list s))
+(define(list->string s)(list->string s))
+(define(string-length s)(string-length s))
+(define(string-ref s k)(string-ref s k))
+(define(string-set! s k c)(string-set! s k c))
+(define(string-append.r)(if(null? r)""""(string-append(car r)(apply string-append(cdr r)))))
+(define(string=? s1 s2)(string=? s1 s2))
+(define(substring s n k)(substring s n k))
+(define(char->integer c)(char->integer c))
+(define(integer->char n)(integer->char n))
+(define(object->string n)(object->string n))
+(define(string->object n)(string->object n))
+(define(vector? o)(vector? o))
+(define(make-vector n o)(make-vector n o))
+(define(vector-length v)(vector-length v))
+(define(vector-ref v n)(vector-ref v n))
+(define(vector-set! v n o)(vector-set! v n o))
+(define(vector.ol)(list->vector ol))
+(define(vector->list v)(vector->list v))
+(define(list->vector l)(list->vector l))
+(define(+ .r)(if(null? r)0(+(car r)(apply +(cdr r)))))
+(define(- x.r)(if(null? r)(- x)(- x(car r))))
+(define(*.r)(if(null? r)1(*(car r)(apply *(cdr r)))))
+(define(/ x.r)(if(null? r)(/ x)(/ x(car r))))
+(define(quotient x y)(quotient x y))
+(define(remainder x y)(remainder x y))
+(define(random n)(random n))
+(define(sin x)(sin x))
+(define(cos x)(cos x))
+(define(tan x)(tan x))
+(define(sinh x)(sinh x))
+(define(cosh x)(cosh x))
+(define(tanh x)(tanh x))
+(define(asin x)(asin x))
+(define(acos x)(acos x))
+(define(atan x.r)(if(null? r)(atan x)(atan x(car r))))
+(define(asinh x)(asinh x))
+(define(acosh x)(acosh x))
+(define(atanh x)(atanh x))
+(define(exp x)(exp x))
+(define(log x)(log x))
+(define(sqrt x)(sqrt x))
+(define(floor x)(floor x))
+(define(ceiling x)(ceiling x))
+(define(truncate x)(truncate x))
+(define(round x)(round x))
+(define(integer x)(integer x))
+(define(make-rectangular x y)(make-rectangular x y))
+(define(make-polar x y)(make-polar x y))
+(define(real-part x)(real-part x))
+(define(imag-part x)(imag-part x))
+(define(magnitude x)(magnitude x))
+(define(angle x)(angle x))
+(define(cons x y)(cons x y))
+(define(append.r)(if(null? r)'()(append(car r)(apply append(cdr r)))))
+(define(< x y)(< x y))
+(define(<= x y)(<= x y))
+(define(> x y)(> x y))
+(define(>= x y)(>= x y))
+(define(eq? x y)(eq? x y))
+(define(eqv? x y)(eqv? x y))
+(define(list.x)x)
+(define(apply f a)(apply f a))
+(define(sound f t)(sound f t))
+(define(wait t)(wait t))
+(define(disasm p)(disasm p))
+(define(date-time)(date-time))
+(define(read-record db n)(read-record db n))
+"
+"; Standard library
+(define (abs n)
+	(if (real? n)
+		(if (>= n 0) n (- n))
+		(magnitude n)))
+(define (%assoc test)
+	(lambda (x ls)
+	(letrec ((ahelp (lambda (l)
+	(cond ((null? l) #f)
+		((test x (caar l)) (car l))
+		(else (ahelp (cdr l)))))))
+	(ahelp ls))))
+(define (assoc x ls)
+	((%assoc equal?) x ls))
+(define (assq x ls)
+	((%assoc eq?) x ls))
+(define (assv x ls)
+	((%assoc eqv?) x ls))
+(define (car x) (car x))
+(define (cadr x) (cadr x))
+(define (caddr x) (caddr x))
+(define (delete-record db n)
+	(write-record db n #f))
+(macro  (do expr)
+  (let ((loop (gensym))
+        (vars (cadr expr)))
+    `(letrec ((,loop (lambda 
+		,(map car vars)
+       (cond ,(caddr expr)
+         (else ,@(cdddr expr)
+          (,loop ,@(map caddr vars)))))))
+     (,loop ,@(map cadr vars)))))
+(define (eq? a b) (eq? a b))
+(define (eqv? a b) (eqv? a b))
+(define (equal? a b)
+	(cond ((eqv? a b) #t)
+	((and (string? a) (string? b))
+	    (string=? a b))
+	((and (pair? a) (pair? b))
+	    (and (equal? (car a) (car b))
+		    (equal? (cdr a) (cdr b))))
+	((and (vector? a) (vector? b))
+	    (%vec-equal? a b))
+	(else #f)))
+(define (%vec-equal? a b)
+  (letrec ((help (lambda (k)
+	(if (eq? k -1) #t 
+	(and (equal? (vector-ref a k)
+			(vector-ref b k))
+		(help (- k 1)))))))
+  (let ((l (vector-length a)))
+	(and (eq? l (vector-length b))
+	  (help (- l 1))))))
+(define (even? n)
+	(= (remainder n 2) 0))
+(define (exact? x) #f)
+(define (expt x y) 
+	(exp (* y (log x))))
+(define (for-each f l)
+	(if (null? l) #n
+	(begin (f (car l))
+		 (for-each f (cdr l)))))
+(define (inexact? x) #t)
+(define (input prompt)
+  (string->object 
+    (input-string prompt)))
+(define (input-string prompt)
+  (frm-popup 9993 (lambda (e . a)
+    (case e
+      ((frm-open) 
+	(fld-set-text 9301 prompt)
+	(frm-set-focus 9302))
+      ((ctl-select)
+	(case (car a)
+	  ((9303) (frm-return 
+		(fld-get-text 9302)))
+	  ((9304) 
+		(error ""Interrupted""))))
+      (else #f)))))
+(define (length l)
+	(letrec ((iter (lambda (l n)
+		    (if (null? l) n
+		      (iter (cdr l) (+ 1 n))))))
+	(iter l 0)))
+(macro  (let* expr)
+  (if (null? (cadr expr))
+    (cons 'begin (cddr expr))
+    `(let (,(caadr expr))
+       (let* ,(cdadr expr)
+		,@(cddr expr)))))
+(define (list-ref ls n)
+	(if (eq? n 0) (car ls)
+		(list-ref (cdr ls) (- n 1))))
+(define (log10 x) (/ (log x) (log 10)))
+(define (map f l)
+  (letrec ((result (cons '() '()))
+	(helper (lambda (p l)
+	  (cond ((null? l)  p)
+	    (else (set-cdr! p
+			(cons (f (car l)) '()))
+		(helper (cdr p) (cdr l)))))))
+	(helper result l)
+	(cdr result)))
+(define (max n . l)
+	(if (null? l) n
+	  (let ((m (apply max l)))
+	    (if (<= n m) m n))))
+(define (%member test)
+	(lambda (x ls)
+	(letrec
+	((mhelp (lambda (l)
+	    (cond  ((null? l) #f)
+		((test x (car l)) l)
+		(else (mhelp (cdr l)))))))
+ 	(mhelp ls))))
+(define (member x ls)
+	((%member equal?) x ls))
+(define (memq x ls)
+	((%member eq?) x ls))
+(define (memv x ls)
+	((%member eqv?) x ls))
+(define (min n . l)
+	(if (null? l) n
+	  (let ((m (apply min l)))
+	    (if (<= n m) n m))))
+(define (modulo a b)
+	(let ((r (remainder a b)))
+	(if (>= (* r b) 0) r
+		(+ r b))))
+(define (negative? x) (< x 0))
+(define (newline . p)
+	(if (null? p) (display ##0a)
+		(display ##0a (car p))))
+(define (odd? n)
+	(= (remainder n 2) 1))
+(define (port? p) (or (input-port? p)
+	(output-port? p)))
+(define (positive? x) (> x 0))
+(define (reverse l) 
+	(letrec
+	((rev (lambda (a b)
+		 (if (null? a) b
+		(rev (cdr a)
+			 (cons (car a) b))))))
+ 	(rev l '())))
+(define (wait-pen)
+  (let ((e (event #t)))
+    (if (and (pair? e) 
+		(eq? (car e) 'pen-down))
+	(cons (cadr e) (caddr e))
+	(wait-pen))))
+(define (zero? x) (eqv? x 0))
+(define (= x y) (eqv? x y))"
+"; Utility library
+(define (filter f l)
+	(if (null? l) '()
+	(let ((x (car l))
+		(r (filter f (cdr l))))
+	(if (f x) (cons x r) r))))
+(define (nan? x) 
+	(not (or (<= x 0) (<= 0 x))))
+(define (inf? x)
+	(and (not (eqv? x 0))
+		(eqv? x (* x 2))))
+(define (range l u) (if (> l u) '()
+	(cons l (range (+ l 1) u))))
+(define (do-range p l u) 
+  (letrec ((h (lambda (i) 
+    (if (> i u) #n
+	(begin (p i) (h  (+ i 1)))))))
+  (h l)))
+
+"
+"; Graphic utilities
+
+(define (move x y) 
+	(set-car! (car *gstate*)  x)
+	(set-cdr! (car *gstate*)  y) #n)
+
+; some fill patterns
+(define grey 
+""#55#aa#55#aa#55#aa#55#aa""
+)
+
+(define brick
+""#01#01#01#ff#10#10#10#ff"")
+
+(define dots
+""#c3#81#18#3c#3c#18#81#c3"")
+
+(define (set-pattern p)
+  (set-car! (cddr *gstate*) p) #n)
+
+(define (set-font f)
+  (set-car! (cdr *gstate*) f) #n)
+
+(define (set-mode m)
+  (set-car! (cdddr *gstate*) m) #n)
+
+(define (set-fg c)
+  (set-car! (cdr (cdddr *gstate*)) c)
+  #n)
+
+(define (set-bg c)
+  (set-car! (cddr (cdddr *gstate*)) c)
+  #n)
+
+(define (set-text c)
+  (set-car! (cdddr (cdddr *gstate*))
+	c)
+  #n)
+
+; clear screen
+(define (cls)
+  (let ((gs  (append *gstate* '())))
+	(set-pattern #f)
+	(move 0 0)
+	(rect 160 108 0)
+	(set! *gstate* gs) #n))
+
+; drawing modes
+(define dm-paint 0)
+(define dm-erase 1)
+(define dm-mask 2)
+(define dm-invert 3)
+(define dm-overlay 4)
+(define dm-paint-inverse 5)
+(define dm-swap 6)
+
+; default graphic state
+(define (default-gstate)
+  (list (cons 0 0) 0 #t 0 255 0 255))
+
+; some colors
+(define red (rgb->index 255 0 0))
+(define green (rgb->index 0 255 0))
+(define blue (rgb->index 0 0 255))
+(define yellow (rgb->index 255 255 0))
+(define black (rgb->index 0 0 0))
+(define white (rgb->index 255 255 255))
+; etc.
+"
+"; Graphics demo
+; load memo ""Graphic utilities"" before
+
+(define (demo)
+	(set! *gstate*
+		(default-gstate))
+	(cls)
+	(move 20 20)
+	(set-pattern grey)
+	(draw 120 30)
+	(move 20 30)
+	(set-pattern #t)
+	(draw 120 40)
+
+	(set-fg 47)
+	(move 10 50)
+	(rect 40 70 0)
+	(set-fg 121)
+	(move 50 50)
+	(rect 80 70 10)
+	(move 90 50)
+	(set-fg red)
+	(set-pattern brick)
+	(rect 120 70 0)
+
+	(move 130 30)
+	(set-fg red)
+	(set-pattern #t)
+	(rect 158 58 14)
+	(move 131 31)
+	(set-pattern grey)
+	(set-fg green) (set-bg yellow)
+	(rect 157 57 13)
+
+	(move 10 75)
+	(set-font 1) (set-text blue)
+	(text ""Hello, world!"")
+	(move 80 72)
+	(set-font 2)
+	(set-pattern #f)
+	(set-bg black)
+	(text (cons 42 'foobar))
+
+	(move 0 4)
+	(bitmap 
+	  (read-resource ""Tbmp""
+		 11000)))
+"
+"; Function plotter
+; load memo ""Graphic utilities"" before
+
+(define (plot f x1 x2 y1 y2)
+	(let ((dx (/ (- x2 x1) 160))
+		(dy (/ 105 (- y1 y2))))
+	(letrec ((iter (lambda (n)
+		(if (eqv? n 160) #n
+		(let ((x (+ x1 (* n dx))))
+		(draw n (tr (f x)))
+		(iter (+ n 1))))))
+	(tr (lambda (y)
+	(integer (* (- y y2) dy)))))
+  (cls)
+  ; draw x-axis
+  (if (< (* y1 y2) 0)
+	(begin (set-pattern grey)
+	(move 0 (tr 0))
+	(draw 159 (tr 0))) #f)
+ ; draw y-axis
+  (if (< (* x1 x2) 0)
+	(let ((x (integer
+			 (/ (- x1) dx))))
+	(set-pattern grey)
+	(move x 0)
+	(draw x 104)) #f)
+  (set-pattern  #t)
+  (move  0 (tr (f x1)))
+  (iter 1))))"
+"; Animated 3D graphics :-)
+; load memo ""Graphic utilities"" before
+; eval for example
+; (cube 80 30 30 12 35) 
+
+(define (cube xc yc xr yr h)
+  (letrec 
+     ((iter (lambda (a)
+	(set-pattern #t)
+	(draw-cube a)
+	;(wait 50)
+	(set-pattern #f)
+	(move (- xc xr) (- yc yr))
+	(rect (+ (+ xc xr) 1)
+		(+ (+ yc yr) (+ h 1)) 0)
+	(iter (+ a 0.15))))
+    (draw-cube (lambda (a) 
+	(let ((c (cos a)) (s (sin a)))
+	(let ((dxs (integer (* s xr)))
+	     (dxc (integer (* c xr)))
+	     (dys (integer (* s yr)))
+	     (dyc (integer (* c yr))))
+	(let ((x1 (+ xc dxc))
+		(y1 (+ yc dys))
+		(x2 (- xc dxs))
+		(y2 (+ yc dyc))
+		(x3 (- xc dxc))
+		(y3 (- yc dys))
+		(x4 (+ xc dxs))
+		(y4 (- yc dyc)))
+	(let ((y1h (+ y1 h))
+		(y2h (+ y2 h))
+		(y3h (+ y3 h))
+		(y4h (+ y4 h)))
+	(move x1 y1) (draw x2 y2)
+	(draw x3 y3) (draw x4 y4)
+	(draw x1 y1) (draw x1 y1h)
+	(draw x2 y2h) (draw x3 y3h)
+	(draw x4 y4h) (draw x1 y1h)
+	(move x2 y2) (draw x2 y2h)
+	(move x3 y3) (draw x3 y3h)
+	(move x4 y4) (draw x4 y4h)
+     )))))))
+  (cls) (iter 0)))
+"
+"; Towers of Hanoi
+
+(define (hanoi n a b c)
+	(if (eqv? n 0) '()
+	(append (hanoi (- n 1) a c b)
+		(list (cons a b))
+		(hanoi (- n 1) c b a))))
+"
+"; Tic-Tac-Toe
+
+(define result #f)
+
+(define (init-board)
+	(cls) (set-pattern #t)
+	(move 25 0) (rect 28 81 0)
+	(move 52 0) (rect 55 81 0)
+	(move 0 25) (rect 81 28 0)
+	(move 0 52) (rect 81 55 0)
+	(list 0 0 0 0 0 0 0 0 0))
+
+(define (mark who where)
+   (let ((x (* 27 
+		(remainder where 3)))
+	(y (* 27
+		(quotient where 3))))
+  (cond (who ; Human: draw O
+	(move (+ x 2) (+ y 2))
+	(set-pattern #t)
+	(rect (+ x 24) (+ y 24) 11)
+	(move (+ x 4) (+ y 4))
+	(set-pattern #f)
+	(rect (+ x 22) (+ y 22) 9))
+    (else ; Pilot: draw X
+	(set-pattern #t)
+	(move (+ x 2) (+ y 2))
+	(draw (+ x 23) (+ y 23))
+	(move (+ x 3) (+ y 2))
+	(draw (+ x 24) (+ y 23))
+	(move (+ x 23) (+ y 2))
+	(draw (+ x 2) (+ y 23))
+	(move (+ x 23) (+ y 3))
+	(draw (+ x 2) (+ y 24))))))
+
+;;; get user's move
+(define (human bo)
+  (move 90 36) 
+  (text ""Tap a square"") 
+  (let ((p (wait-pen)))
+    (let ((x (car p)) 
+	    (y (cdr p)))
+      (if (> x 81) 
+	(result ""Player resigns"")
+	(let ((mv (+ (quotient x 27)
+		(* 3 (quotient y 27)))))
+	(cond ((memq mv 
+			(poss-moves bo))
+	  	(mark #t mv)
+		(do-move 1 mv bo))
+	(else (human bo))))))))
+
+(define (index val)
+  (lambda (bo)
+   (letrec ((pm (lambda (b m x)
+     (cond ((null? b) m)
+	((eq? (car b) val)
+	    (pm (cdr b) (cons x m)
+		    (+ x 1)))
+	(else (pm (cdr b) m (+ x 1))))
+	)))
+  (pm bo '() 0))))
+
+(define (poss-moves bo) 
+	((index 0) bo)) 
+
+(define (do-move who where board)
+  (if (eq? where 0)
+	(cons who (cdr board))
+	(cons (car board)
+	   (do-move who (- where 1) 
+		(cdr board)))))
+
+(define (subset s1 s2)
+   (cond ((null? s1) #t)
+	((null? s2) #f)
+	(else (let
+		((d (- (car s1) (car s2))))
+	   (cond ((> d 0) #f)
+		((< d 0)
+		   (subset s1 (cdr s2)))
+		(else
+		   (subset (cdr s1) (cdr s2))
+))))))
+
+(define (evaluate bo)
+  (letrec (
+	(any-subset (lambda (s ls)
+	  (if (null? ls) #f
+	     (or (subset  (car ls) s)
+		(any-subset s (cdr ls))))))
+	(winner (lambda (ps)
+	  (any-subset ps 
+		'((2 1 0) (5 4 3) (8 7 6) 
+		(6 3 0) (7 4 1) (8 5 2)
+		(8 4 0) (6 4 2)))))
+	(crs (lambda (l1 l2)
+		(if (null? l1) 0
+		(+ (* (car l1) (car l2))
+		  (crs (cdr l1) (cdr l2)))))))
+  (let ((me ((index -1) bo))
+	(you ((index 1) bo)))
+	(cond ((and (>= (length you) 3)
+			 (winner you)) 1000)
+		((and (>= (length me) 3)
+			(winner me)) -1000)
+	(else (crs bo '(2 1 2 1 5 1 2 1 2)))
+))))
+
+(define (extend who) 
+  (lambda (bo)
+    (map (lambda (m)
+	(let ((nb (do-move who m bo)))
+	  (list nb m (evaluate nb))))
+	(poss-moves bo))))
+
+(define (find p l)
+  (letrec ((f (lambda (l m)
+    (cond ((null? l)  m)
+	((p m (car l))
+		(f (cdr l) m))
+	(else (f (cdr l) (car l)))))))
+  (f (cdr l) (car l))))
+ 
+(define (not-loose p)
+  (or (eq? (caddr p) -1000)
+    (not (lost ((extend 1) (car p))))))
+
+(define (lost ps)
+  (if (null? ps) #f
+	(or (eq? (caddr (car ps)) 1000)
+		(lost (cdr ps)))))
+
+(define (stupid bo)
+   (let ((moves (poss-moves bo)))
+      (list-ref moves
+	(random (length moves)))))
+
+(define (static bo)
+  (cadr (find (lambda (a b)
+		(< (caddr a) (caddr b)))
+	((extend -1) bo))))
+
+(define (smart bo)
+  (let ((ps (filter not-loose
+		 ((extend -1) bo))))
+    (if (null? ps)
+	(result ""Pilot resigns"")
+	(cadr (find (lambda (a b)
+	     (< (caddr a) (caddr b)))
+	ps)))))
+
+(define (pilot algo)
+  (lambda (bo)
+    (move 90 36)
+    (set-pattern #t) 
+    (text ""I'm thinking..."")
+    (let ((mv (algo bo)))
+ 	(mark #f mv)
+	(do-move -1 mv bo))))
+
+(define (ttt who algo)
+  (letrec ((go (lambda (bo who)
+    (let ((new
+      ((if who human (pilot algo)) bo)))
+      (let ((v (evaluate new)))
+	(cond ((eq? v 1000) 
+			(result ""You win!""))
+		((eq? v -1000)
+			(result ""Pilot wins!""))
+		((null? (poss-moves new))
+			(result ""Draw!""))
+		(else (go new (not who))))
+    )))))
+  (own-gui #t)
+  (message
+    (call/cc (lambda (k)
+	(set! result k)
+	(go  (init-board) who))))
+  (own-gui #f)))
+
+"
+"; even/odd mutual recursion
+(define (even n) 
+	(if (eqv? n 0) #t
+		(odd (- n 1))))
+(define (odd n)
+	(if (eqv? n 0) #f
+		(even (- n 1))))
+"
+"; Symbolic derivation
+(define (diff e) 
+    (define (sum e1 e2) 
+	(cond ((and (number? e1)
+		      (number? e2))
+		 (+ e1 e2))
+	((eq? e1 0) e2)
+	((eq? e2 0) e1)
+	(else `(+ ,e1 ,e2))))
+    (define (sub e1 e2) 
+	(cond ((and (number? e1)
+		       (number? e2)) 
+		(- e1 e2))
+	((eq? e1 0) `(* -1 ,e2))
+	((eq? e2 0) e1)
+	((eq? e1 e2) 0)
+	(else `(-,e1 ,e2))))
+    (define (prod e1 e2)
+	(cond ((and (number? e1)
+		      (number? e2))
+		 (* e1 e2))
+	((eq? e1 0) 0)
+	((eq? e2 0) 0)
+	((eq? e1 1) e2)
+	((eq? e2 1) e1)
+	(else `(* ,e1 ,e2))))
+    (define (div e1 e2)
+	(cond ((and (number? e1)
+		      (number? e2))
+		 (/ e1 e2))
+	((eq? e1 0) 0)
+	((eq? e2 1) e1)
+	((eq? e1 e2) 1)
+	(else `(/ ,e1 ,e2))))
+    (define (expt* e1 e2)
+	(cond ((eq? e2 0) 1)
+		((eq? e2 1) e1)
+		(else `(expt ,e1 ,e2))))
+    (if (not (pair? e))
+	(if (eq? e 'x) 1 0)
+	(case (car e)
+	((+) (let ((e1 (cadr e))
+			(e2 (caddr e)))
+		(sum (diff e1) (diff e2))))
+	((-) (let ((e1 (cadr e))
+			(e2 (caddr e)))
+		(sub (diff e1) (diff e2))))
+	((*) (let ((e1 (cadr e))
+			(e2 (caddr e)))
+		(sum (prod e1 (diff e2))
+			(prod (diff e1) e2))))
+	((/) (let ((z (cadr e))
+			(n (caddr e)))
+		(div (sub (prod n (diff z))
+				(prod z (diff n)))
+			(prod n n))))
+	((expt) (let ((e1 (cadr e))
+			(e2 (caddr e)))
+		(if (number? e2)
+		    (prod e2 (prod
+			(expt* e1 (- e2 1))
+			(diff e1)))
+		    (error
+		     ""Not implemented""))))
+	(else (error
+		 ""Invalid expression"")))))"
+"; count change
+(define coins '(50 20 10 5 2 1))
+;(define coins '(50 25 10 5 1))
+(define (cc am c)
+	(if (eq? am 0) 1
+	(if (or (< am 0) (null? c)) 0
+	(+ (cc (- am (car c)) c)
+	      (cc am (cdr c))))))
+"
+"; Infinite streams
+(define ones (cons 1 (delay ones)))
+(define nat (cons 1
+		 (delay (+str ones nat))))
+(define (+str s1 s2)
+	(cons (+ (car s1) (car s2))
+		(delay (+str
+			(force (cdr s1))
+			(force (cdr s2))))))
+(define (filter p s)
+   (if (p (car s))
+	(cons (car s)
+	    (delay (filter p
+			(force (cdr s)))))
+	(filter p (force  (cdr s)))))
+(define fibs
+	(letrec
+		((fibgen (lambda (a b) 
+		(cons a (delay (fibgen b 
+					(+ a b)))))))
+	(fibgen 0 1)))
+(define (primes)
+	(letrec ((sieve (lambda (s)
+	  (cons (car s)
+	 	(delay (sieve (filter 
+		  (lambda (n) 
+	(> (remainder n (car s)) 0))
+		(force (cdr s)))))))))
+	(sieve (force (cdr nat)))))
+(define (print s)
+	(write (car s))
+	(print (force (cdr s))))"
+"; Ackermann
+(define a (lambda (n m)
+	(if (eqv? n 0) (+ m 1)
+	(if (eqv? m 0) (a (- n 1) 1)
+	(a (- n 1) (a n (- m 1)))))))"
+"; Little schemer 19
+; pages 165-175 of ""The Seasoned
+; Schemer"", some minor syntactic
+; derivations
+
+(define (atom? a)
+	(and (not (pair? a))
+		(not (null? a))))
+(define two-in-a-row?
+	(letrec ((W (lambda (a lat)
+		(cond ((null? lat) #f)
+		(else
+		(let ((nxt (car lat)))
+			(or (eq? nxt a)
+			(W nxt 
+				(cdr lat)))))))))
+	(lambda (lat) (if (null? lat) #f
+		(W (car lat) (cdr lat))))))
+
+(define leave #f)
+(define walk (lambda (l)
+	(cond ((null? l) '())
+		((atom? (car l)) 
+			(leave (car l)))
+		(else
+			(walk (car l))
+		   	(walk (cdr l))))))
+(define (start-it l)
+	(call/cc (lambda (here)
+		(set! leave here)
+		(walk l))))
+(define fill #f)
+(define waddle (lambda (l)
+	(cond ((null? l) '())
+		((atom? (car l)) 
+			(call/cc (lambda (rest)
+				(set! fill rest)
+				(leave (car l))))
+			(waddle (cdr l)))
+	(else (waddle (car l))
+		  (waddle (cdr l))))))
+(define (get-first l) 
+	(call/cc (lambda (here)
+		(set! leave here)
+		(waddle l)
+		(leave '()))))
+(define (get-next)
+	(call/cc (lambda (again)
+		(set! leave again)
+		(fill 'dummy))))
+(define two-in-a-row*?
+	(lambda (l)
+		(let ((fst (get-first l)))
+		(if (atom? fst)
+		   (two-in-a-row-b*? fst)
+		   #f))))
+(define two-in-a-row-b*?
+	(lambda (a)
+		(let ((n (get-next)))
+		(if (atom? n)
+		  (or (eq? n a)
+			(two-in-a-row-b*? n))
+		  #f))))
+"
+"; Tracer
+
+(define *tracing* '())
+
+(define (%remove f)
+  (define (R l)
+    (cond ((null? l) l)
+	((eq? f (caar l)) (cdr l))
+	(else (cons (car l) (R (cdr l))))))
+  (set! *tracing* (R *tracing*)))
+
+(define (writeln p . l)
+	(for-each (lambda (e) 
+	(display e p) (display "" "" p)) l)
+	(newline p))
+
+(define tracer 
+  (let ((depth 0)
+	(p (open-append-file ""Trace"")))
+    (lambda (f n) 
+      (lambda args
+	(writeln p depth "">"" 
+		(cons n args))
+	(let ((old-depth depth))
+	  (set! depth (+ depth 1))
+	    (let ((res (apply f args)))
+	      (set! depth old-depth)
+	      (writeln p depth n ""<"" res)
+	      res))))))
+
+(macro (trace f)
+  (let ((f (cadr f)))
+    (if (assq f *tracing*)
+	(error (string-append 
+			""Already tracing ""
+			 (object->string f)))
+	`(let ((of ,f) (tf (tracer , f ',f)))
+	    (set! *tracing* 
+		(cons (cons ',f of) 	
+			*tracing*))
+	    (set! ,f tf)))))
+		
+(macro (untrace f)
+  (let ((f (cadr f)))
+  (let ((of (assq f *tracing*)))
+    (%remove f)
+    (if of `(set! ,f ,(cdr of))
+	(error (string-append 
+		""Not tracing ""
+		(object->string f)))))))"
+"; Handbase utilities
+
+;;; Curried to avoid repeated reading 
+;;; of catalog
+(define (hb-getrecord db)
+  (let ((info (hb-info db)))
+    (lambda (rec) 
+      (letrec ((getf (lambda (fd) 
+	(convert 
+	  (if (= (caddr fd) 10)
+	    (hb-getlinks db rec (car fd))
+	    (hb-getfield db rec (car fd)))
+	  (caddr fd)))))
+    (if (or (< rec 0) (>= rec (car info)))
+	(error ""rec out of range"")
+      (map getf (cdr info)))))))
+
+(define (convert val type)
+   (case type 
+    ((1 4 12 13 14) val)
+    ((2 6) (string->object val))
+    ((3 15) (parse-float val))
+  ; type 15 could also be date/time !
+    ((5) (string=? val ""TRUE""))
+    ((7) 'image)
+    ((8) (parse-date val))
+    ((9) (parse-time val))
+    ((10) (map (hb-getrecord 
+		(car val)) (cdr val)))
+    ((11) 'linked)))
+
+;;; Parse a float after replacing
+;;; commas by dots
+(define (parse-float s) 
+  (do ((i 0 (+ i 1))) 
+	((>= i (string-length s))
+ 	(string->object s))
+    (if (eq? #\, (string-ref s i))
+	(string-set! s i #\.) #n)))
+
+;;; Parse a date string dd.mm.yy
+;;; year in range 1951-2050 assumed
+(define (parse-date s)
+  (let* ((d1 (find s #\. 0))
+	(d2 (find s #\. (+ d1 1)))
+	(y (string->object 
+		(substring s (+ d2 1) 15)))
+	(m  (string->object 
+		(substring s (+ d1 1) d2)))
+	(d (string->object 
+		(substring s 0 d1))))
+  `(date ,(+ y (if (> y 50) 1900 2000))
+	,m ,d)))
+
+;;; Parse a time string hh:mm
+(define (parse-time s)
+  (if (string=? ""No Time"" s)
+  '(time #n)
+  `(time ,(string->object s) 
+	,(string->object (substring s 
+  	   (+ 1 (find s #\: 0)) 10)))))
+
+;;; Find char c in string s starting at
+;;; position p. Returns #f if not found
+(define (find s c p)
+  (cond ((>= p (string-length s)) #f)
+	((eq? c (string-ref s p)) p)
+	(else (find s c (+ 1 p)))))
+   "
+"; Doodle
+(define (doodle)
+  (set-resdb ""GUIdemo"")
+  (set-pattern #t)
+  (frm-popup 1100
+    (lambda (event . args)
+      (case event
+	((menu) (frm-return 'bye))
+	((pen-move pen-up)  
+	  (draw (car args) (cadr args)))
+	((pen-down)  
+	  (move (car args) (cadr args)))
+	(else #f)))))
+"
+"; Form navigation
+
+(define (h1 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2002) (frm-goto  3000 h2))
+        ((2003) (fld-set-text 2001 
+		(frm-popup 2100 h11)))
+        ((2004) (frm-return 'd1))))
+    (else #f)))
+
+(define (h11 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2102) (frm-goto  2200 h12))
+        ((2103) (fld-set-text 2101 
+		(frm-popup 2110 h111)))
+        ((2104) (frm-return 'd11))))
+    (else #f)))
+
+(define (h111 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2112) (frm-goto  2120 h112))
+        ((2114) (frm-return 'd111))))
+    (else #f)))
+
+(define (h112 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2122) (frm-goto  2110 h111))
+        ((2124) (frm-return 'd112))))
+    (else #f)))
+
+(define (h12 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((2202) (frm-goto  2100 h11))
+        ((2204) (frm-return 'd12))))
+    (else #f)))
+
+(define (h2 event . args)
+  (case event
+    ((ctl-select)
+      (case (car args)
+        ((3002) (frm-goto  2000 h1))
+        ((3004) (frm-return 'd2))))
+    (else #f)))
+
+(define (go)
+  (set-resdb ""GUIdemo"")
+  (frm-popup 2000 h1))
+
+"
+"; GUI Demo
+(define (go)
+  (set-resdb ""GUIdemo"")
+  (frm-popup 1777 
+    (let ((f 1000)) 
+      (lambda (e . a)
+	(case e
+	  ((frm-open)
+		(ctl-set-val 1101 #t))
+	  ((lst-select)
+	    (fld-set-text 1002 
+	    (lst-get-text 1100 (cadr a))))
+	  ((menu)
+	      (case (car a)
+		((2223)
+		  (lst-set-sel 1100
+		  (string->object
+		    (fld-get-text 1001))))
+		((2224)
+		 (fld-set-text 1001
+			(lst-get-sel 1100)))))
+	  ((ctl-repeat)
+	      (case (car a)
+		((1600)
+		  (sound (integer (set! f 
+			(/ f 1.03))) 50) #f)
+		((1601)
+		  (sound (integer (set! f 
+			(* f 1.03))) 50) #f)))
+	  ((ctl-select)
+	      (case (car a)
+		((1900)
+		  (fld-set-text 1002 
+			(fld-get-text 1001)))
+		((1901)
+		  (ctl-set-val 1102
+		   (not (ctl-get-val 1102))))
+		((1902)
+		  (frm-return
+			(fld-get-text 1002)))
+		((1903)
+		  (fld-set-text 1001
+		    (nested)))
+		((1101)
+		  (frm-show 1903 (cadr a)))
+		(else #f)))
+	  ((pop-select) (write a) #f)
+	  ((frm-close) (message ""Bye"")
+		#f)
+	  (else #f))))))
+
+(define (nested)
+  (frm-popup 1888
+      (lambda (e . a)
+	(case e
+	  ((ctl-select)
+	      (case (car a)
+		((1001) (frm-return
+			(fld-get-text 1000)))
+		((1002) (frm-return 42))))
+	  (else #f)))))
+
+"
+"; Calculator
+(define (calc)
+  (set-resdb ""GUIdemo"")
+  (frm-popup 4000 handler))
+
+(define handler
+  (let ((disp ""0"") (acc 0) 
+	 (op #f))
+  (define (update) 
+    (fld-set-text 1001 
+      (if (string? disp)
+	(string->object disp)
+	disp)))
+  (define (id->string id)
+    (list->string (list
+      (if (eq? id 2010) #\.
+	  (integer->char (- id 1952))))))
+   (lambda (e . a)
+    (case e
+      ((menu) (frm-return 'ok))
+      ((frm-open) (update))
+      ((ctl-select) 
+	(let ((id (car a)))
+	  (cond ((and (<= 2000 id)
+		(<= id 2010)) ; digit & dot
+	     (if (string? disp)
+		(set! disp
+		  (string-append disp
+		    (id->string id)))
+		(begin (set! acc disp)
+		  (set! disp (id->string id))))
+	     (update))
+	  ((and (<= 2011 id) (< id 2016))
+	    (cond ((string? disp)
+	     (set! disp 
+		(string->object disp))
+	     (set! disp
+	      (case op 
+		((0) (/ acc disp))
+		((1) (* acc disp))
+		((2) (- acc disp))
+		((3) (+ acc disp))
+		(else disp)))
+	      (update)
+	      (set! op (- id 2012)))
+	    (else (set! op (- id 2012)))))
+	  ((eq? id 2016) ; +/-
+	    (set! disp 
+	      (if (string? disp)
+	        (object->string 
+		  (- (string->object disp)))
+		  (- disp)))
+	    (update))			
+	  ((eq? id 2017) ; clear
+		(set! disp ""0"")
+		(set! op #f) 
+		(update))
+	  (else #f))))
+      (else #f)))))"
+";;  Unify.lisp: Orig:pazzani@ics.uci.edu, port:wdavies@cs.stanford.edu
+(define *success* '((#t / #t)))
+;;
+(define (append-bds new old)
+	(cond ((null? new) '())
+	((null? old) '())
+	((eq? new *success*) old)
+	((eq? old *success*) new)
+	(else (append new old))))
+;;
+(define (variable? a)
+	(and (symbol? a)
+	(let ((first (string-ref 
+		(object->string a) 0)))
+	(or (eq? first #\?) 
+		(eq? first #\G))))) 
+;;
+(define (constant? a)
+	(and (not (pair? a))
+	 (not (variable? a))))
+;;
+(define (contains tree item)
+	(cond ((null? tree) #f)
+	((not (pair? tree))
+	 (equal? tree item))
+	(else
+	 (or (contains (car tree) item)
+	 (contains (cdr tree) item)))))
+;;;
+(define (subst new old subtree )
+	(cond ((equal? old subtree) new)
+	((not (pair? subtree)) subtree)
+	(else (cons (subst new old (car subtree))
+	(subst new old (cdr subtree))))))
+;;
+(define (apply-substitution substs expr)
+	(let ((c expr))
+	(map (lambda(s)
+	 (set! c (subst (car s) (caddr s) c)))
+         substs)
+	c))
+;;
+(define (unify l1 l2)
+	(cond ((or (constant? l1)
+	 (or (variable? l1)
+	 (or (constant? l2) (variable? l2))))
+	 (cond ((eq? l1 l2) *success*)
+	 ((variable? l1)
+	(if (contains l2 l1) '() (list (list l2 '/ l1))))
+	 ((variable? l2)
+	(if (contains l1 l2) '() (list (list l1 '/ l2))))
+	 (else '())))
+	(else (let ((s (unify (car l1) (car l2))))
+	(cond ((null? s) '())
+	(else (set! l1 (apply-substitution s l1))
+	(set! l2 (apply-substitution s l2))
+	(append-bds s (unify (cdr l1)(cdr l2)))))))))
+;;
+(define (find-all-vars x vars)
+ (if (not (pair? x))
+	(if (and (variable? x) (not (member x vars)))
+	(cons x vars) vars)
+	 (find-all-vars (car x) (find-all-vars (cdr x) vars))))
+
+;;
+(define *cur* 0)
+
+;;
+(define (gentemp x)
+	(gensym))
+;;
+(define (copy-with-unique-vars list)
+	(let ((vars (find-all-vars list '()))(l list))
+	(map (lambda (v)
+	 (set! l (subst (gentemp v) v l))) vars) l))
+
+;;;
+(define (cl-head cl)
+  (if (eq? (length cl) 1) (car cl) (cadr cl)))
+(define (cl-body cl)
+  (if (and (pair? cl)(pair? (cdr cl))) (cddr cl) '()))
+
+;;
+(define (prove-it goals bds rules)
+  (letrec ((prove-1-goal
+	    (lambda (goal bds rules)
+	      (let ((res '()))
+	        (map (lambda (cl)
+	               (set! res (append res
+	                                 (let ((new-cl
+(copy-with-unique-vars cl))
+	                                       (new-bds '()))
+	                                   (set! new-bds
+	                                         (unify goal (cl-head new-cl)))
+	                                   (if (equal? new-bds '()) '()
+	                                       (prove-goals
+	                                        (cl-body new-cl)
+	                                        (append-bds bds new-bds)
+	                                        rules))))))
+	             rules) res)))
+	   (prove-goals (lambda (goals bds rules)
+	                  (cond ((null? goals) (list bds))
+	                        (else
+	                         (set! goals (apply-substitution bds goals))
+	                         (let ((res '()))
+	                           (map (lambda (solution)
+	                                  (set! res
+	                                        (append res
+	                                                (prove-goals (cdr
+goals) solution rules))))
+	                                (prove-1-goal (car goals) bds
+rules)) res)
+	                         ))))
+	   )
+	  (prove-goals goals bds rules)))
+
+(define (prove goals rules)
+(let ((bds (prove-it goals *success* rules)))
+(if (null? bds) '()
+(let ((res '()))
+(map (lambda (b)
+(set! res (append res (list  ;(apply-substitution (reverse b) 
+(apply-substitution b
+goals)))))
+bds) res))))
+;;EOF
+
+"
+";; theory.lisp
+(define *rules*
+  '((<= (likes-to-eat ?x ?y) (cat ?x)(fish ?y))
+    (<= (cat ?x) (calico ?x))
+    (<= (fish ?x) (tuna ?x))
+    ((tuna charlie))
+    ((tuna herb))
+    ((calico kitty))))
+(define (test) (prove '((likes-to-eat ?x ?y)) *rules*))
+
+
+"
+"; drawing modes
+
+(define (go)
+  (set-bg (rgb->index 80 80 80))
+  (set-mode 0)
+  (cls)
+  (set-pattern #t)
+  (set-mode 0)
+  (set-fg red)
+  (move 0 40) (rect 160 60 0)
+  (set-fg green)
+  (move 0 60) (rect 160 80 0)
+  (set-fg blue)
+  (move 0 80) (rect 160 100 0)
+
+  (set-pattern brick)
+  (set-fg red) (set-bg blue)
+  (do ((i 0 (+ i 1))) ((> i 6) #n)
+    (set-mode i)
+    (if (> i 5) (set-pattern #t) #n)
+    (move (+ 5 (* i 22)) 20)
+    (rect (+ 20 (* i 22)) 95 6)))
+"

@@ -1,0 +1,13 @@
+; Doodle
+
+(define (doodle)
+  (set-resdb "GUIdemo")
+  (frm-popup 1100
+    (lambda (event . args)
+      (case event
+	((menu) (frm-return 'bye))
+	((pen-move pen-up)  
+	  (draw (car args) (cadr args)))
+	((pen-down)  
+	  (move (car args) (cadr args)))
+	(else #f)))))

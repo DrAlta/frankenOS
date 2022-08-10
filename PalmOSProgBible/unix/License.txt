@@ -1,0 +1,102 @@
+IDG BOOKS WORLDWIDE, INC.
+END-USER LICENSE AGREEMENT
+
+READ THIS. You should carefully read these terms and conditions before opening the software 
+packet(s) included with this book ("Book"). This is a license agreement ("Agreement") between
+you and IDG Books Worldwide, Inc. ("IDGB"). By opening the accompanying software packet(s), 
+you acknowledge that you have read and accept the following terms and conditions. If you do 
+not agree and do not want to be bound by such terms and conditions, promptly return the Book 
+and the unopened software packet(s) to the place you obtained them for a full refund.
+
+   1.   License Grant. IDGB grants to you (either an individual or entity) a nonexclusive 
+	license to use one copy of the enclosed software program(s) (collectively, the 
+	"Software") solely for your own personal or business purposes on a single computer 
+	(whether a standard computer or a workstation component of a multiuser network). 
+	The Software is in use on a computer when it is loaded into temporary memory (i.e., RAM)
+	or installed into permanent memory (e.g., hard disk, CD-ROM, or other storage device).
+	IDGB reserves all rights not expressly granted herein.
+
+   2.   Ownership. IDGB is the owner of all right, title, and interest, including copyright,
+	in and to the compilation of the Software recorded on the CD-ROM. Copyright to the
+	individual programs on the CD-ROM is owned by the author or other authorized copyright 
+	owner of each program. Ownership of the Software and all proprietary rights relating 
+	thereto remain with IDGB and its licensors.
+
+   3.   Restrictions on Use and Transfer.
+
+   (a)  You may only (i) make one copy of the Software for backup or archival purposes, or 
+	ii) transfer the Software to a single hard disk, provided that you keep the original 
+	for backup or archival purposes. You may not (i) rent or lease the Software, (ii) copy
+	or reproduce the Software through a LAN or other network system or through any computer
+	subscriber system or bulletin-board system, or (iii) modify, adapt, or create derivative
+	works based on the Software.
+
+   (b)   You may not reverse engineer, decompile, or disassemble the Software. You may transfer 
+	the Software and user documentation on a permanent basis, provided that the transferee 
+	agrees to accept the terms and conditions of this Agreement and you retain no copies. 
+	If the Software is an update or has been updated, any transfer must include the most 
+	recent update and all prior versions.
+
+   4.   Restrictions on Use of Individual Programs. You must follow the individual requirements 
+	and restrictions detailed for each individual program in the "About the CD" section of 
+	this Book. These limitations are contained in the individual license agreements recorded
+	on the CD-ROM. These restrictions may include a requirement that after using the program 
+	for the period of time specified in its text, the user must pay a registration fee or 
+	discontinue use. By opening the Software packet(s), you will be agreeing to abide by 
+	the licenses and restrictions for these individual programs. None of the material on 
+	this disk(s) or listed in this Book may ever be distributed, in original or modified 
+	form, for commercial purposes.
+
+   5.   Limited Warranty.
+
+   (a)  IDGB warrants that the Software and CD-ROM are free from defects in materials and 
+	workmanship under normal use for a period of sixty (60) days from the date of purchase
+	of this Book. If IDGB receives notification within the warranty period of defects in 
+	materials or workmanship, IDGB will replace the defective CD-ROM.
+
+   (b)  IDGB AND THE AUTHOR OF THE BOOK DISCLAIM ALL OTHER WARRANTIES, EXPRESS OR IMPLIED, 
+	INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A 
+	PARTICULAR PURPOSE, WITH RESPECT TO THE SOFTWARE, THE PROGRAMS, THE SOURCE CODE 
+	CONTAINED THEREIN, AND/OR THE TECHNIQUES DESCRIBED IN THIS BOOK. IDGB DOES NOT WARRANT 
+	THAT THE FUNCTIONS CONTAINED IN THE SOFTWARE WILL MEET YOUR REQUIREMENTS OR THAT THE 
+	OPERATION OF THE SOFTWARE WILL BE ERROR FREE.
+
+   (c)  This limited warranty gives you specific legal rights, and you may have other rights 
+	which vary from jurisdiction to jurisdiction.
+
+   6.   Remedies.
+
+   (a)  IDGB's entire liability and your exclusive remedy for defects in materials and 
+	workmanship shall be limited to replacement of the Software, which may be returned to 
+	IDGB with a copy of your receipt at the following address: Disk Fulfillment Department,
+	Attn: Palm OS Programming Bible, IDG Books Worldwide, Inc.,
+	10475 Crosspoint Boulevard, Indianapolis, Indiana, 46256, or call 1-800-762-2974. Please 	
+	allow 3-4 weeks for delivery. This Limited Warranty is void if failure of the Software
+	has resulted from accident, abuse, or misapplication. Any replacement Software will be 
+	warranted for the remainder of the original warranty period or thirty (30) days, 
+	whichever is longer.
+
+   (b)  In no event shall IDGB or the author be liable for any damages whatsoever (including 
+	without limitation damages for loss of business profits, business interruption, loss 
+	of business information, or any other pecuniary loss) arising from the use of or 
+	inability to use the Book or the Software, even if IDGB has been advised of the 
+	possibility of such damages.
+
+   (c)  Because some jurisdictions do not allow the exclusion or limitation of liability for 
+	consequential or incidental damages, the above limitation or exclusion may not apply to 
+	you.
+
+   7.   U.S. Government Restricted Rights. Use, duplication, or disclosure of the Software by 
+	the U.S. Government is subject to restrictions stated in paragraph (c) (1) (ii) of the 
+	Rights in Technical Data and Computer Software clause of DFARS 252.227-7013, and in
+	subparagraphs (a) through (d) of the Commercial Computer--Restricted Rights clause at
+	FAR 52.227-19, and in similar clauses in the NASA FAR supplement, when applicable.
+
+   8.   General. This Agreement constitutes the entire understanding of the parties and revokes 
+	and supersedes all prior agreements, oral or written, between them and may not be
+	modified or amended except in a writing signed by both parties hereto which specifically 
+	refers to this Agreement. This Agreement shall take precedence over any other documents
+	that may be in conflict herewith. If any one or more provisions contained in this 
+	Agreement are held by any court or tribunal to be invalid, illegal, or otherwise 
+	unenforceable, each and every other provision shall remain in full force and effect.
+ 

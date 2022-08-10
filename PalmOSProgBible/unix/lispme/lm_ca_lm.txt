@@ -1,0 +1,59 @@
+; Calculator
+(define (calc)
+  (set-resdb "GUIdemo")
+  (frm-popup 4000 handler))
+
+(define handler
+  (let ((disp "0") (acc 0) 
+	 (op #f))
+  (define (update) 
+    (fld-set-text 1001 
+      (if (string? disp)
+	(string->object disp)
+	disp)))
+  (define (id->string id)
+    (list->string (list
+      (if (eq? id 2010) #\.
+	  (integer->char (- id 1952))))))
+   (lambda (e . a)
+    (case e
+      ((menu) (frm-return 'ok))
+      ((frm-open) (update))
+      ((ctl-select) 
+	(let ((id (car a)))
+	  (cond ((and (<= 2000 id)
+		(<= id 2010)) ; digit & dot
+	     (if (string? disp)
+		(set! disp
+		  (string-append disp
+		    (id->string id)))
+		(begin (set! acc disp)
+		  (set! disp (id->string id))))
+	     (update))
+	  ((and (<= 2011 id) (< id 2016))
+	    (cond ((string? disp)
+	     (set! disp 
+		(string->object disp))
+	     (set! disp
+	      (case op 
+		((0) (/ acc disp))
+		((1) (* acc disp))
+		((2) (- acc disp))
+		((3) (+ acc disp))
+		(else disp)))
+	      (update)
+	      (set! op (- id 2012)))
+	    (else (set! op (- id 2012)))))
+	  ((eq? id 2016) ; +/-
+	    (set! disp 
+	      (if (string? disp)
+	        (object->string 
+		  (- (string->object disp)))
+		  (- disp)))
+	    (update))			
+	  ((eq? id 2017) ; clear
+		(set! disp "0")
+		(set! op #f) 
+		(update))
+	  (else #f))))
+      (else #f)))))

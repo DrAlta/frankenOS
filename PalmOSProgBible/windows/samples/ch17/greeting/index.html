@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Greeting</title>
+<meta name="palmcomputingplatform" content="true">
+<meta name="palmlauncherrevision" content="1.0">
+</head>
+<body>
+<h2>Formal Greeting Generator</h2>
+<p>Enter your name below for a personalized formal greeting.</p>
+
+<form action="http://palmosbible.com/cgi/greeting.cgi" method="get">
+<table>
+  <tr>
+    <td align=right><b>Title:</b></td>
+    <td><select name="title">
+        <option selected value="0">None
+        <option value="1">Mr.
+        <option value="2">Mrs.
+        <option value="3">Ms.
+        <option value="4">Dr.
+        <option value="5">General
+        <option value="6">King
+        <option value="7">Queen
+        </select></td>
+  </tr>
+  <tr>
+    <td align=right><b>First Name:</b></td>
+    <td><input type="text" name="fname" size="15" maxlength="30"></td>
+  </tr>
+  <tr>
+    <td align=right><b>Last Name:</b></td>
+    <td><input type="text" name="lname" size="15" maxlength="30"></td>
+  </tr>
+  <tr>
+    <td align=right><b>Time:</b></td>
+    <td><input type="timepicker" name="time"></td>
+  </tr>
+</table>
+<pre>  </pre>
+<pre>  </pre>
+<input type="submit" value="Say Hello">
+<a href="help.html" button>Help</a>
+</form>
+</body>
+</html>

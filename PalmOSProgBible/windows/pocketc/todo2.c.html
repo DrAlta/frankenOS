@@ -1,0 +1,50 @@
+<html>
+<title>todo2.c</title>
+<body>
+<b>todo2.c</b> (<a href="todo2.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// ToDo reader
+</font><font color=0000ff>int </font><font color=000000>i, nRecs, rc;
+</font><font color=0000ff>pointer </font><font color=000000>todo;
+
+main() {
+  </font><font color=008000>// allocate memory for the data
+  </font><font color=000000>todo = </font><font color=000000><b>malloc</b></font><font color=000000>(</font><font color=0000a0>4</font><font color=000000>);
+  </font><font color=000000><b>settype</b></font><font color=000000>(todo, </font><font color=0000a0>2</font><font color=000000>, </font><font color=000080>'i'</font><font color=000000>);
+  </font><font color=000000><b>settype</b></font><font color=000000>(todo+</font><font color=0000a0>2</font><font color=000000>, </font><font color=0000a0>2</font><font color=000000>, </font><font color=000080>'s'</font><font color=000000>);
+  
+  </font><font color=008000>// attempt to open the database
+  </font><font color=0000ff>if </font><font color=000000>(!</font><font color=000000><b>dbopen</b></font><font color=000000>(</font><font color=000080>"ToDoDB"</font><font color=000000>)) {
+    </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Unable to open ToDo database"</font><font color=000000>);
+    </font><font color=0000ff>return</font><font color=000000>;
+  }
+
+  </font><font color=008000>// read and display all records
+  </font><font color=000000>nRecs = </font><font color=000000><b>dbnrecs</b></font><font color=000000>();
+  </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"NumRecs: " </font><font color=000000>+ nRecs + </font><font color=000080>"\n"</font><font color=000000>);
+  </font><font color=0000ff>for </font><font color=000000>(i=</font><font color=0000a0>0</font><font color=000000>;i&lt;nRecs;i++) {
+    </font><font color=000000><b>dbrec</b></font><font color=000000>(i);
+    rc = </font><font color=000000><b>dbreadx</b></font><font color=000000>(todo, </font><font color=000080>"i2cszsz"</font><font color=000000>);
+    </font><font color=008000>// if rc != 4, then this is not a valid record
+    // and has probably been deleted
+    </font><font color=0000ff>if </font><font color=000000>(rc==</font><font color=0000a0>4</font><font color=000000>) {
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Record: "</font><font color=000000>+i+</font><font color=000080>"\n  Priority: "</font><font color=000000>+todo[</font><font color=0000a0>1</font><font color=000000>]+</font><font color=000080>"\n  Title: "
+        </font><font color=000000>+ todo[</font><font color=0000a0>2</font><font color=000000>] + </font><font color=000080>"\n  Note: " </font><font color=000000>+ todo[</font><font color=0000a0>3</font><font color=000000>] + </font><font color=000080>"\n"</font><font color=000000>);
+    }
+  }
+
+  </font><font color=008000>// add a new record
+  </font><font color=000000>todo[</font><font color=0000a0>0</font><font color=000000>] = </font><font color=0000a0>0x</font><font color=000000>ffff; </font><font color=008000>// no category, date
+  </font><font color=000000>todo[</font><font color=0000a0>1</font><font color=000000>] = </font><font color=0000a0>4</font><font color=000000>; </font><font color=008000>// priority = 4
+  </font><font color=000000>todo[</font><font color=0000a0>2</font><font color=000000>] = </font><font color=000080>"Register PocketC"</font><font color=000000>; </font><font color=008000>// text
+  </font><font color=000000>todo[</font><font color=0000a0>3</font><font color=000000>] = </font><font color=000080>"PocketC, from OrbWorks costs only $18.50.\nOrder you copy today!"</font><font color=000000>;
+  </font><font color=000000><b>dbrec</b></font><font color=000000>(-</font><font color=0000a0>1</font><font color=000000>); </font><font color=008000>// new record
+  </font><font color=000000>rc = </font><font color=000000><b>dbwritex</b></font><font color=000000>(todo, </font><font color=000080>"i2cszsz"</font><font color=000000>);
+  </font><font color=0000ff>if </font><font color=000000>(rc != </font><font color=0000a0>4</font><font color=000000>) </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Error creating new todo!"</font><font color=000000>);
+  
+  </font><font color=008000>// close the database
+  </font><font color=000000><b>dbclose</b></font><font color=000000>();
+}</pre>
+</body>
+</html>

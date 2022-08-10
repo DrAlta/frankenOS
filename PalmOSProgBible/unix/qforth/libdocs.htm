@@ -1,0 +1,177 @@
+ 
+<HTML>
+<!-- #BeginTemplate "/Templates/Quartus.dwt" --> 
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Untitled Document</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" background="graph.gif">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif"><img src="dfpc.gif" width="64" height="93" align="right" border="0">Quartus 
+  Forth Manual</font></h1>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" --><B><I><FONT FACE="Arial">
+<h2>Documentation for Selected Library Words<FONT SIZE=2> </FONT></h2>
+</font></i></B>
+<p>This section documents a number of the words in the Quartus Forth library.</p>
+<FONT SIZE=2><h2><i>Resources.txt</i></h2>
+<I></I> 
+<P><B>OpenResDB </b>( <I>creator-id. type. -- DbOpenRef.</I> )<br>
+  Open a resource database with the specified creator ID and type; returns a database 
+  handle.</P>
+<P><B>use-resources</b> ( <I>creator-id. type. --</I> )<br>
+  Opens a resource database with the specified creator-id and type; aborts with 
+  an error if the resource database isn’t available. This is used to make external 
+  resources available during compilation.</P>
+<h3><i>backlight.txt</i></h3>
+<I></I> 
+<P><B>backlight</b> ( <I>bool -- </I>)<br>
+  A <B>true</B> argument will switch the backlight on; <B>false</B> switches it 
+  off.</P>
+<P><B>backlight?</b> ( <I>-- bool </I>)<br>
+  Returns the current on/off status of the backlight.</P>
+<h3><i>assert.txt</i></h3>
+<I></I> 
+<P><B>assert-level</b> ( addr -- )<br>
+  <B>assert0(</b> ( &quot;…)&quot; -- )<br>
+  <B>assert1(</b> ( &quot;…)&quot; -- )<br>
+  <B>assert2(</b> ( &quot;…)&quot; -- )<br>
+  <B>assert3(</b> ( &quot;…)&quot; -- )<br>
+  <B>assert(</b> ( &quot;…)&quot; -- ) \ alias for <B>assert1(<br>
+  </b>Used as follows: </P>
+<pre>needs assert
+1 assert-level !
+
+
+: divide ( a b – a/b )
+  <B>assert(</B> dup 0 &lt;&gt; )
+  / ; </pre>
+<P>An assertion acts as a comment unless its assertion level (0, 1, 2, or 3) is 
+  less-than or equal-to the current value of <B>assert-level</B>. This gives you 
+  the ability to compile with assertions while developing and debugging, and ship 
+  with some or all assertions not present in the code.</P>
+<P>The code within an assertion must have no side-effects, and no net effect on 
+  the stack contents.</P>
+<h3><i>Events.txt</i></h3>
+<I></I> 
+<P><B>itemid </b>( <I>&amp;event. -- itemid</I> )<br>
+  When passed the absolute address of an event structure, returns the item ID 
+  of the event (button/control number, menu item, etc.)</P>
+<P><B>coords@</b> ( -- <I>y x</I> )<br>
+  Returns the pen coordinates of the last received event.</P>
+<h3><i>DataMgr.txt</i></h3>
+<I></I> 
+<P><B>CreateDB</b> ( <I>resDB? type. creator. &amp;zname zlen --</I> )<br>
+  Creates a new database with the name, type, and creator specified. If <I>resDB?</I> 
+  is <B>true</B>, the resulting database will be a ‘resource’ database. The string 
+  at <I>&amp;zname</I> must be zero-delimited.</P>
+<P><B>CloseDB</b> ( <I>dbr. --</I> )<br>
+  Close the database specified by the database handle <I>dbr</I>.</P>
+<P><B>OpenDB</b> ( <I>mode zaddr len -- dbr.</I> )<br>
+  Open a database by name, with a specified access mode. The string at <I>zaddr</I> 
+  must be zero-delimited.</P>
+<P><B>UseCard</b> ( <I>n --</I> )<br>
+  Set <B>OpenDB</B> to use a different memory card. This defaults to 0 and can 
+  normally be left unchanged.</P>
+<h3><i>dblmath.txt</i></h3>
+<I></I> 
+<P><B>dm*</b> ( <I>d n -- d*n</I> )<br>
+  Multiply <I>d</I> by <I>n</I>. Returns a double-cell value.</P>
+<P><B>dm/</b> (<i> d +n -- d/n</i> )<br>
+  Divide d by +n. Returns a double-cell value. </P>
+<P><B>ud/mod</b> ( <I>ud1 ud2 -- udr udq</I> )<br>
+  Divides <I>ud1</I> by <I>ud2</I>, returning the double-cell values <I>udr</I> 
+  (remainder) and <I>udq</I> (quotient).</P>
+<P><B>dmod</b> ( <I>d +n -- +m</I> )<br>
+  Returns a single-cell value <I>+m</I>, which is the remainder of the division 
+  of <I>d</I> by <I>+n</I>.</P>
+<P><B>admod </b>( d +n -- +m)<br>
+  Like <B>dmod</B>, but <I>m</I>=<I>n</I> when result=0.</P>
+<h3><i>Fields.txt</i></h3>
+<I></I> 
+<P><B>FieldFocus</b> ( <I>fieldid --</I> )<br>
+  Gives focus to the field specified by <I>fieldid</I>.</P>
+<P><B>string&gt;Field</b> ( <I>c-addr u fieldID -- Err</I> )<br>
+  Puts the string specified by <I>c-addr u</I> into the field specified by <I>fieldID</I>. 
+  Return non-zero on failure.</P>
+<P><B>Field&gt;string</b> ( <I>c-addr fieldID -- len</I> )<br>
+  Copies the contents of the field specified by <I>fieldID</I> into memory at 
+  <I>c-addr</I>. The buffer at <I>c-addr</I> must be large enough to hold the 
+  field contents. Returns <I>len</I>, the number of characters copied.</P>
+<P><B>FlushQueue</b> ( -- )<br>
+  Flushes the event queue by processing any stored events. The <B>Fld*</B> PalmOS 
+  systraps used by <B>Field&gt;string</B>, etc. generate events which will fill 
+  the event queue unless processed. Words requiring this handling call <B>FlushQueue</B> 
+  themselves.</P>
+<h3><i>Forms.txt</i></h3>
+<I></I> 
+<P><B>PopupForm</b> ( <I>formID --</I> )<br>
+  Display the specified form as a popup over the current form.</P>
+<P><B>until-drawn</b> ( <I>formID --</I> )<br>
+  Returns when the specified form has been drawn on the screen.</P>
+<P><B>SetLabel</b> ( <I>&amp;string. controlid --</I> )<br>
+  Sets the control specied by <I>controlid</I> to have the label specified by 
+  the zero-delimited string at the absolute address <I>&amp;string.</i></P>
+<P><B>SetControlValue</b> ( <I>flag controlid --</I> )<br>
+  Sets the control specified by <I>controlid</I> (e.g. a checkbox or other object) 
+  to the value of <I>flag</I>.</P>
+<P><B>GetControlValue</b> ( <I>controlid -- flag</I> )<br>
+  Returns the current value of the control specified by <I>controlid</I>.</P>
+<P><B>GetObjectPtr</b> ( <I>objectid -- ptr.</I> )<br>
+  Given an object ID, returns the object pointer.</P>
+<P><B>GetObjectIndex</b> ( <I>objectid -- index</I> )<br>
+  Given an object ID, returns the object index.</P>
+<h3><i>toolkit.txt</i></h3>
+<I></I> 
+<P><B>place</b> ( <I>a1 n1 a2 --</I> )<br>
+  Places the string <I>a1 n1</I> as a counted string at <I>a2</I>. Counted strings 
+  have their length in the their first character.</P>
+<P><B>place,</b> ( <I>a1 n1 --</I> )<br>
+  Places the string at <I>a1 n1</I> at <B>here</B>.</P>
+<P> </P>
+<P><B>bounds</b> ( <I>a n -- a+n a </I>)<br>
+  Computes the loop bounds for a string.</P>
+<P><B>&gt;lower</b> ( <I>C -- c</I> )<br>
+  Converts a character to lower-case.</P>
+<P><B>&gt;upper</b> ( <I>c -- C</I> )<br>
+  Converts a character to upper-case.</P>
+<P><B>append</b> ( <I>at ut as us -- at ut+us</I> )<br>
+  Appends string <B>s</B> to the end of string <I>t</I>.</P>
+<P><B>array</b> ( <I>cells &lt;name&gt; --</I> )<br>
+  Defines array words; allocates <I>cells</I> space. The defined array words have 
+  the stack picture ( <I>index – addr</I> ).</P>
+<P><B>under+</b> ( <I>n1 x1 n2 -- n1+n2 x1</I> )<br>
+  Adds <I>n2 </I>to <I>n1</I>.</P>
+<P><B>enum</b> ( <I>n &quot;name&quot; --</I> )<br>
+  Used to create enum structures, as follows:</P>
+<pre>0 enum Item
+  Item Apple
+  Item Orange
+  Item Grape
+</pre>
+<pre>Orange . 1 ok
+Apple . 0 ok
+Grape . 2 ok</pre>
+<P><B>[end] </b>( <I>--</I> )<br>
+  Skips the rest of a file.</P>
+<P><b>[defined]</b> ( <I>&quot;name&quot; – flag</I> ) <br>
+  Checks to see if <I>name</I> is a defined word; returns <I>flag</I> accordingly. 
+  Used with <b>[if]</b>, <b>[else]</b>, and <b>[then]</b>.</P>
+</FONT> <!-- #EndEditable --> 
+<hr>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998, 1999 <a href="http://www.quartus.net/">Neal Bridges</a>. All 
+rights reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate -->
+</HTML>

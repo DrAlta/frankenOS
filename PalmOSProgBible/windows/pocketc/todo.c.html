@@ -1,0 +1,102 @@
+<html>
+<title>ToDo.c</title>
+<body>
+<b>ToDo.c</b> (<a href="ToDo.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// ToDo Reader
+
+</font><font color=0000ff>#define </font><font color=000000>Description  </font><font color=0000a0>0
+</font><font color=0000ff>#define </font><font color=000000>Note    </font><font color=0000a0>1
+</font><font color=0000ff>#define </font><font color=000000>Priority  </font><font color=0000a0>2
+</font><font color=0000ff>#define </font><font color=000000>Day      </font><font color=0000a0>3
+</font><font color=0000ff>#define </font><font color=000000>Month    </font><font color=0000a0>4
+</font><font color=0000ff>#define </font><font color=000000>Year    </font><font color=0000a0>5
+
+</font><font color=008000>// memory for a todo structure
+</font><font color=0000ff>string </font><font color=000000>todoStruct, _1;
+</font><font color=0000ff>int </font><font color=000000>_2, _3, _4, _5;
+
+readRecord(</font><font color=0000ff>pointer </font><font color=000000>pTodo, </font><font color=0000ff>int </font><font color=000000>id) {
+  </font><font color=0000ff>int </font><font color=000000>packedDate;
+  
+  </font><font color=000000><b>dbrec</b></font><font color=000000>(id);
+  </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>dbreadx</b></font><font color=000000>(&packedDate, </font><font color=000080>"i2"</font><font color=000000>) != </font><font color=0000a0>1</font><font color=000000>) {
+    </font><font color=0000ff>return </font><font color=0000a0>0</font><font color=000000>; </font><font color=008000>// failed to read
+  </font><font color=000000>}
+  
+  </font><font color=0000ff>if </font><font color=000000>(packedDate == </font><font color=0000a0>0x</font><font color=000000>ffff) {
+    </font><font color=008000>// date is unspecified
+    </font><font color=000000>pTodo[Day] = </font><font color=0000a0>0</font><font color=000000>;
+    pTodo[Month] = </font><font color=0000a0>0</font><font color=000000>;
+    pTodo[Year] = </font><font color=0000a0>0</font><font color=000000>;
+  } </font><font color=0000ff>else </font><font color=000000>{
+    </font><font color=008000>// unpack the date structure
+    </font><font color=000000>pTodo[Day] = packedDate & </font><font color=0000a0>0x1f</font><font color=000000>;
+    pTodo[Month] = (packedDate &gt;&gt; </font><font color=0000a0>5</font><font color=000000>) & </font><font color=0000a0>0x</font><font color=000000>f;
+    pTodo[Year] = ((packedDate &gt;&gt; </font><font color=0000a0>9</font><font color=000000>) & </font><font color=0000a0>0x7f</font><font color=000000>) + </font><font color=0000a0>1904</font><font color=000000>;
+  }
+    
+  pTodo[Priority] = </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'c'</font><font color=000000>);
+  </font><font color=000000><b>dbreadx</b></font><font color=000000>(pTodo, </font><font color=000080>"szsz"</font><font color=000000>);
+  </font><font color=0000ff>return </font><font color=0000a0>1</font><font color=000000>;
+}
+
+writeRecord(</font><font color=0000ff>pointer </font><font color=000000>pTodo, </font><font color=0000ff>int </font><font color=000000>id) { </font><font color=008000>// set id = -1 to add
+  </font><font color=0000ff>int </font><font color=000000>packedDate, len;
+  
+  </font><font color=000000><b>dbrec</b></font><font color=000000>(id);
+  </font><font color=0000ff>if </font><font color=000000>(pTodo[Year] == </font><font color=0000a0>0</font><font color=000000>)
+    packedDate = </font><font color=0000a0>0x</font><font color=000000>ffff;
+  </font><font color=0000ff>else
+    </font><font color=000000>packedDate = (((pTodo[Year] - </font><font color=0000a0>1904</font><font color=000000>) & </font><font color=0000a0>0x7f</font><font color=000000>) &lt;&lt; </font><font color=0000a0>9</font><font color=000000>) | ((pTodo[Month] & </font><font color=0000a0>0x</font><font color=000000>f) &lt;&lt; </font><font color=0000a0>5</font><font color=000000>) |
+      (pTodo[Day] & </font><font color=0000a0>0x1f</font><font color=000000>);
+    
+  </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>dbwritex</b></font><font color=000000>(&packedDate, </font><font color=000080>"i2"</font><font color=000000>) != </font><font color=0000a0>1</font><font color=000000>) {
+    </font><font color=0000ff>return </font><font color=0000a0>0</font><font color=000000>;
+  }
+  
+  </font><font color=000000><b>dbwrite</b></font><font color=000000>((</font><font color=0000ff>char</font><font color=000000>)pTodo[Priority]);
+  </font><font color=000000><b>dbwritex</b></font><font color=000000>(pTodo, </font><font color=000080>"szsz"</font><font color=000000>);
+  </font><font color=0000ff>return </font><font color=0000a0>1</font><font color=000000>;
+}
+  
+
+main() {
+  </font><font color=0000ff>int </font><font color=000000>nRecs, i, d;
+  </font><font color=0000ff>pointer </font><font color=000000>pTodo;
+  
+  pTodo = &todoStruct; </font><font color=008000>// so that we can access our items by array index
+  
+  </font><font color=000000><b>dbopen</b></font><font color=000000>(</font><font color=000080>"ToDoDB"</font><font color=000000>);
+  nRecs = </font><font color=000000><b>dbnrecs</b></font><font color=000000>();
+  </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"NumRecs: " </font><font color=000000>+ nRecs + </font><font color=000080>"\n"</font><font color=000000>);
+  </font><font color=0000ff>for </font><font color=000000>(i=</font><font color=0000a0>0</font><font color=000000>;i&lt;nRecs;i++) {
+    </font><font color=0000ff>if </font><font color=000000>(readRecord(pTodo, i)) {
+      </font><font color=0000ff>if </font><font color=000000>(pTodo[Year]) {
+        </font><font color=000000><b>puts</b></font><font color=000000>(pTodo[Priority] + </font><font color=000080>": " </font><font color=000000>+ pTodo[Month] + </font><font color=000080>"/" </font><font color=000000>+ pTodo[Day] + </font><font color=000080>"/" </font><font color=000000>+
+          pTodo[Year] + </font><font color=000080>": " </font><font color=000000>+ pTodo[Description] + </font><font color=000080>"\n"</font><font color=000000>);
+      } </font><font color=0000ff>else </font><font color=000000>{
+        </font><font color=000000><b>puts</b></font><font color=000000>(pTodo[Priority] + </font><font color=000080>": &lt;No Date&gt;: " </font><font color=000000>+ pTodo[Description] + </font><font color=000080>"\n"</font><font color=000000>);
+      }
+    }
+  }
+  
+  </font><font color=008000>// create a todo item
+  </font><font color=000000>d = </font><font color=000000><b>date</b></font><font color=000000>(</font><font color=0000a0>0</font><font color=000000>);
+  pTodo[Year] = d / </font><font color=0000a0>10000</font><font color=000000>;
+  pTodo[Month] = (d % </font><font color=0000a0>10000</font><font color=000000>) / </font><font color=0000a0>100</font><font color=000000>;
+  pTodo[Day] = (d % </font><font color=0000a0>100</font><font color=000000>);
+  pTodo[Priority] = </font><font color=0000a0>1</font><font color=000000>;
+  pTodo[Description] = </font><font color=000080>"Register PocketC"</font><font color=000000>;
+  pTodo[Note] = </font><font color=000080>"Only 18.50"</font><font color=000000>;
+  </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>confirm</b></font><font color=000000>(</font><font color=000080>"Add PocketC reminder?"</font><font color=000000>)) {
+    </font><font color=0000ff>if </font><font color=000000>(!writeRecord(pTodo, -</font><font color=0000a0>1</font><font color=000000>))
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Failed to write Todo"</font><font color=000000>);
+  }
+  
+  </font><font color=000000><b>dbclose</b></font><font color=000000>();
+}
+</pre>
+</body>
+</html>

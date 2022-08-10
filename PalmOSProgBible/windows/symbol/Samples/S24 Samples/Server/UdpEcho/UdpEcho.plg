@@ -1,0 +1,26 @@
+--------------------Configuration: UdpEcho - Win32 Release--------------------
+Begining build with project "D:\CodeWarrior5\Symbol NDK Support\Samples\Server\UdpEcho\UdpEcho.dsp", at root.
+Active configuration is Win32 (x86) Console Application (based on Win32 (x86) Console Application)
+
+Project's tools are:
+			"32-bit C/C++ Compiler for 80x86" with flags "/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/UdpEcho.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c "
+			"Win32 Resource Compiler" with flags "/l 0x409 /d "NDEBUG" "
+			"Browser Database Maker" with flags "/nologo /o"Release/UdpEcho.bsc" "
+			"COFF Linker for 80x86" with flags "kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/UdpEcho.pdb" /machine:I386 /out:"Release/UdpEcho.exe" "
+			"Custom Build" with flags ""
+			"<Component 0xa>" with flags ""
+
+Creating temp file "C:\TEMP\RSP18.tmp" with contents </nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/UdpEcho.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\CodeWarrior5\Symbol NDK Support\Samples\Server\UdpEcho\UdpEcho.c"
+>
+Creating command line "cl.exe @C:\TEMP\RSP18.tmp" 
+Creating temp file "C:\TEMP\RSP19.tmp" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/UdpEcho.pdb" /machine:I386 /out:"Release/UdpEcho.exe" 
+".\Release\UdpEcho.obj">
+Creating command line "link.exe @C:\TEMP\RSP19.tmp" 
+Compiling...
+UdpEcho.c
+Linking...
+
+
+
+UdpEcho.exe - 0 error(s), 0 warning(s)

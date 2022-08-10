@@ -1,0 +1,66 @@
+#include "helloRsc.h"
+
+APPLICATIONICONNAME ID 100 "Hello"
+APPLICATION         ID 1   "LFhe"
+VERSION             ID 1   "1.0"
+
+ICON      "largeicon.bmp"
+SMALLICON "smallicon.bmp"
+
+FORM ID MainForm 0 0 160 160
+MENUID MainMenuBar
+USABLE
+BEGIN
+    TITLE "Hello World"
+    LABEL "Enter your name below:" AUTOID AT (0 17) FONT 1
+    FIELD ID MainNameField AT (PrevLeft PrevBottom 159 AUTO) UNDERLINED
+        AUTOSHIFT MAXCHARS 40
+    BUTTON "Say Hello"   ID MainHelloButton AT (1 147 AUTO AUTO)
+    BUTTON "Say Goodbye" ID MainGoodbyeButton
+        AT (PrevRight+5 PrevTop AUTO AUTO)
+    GRAFFITISTATEINDICATOR AT (140 PrevTop)
+END
+
+MENU ID MainMenuBar
+BEGIN
+    PULLDOWN "Edit"
+    BEGIN
+        MENUITEM "Undo"        MainEditUndo           "U"
+	MENUITEM "Cut"         MainEditCut            "X"
+	MENUITEM "Copy"        MainEditCopy           "C"
+	MENUITEM "Paste"       MainEditPaste          "P"
+	MENUITEM "Select All"  MainEditSelectAll      "S"
+	MENUITEM "-" AUTOID
+	MENUITEM "Keyboard"    MainEditKeyboard       "K"
+	MENUITEM "Graffiti Help" MainEditGraffitiHelp "G"
+    END
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "About Hello World" MainOptionsAboutHelloWorld
+    END
+END
+
+ALERT ID HelloAlert
+INFORMATION
+BEGIN
+    TITLE   "Hello, world"
+    MESSAGE "Good day to you, ^1."
+    BUTTONS "OK"
+END
+
+ALERT ID GoodbyeAlert
+INFORMATION
+BEGIN
+    TITLE   "Goodbye, world"
+    MESSAGE "Fare thee well, ^1."
+    BUTTONS "OK"
+END
+
+ALERT ID AboutAlert
+INFORMATION
+BEGIN
+    TITLE   "About Hello World"
+    MESSAGE "Hello World\n"\
+	    "Version 1.0"
+    BUTTONS "OK"
+END

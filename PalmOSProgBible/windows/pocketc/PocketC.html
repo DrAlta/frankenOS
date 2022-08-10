@@ -1,0 +1,76 @@
+<html>
+
+<head>
+<title>PocketC Overview</title>
+</head>
+
+<body bgcolor="ffffff">
+
+<h1>PocketC Overview</h1>
+<a href="http://www2.viaweb.com/pilotgearsw/orbworks.html">
+
+<p><img align="right" src="PGHQbuyit.jpg" border="0" width="100" height="36"></a></p>
+
+<p>PocketC is a PalmPilot-based compiler that can take source code from a memo and compile
+it to bytecode that will run in the PocketC virtual machine. Currently there is no way to
+create a standalone application with PocketC (the PocketC application is required to run
+any applet that you create.</p>
+
+<p>PocketC version 3.7 (with which this file came) is shareware with registration
+available at <a href="http://www2.viaweb.com/pilotgearsw/orbworks.html">PalmGear HQ</a>.<br>
+The latest version will always be available at the <a href="http://www.orbworks.com/">OrbWorks</a>
+homepage. In addition to the joy and pride that registration provides, registered users
+also have access to special tools, such as a .prc builder. See the <a
+href="http://www.orbworks.com/">OrbWorks</a> website for more info.</p>
+
+<p><a href="Language-brief.html">Language reference</a><br>
+<a href="Functions.html">Library routines reference</a> <br>
+<a href="native.html">Developing native libraries</a></p>
+
+<h3>Installing an Applet</h3>
+
+<p>Applets are installed the same way normal applications are installed. Run the Palm
+Install Tool, select the applet database you want to install, and HotSync. </p>
+
+<h3>Installing Source Code</h3>
+
+<p>Source code can be copied from your computer by running the Palm Desktop application,
+creating a new memo, and copying the source code to the new memo. </p>
+
+<h3>Writing an Applet</h3>
+
+<p>A PocketC applet is written as a memopad record. The first line of the record must be a
+comment (//-style) which states the name of the applet.<br>
+Example: <code>&#147;// Hello World&#148;</code>.<br>
+<br>
+You may also write source code on your computer, copy it to a memo (with the Palm Desktop
+software), and Hotsync. </p>
+
+<h3>Compiling an Applet</h3>
+
+<p>Press the Compile&#133; button. Select the memo that you would like to compile, and
+press Compile. An alert will popup either informing you that the compiliation was
+successful or will indicate the location and type of the first error. </p>
+
+<h3>Executing an Applet</h3>
+
+<p>Select a compiled applet from the list, and press Execute. The Output form will open,
+and your applet will run. When the applet exits (either normally or by pressing the Done
+button), the main form reappears. To switch back to the Output form, press the output
+button. </p>
+
+<h3>Backing Up an Applet</h3>
+
+<p>Backing up an applet is a way to share the compiled form of an applet without sharing
+the source. To backup an individual applet, select it from the main form, and choose
+&#145;Backup...&#146; from the Applet menu. The applet will be backed up at the next
+HotSync. </p>
+
+<h3>Deleting a User-Database</h3>
+
+<p>Some applets will create databases to store preferences or other useful data. However,
+if you delete an applet, you may also want to delete the database(s) that it created. To
+do this, select the Applet|Databases... menu item. A list of user databases will be
+presented. Press the Delete... button to delete the selected database. </p>
+</body>
+</html>

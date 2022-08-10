@@ -1,0 +1,29 @@
+; Function plotter
+; load memo "Graphic utilities" before
+
+(define (plot f x1 x2 y1 y2)
+	(let ((dx (/ (- x2 x1) 160))
+		(dy (/ 105 (- y1 y2))))
+	(letrec ((iter (lambda (n)
+		(if (eqv? n 160) #n
+		(let ((x (+ x1 (* n dx))))
+		(draw n (tr (f x)))
+		(iter (+ n 1))))))
+	(tr (lambda (y)
+	(integer (* (- y y2) dy)))))
+  (cls)
+  ; draw x-axis
+  (if (< (* y1 y2) 0)
+	(begin (set-pattern grey)
+	(move 0 (tr 0))
+	(draw 159 (tr 0))) #f)
+ ; draw y-axis
+  (if (< (* x1 x2) 0)
+	(let ((x (integer
+			 (/ (- x1) dx))))
+	(set-pattern grey)
+	(move x 0)
+	(draw x 104)) #f)
+  (set-pattern  #t)
+  (move  0 (tr (f x1)))
+  (iter 1))))

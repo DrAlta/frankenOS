@@ -1,0 +1,67 @@
+<html>
+<title>memo.c</title>
+<body>
+<b>memo.c</b> (<a href="memo.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// Memo Pad Sample
+</font><font color=0000ff>string </font><font color=000000>data[</font><font color=0000a0>10</font><font color=000000>];
+</font><font color=0000ff>int </font><font color=000000>ndata;
+
+read() {
+   </font><font color=0000ff>int </font><font color=000000>i;
+
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Open succeeded, reading values\n"</font><font color=000000>);
+
+   </font><font color=008000>// read title
+   </font><font color=000000><b>mmgetl</b></font><font color=000000>();
+
+   </font><font color=008000>// read a line at a time
+   </font><font color=0000ff>while </font><font color=000000>(!</font><font color=000000><b>mmeof</b></font><font color=000000>())
+      data[ndata++] = </font><font color=000000><b>mmgetl</b></font><font color=000000>();
+
+   </font><font color=008000>// output the data
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Number entries: "</font><font color=000000>+ndata+</font><font color=000080>"\n"</font><font color=000000>);
+   </font><font color=0000ff>for </font><font color=000000>(i=</font><font color=0000a0>0</font><font color=000000>;i&lt;ndata;i++)
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\x95 "</font><font color=000000>+data[i]+</font><font color=000080>"\n"</font><font color=000000>);
+
+   </font><font color=008000>// delete the memo
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Deleting memo 'TestMemo'\n"</font><font color=000000>);
+   </font><font color=000000><b>mmdelete</b></font><font color=000000>();
+}
+
+write() {
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Open failed, creating new memo\n"</font><font color=000000>);
+
+   </font><font color=008000>// attempt to create a new memo
+   </font><font color=0000ff>if </font><font color=000000>(!</font><font color=000000><b>mmnew</b></font><font color=000000>()) {
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Memo creation failed!\n"</font><font color=000000>);
+      </font><font color=0000ff>return</font><font color=000000>;
+   }
+
+   </font><font color=008000>// write title
+   </font><font color=000000><b>mmputs</b></font><font color=000000>(</font><font color=000080>"TestMemo\n"</font><font color=000000>);
+
+   </font><font color=008000>// input data
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Enter up to 10 values\n"</font><font color=000000>);
+   </font><font color=0000ff>while </font><font color=000000>(data[ndata]=</font><font color=000000><b>gets</b></font><font color=000000>(</font><font color=000080>"Value #" </font><font color=000000>+ (ndata+</font><font color=0000a0>1</font><font color=000000>))) {
+      </font><font color=008000>// write data
+      </font><font color=000000><b>mmputs</b></font><font color=000000>(data[ndata] + </font><font color=000080>"\n"</font><font color=000000>);
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\x95 Wrote '"</font><font color=000000>+data[ndata]+</font><font color=000080>"'\n"</font><font color=000000>);
+      ndata++;
+   }
+
+   </font><font color=008000>// close the memo
+   </font><font color=000000><b>mmclose</b></font><font color=000000>();
+}
+
+main() {
+   </font><font color=000000><b>title</b></font><font color=000000>(</font><font color=000080>"Memo Pad Sample"</font><font color=000000>);
+   </font><font color=000000><b>clear</b></font><font color=000000>();
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Opening Memo 'TestMemo'\n"</font><font color=000000>);
+   </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>mmfind</b></font><font color=000000>(</font><font color=000080>"TestMemo"</font><font color=000000>)) read();
+   </font><font color=0000ff>else </font><font color=000000>write();
+}
+</pre>
+</body>
+</html>

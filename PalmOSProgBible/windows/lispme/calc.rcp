@@ -1,0 +1,45 @@
+//********************************************************************/
+// Resources for 'Calculator' LispMe UI demo                         */
+//********************************************************************/
+
+ICON      "demo.bmp"
+SMALLICON "demos.bmp"
+
+MENU ID 4000
+BEGIN
+  PULLDOWN "Quit"
+    BEGIN
+      MENUITEM "Quit" 4000 "Q"
+    END
+END
+
+FORM ID 4000 AT (0 0 160 160)
+HELPID 4000
+MENUID 4000
+BEGIN
+    TITLE "LispMe Calculator"
+
+    FIELD 1001 AT (2 16 156 20) FONT 6 RIGHTALIGN UNDERLINED NONEDITABLE
+
+    BUTTON "7"    2007 AT ( 10  40 20 20) BOLDFRAME FONT 1
+    BUTTON "8"    2008 AT ( 35  40 20 20) BOLDFRAME FONT 1
+    BUTTON "9"    2009 AT ( 60  40 20 20) BOLDFRAME FONT 1
+    BUTTON "\367" 2012 AT ( 85  40 20 20) BOLDFRAME FONT 1
+    BUTTON "4"    2004 AT ( 10  65 20 20) BOLDFRAME FONT 1
+    BUTTON "5"    2005 AT ( 35  65 20 20) BOLDFRAME FONT 1
+    BUTTON "6"    2006 AT ( 60  65 20 20) BOLDFRAME FONT 1
+    BUTTON "\327" 2013 AT ( 85  65 20 20) BOLDFRAME FONT 1
+    BUTTON "1"    2001 AT ( 10  90 20 20) BOLDFRAME FONT 1
+    BUTTON "2"    2002 AT ( 35  90 20 20) BOLDFRAME FONT 1
+    BUTTON "3"    2003 AT ( 60  90 20 20) BOLDFRAME FONT 1
+    BUTTON "-"    2014 AT ( 85  90 20 20) BOLDFRAME FONT 1
+    BUTTON "C"    2017 AT (110  90 20 20) BOLDFRAME FONT 1
+    BUTTON "0"    2000 AT ( 10 115 20 20) BOLDFRAME FONT 1
+    BUTTON "."    2010 AT ( 35 115 20 20) BOLDFRAME FONT 1
+    BUTTON "="    2011 AT ( 60 115 20 20) BOLDFRAME FONT 1
+    BUTTON "+"    2015 AT ( 85 115 20 20) BOLDFRAME FONT 1
+    BUTTON "\261" 2016 AT (110 115 20 20) BOLDFRAME FONT 1
+END
+
+STRING ID 4000 "This is only a simple demo! Feel free to extend it."\
+               "Just have fun!"

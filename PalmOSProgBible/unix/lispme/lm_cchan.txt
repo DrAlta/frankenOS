@@ -1,0 +1,30 @@
+// count change
+int coins[6];
+cc(int n, int i)
+{
+        if (n==0)
+                return 1;
+        else if (n<0 || i>5)
+                return 0;
+        else return
+                cc(n-coins[i], i)+
+                cc(n, i+1);
+}
+
+main()
+{
+        int n;
+        int s;
+        n=gets("Enter a number");
+        s=ticks();
+        coins[0] = 50;
+        coins[1] = 20;
+        coins[2] = 10;
+        coins[3] = 5;
+        coins[4] = 2;
+        coins[5] = 1;
+        puts("cc("+n+")="+cc(n,0)+
+                '\n');
+        puts(""+(ticks()-s)/100.0 +
+                " sec. \n");
+}

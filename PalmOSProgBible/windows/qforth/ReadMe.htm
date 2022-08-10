@@ -1,0 +1,146 @@
+ 
+<HTML>
+<!-- #BeginTemplate "/Templates/Quartus.dwt" --> 
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Sample Application: Duco</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif">Quartus Forth Manual</font></h1>
+<a href="../../manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="../../register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" -->
+<H1>The Sources to "Duco" </H1>
+<P> <SMALL>&copy; Neal Bridges, November 1998. &nbsp;(<A HREF="mailto:info@quartus.net">info@quartus.net</A>)</SMALL> 
+<P> 
+<HR>
+<P> If you're unfamiliar with Quartus Forth, please take a look at the Quartus 
+  home page: &lt;<A HREF="http://www.quartus.net/products/forth/">http://www.quartus.net/products/forth/</A>&gt; 
+<H2> About This Package: </H2>
+<P> This package contains the source to a polished Quartus Forth application, 
+  complete with form controls (buttons), a menu and an icon. By following the 
+  provided directions, you can use the registered version of Quartus (or the development 
+  beta, during the beta-test period) to compile the app on-board your Palm PDA, 
+  and HotSync the resulting .PRC file down to your PC or Mac. 
+<P> <I>Duco</I> is a standard four-function calculator with one key difference 
+  -- it works in Roman numerals. 
+<P> The sources to <I>Duco</I> are provided for two purposes: first, as a demonstration 
+  of how to write a complete Quartus Forth application, with integrated PalmOS 
+  resources; and second, to demonstrate the creation of stand-alone PRCs from 
+  Quartus apps. 
+<P> Beyond that, <I>Duco</I> is an fun program in its own right, and may be of 
+  interest from a coding perspective to new Forth programmers. 
+<H2> Files in this package: </H2>
+<UL>
+  <LI> <CODE>ReadMe.htm</CODE> &nbsp;; this file. 
+  <LI> <CODE><A HREF="Duco.txt">Duco.txt</A></CODE> &nbsp;; The Quartus Forth 
+    source to <I>Duco</I> (fits in one MemoPad memo). 
+  <LI> <CODE><A HREF="MakeDuco.txt">MakeDuco.txt</A></CODE> &nbsp;; A Quartus 
+    script to compile <I>Duco</I> into a stand-alone PRC. 
+  <LI>duco.mpa ; Duco.txt and MakeDuco.txt in MemoPad archive format, for use 
+    with the Palm Desktop software.
+  <LI> <CODE><A HREF="Duco.rcp">Duco.rcp</A></CODE> &nbsp;; A PilRC script defining 
+    PalmOS resources used by <I>Duco</I>. 
+  <LI> <CODE><A HREF="IconBig.bmp">IconBig.bmp</A></CODE> &nbsp;; a 1-bpp icon 
+    bitmap. 
+  <LI> <CODE>DucoRsrc.bat</CODE> &nbsp;; A batch file to generate <CODE>DucoRsrc.prc</CODE> 
+    (requires PilRC and Pila) 
+  <LI> <CODE>DucoRsrc.prc</CODE> &nbsp;; Generated from <CODE>DucoRsrc.rcp</CODE>. 
+    &nbsp;Provided as a convenience for those of you lacking PilRC and Pila. 
+  <LI> <CODE>Duco.prc</CODE>&nbsp; ; The generated stand-alone application, ready 
+    to be installed. &nbsp;This is the production release; it also has a small 
+    icon, and has no splash-screen. 
+</UL>
+<H2> Other Required Sources: </H2>
+<P> Here's a breakdown of what files need what other files, to help you ensure 
+  that you have all the supporting library sources installed as memos in your 
+  MemoPad: All the files listed here are available in the <A HREF="http://www.quartus.net/files/">Quartus 
+  File Area</A>. 
+<UL>
+  <LI> <I>duco</I>: 
+    <UL>
+      <LI> needs <I>toolkit</I> &nbsp;\ for <CODE>enum</CODE> 
+      <LI> needs <I>core-ext</I> &nbsp;\ for <CODE>value</CODE>, etc. 
+      <LI> needs <I>roman</I> &nbsp;\ for Roman numeral manipulation 
+      <LI> needs <I>bitmap </I>&nbsp;\&nbsp;to create the memory-indicator bitmap 
+      <LI> needs <I>textalign</I> &nbsp;\ for <CODE>type.right</CODE> 
+      <LI> needs <I>graphics</I> &nbsp; \ for pixel cursor-positioning, <CODE>line</CODE> 
+        and <CODE>frame</CODE> 
+      <LI> needs <I>condthens</I> &nbsp;\ for <CODE>cond</CODE> and <CODE>thens</CODE> 
+      <LI> needs <I>fonts</I> &nbsp;\ for named font types 
+        <UL>
+          <LI> needs <I>toolkit</I> &nbsp;\ for enum 
+        </UL>
+      <LI> needs <I>DataMgr</I> &nbsp;\ for opening the resource database 
+      <LI> needs <I>ids</I> &nbsp;\ for 4-character resource types 
+      <LI> needs <I>Events</I> &nbsp;\ for named event types 
+      <LI> needs <I>simple-handler</I> &nbsp;\ for menu handling 
+    </UL>
+  <LI> <I>make-duco</I>: 
+    <UL>
+      <LI> needs <I>ids</I> &nbsp;\ for the creator ID 
+    </UL>
+</UL>
+<H2> About Duco and Make-Duco: </H2>
+<P> <I>Duco</I> will compile and run under the free version of Quartus. <I>Make-Duco</I> 
+  generates a stand-alone PRC of <I>Duco</I>, and contains commands that will 
+  only function properly under a registered copy of Quartus (or the development 
+  beta, during the beta test period). 
+<P> If you just want to try <I>Duco</I>, skip these steps and simply use the Palm 
+  Desktop software to HotSync <CODE>Duco.PRC</CODE> into your Palm device. If 
+  you want to compile it yourself, however, read on. 
+<H3> To compile and run Duco from the sources provided: </H3>
+<P> <I>(note: <B>&lt;Return&gt;</B> means a Graffiti Return -- a pen stroke in 
+  the Graffiti area from upper right to lower left)</I> 
+<OL>
+  <LI> Using the Palm Desktop software, add <CODE>Duco.txt</CODE> and all supporting 
+    files as memos in the MemoPad on your Palm device. 
+  <LI> HotSync <CODE>DucoRsrc.prc</CODE> into your Palm device. 
+  <LI> You'll also need Quartus itself HotSync'd in (either the free or the registered 
+    version, version 0.8.2 or later). 
+  <LI> Start Quartus. 
+  <LI> At the prompt, type &nbsp;<CODE><B>include duco</B></CODE> <B><I>&lt;Return&gt;</I></B> 
+  <LI> To run <I>Duco</I>: when prompted "ok", type &nbsp; <CODE><B>go</B></CODE> 
+    <I><B>&lt;Return&gt;</B></I> 
+</OL>
+<H3> To create a stand-alone PRC from the sources provided: </H3>
+<OL>
+  <LI> Follow steps 1-3 above. 
+  <LI> Using the Palm Desktop software, add <CODE>MakeDuco.txt</CODE> as a memo 
+    in the MemoPad. 
+  <LI> Start the registered version of Quartus. 
+  <LI> Type &nbsp;<CODE><B>include make-duco</B></CODE> <I><B>&lt;Return&gt;</B></I> 
+  <LI> To run <I>Duco</I>: from the Palm Application Launcher (or equivalent), 
+    start the "Duco" icon. 
+  <LI> HotSync the device again; <CODE>Duco.PRC</CODE> will be copied into the 
+    backup directory under your Palm Desktop user directory. 
+</OL>
+<H2> Notes: </H2>
+<P> Quartus compiles the sources to <I>Duco</I> into native-code in about 10 seconds. 
+<P> <I>Make-Duco</I> extracts approximately 4K of active application code from 
+  codespace, and builds it into a new .PRC file along with several required PalmOS 
+  resources (a form, menu, about box, help text, and icon). The result: <CODE>Duco.PRC</CODE>, 
+  about 8K in size. 
+<P> <CODE>Duco.PRC</CODE> is automatically flagged for backup, and will be copied 
+  into <CODE>C:\...\username\backup\Duco.PRC</CODE> at the next HotSync. <CODE>Duco.PRC</CODE> 
+  is a proper stand-alone application that requires no runtime support, and can 
+  be HotSync'd (or beamed) into any another Pilot, PalmPilot, or Palm III. 
+<P> 
+<!-- #EndEditable --> 
+<hr>
+<a href="../../manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998 <a href="http://www.quartus.net/">Neal Bridges</a>. All rights 
+reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate -->
+</HTML>

@@ -1,0 +1,212 @@
+<HTML><!-- #BeginTemplate "/Templates/Quartus.dwt" -->
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Quartus Forth Internal Structure</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" background="graph.gif">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif"><img src="dfpc.gif" width="64" height="93" align="right" border="0">Quartus 
+  Forth Manual</font></h1>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" --> 
+<h2><font face="Arial, Helvetica, sans-serif">Quartus Forth Internal Structure</font></h2>
+<table width="73%" border="1">
+  <tr> 
+    <td width="57%"> 
+      <div align="center"><b><font face="Arial, Helvetica, sans-serif">Description</font></b></div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><b><font face="Arial, Helvetica, sans-serif">Resource 
+        </font></b></div>
+    </td>
+    <td width="21%"> 
+      <div align="center"><b><font face="Arial, Helvetica, sans-serif">Approximate 
+        Size</font></b></div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">Quartus Forth kernel and startup code</div>
+    </td>
+    <td width="22%"> 
+      <p align="center"><font face="Courier New, Courier, mono">code 0000<br>
+        code 0001</font></p>
+    </td>
+    <td width="21%"> 
+      <div align="center">19K</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">Globals</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">data 0000</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">150 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td height="68" width="57%"> 
+      <div align="center">Icons</div>
+    </td>
+    <td height="68" width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">tAIB 1000<br>
+        tAIB 1001</font></div>
+    </td>
+    <td height="68" width="21%"> 
+      <div align="center">178 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">Preferences</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">pref 0001</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">10 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">Version</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">tver 0001</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">7 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">MakePRC scaffolding</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">imag 1000</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">1K</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">ISO/ANSI Standard Forth exception messages</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">thrw 0001</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">1.5K</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">PalmOS Systrap database</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">syst 0001</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">17K</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">Main form</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">tFRM 1000</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">124 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">Untitled form</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">tFRM 1001</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">114 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">Titled form</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">tFRM 1002</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">134 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">Quartus main menu</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">MBAR 1000</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">323 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">&quot;Quartus&quot; bitmap</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">Tbmp 1005</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">382 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">About alert</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">Talt 1000</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">108 bytes</div>
+    </td>
+  </tr>
+  <tr> 
+    <td width="57%"> 
+      <div align="center">Exception report alert</div>
+    </td>
+    <td width="22%"> 
+      <div align="center"><font face="Courier New, Courier, mono">Talt 1005</font></div>
+    </td>
+    <td width="21%"> 
+      <div align="center">50 bytes</div>
+    </td>
+  </tr>
+</table>
+<!-- #EndEditable --> 
+<hr>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998, 1999 <a href="http://www.quartus.net/">Neal Bridges</a>. All 
+rights reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate --></HTML>

@@ -1,0 +1,47 @@
+; Graphics demo
+; load memo "Graphic utilities" before
+
+(define (demo)
+	(set! *gstate*
+		(default-gstate))
+	(cls)
+	(move 20 20)
+	(set-pattern grey)
+	(draw 120 30)
+	(move 20 30)
+	(set-pattern #t)
+	(draw 120 40)
+
+	(set-fg 47)
+	(move 10 50)
+	(rect 40 70 0)
+	(set-fg 121)
+	(move 50 50)
+	(rect 80 70 10)
+	(move 90 50)
+	(set-fg red)
+	(set-pattern brick)
+	(rect 120 70 0)
+
+	(move 130 30)
+	(set-fg red)
+	(set-pattern #t)
+	(rect 158 58 14)
+	(move 131 31)
+	(set-pattern grey)
+	(set-fg green) (set-bg yellow)
+	(rect 157 57 13)
+
+	(move 10 75)
+	(set-font 1) (set-text blue)
+	(text "Hello, world!")
+	(move 80 72)
+	(set-font 2)
+	(set-pattern #f)
+	(set-bg black)
+	(text (cons 42 'foobar))
+
+	(move 0 4)
+	(bitmap 
+	  (read-resource "Tbmp"
+		 11000)))

@@ -1,0 +1,360 @@
+<html>
+<head>
+  <title>LispMe History</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe History</h1>
+
+  <h2>V1.00 22.08.1997</h2>
+    initial release
+
+  <h2>V1.10 (internal version)</h2>
+    <dl>
+      <dt>enhancement:<dd>optimization of conditionals (<tt>if</tt>,
+         <tt>and</tt>, <tt>or</tt>)
+      <dt>new:<dd>tail recursion elimination
+      <dt>bugfix:<dd>duplicate names in <tt>lambda</tt>, <tt>let</tt>,
+          <tt>letrec</tt>
+      <dt>new:<dd>added <tt>begin</tt> expression
+      <dt>enhancement:<dd>modified samples to take advantage of
+         tail recursion, <tt>begin</tt>
+      <dt>new:<dd>added execution statistics
+    </dl>
+
+  <h2>V1.20 07.09.1997</h2>
+    <dl>
+      <dt>enhancement:<dd>safer memory management
+      <dt>new:<dd>command "reset to factory settings"
+      <dt>cleanup:<dd>moved "reset heap" to menu
+      <dt>cleanup:<dd>minor cosmetic tweaks
+      <dt>new:<dd><b>top-level <tt>define</tt></b>
+      <dt>cleanup:<dd><tt>let</tt> and <tt>letrec</tt> syntax as in Scheme
+      <dt>new:<dd>option for auto power off
+      <dt>new:<dd><tt>print</tt> expression
+      <dt>cleanup:<dd>samples modified for new syntax
+      <dt>enhancement:<dd>all samples as .csv file for easier import
+    </dl>
+
+  <h2>V1.30 (internal version)</h2>
+    <dl>
+      <dt>bugfix:<dd><tt>(quote . <i>any</i>)</tt> traps
+      <dt>new:<dd><tt>cond</tt> special form
+      <dt>new:<dd>functions <tt>set-car!</tt> and <tt>set-cdr!</tt>
+      <dt>new:<dd>slashified symbols (removed in V1.50)
+    </dl>
+
+  <h2>V1.40/28.10.1997</h2>
+    <dl>
+      <dt>new:<dd>PalmOS2 support
+      <dt>enhancement:<dd>more memory
+      <dt>new:<dd><b>floating point numbers</b>
+      <dt>new:<dd>transcendental functions using MathLib
+      <dt>enhancement:<dd>Print depth in setup dialog
+      <dt>enhancement:<dd>own scanning/printing routines for
+        floats as ROM routines are junk :-(
+      <dt>enhancement:<dd>better error messages
+      <dt>bugfix:<dd>check OS version
+      <dt>enhancement:<dd>extended standard library
+      <dt>new:<dd>memory statistics
+      <dt>cleanup:<dd><tt>#t</tt> and <tt>#f</tt> like in Scheme
+      <dt>bonus:<dd>conditionally compile PalmOS1 version
+    </dl>
+
+  <h2>V1.50/21.11.1997</h2>
+    <dl>
+      <dt>optimization/fix:<dd>various code size optimizations
+          and minor glitch fixes
+      <dt>cleanup:<dd>internally composite objects like
+          procedures and continuation are no longer pairs at user level
+      <dt>new:<dd>characters
+      <dt>new:<dd><b>strings</b>
+      <dt>cleanup:<dd><tt>display</tt>, <tt>write</tt> and <tt>newline</tt>
+          instead of print
+      <dt>new:<dd><b>graphics primitives <tt>draw</tt>, <tt>rect</tt>
+          and <tt>text</tt></b>
+      <dt>enhancement:<dd>font and pattern support for graphics
+      <dt>enhancement:<dd>clip graphics to output area
+      <dt>new:<dd>global vars <tt>*point*</tt>, <tt>*font*</tt>
+          and <tt>*pat*</tt>
+      <dt>removal:<dd>dropped slashified symbols
+      <dt>new:<dd>syntax for hexadecimal string constants
+    </dl>
+
+  <h2>V1.60/21.1.1998</h2>
+    <dl>
+      <dt>cleanup:<dd>use machine format with <tt>object->string</tt>
+      <dt>cleanup:<dd>escape <tt>#</tt> when outputting strings
+      <dt>bugfix:<dd>crash with font 7
+      <dt>cleanup:<dd><tt>else</tt> no longer a variable
+      <dt>new:<dd><b>HTML documentation</b>
+      <dt>optimization:<dd>load time
+      <dt>bugfix:<dd>added missing functions in on-line help
+      <dt>bugfix:<dd>button display in long evaluations during memo load
+      <dt>new:<dd>procedures <tt>read</tt>, <tt>read-string</tt>, 
+         <tt>message</tt>, and <tt>wait-pen</tt>
+      <dt>new:<dd>Tic-Tac-Toe sample program
+    </dl>
+
+  <h2>V1.70/8.3.1998</h2>
+    <dl>
+      <dt>enhancement:<dd>use DB memory for heap etc., allowing 32k
+          heap on any Pilot</tt>
+      <dt>bugfix:<dd>parsing multiple SEXP after a dot
+      <dt>bugfix:<dd>wrong error message for <tt>set-car!</tt> and
+          <tt>set-cdr!</tt>
+      <dt>bugfix:<dd>a subtile bug in pointer tagging made pairs
+          having integer -2048 .. -1921 in their car look like
+          non-pairs to the VM
+      <dt>enhancement:<dd>finally found a way to have more than 32k code
+          with gcc, so be prepared for a bunch of new functions/types!
+      <dt>new:<dd>procedures <tt>random</tt>, <tt>disasm</tt>,
+          <tt>sound</tt>, and <tt>wait</tt>
+      <dt>new:<dd>switching to another application no more aborts a
+          running evaluation. The evaluation is resumed when you restart
+          LispMe.
+      <dt>new:<dd><b>MemoPad I/O via standard Scheme port mechanism</b>
+      <dt>change:<dd>former procedures <tt>read</tt> and <tt>read-string</tt>
+          now called <tt>input</tt> and <tt>input-string</tt> to be
+          compatible with ports
+      <dt>new:<dd>procedure <tt>dir</tt> and <tt>delete-file</tt>
+    </dl>
+
+  <h2>V1.80/19.4.1998</h2>
+    <dl>
+      <dt>bugfix:<dd>check frequency parameter of <tt>sound</tt>
+      <dt>cleanup:<dd>omit trailing space in <tt>object->string</tt>
+      <dt>new:<dd><b>vectors</b>
+      <dt>cleanup:<dd><tt>(or <i>e<sub>1</sub> e<sub>2</sub></i>)</tt>
+          returns <tt><i>e<sub>1</sub></i></tt>, if it is <i>true</i>
+      <dt>new:<dd>A little theorem prover (sample program) submitted
+          to me by <a href="mailto:wdavies@cs.stanford.edu">Winton Davies</a>.
+    </dl>
+
+  <h2>V1.90/9.5.1998</h2>
+    <dl>
+      <dt>bugfix:<dd>print formatting with memos
+      <dt>enhancement:<dd>changed vector representation for faster GC
+      <dt>bugfix:<dd>wrong masking for UID in vector access
+      <dt>new:<dd><b>Parentheses Hack for easier input of programs</b>
+    </dl>
+
+  <h2>V2.00/4.7.1998</h2>
+  <h3>LispMe</h3>
+    <dl>
+      <dt>enhancement:<dd>single argument for <tt>/</tt>
+      <dt>enhancement:<dd>any number of arguments for <tt>+</tt>,
+          <tt>*</tt>, <tt>min</tt>, <tt>max</tt>, <tt>append</tt>,
+          and <tt>string-append</tt>,
+      <dt>enhancement:<dd>any number of arguments for <tt>and</tt>,
+          and <tt>or</tt>,
+      <dt>cleanup:<dd>return <tt>#n</tt> for definitions and after
+          loading memos
+      <dt>enhancement:<dd>optimised <tt>cond</tt>
+      <dt>new:<dd>special form <tt>case</tt>
+      <dt>new:<dd><b>complex numbers</b>
+      <dt>change:<dd>made <tt>expt</tt> and <tt>log10</tt> library
+          procedures instead of primitives.
+      <dt>bugfix:<dd>check recursion depth in reader and compiler
+      <dt>bugfix:<dd>repeatedly outputting the same vector didn't unlock
+          its chunk when output was truncated
+      <dt>bugfix:<dd>accented chars in <tt>string->list</tt> causes invalid
+          pointer error
+    </dl>
+  <h3>Parentheses Hack V1.1</h3>
+    <dl>
+      <dt>bugfix:<dd>wrong match when overwriting selection
+          with closing parenthesis
+      <dt>enhancement:<dd>much faster parentheses matching in very
+          long lists without line breaks
+      <dt>enhancement:<dd>Entering <tt>0</tt> behaves like <tt>o</tt> and
+          <tt>5</tt> like <tt>s</tt>, so position of navigation stroke
+          doesn't matter.
+    </dl>
+
+  <h2>V2.10/8.8.1998</h2>
+  <h3>LispMe</h3>
+    <dl>
+      <dt>enhancement:<dd>better error message for invalid parameter
+      <dt>bugfix:<dd>fixed numeric cancellation problem for certain
+          (large) complex arguments to <tt>asin</tt>, <tt>asinh</tt>,
+          <tt>acos</tt> and <tt>acosh</tt>
+      <dt>bugfix:<dd>more precise recursion depth checking in compiler
+      <dt>new:<dd>added preference setting for lefthanders
+      <dt>cleanup:<dd>spacing in menus
+      <dt>cleanup:<dd>renamed menu shortcuts in options menu according
+          to Palm UI guidelines
+      <dt>bugfix:<dd>update scrollbar with Parentheses Hack
+      <dt>PalmIII support:<dd>small icon
+      <dt>PalmIII support:<dd>correct version number in info
+      <dt>PalmIII support:<dd>support new bold large font with <tt>text</tt>
+      <dt>PalmIII support:<dd><b>twice the stack space for read, compile and GC</b>
+      <dt>new:<dd>Edit button added in load dialog. Jumps to
+         offending source text on syntax errors.
+      <dt>bugfix:<dd><tt>apply</tt>ing a procedure with optional arguments
+          modified its argument list, now copy arg list in this case
+      <dt>bugfix:<dd><tt>eqv?</tt> now returns <tt>#t</tt> for two empty
+          strings
+    </dl>
+  <h3>Parentheses Hack V1.2</h3>
+    <dl>
+      <dt>bugfix:<dd>send changed notification for scrolling
+    </dl>
+
+  <h2>V2.20/25.8.1998</h2>
+  <h3>LispMe</h3>
+    <dl>
+      <dt>bugfix:<dd>GC while copying the argument list during <tt>apply</tt>
+          created an invalid pointer.
+      <dt>bugfix:<dd>Leaving LispMe when output had been truncated and
+          restarting it overwrote one byte after the output buffer
+      <dt>bugfix:<dd>Scanning problem when <tt>#\)</tt> was the first item
+          in a list.
+      <dt>new:<dd>nested <tt>define</tt>s, i.e. whereever an expression
+          sequence is allowed, it may be preceded by local definitions
+      <dt>enhancement:<dd>Hardware scroll buttons now work in Load Dialog
+          (PalmOS2 only)
+      <dt>bugfix:<dd><tt>read</tt> raised an error when only white space
+          was left in a memo. Now correctly returns <tt>[eof]</tt>.
+      <dt>new:<dd><b><tt>quasiquote</tt> expressions</b>
+      <dt>change:<dd>made<tt>append</tt> a primitive procedure instead of
+          library
+    </dl>
+
+  <h2>V2.30a/12.12.1998</h2>
+  <h3>LispMe</h3>
+    <dl>
+      <dt>bugfix:<dd>Trying to <tt>apply</tt> a closure to a vector
+          created an invalid pointer.
+      <dt>bugfix:<dd>Atom sizes >4096 bytes aren't addressable and
+          are now disallowed.
+      <dt>cleanup:<dd>Major code cleanup and rework
+      <dt>enhancement:<dd>GC while parsing or compiling now allowed
+      <dt>new:<dd>Option for printing <tt>quote</tt>, <tt>quasiquote</tt> etc.
+          expressions in short form.
+      <dt>optimization:<dd>Reduced polling frequency for break button but
+          poll after every GC or output
+      <dt>new:<dd><b><tt>eval</tt></b>
+      <dt>enhancement:<dd>Now use DB records for strings just like vectors
+      <dt>bugfix:<dd>Treat closures etc. as valid expressions for <tt>eval</tt>
+      <dt>bugfix:<dd>Make <tt>string-append</tt> always return a copy, even
+          if it's called with one argument
+      <dt>enhancement:<dd>Increased buffer size for <tt>string->object</tt> and
+          <tt>object->string</tt>
+      <dt>enhancement:<dd>Increased maximum token length
+      <dt>new:<dd><tt>gensym</tt>
+      <dt>new:<dd>Popup list with all symbols in main form
+      <dt>bugfix:<dd>handle tail recursion correctly in <tt>let</tt> and
+          <tt>letrec</tt> context
+      <dt>new:<dd><tt>none?</tt>
+      <dt>new:<dd><b>Macros</b>
+      <dt>new:<dd>Hex syntax for character constants
+      <dt>bugfix:<dd>A silly environment depth bug interfered with macro
+          invocations in recursive contexts :-(
+    </dl>
+
+  <h2>V2.4/13.2.1999</h2>
+  <h3>LispMe</h3>
+    <dl>
+      <dt>bugfix:<dd>Garbage collection problem with certain strings
+      <dt>bugfix:<dd>A temporary was not properly protected against GC
+          when compiling <tt>letrec</tt> expressions.
+      <dt>enhancement:<dd>64k heap allowed
+      <dt>new:<dd><tt>bitmap</tt>
+      <dt>new:<dd><tt>event</tt>
+      <dt>new:<dd>disable LispMe event handling by <tt>own-gui</tt>
+      <dt>new:<dd><b>allow PalmOS event handler to be written in Scheme</b>
+      <dt>new:<dd>many UI access functions
+      <dt>enhancement:<dd><tt>dir</tt> accepts category argument. Also
+          handles secret attribute correctly, as well as the load dialog.
+      <dt>removal:<dd>Support for PalmOS1 (Pilot 1000 and 5000). Seeing
+          the growing percentage of PalmOS2 and later devices and the
+          growing memory requirements for LispMe, I think supporting
+          LispMe on PalmOS1 isn't worth the effort anymore. RIP.
+    </dl>
+
+  <h2>V2.5/13.5.1999</h2>
+  <h3>LispMe</h3>
+    <dl>
+      <dt>bugfix:<dd>Garbage collection during certain phase of
+          string creation caused data manager index error.
+      <dt>bugfix (Palm III ROM bug):<dd>Current font height was
+          used in title bar of about box, which overwrote memory when
+          non-standard font had been selected for text output.
+      <dt>enhancement:<dd>incremental search in symbol list enabled
+      <dt>bugfix:<dd>repeatedly outputting the same string didn't unlock
+          its chunk when output was truncated
+      <dt>new:<dd><b>Multiple sessions</b>
+      <dt>cleanup:<dd>New icon, more suited to both Scheme and Pilot spirit :-)
+      <dt>new:<dd>Create launcher icons for sessions
+      <dt>enhancement:<dd>Use table for session list, show icon and size
+      <dt>cleanup:<dd>Now use category instead of secret bit to distinguish
+          vectors from strings to have correct record count in appl list when
+          privacy is turned on.
+      <dt>enhancement:<dd>Allow extra chars in symbols
+      <dt>new:<dd><tt>write-record</tt>
+      <dt>new:<dd><tt>date-time</tt>
+    </dl>
+    <h4>Fix a/8.6.1999</h4>
+    <dl>
+      <dt>bugfix:<dd>Wrong allocation protection made complex constants
+          impossible in memos.
+
+    </dl>
+
+ <h2>V2.6/27.11.1999</h2>
+  <h3>LispMe</h3>
+    <dl>
+      <dt>new:<dd><b>Released as Free Software according to GNU GPL</b>
+      <dt>bugfix:<dd>Euro symbol support with PalmOS 3.3
+      <dt>bugfix:<dd>Don't store LocalIDs of other DBs to allow 
+          beaming of sessions etc.
+      <dt>new:<dd>Reload button
+    </dl>
+  <h3>Revision A</h3>
+    <dl>
+      <dt>bugfix:<dd>Trouble on a Palm IIIx or Palm V with the 3.3 update
+          when trying to load a memo caused an exception.
+          <tt>CategoryCreateListV10</tt> was the reason, now replaced.
+    </dl>
+  <h3>Revision B</h3>
+    <dl>
+      <dt>bugfix:<dd><tt>gensym</tt> counter was reset at each start
+      <dt>bugfix:<dd>Some broken links in the docs fixed
+      <dt>bugfix:<dd>Removed <tt>reverse</tt> in theorem prover sample
+      <dt>enhancement:<dd>Allow drawing in XOR-style via the pattern
+          <tt>#n</tt>
+    </dl>
+
+ <h2>V2.7/16.04.2000</h2>
+  <h3>LispMe</h3>
+    <dl>
+      <dt>new:<dd>Internal editor
+      <dt>enhancement:<dd>Allow oversized memos within internal editor        
+      <dt>enhancement:<dd>Interrupt check after <tt>sound</tt> and 
+          <tt>wait</tt>
+      <dt>bugfix:<dd>Correct handling of field/scrollbar with non-standard
+          fonts
+      <dt>enhancement:<dd>Shortcuts for button commands for GoType users
+      <dt>enhancement:<dd>Ported to GCC 2.0 and SDK 3.5; made multi-segment
+          application
+      <dt>new:<dd>Support for pedit
+      <dt>enhancement:<dd>Switchable case sensitivity for symbols 
+      <dt>new:<dd>HanDBase access functions
+      <dt>cleanup:<dd>Rewrote graphics state handling 
+      <dt>new:<dd>Color support with OS 3.5        
+      <dt>bugfix:<dd>Handle incompatible sessions more gracefully        
+      <dt>new:<dd>Clear input and output fields menu commands
+      <dt>new:<dd><i>Eval selection</i> command in internal editor
+      <dt>new:<dd>Explicit garbage collection <tt>gc</tt>
+      <dt>enhancement:<dd>Look into all open resource DBs for icons
+          when creating a starter app
+      <dt>supplement:<dd><tt>make-string</tt>
+      <dt>supplement:<dd><tt>set-palette</tt>        
+      <dt>bugfix:<dd>Crash with <tt>FrmUpdateForm</tt> on OS3.5 (debug only)
+    </dl>
+ </body>
+</html>

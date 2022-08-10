@@ -1,0 +1,18 @@
+FORM ID 1950 AT (0 0 159 159)
+USABLE
+MODAL
+BEGIN
+	TITLE "PilrcTest of Bitmap"
+END
+
+BITMAP ID 0 "Default.bmp"
+BITMAP ID 1 "Image1.bmp"
+BITMAP ID 2 "Image2.bmp"
+BITMAP ID 3 "Image3.bmp"
+BITMAP ID 4 "Image4.bmp"
+BITMAP ID 5 "Image5.bmp"
+BITMAP ID 6 "DCat4.bmp"
+BITMAP ID 7 "MyVan3.bmp"
+BITMAP ID 8 "Image8.bmp"
+BITMAP ID 9 "Image9.bmp"
+BITMAPGREY ID 12 "MyVan4.bmp"

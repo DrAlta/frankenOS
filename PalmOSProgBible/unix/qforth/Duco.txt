@@ -1,0 +1,185 @@
+\ duco 98.11.18 5:23 pm NAB
+
+needs toolkit
+needs core-ext
+needs roman
+needs textalign
+needs bitmap
+needs condthens
+needs graphics
+needs fonts
+needs resources
+needs Events
+needs ids
+needs simple-handler
+
+5 7 2constant m-size
+20 5 2constant m-position
+
+m-size bitmap memory-indicator
+2 base !
+1110110000000000 ,
+1001001000000000 ,
+1001001000000000 ,
+1001001000000000 ,
+1001001000000000 ,
+decimal
+
+\ For interim values:
+0 value a
+0 value b
+
+2variable display
+\ High-cell of display indicates
+\  range errors:
+display constant out-of-range
+
+0 value memory
+
+: get-display ( -- u )
+  display 2@ d>s ;
+
+: set-display ( d. -- )  display 2! ;
+
+: zero-display ( -- )  0. set-display ;
+
+: error ( -- )  -1. set-display ;
+
+: add-symbol ( char -- )
+  >r
+  display 2@ drop ( -- u )
+  split-roman ( -- nnn 1000's )
+\ Add char to end of low Roman:
+  swap  >roman 2dup +  r> swap c!
+\ Convert back to integer:
+  1+ roman> ( -- 1000's newnnn )
+\ Combine new nnn and 1000's:
+  >r  1000 m*  r> m+  set-display ;
+
+\ Opcodes:
+0 enum OpType
+  OpType do-nothing
+  OpType add
+  OpType subtract
+  OpType multiply
+  OpType divide
+
+do-nothing value nextoperator
+
+false value pendingequals
+
+: clear ( -- )
+  zero-display
+  false to pendingequals
+  do-nothing to nextoperator
+  0 to a   0 to b ;
+
+: refresh ( -- )
+  boldFont font drop
+\ Clear Roman display:
+  16 107 22 44 erase-rectangle
+\ Clear Arabic display:
+  14 32 24 6 erase-rectangle
+\ Display Roman:
+  24 45 at
+  out-of-range @ if
+    s" error" type  zero-display  0
+  else  get-display dup  romantype
+  then
+\ Display Arabic:
+  0 <# #s #> 38 type.right
+\ Memory indicator:
+  memory if 
+    m-position memory-indicator
+  else
+    m-size m-position erase-rectangle
+  then ;
+
+: args ( -- b. a. )
+  b 0  a 0 ;
+
+: interim ( -- )
+  a to b   get-display to a ;
+
+: equals ( -- )
+  pendingequals if  interim  then
+  false to pendingequals
+  nextoperator cond
+    dup  add = if
+      args d+ set-display
+    else dup  subtract = if
+      args d- set-display
+    else dup  multiply = if
+      args drop nip m* set-display
+    else dup  divide = if
+      a if
+        args drop
+        1  swap  m*/  set-display
+      else  error
+  thens  drop  refresh
+  get-display to b ;
+
+: operator ( opcode -- )
+  pendingequals if  equals  then
+  to nextoperator
+  true to pendingequals
+  interim  zero-display ;
+
+\ Button ids run from 2000 to 2016.
+2000 constant first-item-id
+
+\ Map form ctlEvents to chars:
+: item>button ( id -- char )
+  first-item-id -
+  s" MDCLXVI/*+-=wraek" drop + c@ 
+;
+
+\ Actions for each button:
+: do-button ( char -- )
+  cond
+    dup  [char] k = if  clear  refresh
+    else dup  [char] e = if  \ clear error
+      zero-display  refresh
+    else dup  [char] w = if  \ mc
+      0 to memory  refresh
+    else dup  [char] a  = if  \ m+
+     get-display memory + to memory
+     refresh
+    else dup  [char] r  = if  \ mr
+      memory 0 set-display  refresh
+    else dup  [char] +  = if
+      add operator
+    else dup  [char] -  = if
+      subtract operator
+    else dup  [char] *  = if
+      multiply operator
+    else dup  [char] /  = if
+      divide operator
+    else dup  [char] =  = if  equals
+    else dup  add-symbol  refresh
+    thens  drop ;
+
+(ID) p4ap (ID) Duco use-resources
+
+1000 constant DucoForm
+
+: show-panel ( -- )
+\ The buttons:
+  DucoForm ShowForm
+  ['] simple-handler eventhandler !
+\ The display area:
+  20 154 19 3 dialogFrame frame
+  39 40 19 40 line ;
+
+: do-event ( ekey -- )
+  ctlSelectEvent = if
+    event >abs itemid
+    item>button do-button
+  then ;
+
+\ Main entry point:
+: go
+  clear  show-panel
+  0 to memory  refresh
+  begin  ekey do-event  again ;
+

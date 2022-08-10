@@ -1,0 +1,19 @@
+DG's TX2 is an unpacked look at the binaries in Dmitry Grinberg's TX2 ROM.
+
+LifeDrive is the same thing, except for a stock LifeDrive.
+
+Treo 650 is weird.
+
+treo 755p is the same, just with 755p bits.
+
+ROM_Archive.zip is an archive of many devices.
+- Media in this zip is the files required for installing Media 1.0 on a device which did not have it initially. (like the T3, which had Photos instead)
+
+- T_ to T5 Update is a really cool ROM nick where you can upgrade a T|T, T2, T3 to have a software featureset more like the T5. Recommend doing to some degree - read included documentation.
+McFile is another file manager.
+
+The rest are the same.
+
+ROMS.WinAce.compressed.ace is an archive I recieved long ago for ROM nicking purposes.
+
+TX2.ROM.zip is the packages for the TX2 custom ROM.

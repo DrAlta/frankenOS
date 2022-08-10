@@ -1,0 +1,41 @@
+/**********************************************************************/
+/*                                                                    */
+/* Launch.rcp: Resource definitions for LispMe Launcher apps          */
+/*                                                                    */
+/* LispMe System (c) FBI Fred Bayer Informatics                       */
+/*                                                                    */
+/* Distributed under the GNU General Public License;                  */
+/* see the README file. This code comes with NO WARRANTY.             */
+/*                                                                    */
+/* Modification history                                               */
+/*                                                                    */
+/* When?      What?                                              Who? */
+/* -------------------------------------------------------------------*/
+/* 03.04.2000 New                                                FBI  */
+/*                                                                    */
+/**********************************************************************/
+
+#include "LispMe.h"
+
+//*********************************************************************/
+// ICONS                                                              */
+//*********************************************************************/
+ICONFAMILY      "bitmaps/Launch1.bmp" "" ""
+                "bitmaps/Launch8.bmp" TRANSPARENTINDEX 0
+
+SMALLICONFAMILY "bitmaps/Launchs1.bmp" "" ""
+                "bitmaps/Launchs8.bmp" TRANSPARENTINDEX 0
+
+//*********************************************************************/
+// Alert to be invoked from LispMe launchers                          */
+// This alert gets re-labelled when creating the launcher app by      */
+// copying some LispMe resources, so don't be alarmed by the          */
+// different ID in Launch.c                                           */
+//*********************************************************************/
+ALERT ID ERR_L4_NO_LISPME
+  ERROR
+BEGIN
+  TITLE "Launcher error"
+  MESSAGE "LispMe not installed"
+  BUTTONS "OK"
+END

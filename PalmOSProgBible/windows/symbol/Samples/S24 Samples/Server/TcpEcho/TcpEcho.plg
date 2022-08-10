@@ -1,0 +1,26 @@
+--------------------Configuration: TcpEcho - Win32 Release--------------------
+Begining build with project "D:\CodeWarrior5\Symbol NDK Support\Samples\Server\TcpEcho\TcpEcho.dsp", at root.
+Active configuration is Win32 (x86) Console Application (based on Win32 (x86) Console Application)
+
+Project's tools are:
+			"32-bit C/C++ Compiler for 80x86" with flags "/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/TcpEcho.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c "
+			"Win32 Resource Compiler" with flags "/l 0x409 /d "NDEBUG" "
+			"Browser Database Maker" with flags "/nologo /o"Release/TcpEcho.bsc" "
+			"COFF Linker for 80x86" with flags "kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/TcpEcho.pdb" /machine:I386 /out:"Release/TcpEcho.exe" "
+			"Custom Build" with flags ""
+			"<Component 0xa>" with flags ""
+
+Creating temp file "C:\TEMP\RSP13.tmp" with contents </nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/TcpEcho.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\CodeWarrior5\Symbol NDK Support\Samples\Server\TcpEcho\TcpEcho.c"
+>
+Creating command line "cl.exe @C:\TEMP\RSP13.tmp" 
+Creating temp file "C:\TEMP\RSP14.tmp" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/TcpEcho.pdb" /machine:I386 /out:"Release/TcpEcho.exe" 
+".\Release\TcpEcho.obj">
+Creating command line "link.exe @C:\TEMP\RSP14.tmp" 
+Compiling...
+TcpEcho.c
+Linking...
+
+
+
+TcpEcho.exe - 0 error(s), 0 warning(s)

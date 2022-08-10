@@ -1,0 +1,24 @@
+--------------------------------- D990524--------------------------------------
+Todo a screen capture for the spt1740:
+
+1. Change the project to run on the emulator.
+From the CodeWarrior IDE, select Edit/Preferences/Palm Connection Settings &
+change Target: to Palm OS Emulator.  Recompile your .prc
+
+2. Start the emulator.
+From the CodeWarrior install directory\Palm OS Emulator\, launch Emulator.exe
+
+3. Load the prc into the emulator
+Right Click on the Emulator screen & Load application.  If you don't see your
+new icon on the applicaton screen, hit the calculator button and go back to 
+the application screen and it should be there now.
+
+Now you should be able to launch your application. Get to the screen you want 
+to capture and on the Host keyboard, select ALT-PRINT SCREEN.  This will capture
+the emualtor bitmap and save it to the clip board.
+
+4. Pull the screen capture into Adobe PhotoShop
+LaunchPhotoShop and select file File/New and take the defaults.
+Next select Edit/Paste and it should pull you image into PhotoShop.
+Now change the Image/Mode/IndexColor to Adaptive and 8bits per pixel.
+Bump the brightness by 20% and save as a .gif file

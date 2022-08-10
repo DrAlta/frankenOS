@@ -1,0 +1,13 @@
+\ make-duco 98.11.20 NAB
+
+needs duco
+' go (ID) Duco makeprc Duco
+DucoForm (ID) tFRM copyrsrc
+2000 (ID) MBAR copyrsrc \ menu
+AboutBox (ID) Talt copyrsrc
+HelpString (ID) tSTR copyrsrc
+1000 (ID) tAIB copyrsrc \ large icon
+1001 (ID) tAIB copyrsrc \ small icon
+
+BlankFormID (ID) tFRM delrsrc drop
+TitledFormID (ID) tFRM delrsrc drop

@@ -1,0 +1,9 @@
+;; theory.lisp
+(define *rules*
+  '((<= (likes-to-eat ?x ?y) (cat ?x)(fish ?y))
+    (<= (cat ?x) (calico ?x))
+    (<= (fish ?x) (tuna ?x))
+    ((tuna charlie))
+    ((tuna herb))
+    ((calico kitty))))
+(define (test) (prove '((likes-to-eat ?x ?y)) *rules*))

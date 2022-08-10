@@ -1,0 +1,35 @@
+\ make-year 98.11.12 10:13 pm NAB
+
+\ Compiles Year to a stand-alone PRC
+\ that is flagged to be HotSync'd to
+\  C:\...\username\backup\Year.PRC
+ 
+\ The program:
+needs year
+\ ...leaves open its resdb with all req'd
+\ resources.
+
+\ Compile it to a stand-alone PRC:
+needs ids
+' go (id) Year MakePRC Year
+\   Note that Year is a creator-ID
+\   registered with
+\   http://palm.3com.com/devzone
+\   Each released app must have a
+\   unique, registered creator ID.
+
+\ Add required resources:
+2000 (id) MBAR copyrsrc \ menu
+YearForm (id) tFRM copyrsrc
+AboutBox (id) Talt copyrsrc
+HelpString (id) tSTR copyrsrc
+
+\ Copy icons:
+1000 (id) tAIB copyrsrc \ normal
+1001 (id) tAIB copyrsrc \ small
+
+\ Delete unneeded forms:
+MainFormID (id) tFRM delrsrc drop
+TitledFormID (id) tFRM delrsrc drop
+
+\ Done!

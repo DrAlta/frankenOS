@@ -1,0 +1,637 @@
+<HTML><!-- #BeginTemplate "/Templates/Quartus.dwt" -->
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Quartus Forth: ISO/ANS Compliant Documentation</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" background="graph.gif">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif"><img src="dfpc.gif" width="64" height="93" align="right" border="0">Quartus 
+  Forth Manual</font></h1>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" --> 
+<h2><font face="Arial, Helvetica, sans-serif">ISO/ANS Compliant Documentation</font></h2>
+<OL>
+  <LI> <A HREF="#labeling">Standard Labeling</A> 
+  <LI> <A HREF="#required">Required Documentation</A> 
+    <ol>
+      <li><a href="#required">Implementation-defined Options</a> 
+        <ol>
+          <li><a href="#exception">EXCEPTION word set</a></li>
+          <li><a href="#facility">FACILITY word set</a></li>
+          <li><a href="#file">FILE word set</a></li>
+          <li><a href="#float">FLOAT word set</a></li>
+          <li><a href="#tools">TOOLS word set</a></li>
+          <li><a href="#search">SEARCH word set</a></li>
+        </ol>
+      </li>
+      <li><a href="#ambiguous">Ambiguous Conditions</a> 
+        <ol>
+          <li><a href="#ambig_double">DOUBLE word set</a></li>
+          <li><a href="#ambig_facility">FACILITY word set</a></li>
+          <li><a href="#ambig_file">FILE word set</a></li>
+          <li><a href="#ambig_float">FLOAT word set</a></li>
+          <li><a href="#ambig_tools">TOOLS word set</a></li>
+          <li><a href="#ambig_search">SEARCH word set</a></li>
+        </ol>
+      </li>
+      <li><a href="#other">Other Standard Documentation</a></li>
+    </ol>
+</OL>
+<hr>
+<h2><font face="Arial, Helvetica, sans-serif"><a name="labeling"></a>ISO/ANS Standard 
+  Labeling </font></h2>
+<P> Quartus Forth is an ISO/ANS Forth Standard System: 
+<UL>
+  <LI> Providing all Core Extension words except those marked obsolescent (i.e. 
+    <CODE>#TIB CONVERT EXPECT QUERY SPAN TIB</CODE>); 
+  <LI> Providing the Double-Number word set; 
+  <LI> Providing the Double-Number Extensions word set; 
+  <LI> Providing the Exception word set; 
+  <LI> Providing the Exception Extensions word set; 
+  <LI> Providing the Facility word set; 
+  <LI> Providing the Facility Extensions word set; 
+  <LI> Providing the Floating-Point word set; 
+  <LI> Providing <CODE>FS. F. PRECISION SET-PRECISION F~</CODE> from the Floating-Point 
+    Extensions word set; 
+  <LI> Providing the Programming-Tools word set; 
+  <LI> Providing <CODE>AHEAD ASSEMBLER BYE CODE [ELSE] [IF] [THEN]</CODE> from 
+    Programming-Tools Extensions word set; 
+  <LI> Providing the Search-Order word set; 
+  <LI> Providing the Search-Order Extensions word set; 
+  <LI> Providing the String word set (except <CODE>-TRAILING CMOVE CMOVE&gt;</CODE>); 
+  <LI> Providing the String Extensions word set; 
+  <LI> Providing <CODE>INCLUDED</CODE> and <CODE>REFILL</CODE> from the File Access 
+    wordset. 
+</UL>
+<hr>
+<h2> <A NAME="required"><!-- --></A><font face="Arial, Helvetica, sans-serif">Required 
+  ISO/ANS Standard Documentation </font> </h2>
+<h3> <I><font face="Arial, Helvetica, sans-serif">Implementation-defined options</font></I> 
+</h3>
+<H3> <font face="Arial, Helvetica, sans-serif">Aligned address requirements (3.1.3.3 
+  Addresses): </font></H3>
+<P> The DragonBall CPU architecture mandates that word- and long-size reads and 
+  writes of RAM occur on even-byte boundaries. In Forth terms, cell- or double-cell-width 
+  reads and writes must occur on even-byte boundaries. 
+<H3> <font face="Arial, Helvetica, sans-serif">Behavior of 6.1.1320 <CODE>EMIT</CODE> 
+  for non-graphic characters:</font> </H3>
+<P> EMIT treats all characters as graphic. If the font selected has no character 
+  representation for a given value, a 'no-character' symbol (an unfilled rectangle) 
+  is displayed. 
+<H3> <font face="Arial, Helvetica, sans-serif">Character editing of 6.1.0695 <CODE>ACCEPT</CODE> 
+  and 6.2.1390 <CODE>EXPECT</CODE>:</font> </H3>
+<P> Standard PalmOS editing facilities (marking text, undo, cut, copy, paste, 
+  popup keyboard) are available in <CODE>ACCEPT</CODE>. . Additionally, while 
+  in the interpreter, the Page Up button retrieves the previously input line. 
+  <code>EXCEPT</code>, being obsolescent, is not provided 
+<H3> <font face="Arial, Helvetica, sans-serif">Character set (3.1.2 Character 
+  types, 6.1.1320 <CODE>EMIT</CODE>, 6.1.1750 <CODE>KEY</CODE>):</font> </H3>
+<P> Characters in the standard, large, and bold PalmPilot fonts from 0x20 to 0x7E 
+  correspond to ASCII. Other characters vary by font selection. 
+<H3> <font face="Arial, Helvetica, sans-serif">Character-aligned address requirements 
+  (3.1.3.3 Addresses):</font> </H3>
+<P> All address are valid for character-width (byte) access. 
+<H3> <font face="Arial, Helvetica, sans-serif">Character-set-extensions matching 
+  characteristics (3.4.2 Finding definition names):</font> </H3>
+<P> Matching is both case- and accent-insensitive (i.e. a, &agrave;, and A all 
+  match each other). 
+<H3> <font face="Arial, Helvetica, sans-serif">Conditions under which control 
+  characters match a space delimiter (3.4.1.1 Delimiters): </font></H3>
+<P> When parsing, all control characters match the space delimiter. 
+<H3> <font face="Arial, Helvetica, sans-serif">Format of the control-flow stack 
+  (3.2.3.2 Control-flow stack): </font></H3>
+<P> The data stack serves as the control-flow stack. 
+<H3> <font face="Arial, Helvetica, sans-serif">Conversion of digits larger than 
+  thirty-five (3.2.1.2 Digit conversion):</font> </H3>
+<P> Input conversion will fail. &nbsp;Output conversion will be attempted, with 
+  digits larger than 35 mapped into the character-set range beyond <KBD>Z</KBD> 
+  (i.e. <KBD>[</KBD>, <KBD>\</KBD>, <KBD>]</KBD>, and so forth). 
+<H3> <font face="Arial, Helvetica, sans-serif">Display after input terminates 
+  in 6.1.0695 <CODE>ACCEPT</CODE> and 6.2.1390 <CODE>EXPECT</CODE>: </font></H3>
+<P> The display is not changed; the cursor is positioned at the end of the input 
+  text. 
+<H3> <font face="Arial, Helvetica, sans-serif">Exception abort sequence (as in 
+  6.1.0680 <CODE>ABORT"</CODE>):</font> </H3>
+<P> The text message associated with the <CODE>ABORT"</CODE> is displayed, and 
+  execution continues as per <CODE>ABORT</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Input line terminator (3.2.4.1 
+  User input device):</font> </H3>
+<P> At the Quartus Forth console, the input line terminator is the carriage return 
+  (Graffiti stroke upper-right to lower-left). &nbsp;In <code>INCLUDE</code>d 
+  files, input is terminated via carriage-return, or end-of-file. 
+<H3> <font face="Arial, Helvetica, sans-serif">Maximum size of a counted string, 
+  in characters (3.1.3.4 Counted strings, 6.1.2450 <CODE>WORD</CODE>):</font> 
+</H3>
+<P> 255. 
+<H3> <font face="Arial, Helvetica, sans-serif">Maximum size of a parsed string 
+  (3.4.1 Parsing):</font> </H3>
+<P> 255. 
+<H3> <font face="Arial, Helvetica, sans-serif">Maximum size of a definition name, 
+  in characters: </font></H3>
+<P> 31. 
+<H3> <font face="Arial, Helvetica, sans-serif">Maximum string length for 6.1.1345 
+  <CODE>ENVIRONMENT?</CODE>, in characters: </font></H3>
+<P> 31. 
+<H3> <font face="Arial, Helvetica, sans-serif">Method of selecting 3.2.4.1 User 
+  input device:</font> </H3>
+<P> Input is from the keyboard (pop-up keyboard, or Graffiti input) unless redirected 
+  via <CODE>INCLUDED</CODE>, <CODE>INCLUDE</CODE>, or <CODE>NEEDS</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Method of selecting 3.2.4.2 User 
+  output device: </font></H3>
+<P> No facilities are currently provided for redirection of output. 
+<H3> <font face="Arial, Helvetica, sans-serif">Methods of dictionary compilation 
+  (3.3 The Forth dictionary): </font></H3>
+<P> Code is compiled to the dictionary using what the Standard calls a <I>type 
+  3</I> mechanism (native-code with optimizations). 
+<H3> <font face="Arial, Helvetica, sans-serif">Number of bits in one address unit 
+  (3.1.3.3 Addresses): </font></H3>
+<P> 8. 
+<H3> <font face="Arial, Helvetica, sans-serif">Number representation and arithmetic 
+  (3.2.1.1 Internal number representation): </font></H3>
+<P> Numbers are represented internally as two's-complement, big-endian values. 
+<H3> <font face="Arial, Helvetica, sans-serif">Ranges for n, +n, u, d, +d, and 
+  ud (3.1.3 Single-cell types, 3.1.4 Cell-pair types):</font> </H3>
+<P> 
+<TABLE BORDER CELLSPACING="5" CELLPADDING="2">
+  <TR> 
+    <TD><i>n</i></TD>
+    <TD>-32767..32767</TD>
+  </TR>
+  <TR> 
+    <TD><i>+n</i></TD>
+    <TD>0..32767</TD>
+  </TR>
+  <TR> 
+    <TD><i>u</i></TD>
+    <TD>0..65535</TD>
+  </TR>
+  <TR> 
+    <TD><i>d</i></TD>
+    <TD>-214783648..2147483647</TD>
+  </TR>
+  <TR> 
+    <TD><i>+d</i></TD>
+    <TD>0..2147483647</TD>
+  </TR>
+  <TR> 
+    <TD><i>ud</i></TD>
+    <TD>0..4294967295</TD>
+  </TR>
+</TABLE>
+<H3> <font face="Arial, Helvetica, sans-serif">Read-only data-space regions (3.3.3 
+  Data space): </font></H3>
+<P> All dataspace regions are read/write. 
+<H3> <font face="Arial, Helvetica, sans-serif">Size of buffer at 6.1.2450 <CODE>WORD</CODE> 
+  (3.3.3.6 Other transient regions): </font></H3>
+<P> 40 characters. 
+<H3> <font face="Arial, Helvetica, sans-serif">Size of one cell in address units 
+  (3.1.3 Single-cell types): </font></H3>
+<P> 2. 
+<H3> <font face="Arial, Helvetica, sans-serif">Size of one character in address 
+  units (3.1.2 Character types): </font></H3>
+<P> 1. 
+<H3> <font face="Arial, Helvetica, sans-serif">Size of the keyboard terminal input 
+  buffer (3.3.3.5 Input buffers):</font> </H3>
+<P> 80 characters. 
+<H3> <font face="Arial, Helvetica, sans-serif">Size of the pictured numeric output 
+  string buffer (3.3.3.6 Other transient regions):</font> </H3>
+<P> 34 characters. 
+<H3> <font face="Arial, Helvetica, sans-serif">Size of the scratch area whose 
+  address is returned by 6.2.2000 <CODE>PAD</CODE> (3.3.3.6 Other transient regions): 
+  </font></H3>
+<P> Depends upon the user implementation of <CODE>PAD</CODE>. Recommended: 
+<P> <CODE>CREATE PAD &nbsp;84 CHARS ALLOT</CODE> 
+<H3> <font face="Arial, Helvetica, sans-serif">System case-sensitivity characteristics 
+  (3.4.2 Finding definition names):</font> </H3>
+<P> The system is case-insensitive. 
+<H3> <font face="Arial, Helvetica, sans-serif">System prompt (3.4 The Forth text 
+  interpreter, 6.1.2050 <CODE>QUIT</CODE>): </font></H3>
+<P> &nbsp;<CODE><B>ok</B></CODE> 
+<H3> <font face="Arial, Helvetica, sans-serif">Type of division rounding (3.2.2.1 
+  Integer division, 6.1.0100 <CODE>*/</CODE>, 6.1.0110 <CODE>*/MOD</CODE>, 6.1.0230 
+  <CODE>/</CODE>, 6.1.0240 <CODE>/MOD</CODE>, 6.1.1890 <CODE>MOD</CODE>):</font> 
+</H3>
+<P> Symmetrical. 
+<H3> <font face="Arial, Helvetica, sans-serif">Values of 6.1.2250 <CODE>STATE</CODE> 
+  when true:</font> </H3>
+<P> Compilation state is indicated by a 1 in <CODE>STATE</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Values returned after arithmetic 
+  overflow (3.2.2.2 Other integer operations):</font> </H3>
+<P> Overflow results in integer rollover (e.g. <CODE>65535 1+ -&gt; 0</CODE>) 
+<H3> <font face="Arial, Helvetica, sans-serif">Whether the current definition 
+  can be found after 6.1.1250 <CODE>DOES&gt;</CODE> (6.1.0450 :):</font> </H3>
+<P> The current definition cannot be found until <CODE>;</CODE> (except via <code>RECURSE</code>). 
+<h3><a name="exception"></a> <i>Implementation-defined options: EXCEPTION word 
+  set </i></h3>
+<H3> <font face="Arial, Helvetica, sans-serif">Values used in the system by 9.6.1.0875 
+  <CODE>CATCH</CODE> and 9.6.1.2275 <CODE>THROW</CODE> (9.3.1 <CODE>THROW</CODE> 
+  values, 9.3.5 Possible actions on an ambiguous condition):</font> </H3>
+<P> -1 -2 -4 -9 -13 -14 -16 -19 -29 -31 -38 -42 -43 -45 
+<h3><i> <a name="facility"></a>Implementation-defined options: FACILITY word set</i> 
+</h3>
+<H3> <font face="Arial, Helvetica, sans-serif">Encoding of keyboard events (10.6.2.1305 
+  <CODE>EKEY</CODE>):</font> </H3>
+<P> <CODE>EKEY</CODE> returns a <CODE>keyDownEvent</CODE> for each keyboard event 
+  received. <CODE>EKEY&gt;CHAR</CODE> interrogates the event buffer to retrieve 
+  the received character. 
+<H3> <font face="Arial, Helvetica, sans-serif">Duration of a system clock tick: 
+  </font></H3>
+<P> 10 milliseconds. 
+<H3> <font face="Arial, Helvetica, sans-serif">Repeatability to be expected from 
+  execution of 10.6.2.1905 <CODE>MS</CODE>: </font></H3>
+<P> Repeatable to +/- 10 milliseconds. 
+<P> 
+<h3> <i><a name="file"></a>Implementation-defined options: FILE word set </i></h3>
+<H3> <font face="Arial, Helvetica, sans-serif">File access methods used by 11.6.1.0765 
+  <CODE>BIN</CODE>, 11.6.1.1010 <CODE>CREATE-FILE</CODE>, 11.6.1.1970 <CODE>OPEN-FILE</CODE>, 
+  11.6.1.2054 <CODE>R/O</CODE>, 11.6.1.2056 <CODE>R/W</CODE>, and 11.6.1.2425 
+  <CODE>W/O</CODE>: </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">File exceptions: </font></H3>
+<P> -38. 
+<H3> <font face="Arial, Helvetica, sans-serif">File line terminator (11.6.1.2090 
+  <CODE>READ-LINE</CODE>): </font></H3>
+<P> Line-feed (0x0A) (<CODE>REFILL</CODE>). 
+<H3> <font face="Arial, Helvetica, sans-serif">File name format (11.3.1.4 File 
+  names): </font></H3>
+<P> Case- and accent-insensitive non-whitespace names not to exceed 31 characters 
+  in length. 
+<H3> <font face="Arial, Helvetica, sans-serif">Information returned by 11.6.2.1524 
+  <CODE>FILE-STATUS</CODE>:</font> </H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Input file state after an exception 
+  (11.6.1.1717 <CODE>INCLUDE-FILE</CODE>, 11.6.1.1718 <CODE>INCLUDED</CODE>): 
+  </font></H3>
+<P> The file (and any nesting file) is closed. 
+<H3> <font face="Arial, Helvetica, sans-serif">Ior values and meaning (11.3.1.2 
+  I/O results): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Maximum depth of file input nesting 
+  (11.3.4 Input source): </font></H3>
+<P> Maximum nesting depth is 64 levels deep. 
+<H3> <font face="Arial, Helvetica, sans-serif">Maximum size of input line (11.3.6 
+  Parsing): </font></H3>
+<P> 100 characters. 
+<H3> <font face="Arial, Helvetica, sans-serif">Methods for mapping block ranges 
+  to files (11.3.2 Blocks in files): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Number of string buffers provided 
+  (11.6.1.2165 S"): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Size of string buffer used by 11.6.1.2165 
+  S": </font></H3>
+<P> Not applicable. 
+<P> 
+<h3><i> <a name="float"></a>Implementation-defined options: FLOAT word set </i></h3>
+<H3> <font face="Arial, Helvetica, sans-serif">Format and range of floating-point 
+  numbers (12.3.1 Data types, 12.6.1.2143 <CODE>REPRESENT</CODE>): </font></H3>
+<P> Motorola Fast Floating Point (FFP) format. See the <a href="floats.htm">floating 
+  point specification</a> for detailed specifications. 
+<H3> <font face="Arial, Helvetica, sans-serif">Results of 12.6.1.2143 <CODE>REPRESENT</CODE> 
+  when float is out of range: </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Rounding or truncation of floating-point 
+  numbers (12.3.1.2 Floating-point numbers): </font></H3>
+<P> Floats are rounded to 24 bits of precision. 
+<H3> <font face="Arial, Helvetica, sans-serif">Size of floating-point stack (12.3.3 
+  Floating-point stack): </font></H3>
+<P> 8 floats. 
+<H3> <font face="Arial, Helvetica, sans-serif">Width of floating-point stack (12.3.3 
+  Floating-point stack): </font></H3>
+<P> 2 cells. 
+<h3><i> <a name="tools"></a>Implementation-defined options: TOOLS word set</i> 
+</h3>
+<H3> <font face="Arial, Helvetica, sans-serif">Ending sequence for input following 
+  15.6.2.0470 <CODE>;CODE</CODE> and 15.6.2.0930 <CODE>CODE</CODE>: </font></H3>
+<P> <CODE>END-CODE</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Manner of processing input following 
+  15.6.2.0470 <CODE>;CODE </CODE>and 15.6.2.0930 <CODE>CODE</CODE>: </font></H3>
+<P> Input is processed as either prefix or postfix 68000 assembler, as described 
+  in '<I>asm68k.html</I>'. 
+<H3> <font face="Arial, Helvetica, sans-serif">Search-order capability for 15.6.2.1300 
+  <CODE>EDITOR</CODE> and 15.6.2.0740 <CODE>ASSEMBLER</CODE> (15.3.3 The Forth 
+  dictionary): </font></H3>
+<P> <CODE>ASSEMBLER</CODE> allows all <a href="asm68k.htm"><i>asm68k</i></a> words 
+  to be found. &nbsp;<CODE>FORTH</CODE> (SEARCH EXT) is available in the <CODE>ASSEMBLER</CODE> 
+  wordlist for easy return to the default search-order. 
+<H3> <font face="Arial, Helvetica, sans-serif">Source and format of display by 
+  15.6.1.2194 <CODE>SEE</CODE>.</font> </H3>
+<P> Not applicable. 
+<h3><i> <a name="search"></a>Implementation-defined options: SEARCH word set </i></h3>
+<H3> <font face="Arial, Helvetica, sans-serif">Maximum number of word lists in 
+  the search order (16.3.3 Finding definition names, 16.6.1.2197 <CODE>SET-ORDER</CODE>): 
+  </font></H3>
+<P> 8. 
+<H3> <font face="Arial, Helvetica, sans-serif">Minimum search order (16.6.1.2197 
+  <CODE>SET-ORDER</CODE>, 16.6.2.1965 <CODE>ONLY</CODE>): </font></H3>
+<P> <CODE>FORTH-WORDLIST</CODE>. 
+<P>&nbsp; 
+<hr>
+<h2><I><a name="ambiguous"></a>Ambiguous conditions</I> </h2>
+<H3> <font face="Arial, Helvetica, sans-serif">A name is neither a valid definition 
+  name nor a valid number during text interpretation (3.4 The Forth text interpreter):</font> 
+</H3>
+<P> <CODE>-13 THROW</CODE>. &nbsp;When at the Quartus Forth console, the system 
+  beeps, prints the invalid name on the screen in underlined text, followed by 
+  a question-mark, and then performs the semantics of ABORT. 
+<H3> <font face="Arial, Helvetica, sans-serif">A definition name exceeded the 
+  maximum length allowed (3.3.1.2 Definition names): </font></H3>
+<P> <CODE>-19 THROW</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Addressing a region not listed 
+  in 3.3.3 Data Space:</font> </H3>
+<P> Attempts to write to write-protected RAM are trapped by the PalmOS and result 
+  in a system exception. 
+<H3> <font face="Arial, Helvetica, sans-serif">Argument type incompatible with 
+  specified input parameter, e.g., passing a flag to a word expecting an n (3.1 
+  Data types): </font></H3>
+<P> Not detected. False flags (0) are always legal values. True flags are legal 
+  values for data types n and u. 
+<H3> <font face="Arial, Helvetica, sans-serif">Attempting to obtain the execution 
+  token, (e.g., with 6.1.0070 <CODE>'</CODE>, 6.1.1550 <CODE>FIND</CODE>, etc.) 
+  of a definition with undefined interpretation semantics: </font></H3>
+<P> Returns the execution token representing the compilation semantics of the 
+  definition. 
+<H3> <font face="Arial, Helvetica, sans-serif">Dividing by zero (6.1.0100 <CODE>*/</CODE>, 
+  6.1.0110 <CODE>*/MOD</CODE>, 6.1.0230 <CODE>/</CODE>, 6.1.0240 <CODE>/MOD</CODE>, 
+  6.1.1561 <CODE>FM/MOD</CODE>, 6.1.1890 <CODE>MOD</CODE>, 6.1.2214 <CODE>SM/REM</CODE>, 
+  6.1.2370 <CODE>UM/MOD</CODE>, 8.6.1.1820 <CODE>M*/</CODE>): </font></H3>
+<P> Trapped by the PalmOS, resulting in a system exception. 
+<H3> <font face="Arial, Helvetica, sans-serif">Insufficient data-stack space or 
+  return-stack space (stack overflow): </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Insufficient space for loop-control 
+  parameters:</font> </H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Insufficient space in the dictionary: 
+  </font></H3>
+<P> <CODE>-8 THROW</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Interpreting a word with undefined 
+  interpretation semantics: </font></H3>
+<P> Permitted. An attempt will be made to execute the compilation semantics, potentially 
+  resulting in an ambiguous condition. 
+<H3> <font face="Arial, Helvetica, sans-serif">Modifying the contents of the input 
+  buffer or a string literal (3.3.3.4 Text-literal regions, 3.3.3.5 Input buffers): 
+  </font></H3>
+<P> Permitted. 
+<H3> <font face="Arial, Helvetica, sans-serif">Overflow of a pictured numeric 
+  output string: </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Parsed string overflow: </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Producing a result out of range, 
+  e.g., multiplication (using <CODE>*</CODE>) results in a value too big to be 
+  represented by a single-cell integer (6.1.0090 <CODE>*</CODE>, 6.1.0100 <CODE>*/</CODE>, 
+  6.1.0110 <CODE>*/MOD</CODE>, 6.1.0570 <CODE>&gt;NUMBER</CODE>, 6.1.1561 <CODE>FM/MOD</CODE>, 
+  6.1.2214 <CODE>SM/REM</CODE>, 6.1.2370 <CODE>UM/MOD</CODE>, 6.2.0970 <CODE>CONVERT</CODE>, 
+  8.6.1.1820 <CODE>M*/</CODE>): </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Reading from an empty data stack 
+  or return stack (stack underflow): </font></H3>
+<P> Stack underflow is detected during interpretation after the execution of each 
+  word. Not detected during run-time except by an explicit check. 
+<H3> <font face="Arial, Helvetica, sans-serif">Unexpected end of input buffer, 
+  resulting in an attempt to use a zero-length string as a name: </font></H3>
+<P> <CODE>-16 THROW</CODE>. 
+<H3> <CODE><font face="Arial, Helvetica, sans-serif">&gt;IN</font></CODE><font face="Arial, Helvetica, sans-serif"> 
+  greater than size of input buffer (3.4.1 Parsing):</font> </H3>
+<P> Treated as though the end of the input buffer has been reached. 
+<H3> <font face="Arial, Helvetica, sans-serif">6.1.2120 <CODE>RECURSE</CODE> appears 
+  after 6.1.1250 <CODE>DOES&gt;</CODE>: </font></H3>
+<P> Causes recursion into the word containing the <CODE>DOES&gt;</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Argument input source different 
+  than current input source for 6.2.2148 <CODE>RESTORE-INPUT</CODE>: </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Data space containing definitions 
+  is de-allocated (3.3.3.2 Contiguous regions): </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Data space read/write with incorrect 
+  alignment (3.3.3.1 Address alignment): </font></H3>
+<P> Trapped by the PalmOS, resulting in a system exception. 
+<H3> <font face="Arial, Helvetica, sans-serif">Data-space pointer not properly 
+  aligned (6.1.0150 <CODE>,</CODE>, 6.1.0860 <CODE>C,</CODE>): </font></H3>
+<P> For cell-sized reads and writes, unaligned accesses are trapped by the PalmOS, 
+  resulting in a system exception. 
+<H3> <font face="Arial, Helvetica, sans-serif">Less than u+2 stack items (6.2.2030 
+  <CODE>PICK</CODE>, 6.2.2150 <CODE>ROLL</CODE>): </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Loop-control parameters not available 
+  (6.1.0140 <CODE>+LOOP</CODE>, 6.1.1680 <CODE>I</CODE>, 6.1.1730 <CODE>J</CODE>, 
+  6.1.1760 <CODE>LEAVE</CODE>, 6.1.1800 <CODE>LOOP</CODE>, 6.1.2380 <CODE>UNLOOP</CODE>): 
+  </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Most recent definition does not 
+  have a name (6.1.1710 <CODE>IMMEDIATE</CODE>): </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Name not defined by 6.2.2405 <CODE>VALUE</CODE> 
+  used by 6.2.2295 <CODE>TO</CODE>: </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Name not found (6.1.0070 <CODE>'</CODE>, 
+  6.1.2033 <CODE>POSTPONE</CODE>, 6.1.2510 <CODE>[']</CODE>, 6.2.2530 <CODE>[COMPILE]</CODE>): 
+  </font></H3>
+<P> <CODE>-13 THROW</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Parameters are not of the same 
+  type (6.1.1240 <CODE>DO</CODE>, 6.2.0620 <CODE>?DO</CODE>, 6.2.2440 <CODE>WITHIN</CODE>): 
+  </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">6.1.2033 <CODE>POSTPONE</CODE> 
+  or 6.2.2530 <CODE>[COMPILE]</CODE> applied to 6.2.2295 <CODE>TO</CODE>: </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">String longer than a counted string 
+  returned by 6.1.2450 <CODE>WORD</CODE>: </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">u greater than or equal to the 
+  number of bits in a cell ( 6.1.1805 <CODE>LSHIFT</CODE>, 6.1.2162 <CODE>RSHIFT</CODE>): 
+  </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Word not defined via 6.1.1000 <CODE>CREATE</CODE> 
+  (6.1.0550 <CODE>&gt;BODY</CODE>, 6.1.1250 <CODE>DOES&gt;</CODE>): </font></H3>
+<P> <CODE>&gt;BODY</CODE> attempts to identify <CODE>CREATE</CODE> words, and 
+  performs <CODE>-31 THROW</CODE> for words failing this identification. <CODE>DOES&gt;</CODE> 
+  does not attempt to identify words as having been defined by <CODE>CREATE</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Words improperly used outside 6.1.0490 
+  <CODE>&lt;#</CODE> and 6.1.0040 <CODE>#&gt;</CODE> (6.1.0030 <CODE>#</CODE>, 
+  6.1.0050 <CODE>#S</CODE>, 6.1.1670 <CODE>HOLD</CODE>, 6.1.2210 <CODE>SIGN</CODE>): 
+  </font></H3>
+<P> Not detected. 
+<h3><i> <a name="ambig_double"></a>Ambiguous conditions: DOUBLE word set </i></h3>
+<H3> <font face="Arial, Helvetica, sans-serif">d outside range of n in 8.6.1.1140 
+  <CODE>D&gt;S</CODE>:</font> </H3>
+<P> Not detected. 
+<P> 
+<h3> <i><a name="ambig_facility"></a>Ambiguous conditions: FACILITY word set</i> 
+</h3>
+<H3> <font face="Arial, Helvetica, sans-serif">10.6.1.0742 <CODE>AT-XY</CODE> 
+  operation can't be performed on user output device. </font></H3>
+<P> <CODE>AT-XY</CODE> assumes the user output device is the Palm LCD screen. 
+<h3><i> <a name="ambig_file"></a>Ambiguous conditions: FILE word set</i> </h3>
+<H3> <font face="Arial, Helvetica, sans-serif">Attempting to position a file outside 
+  its boundaries (11.6.1.2142 <CODE>REPOSITION-FILE</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Attempting to read from file positions 
+  not yet written (11.6.1.2080 <CODE>READ-FILE</CODE>, 11.6.1.2090 <CODE>READ-LINE</CODE>) 
+  </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">fileid is invalid (11.6.1.1717 
+  <CODE>INCLUDE-FILE</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">I/O exception reading or closing 
+  fileid (11.6.1.1717 <CODE>INCLUDE-FILE</CODE>, 11.6.1.1718 <CODE>INCLUDED</CODE>): 
+  </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Named file cannot be opened (11.6.1.1718 
+  <CODE>INCLUDED</CODE>): </font></H3>
+<P> <CODE>-38 THROW</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">Requesting an unmapped block number 
+  (11.3.2 Blocks in files): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Using 11.6.1.2218 <CODE>SOURCE-ID</CODE> 
+  when 7.6.1.0790 <CODE>BLK</CODE> is not zero. </font></H3>
+<P> Not applicable. 
+<P> 
+<h3> <i><a name="ambig_float"></a>Ambiguous conditions: FLOAT word set </i></h3>
+<H3> <CODE><font face="Arial, Helvetica, sans-serif">DF@</font></CODE><font face="Arial, Helvetica, sans-serif"> 
+  or <CODE>DF!</CODE> is used with an address that is not double-float aligned: 
+  </font></H3>
+<P> Not applicable. 
+<H3> <CODE><font face="Arial, Helvetica, sans-serif">F@</font></CODE><font face="Arial, Helvetica, sans-serif"> 
+  or <CODE>F!</CODE> is used with an address that is not float aligned: </font></H3>
+<P> If the address is not cell-aligned, the PalmOS will trap the access and a 
+  system exception will result. 
+<H3> <font face="Arial, Helvetica, sans-serif">Floating point result out of range 
+  (e.g., in 12.6.1.1430 <CODE>F/</CODE>):</font> </H3>
+<P> <CODE>-43 THROW</CODE> (when detected). 
+<H3> <CODE><font face="Arial, Helvetica, sans-serif">SF@</font></CODE><font face="Arial, Helvetica, sans-serif"> 
+  or <CODE>SF!</CODE> is used with an address that is not single-float aligned: 
+  </font></H3>
+<P> Not applicable. 
+<H3> <CODE><font face="Arial, Helvetica, sans-serif">BASE</font></CODE><font face="Arial, Helvetica, sans-serif"> 
+  is not decimal (12.6.1.2143 <CODE>REPRESENT</CODE>, 12.6.2.1427 <CODE>F.</CODE>, 
+  12.6.2.1513 <CODE>FE.</CODE>, 12.6.2.1613 <CODE>FS.</CODE>): </font></H3>
+<P> <CODE>BASE</CODE> is not required to be decimal for floating-point conversion. 
+<H3> <font face="Arial, Helvetica, sans-serif">Both arguments equal zero (12.6.2.1489 
+  <CODE>FATAN2</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Cosine of argument is zero for 
+  12.6.2.1625 <CODE>FTAN</CODE>: </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">d can't be precisely represented 
+  as float in 12.6.1.1130 <CODE>D&gt;F</CODE>: </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Dividing by zero (12.6.1.1430 <CODE>F/</CODE>): 
+  </font></H3>
+<P> -42 THROW. 
+<H3> <font face="Arial, Helvetica, sans-serif">Exponent too big for conversion 
+  (12.6.2.1203 <CODE>DF!</CODE>, 12.6.2.1204 <CODE>DF@</CODE>, 12.6.2.2202 <CODE>SF!</CODE>, 
+  12.6.2.2203 <CODE>SF@</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Float less than one (12.6.2.1477 
+  <CODE>FACOSH</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Float less than or equal to minus-one 
+  (12.6.2.1554 <CODE>FLNP1</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Float less than or equal to zero 
+  (12.6.2.1553 <CODE>FLN</CODE>, 12.6.2.1557 <CODE>FLOG</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Float less than zero (12.6.2.1487 
+  <CODE>FASINH</CODE>, 12.6.2.1618 <CODE>FSQRT</CODE>): </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Float magnitude greater than one 
+  (12.6.2.1476 <CODE>FACOS</CODE>, 12.6.2.1486 <CODE>FASIN</CODE>, 12.6.2.1491 
+  <CODE>FATANH</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Integer part of float can't be 
+  represented by d in 12.6.1.1470 <CODE>F&gt;D</CODE>: </font></H3>
+<P> <CODE>-43 THROW</CODE>. 
+<H3> <font face="Arial, Helvetica, sans-serif">String larger than pictured-numeric 
+  output area (12.6.2.1427 <CODE>F.</CODE>, 12.6.2.1513 <CODE>FE.</CODE>, 12.6.2.1613 
+  <CODE>FS.</CODE>): </font></H3>
+<P> Not applicable. 
+<P> 
+<h3> <i><a name="ambig_tools"></a>Ambiguous conditions: TOOLS word set </i></h3>
+<H3> <font face="Arial, Helvetica, sans-serif">Deleting the compilation word-list 
+  (15.6.2.1580 <CODE>FORGET</CODE>): </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Fewer than u+1 items on control-flow 
+  stack (15.6.2.1015 <CODE>CSPICK</CODE>, 15.6.2.1020 <CODE>CSROLL</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">name can't be found (15.6.2.1580 
+  <CODE>FORGET</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">Name not defined via 6.1.1000 <CODE>CREATE</CODE> 
+  (15.6.2.0470 <CODE>;CODE</CODE>): </font></H3>
+<P> Not applicable. 
+<H3> <font face="Arial, Helvetica, sans-serif">6.1.2033 <CODE>POSTPONE</CODE> 
+  applied to 15.6.2.2532 <CODE>[IF]</CODE>: </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Reaching the end of the input source 
+  before matching 15.6.2.2531 <CODE>[ELSE]</CODE> or 15.6.2.2533 <CODE>[THEN]</CODE> 
+  (15.6.2.2532 <CODE>[IF]</CODE>): </font></H3>
+<P> Responds as though <CODE>[THEN]</CODE> was encountered. 
+<H3> <font face="Arial, Helvetica, sans-serif">Removing a needed definition (15.6.2.1580 
+  <CODE>FORGET</CODE>):</font> </H3>
+<P> Not detected. 
+<P> 
+<h3> <i><a name="ambig_search"></a>Ambiguous conditions: SEARCH word set </i></h3>
+<H3> <font face="Arial, Helvetica, sans-serif">Changing the compilation word list 
+  (16.3.3 Finding definition names): </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Search order empty (16.6.2.2037 
+  <CODE>PREVIOUS</CODE>): </font></H3>
+<P> Not detected. 
+<H3> <font face="Arial, Helvetica, sans-serif">Too many word lists in search order 
+  (16.6.2.0715 <CODE>ALSO</CODE>): </font></H3>
+<P> Not detected. 
+<P>&nbsp; 
+<hr>
+<h2><i><a name="other"></a>Other Standard Documentation</i></h2>
+<H3> <font face="Arial, Helvetica, sans-serif">List of non-standard words using 
+  6.2.2000 <CODE>PAD</CODE> (3.3.3.6 Other transient regions): </font></H3>
+<P> None. 
+<H3> <font face="Arial, Helvetica, sans-serif">Operator's terminal facilities 
+  available: </font></H3>
+<P> The Quartus Forth console provides a dot-addressable bitmap screen of 160 
+  pixels across by 160 pixels down. This space holds (in the default proportional 
+  font) 14 lines of (roughly) 40 characters each. &nbsp;Pixels are square. Coordinate 
+  addressing is relative to (0,0) at the top-left of the screen. Clipping is handled 
+  by the system. 
+<P> Screen-scrolling is handled automatically by the output subsystem in Quartus 
+  Forth. 
+<P> While interpreting or during <CODE>ACCEPT</CODE>, the operator has access 
+  to the full range of PalmOS editing facilities. 
+<P> The Quartus Forth menu provides <CODE>ABORT</CODE> and <CODE>COLD</CODE>, 
+  along with command-shortcuts for editing facilities. 
+<H3> <font face="Arial, Helvetica, sans-serif">Program data space available, in 
+  address units: </font></H3>
+<P> Varies by PalmOS version. As a rule, at least 12K; under newer versions of 
+  the PalmOS, Quartus Forth apps have as much as 32K of dynamic RAM available. 
+<H3> <font face="Arial, Helvetica, sans-serif">Return stack space available, in 
+  cells: </font></H3>
+<P> 1024 cells. 
+<H3> <font face="Arial, Helvetica, sans-serif">Stack space available, in cells: 
+  </font></H3>
+<P> 1024 cells. 
+<H3> <font face="Arial, Helvetica, sans-serif">System dictionary space required, 
+  in address units: </font></H3>
+<P> The Quartus Forth kernel requires approximately 18K. User-available codespace 
+  defaults to 32000 additional bytes, to a configurable combined maximum (system+user) 
+  of 65K. 
+<P> 
+<!-- #EndEditable --> 
+<hr>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998, 1999 <a href="http://www.quartus.net/">Neal Bridges</a>. All 
+rights reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate --></HTML>

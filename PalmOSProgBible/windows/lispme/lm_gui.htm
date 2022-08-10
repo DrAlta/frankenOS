@@ -1,0 +1,206 @@
+<html>
+<head>
+  <title>LispMe UI support</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe UI support</h1>
+
+  Please read the
+  <a href="http://palmpilot.3com.com/devzone/docs.html">PalmOS documentation</a>
+  describing many details of the Pilot's user interface, event and resource
+  system. This chapter shows the Scheme aspect only.<p>
+
+  There are currently 2 ways to write programs dealing with user interaction.
+
+  <h2>Using <a name="event"><tt>event</tt></a></h2>
+    The primitive procedure <a href="lm_cat2.htm#desc_event"><tt>event</tt></a>
+    gets an event from the Pilot
+    event queue. As LispMe's own user interface normally responds to events,
+    too, and you would only see a subset of the events, you can deactivate
+    LispMe's UI with <a href="lm_cat3.htm#desc_own_gui"><tt>own-gui</tt></a>.<p>
+
+    An event is represented as a list, whose first element is a symbol
+    denoting the event type (e.g. <tt>key-down</tt> or <tt>frm-open</tt>)
+    and whose other elements are the event parameters, different for
+    each event type. All supported events are listed in the 
+    <a href="lm_cat1.htm">Catalog</a> under the category <b>UI event</b>.
+    Some PalmOS events are not translated this way, they're all represented
+    by <tt>(#f)</tt> and should be ignored by your code.<p>
+
+    The procedure <a href="lm_cat2.htm#desc_event"><tt>event</tt></a> expects
+    one parameter specifying whether it should wait for an event (<i>true</i>)
+    or return immediately (<i>false</i>). In the latter case the return
+    value is also <tt>(#f)</tt> when there's no event queued.<p>
+ 
+    To avoid interference between LispMe's own event handling 
+    and your application (e.g. a pen tap in the output field would activate
+    the output field event handling, which won't let your application see
+    subsequent pen-moves and pen-ups), you can disable most controls and
+    fields of LispMe's main dialog by calling
+    <tt>(<a href="lm_cat3.htm#desc_own_gui">own-gui</a> #t)</tt>.
+    In this case the fields are not drawn, too, so you won't see any output
+    of <tt>write</tt> for example, until you enable them again by using the
+    <a href="lm_cmd.htm#men_gui">GUI controls</a> menu command.<p>
+
+    In spite of this, you would still have to use the drawing primitives
+    to provide user feedback, so I think this approach is only feasible
+    for very simple interactions like the
+    <a href="lm_samp.htm#ttt">; Tic-Tac-Toe</a> sample program.
+
+  <h2>The event handler approach</h2>
+    This method is much more versatile, in fact it allows interfaces to
+    be written in Scheme which behave like other Pilot software.<p>
+
+    To create an application this way, you need two things:
+    <ul>
+      <li>A resource database containing all the forms (dialogs), menus,
+          bitmaps and strings needed.
+      <li>An event handler callback procedure, which gets called whenever an
+          event is available. Of course, this procedure is written in Scheme
+          and LispMe provides the glue between the PalmOS API/event model and
+          the Scheme world.
+    </ul>
+ 
+    <h3>General</h3>
+    This part of LispMe is by no means finished. Currently, LispMe supports
+    only the most common UI functions, but this will change in future. Please
+    give me feedback what additional UI functions you consider indispensable!
+    OTOH, the Pilot has very limited resources and I'm reaching its limits
+    again and again even now, so don't be disappointed when I'm quite
+    selective with adding new features. Currently supported UI elements are
+    <ul>
+    <li>Text fields
+    <li>all kind of controls (buttons, pushbuttons, checkboxes, triggers)
+    <li>lists and popup lists
+    <li>bitmaps and labels
+    <li>menus
+    <li>raw pen and Graffiti input
+    </ul>
+    Not supported are scrollbars and tables.<p>
+    Names for UI functions and events are generally chosen like
+    the corresponding ones from the original Palm API but have been
+    adapted to Scheme's spelling style.
+
+    <h3><a name="create">Creating the resources</a></h3>
+    There are several tools to create the resource DB containing all
+    the UI elements of your application, some running on your desktop
+    PC, and at least one running directly on the Pilot.
+
+    <ul>
+      <li> <a href="http://www.hig.se/~ardiri/development/palmIII/pilrc/index.html">PilRC</a>
+           is a PC-based resource compiler written by Wes Cherry.
+      <li> <a href="http://www.metrowerks.com/pda/palm_os/">Metroworks
+           Codewarrior for the Pilot</a> includes a graphical
+           design tool called Constructor for forms etc.
+      <li> <a href="http://www.individeo.net/Onboard/OnboardC/Dox/OnBoardDevl.html">OnBoard Development</a>
+            created a resource editor running on the Pilot itself.
+    </ul>
+
+    The type of the resource DB doesn't really matter, it shouldn't be
+    <tt>appl</tt> or <tt>HACK</tt> to avoid listing it in the application
+    launcher or Hackmaster. Just use <tt>Rsrc</tt> (like 'resource').<p>
+
+    I registered the creator ids <tt>fbU0</tt> upto <tt>fbU9</tt>, which
+    you should use for your LispMe resources.<p>
+
+    Using PilRC and PRCTools, a typical makefile for a resource DB looks like this:
+<pre>
+SHELL=sh
+APPID     = fbU0
+APPTYPE   = Rsrc
+ICONTEXT  = "demo"
+
+demo.prc: demo.rcp
+	pilrc demo.rcp .
+	# Create ICON IDs 9000 and 9001 instead of 1000 ann 1001  
+	mv tAIB03e9.bin tAIB2329.bin
+	mv tAIB03e8.bin tAIB2328.bin
+	build-prc -t $(APPTYPE) demo.prc $(ICONTEXT) $(APPID) *.bin
+
+all:    demo.prc
+</pre>
+
+    Please don't use ID numbers in the range 9000-9999 in your resources,
+    these are used by LispMe itself and a crash or strange behavior is
+    possible in this case. IDs from 1000 to 8999 are perfectly safe.<p>
+
+    One exception to this rule is when you want to create custom icons
+    for the starter application. See <a href="lm_sess.htm#start">here</a> for
+    details.
+
+    <h3>Opening and closing forms</h3>
+    Forms (the Pilot term for dialog) are handled in a stack-like fashion.
+    Exactly one form (the top-most) is accessible by the user. To open a 
+    new form you can <ul>
+    <li>popup a nested form over the current active form by
+        <a href="lm_cat2.htm#desc_frm_popup"><tt>frm-popup</tt></a>, like
+        the Palm API <tt>FrmPopupForm()</tt> Additionally, the continuation
+        of the <tt>frm-popup</tt> call is stored and will be re-activated
+        when the event handler of the nested dialog executes
+        <a href="lm_cat2.htm#desc_frm_return"><tt>frm-return</tt></a>.
+    <li>close and replace the current active form by calling
+        <a href="lm_cat2.htm#desc_frm_goto"><tt>frm-goto</tt></a>, like
+        the Palm API <tt>FrmGotoForm()</tt>. The current event handler is
+        abandoned and no continuation is saved.
+    </ul>
+    Calling <a href="lm_cat2.htm#desc_frm_return"><tt>frm-return</tt></a>
+    closes the current form and re-activates the form which opened it
+    (using <a href="lm_cat2.htm#desc_frm_popup"><tt>frm-popup</tt></a>) The
+    parameter of <tt>frm-return</tt> is passed to the continuation stored
+    and thus it will be the return value of the <tt>frm-popup</tt> call.<p>
+
+    You can't replace LispMe's main form by <tt>frm-goto</tt>, so the first
+    form in your interactive LispMe program must be invoked by
+    <tt>frm-popup</tt>. The maximum form nesting depth is 6. Have a look
+    at this <a href="lm_samp.htm#form_nest">sample program</a>.
+
+    <h3>The event handler</h3>
+    The event handler is an ordinary Scheme closure which is called, whenever
+    the current form receives an event. The procedure must be callable with
+    a variable number of arguments, where the first argument is always the
+    symbolic event and the rest arguments the event's parameters, as
+    the handler is <a href="lm_cat1.htm#desc_apply"><tt>apply</tt></a>d to
+    the event represented as  a list. So an
+    event handler should begin like this:
+    <tt>(lambda (event . args) ...)</tt><p>
+    An event handler should return a boolean value indicating if the event
+    has been handled (<i>true</i>) or should be passed on to the next handler
+    (<i>false</i>).<p>
+
+    While the event handler is running, the Pilot won't respond to any user
+    action (not even the off button!), so there's the danger that an infinite
+    loop in a handler locks your Pilot and you'd have to reset it. To avoid
+    this, there's a watchdog timer which aborts an event handler after a
+    <a href="lm_cmd.htm#watchdog">time interval configurable</a>
+    in the Preferences Dialog.<p>
+
+    <i>Now for the fun stuff separating Scheme from lower-level languages:</i>
+    Just like any other closure in Scheme, an event
+    handler is called in the environment in effect when its
+    <tt>lambda</tt> abstraction has been executed. Thus you can write a
+    higher-order function returning event handlers whose state is kept
+    in the enclosing environment and you can have several instances of
+    the same dialog (but with different values) in an object-oriented
+    fashion.<p>
+
+    Or, you can concatenate several event handling procedures using
+    higher-order combiners, e.g. to include common handling code for
+    a particular menu into many different dialogs.<p>
+
+    Or create powerful <tt><a href="lm_cat3.htm#desc_macro">macros</a></tt>
+    to generate event handlers...<p>
+
+    <b>One last warning:</b>Don't try to call a continuation created in an
+    event handler when the associated form has been closed already. The
+    PalmOS forms are <b>not</b> part of the continuation context and won't
+    exist anymore. Same for leaving an event handler by an outward continuation.
+    Generally, don't jump from one event handler to another via continuations
+    (but jumping <b>is</b> perfectly safe within the dynamic context of
+    a single event handler).
+
+</body>
+</html>

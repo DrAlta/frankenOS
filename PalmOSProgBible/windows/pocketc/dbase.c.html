@@ -1,0 +1,71 @@
+<html>
+<title>dbase.c</title>
+<body>
+<b>dbase.c</b> (<a href="dbase.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// Database Sample
+</font><font color=0000ff>string </font><font color=000000>data[</font><font color=0000a0>10</font><font color=000000>];
+</font><font color=0000ff>int </font><font color=000000>ndata;
+
+read() {
+   </font><font color=0000ff>int </font><font color=000000>i;
+
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Open succeeded, reading values\n"</font><font color=000000>);
+
+   </font><font color=008000>// read the data
+   </font><font color=0000ff>while </font><font color=000000>(</font><font color=000000><b>dbpos</b></font><font color=000000>() &gt;= </font><font color=0000a0>0</font><font color=000000>)
+      data[ndata++] = </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'s'</font><font color=000000>);
+
+   </font><font color=008000>// output the data
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Number entries: "</font><font color=000000>+ndata+</font><font color=000080>"\n"</font><font color=000000>);
+   </font><font color=0000ff>for </font><font color=000000>(i=</font><font color=0000a0>0</font><font color=000000>;i&lt;ndata;i++)
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\x95 "</font><font color=000000>+data[i]+</font><font color=000080>"\n"</font><font color=000000>);
+
+   </font><font color=008000>// check the backup status
+   </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>dbbackup</b></font><font color=000000>(</font><font color=0000a0>2</font><font color=000000>))
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Database backup bit set\n"</font><font color=000000>);
+   </font><font color=0000ff>else
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Database backup bit NOT set\n"</font><font color=000000>);
+
+   </font><font color=008000>// delete the database
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Deleting DB 'TestDB'\n"</font><font color=000000>);
+   </font><font color=000000><b>dbdelete</b></font><font color=000000>();
+}
+
+write() {
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Open failed, creating new database\n"</font><font color=000000>);
+
+   </font><font color=008000>// attempt to create a new database
+   </font><font color=0000ff>if </font><font color=000000>(!</font><font color=000000><b>dbcreate</b></font><font color=000000>(</font><font color=000080>"TestDB"</font><font color=000000>)) {
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Database creation failed!\n"</font><font color=000000>);
+      </font><font color=0000ff>return</font><font color=000000>;
+   }
+
+   </font><font color=008000>// get values
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Enter up to 10 values\n"</font><font color=000000>);
+   </font><font color=0000ff>while </font><font color=000000>(data[ndata]=</font><font color=000000><b>gets</b></font><font color=000000>(</font><font color=000080>"Value #"</font><font color=000000>+(ndata+</font><font color=0000a0>1</font><font color=000000>))) {
+      </font><font color=008000>// write data
+      </font><font color=000000><b>dbwrite</b></font><font color=000000>(data[ndata]);
+      </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"\x95Wrote '"</font><font color=000000>+data[ndata]+</font><font color=000080>"'\n"</font><font color=000000>);
+      ndata++;
+   }
+
+   </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>confirm</b></font><font color=000000>(</font><font color=000080>"Set backup bit?"</font><font color=000000>))
+      </font><font color=000000><b>dbbackup</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>);
+
+   </font><font color=008000>// close the database
+   </font><font color=000000><b>dbclose</b></font><font color=000000>();
+}
+
+main() {
+   </font><font color=000000><b>title</b></font><font color=000000>(</font><font color=000080>"Database Sample"</font><font color=000000>);
+   </font><font color=000000><b>clear</b></font><font color=000000>();
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Opening DB 'TestDB'\n"</font><font color=000000>);
+   </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>dbopen</b></font><font color=000000>(</font><font color=000080>"TestDB"</font><font color=000000>))
+      read();
+   </font><font color=0000ff>else
+      </font><font color=000000>write();
+}</pre>
+</body>
+</html>

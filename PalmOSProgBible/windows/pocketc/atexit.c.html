@@ -1,0 +1,54 @@
+<html>
+<title>atexit.c</title>
+<body>
+<b>atexit.c</b> (<a href="atexit.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// atexit
+// This is an example of using the atexit() function to save the applet
+// state when the user switches apps
+</font><font color=0000ff>int </font><font color=000000>x1, x2, y1, y2;
+
+savestuff() {
+  </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>dbcreate</b></font><font color=000000>(</font><font color=000080>"atexitSaveDB"</font><font color=000000>)) {
+    </font><font color=000000><b>dbwrite</b></font><font color=000000>(x1);
+    </font><font color=000000><b>dbwrite</b></font><font color=000000>(y1);
+    </font><font color=000000><b>dbwrite</b></font><font color=000000>(x2);
+    </font><font color=000000><b>dbwrite</b></font><font color=000000>(y2);
+  }
+}
+
+loadstuff() {
+  </font><font color=0000ff>if </font><font color=000000>(</font><font color=000000><b>dbopen</b></font><font color=000000>(</font><font color=000080>"atexitSaveDB"</font><font color=000000>)) {
+    x1 = </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'i'</font><font color=000000>);
+    y1 = </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'i'</font><font color=000000>);
+    x2 = </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'i'</font><font color=000000>);
+    y2 = </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'i'</font><font color=000000>);
+  }
+}
+
+main() {
+  </font><font color=0000ff>int </font><font color=000000>e;
+
+  loadstuff();
+  </font><font color=000000><b>atexit</b></font><font color=000000>(savestuff); </font><font color=008000>// pass the pointer to savestuff()
+  </font><font color=000000><b>graph_on</b></font><font color=000000>();
+  </font><font color=000000><b>title</b></font><font color=000000>(</font><font color=000080>"Drag the pen"</font><font color=000000>);
+  </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>, x1, y1, x2, y2);
+  
+  </font><font color=0000ff>do </font><font color=000000>{
+    e = </font><font color=000000><b>event</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>);
+    </font><font color=0000ff>if </font><font color=000000>(e == </font><font color=0000a0>2</font><font color=000000>) {
+      x1 = </font><font color=000000><b>penx</b></font><font color=000000>();
+      y1 = </font><font color=000000><b>peny</b></font><font color=000000>();
+    }
+    </font><font color=0000ff>if </font><font color=000000>(e == </font><font color=0000a0>3</font><font color=000000>) {
+      x2 = </font><font color=000000><b>penx</b></font><font color=000000>();
+      y2 = </font><font color=000000><b>peny</b></font><font color=000000>();
+      </font><font color=000000><b>clearg</b></font><font color=000000>();
+      </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>, x1, y1, x2, y2);
+    }
+  } </font><font color=0000ff>while </font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>);
+}</pre>
+</body>
+</html>

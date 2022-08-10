@@ -1,0 +1,124 @@
+;;  Unify.lisp: Orig:pazzani@ics.uci.edu, port:wdavies@cs.stanford.edu
+(define *success* '((#t / #t)))
+;;
+(define (append-bds new old)
+	(cond ((null? new) '())
+	((null? old) '())
+	((eq? new *success*) old)
+	((eq? old *success*) new)
+	(else (append new old))))
+;;
+(define (variable? a)
+	(and (symbol? a)
+	(let ((first (string-ref 
+		(object->string a) 0)))
+	(or (eq? first #\?) 
+		(eq? first #\G))))) 
+;;
+(define (constant? a)
+	(and (not (pair? a))
+	 (not (variable? a))))
+;;
+(define (contains tree item)
+	(cond ((null? tree) #f)
+	((not (pair? tree))
+	 (equal? tree item))
+	(else
+	 (or (contains (car tree) item)
+	 (contains (cdr tree) item)))))
+;;;
+(define (subst new old subtree )
+	(cond ((equal? old subtree) new)
+	((not (pair? subtree)) subtree)
+	(else (cons (subst new old (car subtree))
+	(subst new old (cdr subtree))))))
+;;
+(define (apply-substitution substs expr)
+	(let ((c expr))
+	(map (lambda(s)
+	 (set! c (subst (car s) (caddr s) c)))
+         substs)
+	c))
+;;
+(define (unify l1 l2)
+	(cond ((or (constant? l1)
+	 (or (variable? l1)
+	 (or (constant? l2) (variable? l2))))
+	 (cond ((eq? l1 l2) *success*)
+	 ((variable? l1)
+	(if (contains l2 l1) '() (list (list l2 '/ l1))))
+	 ((variable? l2)
+	(if (contains l1 l2) '() (list (list l1 '/ l2))))
+	 (else '())))
+	(else (let ((s (unify (car l1) (car l2))))
+	(cond ((null? s) '())
+	(else (set! l1 (apply-substitution s l1))
+	(set! l2 (apply-substitution s l2))
+	(append-bds s (unify (cdr l1)(cdr l2)))))))))
+;;
+(define (find-all-vars x vars)
+ (if (not (pair? x))
+	(if (and (variable? x) (not (member x vars)))
+	(cons x vars) vars)
+	 (find-all-vars (car x) (find-all-vars (cdr x) vars))))
+
+;;
+(define *cur* 0)
+
+;;
+(define (gentemp x)
+	(gensym))
+;;
+(define (copy-with-unique-vars list)
+	(let ((vars (find-all-vars list '()))(l list))
+	(map (lambda (v)
+	 (set! l (subst (gentemp v) v l))) vars) l))
+
+;;;
+(define (cl-head cl)
+  (if (eq? (length cl) 1) (car cl) (cadr cl)))
+(define (cl-body cl)
+  (if (and (pair? cl)(pair? (cdr cl))) (cddr cl) '()))
+
+;;
+(define (prove-it goals bds rules)
+  (letrec ((prove-1-goal
+	    (lambda (goal bds rules)
+	      (let ((res '()))
+	        (map (lambda (cl)
+	               (set! res (append res
+	                                 (let ((new-cl
+(copy-with-unique-vars cl))
+	                                       (new-bds '()))
+	                                   (set! new-bds
+	                                         (unify goal (cl-head new-cl)))
+	                                   (if (equal? new-bds '()) '()
+	                                       (prove-goals
+	                                        (cl-body new-cl)
+	                                        (append-bds bds new-bds)
+	                                        rules))))))
+	             rules) res)))
+	   (prove-goals (lambda (goals bds rules)
+	                  (cond ((null? goals) (list bds))
+	                        (else
+	                         (set! goals (apply-substitution bds goals))
+	                         (let ((res '()))
+	                           (map (lambda (solution)
+	                                  (set! res
+	                                        (append res
+	                                                (prove-goals (cdr
+goals) solution rules))))
+	                                (prove-1-goal (car goals) bds
+rules)) res)
+	                         ))))
+	   )
+	  (prove-goals goals bds rules)))
+
+(define (prove goals rules)
+(let ((bds (prove-it goals *success* rules)))
+(if (null? bds) '()
+(let ((res '()))
+(map (lambda (b)
+(set! res (append res (list  (apply-substitution b goals)))))
+bds) res))))
+;;EOF

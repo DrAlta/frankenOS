@@ -1,0 +1,22 @@
+; drawing modes
+
+(define (go)
+  (set-bg (rgb->index 80 80 80))
+  (set-mode 0)
+  (cls)
+  (set-pattern #t)
+  (set-mode 0)
+  (set-fg red)
+  (move 0 40) (rect 160 60 0)
+  (set-fg green)
+  (move 0 60) (rect 160 80 0)
+  (set-fg blue)
+  (move 0 80) (rect 160 100 0)
+
+  (set-pattern brick)
+  (set-fg red) (set-bg blue)
+  (do ((i 0 (+ i 1))) ((> i 6) #n)
+    (set-mode i)
+    (if (> i 5) (set-pattern #t) #n)
+    (move (+ 5 (* i 22)) 20)
+    (rect (+ 20 (* i 22)) 95 6)))

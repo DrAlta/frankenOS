@@ -1,0 +1,28 @@
+-= Quartus Forth Setup =-
+
+For assistance with installation, email quartus@interlog.com or visit the
+Quartus Forth home page at <http://www.interlog.com/~nbridges/quartus.html>.
+
+
+These files are provided in the distribution .ZIP file: 
+
+
+LICENSE.TXT : The Quartus Forth end-user license and limited warranty. 
+
+INSTALL.TXT : Quick installation instructions. 
+
+q4th####.prc (where #### is the version number): The Quartus Forth Palm 
+executable. Install using the Palm Desktop software. 
+
+Library.mpa : Quartus Forth library modules, in MemoPad archive format. 
+Access this using the Palm Desktop software. Copy the library source to a 
+category in your own Memopad, and then HotSync. 
+
+Docs/ : Documents in Doc and text formats (ISO/ANSI Forth Standard, PalmOS 
+stack diagrams) View the Doc versions using a PalmPilot Doc reader. 
+
+Manual/ : Quartus Forth manual, in HTML format. Contains the page you're 
+currently viewing. View using your favourite web browser. 
+
+Source/ : Sample source to production-quality Quartus Forth applications. 
+

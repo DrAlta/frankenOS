@@ -1,0 +1,96 @@
+<html>
+<title>Address.c</title>
+<body>
+<b>Address.c</b> (<a href="Address.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// Address Reader
+
+// offsets of specific entries
+</font><font color=0000ff>#define </font><font color=000000>LastName  </font><font color=0000a0>0
+</font><font color=0000ff>#define </font><font color=000000>FirstName  </font><font color=0000a0>1
+</font><font color=0000ff>#define </font><font color=000000>Company    </font><font color=0000a0>2
+</font><font color=0000ff>#define </font><font color=000000>Phone1    </font><font color=0000a0>3
+</font><font color=0000ff>#define </font><font color=000000>Phone2    </font><font color=0000a0>4
+</font><font color=0000ff>#define </font><font color=000000>Phone3    </font><font color=0000a0>5
+</font><font color=0000ff>#define </font><font color=000000>Phone4    </font><font color=0000a0>6
+</font><font color=0000ff>#define </font><font color=000000>Phone5    </font><font color=0000a0>7
+</font><font color=0000ff>#define </font><font color=000000>Address    </font><font color=0000a0>8
+</font><font color=0000ff>#define </font><font color=000000>City    </font><font color=0000a0>9
+</font><font color=0000ff>#define </font><font color=000000>State    </font><font color=0000a0>10
+</font><font color=0000ff>#define </font><font color=000000>ZipCode    </font><font color=0000a0>11
+</font><font color=0000ff>#define </font><font color=000000>Country    </font><font color=0000a0>12
+</font><font color=0000ff>#define </font><font color=000000>Title    </font><font color=0000a0>13
+</font><font color=0000ff>#define </font><font color=000000>Custom1    </font><font color=0000a0>14
+</font><font color=0000ff>#define </font><font color=000000>Custom2    </font><font color=0000a0>15
+</font><font color=0000ff>#define </font><font color=000000>Custom3    </font><font color=0000a0>16
+</font><font color=0000ff>#define </font><font color=000000>Custom4    </font><font color=0000a0>17
+</font><font color=0000ff>#define </font><font color=000000>Note    </font><font color=0000a0>18
+</font><font color=0000ff>#define </font><font color=000000>NumFields  </font><font color=0000a0>19
+
+</font><font color=000000>readRecord(</font><font color=0000ff>pointer </font><font color=000000>pStrArray, </font><font color=0000ff>int </font><font color=000000>id) {
+  </font><font color=0000ff>int </font><font color=000000>bitmask, i;
+  
+  </font><font color=000000><b>dbrec</b></font><font color=000000>(id);  
+  </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'i'</font><font color=000000>); </font><font color=008000>// read and throw away options
+  </font><font color=000000>bitmask = </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'i'</font><font color=000000>);
+  </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'c'</font><font color=000000>); </font><font color=008000>// unused
+  
+  </font><font color=0000ff>for </font><font color=000000>(i=</font><font color=0000a0>0</font><font color=000000>;i&lt;NumFields;i++) {
+    </font><font color=0000ff>if </font><font color=000000>(bitmask & (</font><font color=0000a0>1 </font><font color=000000>&lt;&lt; i))
+      pStrArray[i] = </font><font color=000000><b>dbread</b></font><font color=000000>(</font><font color=000080>'s'</font><font color=000000>);
+  }
+}
+
+writeRecord(</font><font color=0000ff>pointer </font><font color=000000>pStrArray, </font><font color=0000ff>int </font><font color=000000>id) {
+  </font><font color=0000ff>int </font><font color=000000>bitmask, i;
+  
+  </font><font color=000000><b>dbrec</b></font><font color=000000>(id); </font><font color=008000>// use id = -1 to add a new entry
+  </font><font color=0000ff>for </font><font color=000000>(i=</font><font color=0000a0>0</font><font color=000000>;i&lt;NumFields;i++) {
+    </font><font color=0000ff>if </font><font color=000000>(pStrArray[i])
+      bitmask = bitmask | (</font><font color=0000a0>1 </font><font color=000000>&lt;&lt; i);
+  }
+  
+  </font><font color=000000><b>dbwrite</b></font><font color=000000>(</font><font color=0000a0>0</font><font color=000000>);
+  </font><font color=000000><b>dbwrite</b></font><font color=000000>(bitmask);
+  </font><font color=000000><b>dbwrite</b></font><font color=000000>((</font><font color=0000ff>char</font><font color=000000>)</font><font color=0000a0>0</font><font color=000000>);
+  
+  </font><font color=0000ff>for </font><font color=000000>(i=</font><font color=0000a0>0</font><font color=000000>;i&lt;NumFields;i++) {
+    </font><font color=0000ff>if </font><font color=000000>(bitmask & (</font><font color=0000a0>1 </font><font color=000000>&lt;&lt; i))
+      </font><font color=000000><b>dbwrite</b></font><font color=000000>(pStrArray[i]);
+  }
+}
+
+</font><font color=0000ff>string </font><font color=000000>addr[NumFields];
+
+main() {
+  </font><font color=0000ff>int </font><font color=000000>i;
+  
+  </font><font color=008000>// read and display the 0th address record
+  </font><font color=000000><b>dbopen</b></font><font color=000000>(</font><font color=000080>"AddressDB"</font><font color=000000>);
+  readRecord(addr, </font><font color=0000a0>0</font><font color=000000>);
+  </font><font color=000000><b>dbclose</b></font><font color=000000>();  
+
+  </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Name:\t" </font><font color=000000>+ addr[LastName] + </font><font color=000080>", " </font><font color=000000>+ addr[FirstName] + </font><font color=000080>"\n"</font><font color=000000>);
+  </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Addr:\t" </font><font color=000000>+ addr[Address] + </font><font color=000080>"\n\t\t" </font><font color=000000>+ addr[City] + </font><font color=000080>", " </font><font color=000000>+
+    addr[State] + </font><font color=000080>" " </font><font color=000000>+ addr[ZipCode]);
+  
+  </font><font color=0000ff>for </font><font color=000000>(i=</font><font color=0000a0>0</font><font color=000000>;i&lt;NumFields;i++)
+    addr[i] = </font><font color=000080>""</font><font color=000000>;
+  
+  </font><font color=008000>// Insert a new address at the end of the database
+  </font><font color=000000>addr[FirstName] = </font><font color=000080>"Jon"</font><font color=000000>;
+  addr[LastName] = </font><font color=000080>"Domeck"</font><font color=000000>;
+  addr[Phone1] = </font><font color=000080>"(428) 555-8989"</font><font color=000000>;
+  addr[City] = </font><font color=000080>"Wallawalla"</font><font color=000000>;
+  addr[State] = </font><font color=000080>"WA"</font><font color=000000>;
+  addr[ZipCode] = </font><font color=000080>"78251"</font><font color=000000>;
+  addr[Address] = </font><font color=000080>"1287 63rd Pl"</font><font color=000000>;
+  addr[Title] = </font><font color=000080>"IS Guy"</font><font color=000000>;
+  addr[Company] = </font><font color=000080>"Concur"</font><font color=000000>;
+  </font><font color=000000><b>dbopen</b></font><font color=000000>(</font><font color=000080>"AddressDB"</font><font color=000000>);
+  writeRecord(addr, -</font><font color=0000a0>1</font><font color=000000>);
+  </font><font color=000000><b>dbclose</b></font><font color=000000>();  
+}</pre>
+</body>
+</html>

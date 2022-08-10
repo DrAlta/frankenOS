@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>SPT1740 Network Developers Kit</title>
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<p align="center"><img src="Logo.gif" width="569" height="343"></p>
+
+<p align="center"><font color="#FF0000" size="6">SPT1740 Network
+Developers Kit</font></p>
+
+<p><font color="#0000FF" size="5"><strong>Overview:<br>
+</strong></font>This project is targeted at C programmers with a
+basic understanding of network communications programming ie the
+Berkley Socket model. The example programs included, should give
+the application programmer a basic foundation to construct their
+own scanning enabled wireless solutions targeted for the Symbol
+SPT1740 unit. This code is to be used as an example on how to
+implement different SPT1740 features. The included projects are
+not idiot proof but they try to be.</p>
+
+<p><font color="#0000FF" size="5"><strong>Requirements:<br>
+</strong></font>This product requires the CodeWarrior for Palm OS
+Release 6 developers kit. For proper operation, you will also
+need a Symbol SPT1740 terminal to hotsync the included sample
+projects files. You will also need a Spectrum24 or 802.11
+compliant access point connected to your Ethernet backbone, and a
+host computer to support the client applications for proper
+demonstration of the included projects.</p>
+
+<p>A Windows NT 4.0 target was used for the development in this
+release but Win95 &amp; Win98 should work as well. If your host
+system is of another flavor, you will need to verify that it
+supports the UDP &amp; TCP port 7 echo services to successfully
+run the included client applications.. The included host
+applications <font color="#0000FF">Client\FindMdb</font> and
+Client<font color="#0000FF">\CaDmv </font>also require Microsoft
+Access v7.0 or above for proper execution.</p>
+
+<p><font color="#0000FF" size="5"><strong>Disclaimer:<br>
+</strong></font>This product was never tested in a non-Microsoft
+environment. It assumes you are using the CodeWarrior6
+development environment on a Windows OS.</p>
+
+<p><font color="#0000FF" size="5"><strong>Major Features:<br>
+</strong></font>The example projects will demonstrate the
+following features: <br>
+</p>
+
+<ul>
+    <li>calls to the Palm OS NetLib interface </li>
+    <li>calls to the Symbol Scanner Library interface </li>
+    <li>calls to the Spectrum24 Wireless Library interface </li>
+    <li>calls to the Symbol MagStripe Reader Library interface</li>
+    <li>creating sockets in UDP &amp; IP format </li>
+    <li>Palm library example project </li>
+    <li>WinSock host programs for Win95, Win98, and WinNT to
+        support the example code</li>
+    <li>Visual Basic v5.0 examples with a TcpIp interface to an
+        ODBC compliant database</li>
+</ul>
+
+<p><font color="#0000FF" size="5"><strong>Developer Notes:<br>
+</strong></font>The included samples follow the typical
+client/server model. Most of the effort has been applied to the
+client or SPT1740 Palm Pilot applications side. If your host
+system does not support the Echo services (port 7), then you will
+need to start the <font color="#0000FF">TcpEcho.exe/UdpEcho.exe</font><font
+color="#00FFFF"> </font>programs on your host machine to support
+the included examples. This should enable the applications
+programmer to quickly create wireless/scanning aware applications
+with a minimum amount of pain. The host IP address used in
+development was 157.235.93.2. For the best 'out of box
+experience', change your host IP to match. </p>
+
+<p>There are two types of networking code included. The first is
+in the old Berkley socket code style which is best for cross
+platform development. This style was used the <font
+color="#0000FF">Client\Echo </font>&amp; <font color="#0000FF">Client\FindMdb
+</font>projects. The other approach was the Palm specific style.
+This style uses NetLib calls for a networking support. This
+approach is used in the NdkLib project. The <font color="#0000FF">Client\CaDmv
+</font>project demonstrates the NdkLib.</p>
+
+<p>If you have a WinNT 4.0 system, you can install Simple TCPIP
+Services to support the client examples <font color="#0000FF">Client\Echo</font><font
+color="#00FFFF"> </font>and <font color="#0000FF">Client\ScanTcp</font>.
+To do this, go to the Control Panel/Network/Services and select
+ADD. A list will be generated, next select Simple TCPIP Services
+and OK. Follow the directions and reboot your machine to complete
+the installation. If you are running on Win95 or Win98, you can
+use the included programs <font color="#0000FF">Server\TcpEcho
+&amp; Server\UdpEcho</font>, for port 7/echo service support.</p>
+
+<p>To enable conditional compiles, the included projects use a
+file <font color="#0000FF">Debug.h</font><font color="#00FFFF"> </font>to
+set compiler switches. </p>
+
+<p>Caveat: The include host programs do not perform asynchronous
+IO's and are not suitable for scaling into a real IS application.
+If anyone out there has a WinSock 32-bit multi-threaded
+asynchronous server application your willing to donate, give me a
+call!</p>
+
+<p><font color="#0000FF" size="5"><strong>Server\TcpEcho Example:<br>
+</strong></font>A Microsoft Visual C++ v5.0 project that
+implements a WinSock host or server program. The program opens
+port 7 in IP mode and echo's any data received back to the client
+that sent the data. The program does synchronous IO only and is
+not suited to scaling. It's main purpose is to support the echo
+port on the host machine. In the image below, we have a trace of
+the <font color="#0000FF">Client\Echo</font> example running in
+TCP mode with with count set to 5 and size set to 200. </p>
+
+<p align="center"><img src="TcpEcho.gif" width="573" height="291"></p>
+
+<p><font color="#0000FF" size="5"><strong>Server\UdpEcho Example:<br>
+</strong></font>Same as the above but it open port 7 in UDP mode.
+In the image below, we have a trace of the <font color="#0000FF">Client\Echo</font>
+example running in UDP mode with count set to 5 and size set to
+200.</p>
+
+<p align="center"><img src="UdpEcho.gif" width="573" height="291"></p>
+
+<p><font color="#0000FF" size="5"><strong>Server\MdbHost Example:<br>
+</strong></font>A Microsoft Visual Basic v5.0 project to support
+the <font color="#0000FF">Client\FindMdb</font> example. This
+program opens port 1950 on the host machine. It then listens for
+activity. It expects to receive an IP packet from the client
+containing a barcode. When this event happens, the host program
+does a lookup into the Microsoft Access database, using the
+barcode as the key, and returns the data for that record to the
+client. The file barcode.doc contains example barcodes for the
+first 10 records. In the screen capture below, we have launched
+the application and are awaiting input from the client program.
+When a barcode has been processed, the values in the lower half
+of the screen displays the lookup values being passed back to the
+client. </p>
+
+<p align="center"><img src="MdbHost.gif" width="562" height="580"></p>
+
+<p><font color="#0000FF" size="5"><strong>Server\DmvHost Example:<br>
+</strong></font>A Microsoft Visual Basic v5.0 project to support
+the <font color="#0000FF">Client\CaDmv</font> example. This
+program opens port 1950 on the host machine. It then listens for
+activity. It expects to receive an IP packet from the client with
+MagStripe stripe data in it. Using the drivers ID we do a lookup
+into our database. If this is the first time we have seen this
+driver, we pass back an images saying NO IMAGE ON FILE and add
+the driver to our database. You must use Microsoft access to
+maintain the DmvDemo.mdb file. </p>
+
+<p>Currently only images of size 160x150 pixels with 2 colors are
+supported. These images must be saved in Windows .BMP format and
+converted by the PILRC.EXE program from Wes Cherry. This code may
+be downloaded from <a
+href="http://www.scumby.com/scumbysoft/pilot/pilrc/">http://www.scumby.com/scumbysoft/pilot/pilrc/</a>
+</p>
+
+<p>The PILRC.EXE program will output.BIN files which are in the
+Palm Pilot .BMP format. It is these files which are sent to the <font
+color="#0000FF">Client\CaDmv</font> program for display.</p>
+
+<p align="center"><img src="DmvHost.gif" width="514" height="407"></p>
+
+<p><font color="#0000FF" size="5"><strong>Client\Echo Example:</strong></font></p>
+
+<p align="center"><img src="Echo.gif" width="227" height="361"></p>
+
+<p>This example program works in conjunction with <font
+color="#0000FF">Server\TcpEcho,</font> <font color="#0000FF">Server\UdpEcho</font>,
+or your host machine support of port 7 in UDP and IP mode, to
+demonstrate wireless network connectivity. It has no calls to
+Spectrum24 libraries and should run on any Palm OS 3.0 or above
+unit with a modem or RAS connection. Successfully running this
+program will validate the Spectrum24 and Ethernet components of
+your system.</p>
+
+<p>There are 3 input fields on the main form:</p>
+
+<ul>
+    <li>Host IP: The IP address of the host machine running <font
+        color="#0000FF">Server\UdpEcho</font> or <font
+        color="#0000FF">Server\TcpEcho</font> </li>
+    <li>Size: The size in bytes of the data packet to send and
+        receive from the server </li>
+    <li>Delay: The delay in seconds between each send/receive
+        cycle </li>
+</ul>
+
+<p>To run this program, you must start the programs <font
+color="#0000FF">Server\TcpEcho</font> or <font color="#0000FF">Server\UdpEcho
+</font>first. When the user hits the start button on the SPT1740,
+the program tries to open a socket on port 7 of the host machine
+using the value in the Host IP field. If it fails the program
+displays an error message on the SPT1740 status line and halts.
+If you don't have the echo program up and running on your host
+machine, this program will fail.</p>
+
+<p>What we expect to see is the program sending the host a packet
+of Size bytes, then receiving the same packet back. The program
+then compares both the sent and received packets to make sure
+there is no data mismatch. Then the program delays Delay seconds
+and repeats the loop until you hit the stop button. There seems
+to be a window of when the stop button event is accepted, just
+keep on hitting the button and it will break out and display
+&quot;Shutdown complete...&quot;.</p>
+
+<p><font color="#0000FF" size="5"><strong>Client\FindMdb Example:</strong></font></p>
+
+<p align="center"><img src="FindMdb.gif" width="227" height="361"></p>
+
+<p>This application demonstrates a barcode lookup into a
+Microsoft Access database. It requires a SPT1740 unit to run. You
+will need to modify the host IP address in the source file
+FindMdb.c , procedure MainFromOnInit, to match your test setup
+and recompile (currently set at 157.235.93.2).</p>
+
+<p>To run this program, you must start the server program <font
+color="#0000FF">Server\MdbHost</font> first. The host program
+waits to receive a barcode from the client. It then does a lookup
+into the database to retrieve the title, description, ISBN
+number, and pass the data back to the SPT1740 client program.</p>
+
+<p>When you launch <font color="#0000FF">FindMdb.prc</font>, it
+tries to open port 1950 on the host machines IP address. If
+successful, the status line changes to &quot;Connect
+complete&quot; and we are ready to scan a barcode. </p>
+
+<p>If it doesn't connect, the status line displays &quot;Can't
+connect to host..&quot;. If this happens, the first thing to
+check is to make sure your host application, <font
+color="#0000FF">Server\MdbHost</font> is up and running. If it
+is, the only other reason it might fail is someone else is using
+port 1950. Change the port value in <font color="#0000FF">Server\MdbHost
+</font>and <font color="#0000FF">Client\FindMdb </font>to some
+other value that doesn't conflict with RFC 1060 and try again. If
+you have Windows NT 4.0 running, these services are documented in
+c:\winnt\system32\drivers\etc\services file.</p>
+
+<p>The BarCode.doc file has example barcodes for this
+application, print out a copy now for testing. The client program
+has a socket to the host, and is waiting for you to scan a
+barcode. When you scan a barcode, the decoded data will be
+displayed on the SPT1740 Scan field line and the status line
+should change to Barcode processed. When you hit the submit
+button, the barcode is transmitted to the <font color="#0000FF">Server\MdbHost</font>
+program where it looks up the associated data and constructs a
+return message for the client. This packet is then sent to the
+client where the message is parsed and displayed on the screen.
+The host program then waits for another barcode to be scanned.</p>
+
+<p><font color="#0000FF" size="5"><strong>Client\CaDmv Example:</strong></font></p>
+
+<p align="center"><img src="CaDmv.gif" width="221" height="337"></p>
+
+<p>This example program works in conjunction with <font
+color="#0000FF">Server\DmvHost.exe</font>. to demonstrate
+wireless network connectivity in conjunction with the MSR3000
+Symbol Magnetic Stripe Reader hardware for the SPT1740 unit. It
+uses the NdkLib calls to support the TCPIP socket and reads and
+writes data to port 1968 on the host machine.</p>
+
+<p>If you don't live in California or you don't have a MSR3000
+unit, you can still run the program in debug mode. To do this
+edit the debug.h file in the project and recompile. In this mode
+the Enable MagStripe button is active and we fake the data from
+the reader. This will add a new entry into the DmvDemo.mdb file.
+Using Microsoft Access, you can change the value for this record
+and send back different images based on the value of DmvPhoto in
+the database.</p>
+
+<p>When the program is launched, it will search for the Magnetic
+Stripe Reader hardware and if not found, it will abort back to
+the main application selection screen. If the reader is found, we
+then open a socket to our hard coded Ip_Address (called out in
+Procedure GetSocket...currently set at 157.235.93.2). </p>
+
+<p>After we get a socket to our host, the user swipes the
+California Drivers License through the MSR reader. The program
+will then display the data to the active form. When the user hits
+the Submit button, this MSR data will be sent to the Host machine
+where it will be processed.</p>
+
+<p>The host will then send a Palm.BMP image to the client for
+display. Tap anywhere on the Image screen to return back to the
+main form.</p>
+
+<p><font color="#0000FF" size="5"><strong>NdkLib Example:<br>
+</strong></font>This project allows application programmers to
+obtain a socket descriptor in UPD or IP mode using library calls
+instead of included code in the application. Including this
+library in your project, allows you to easily create wireless
+point to point delivery of data from the spt1740 unit to the
+Ethernet enabled host.</p>
+
+<p>This project is meant as a starting point for the application
+programmer to build upon. See the <font color="#0000FF">Client\CaDmv</font>
+project for an example on how to call the following functions:</p>
+
+<p><strong>NdkLibGetSocket </strong>(SocketTypeP SocketeParmsP,
+int UDP) // 0=TCP, 1=UDP<br>
+<strong>NdkLibWriteSocket</strong> (SocketTypeP TcpParmsP)<br>
+<strong>NdkLibReadSocket</strong> (SocketTypeP TcpParmsP))<br>
+<strong>NdkLibCloseSocket</strong> (SocketTypeP TcpParmsP)</p>
+
+<p align="center"><font size="4">Spectrum24 Palm SocketType data
+structure</font></p>
+<div align="left">
+
+<table border="1" cellspacing="1" bordercolor="#000000">
+    <tr>
+        <td><strong>Structure element</strong></td>
+        <td><strong>Description</strong></td>
+    </tr>
+    <tr>
+        <td>NetLibRefNum</td>
+        <td>After we open the NetLib, we store the return value
+        here.</td>
+    </tr>
+    <tr>
+        <td>NetLibTimeOut</td>
+        <td>This is the timeout value used in NetLib calls to
+        define how long to wait on a call to complete before
+        returning a timeout error to the caller.</td>
+    </tr>
+    <tr>
+        <td>TCPResendTimeout</td>
+        <td>See the Spectrum24 Application Programming Interface
+        documentation..</td>
+    </tr>
+    <tr>
+        <td>data_buffP</td>
+        <td>Pointer to the applications data to be transmitted or
+        received.</td>
+    </tr>
+    <tr>
+        <td>data_size</td>
+        <td>Size of data the user wants to transmit or receive.
+        Updated by NdkLibReadSocket &amp; NdkLibWriteSocket with
+        actual bytes processed.</td>
+    </tr>
+    <tr>
+        <td>hostIP</td>
+        <td>Pointer to a string containing the dotted ip address
+        of the host machine you wish to communicate with.</td>
+    </tr>
+    <tr>
+        <td>port</td>
+        <td>Port on the host machine you wish to attach to.</td>
+    </tr>
+    <tr>
+        <td>mySocket</td>
+        <td>Socket descriptor returned from call to
+        NdkLibGetSocket.</td>
+    </tr>
+    <tr>
+        <td>errNo</td>
+        <td>If a NetLib call fails, the extended error number
+        will be stored here</td>
+    </tr>
+    <tr>
+        <td>*srv_addrP</td>
+        <td>Points to a sockaddr_in data type defining the host
+        information.</td>
+    </tr>
+    <tr>
+        <td>*cli_addrP</td>
+        <td>Points to a sockaddr_in data type defining the UDP
+        client information. This field is only required if you
+        request a UDP socket.</td>
+    </tr>
+</table>
+</div>
+</body>
+</html>

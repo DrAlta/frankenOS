@@ -1,0 +1,1716 @@
+<html>
+<head>
+  <title>LispMe Alphabetical Catalog of Language Elements # - C</title>
+</head>
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>Alphabetic catalog of Language elements # - C</h1>
+
+<!--- #f *****************************************************************--->
+
+      <h2><a name="desc_false">#f</a></h2>
+      <tt>#f</tt> is the value <i>false</i>.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Constant</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>#f</tt></td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>#f</tt> is the only boolean value <i>false</i>. It is
+           self-evaluating, so quoting is not necessary.
+           Note that <tt>#f</tt> and <a href="#desc_nil"><tt>'()</tt></a>
+           are different values in LispMe, so <tt>'()</tt> means <i>true</i>
+           in logical expressions.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(boolean? '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(boolean? #f)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(if #f 1 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(if '() 1 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+           </table> </td>
+    </table>
+
+<!--- #n *****************************************************************--->
+
+      <h2><a name="desc_noprint">#n</a></h2>
+      <tt>#n</tt> is a value, which does not print.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Constant</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>#n</tt></td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>#n</tt> is a special object, which suppresses printing
+           when it's the result of an evaluation. When <tt>#n</tt> is imbedded
+           in a list, it will print as <tt>#n</tt>, but when the entire result
+           is <tt>#n</tt>, nothing will be printed at all. This is especially useful
+           for graphics programs, as any output caused by the REP-loop
+           overwrites the graphics.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>#n</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt></td> <td>(but you won't see it printed)</td>
+               <tr><td><tt>'(#n)</tt></td>
+                   <td>=></td>
+                   <td><tt>(#n)</tt></td> <td>(prints normally)</td>
+           </table> </td>
+    </table>
+
+<!--- #t *****************************************************************--->
+
+      <h2><a name="desc_true">#t</a></h2>
+      <tt>#t</tt> is the canonical value <i>true</i>.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Constant</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>#t</tt></td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>#t</tt> is the canonical boolean value <i>true</i>. It is
+           self-evaluating, so quoting is not necessary.
+           Note that all objects other than <a href="#desc_false"><tt>#f</tt></a>
+           mean <i>true</i> in logical expressions.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(boolean? #t)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(if #t 1 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(if 'foo 1 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+           </table> </td>
+    </table>
+
+<!--- () *****************************************************************--->
+
+      <h2><a name="desc_nil">'()</a></h2>
+      <tt>'()</tt> is the empty list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Constant</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>'()</tt></td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>'()</tt> or <tt>(quote ())</tt> is the empty list.
+           There's no <tt>nil</tt> in
+           LispMe (anymore), use <tt>'()</tt> instead. Though you can omit
+           the apostrophe when writing the empty list, it's not recommended.
+           Note that <tt>'()</tt> and <a href="#desc_false"><tt>#f</tt></a>
+           are different values in LispMe, so <tt>'()</tt> means <i>true</i>
+           in logical expressions.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(null? '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(null? #f)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(pair? '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(if '() 1 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+           </table> </td>
+    </table>
+
+<!--- * ******************************************************************--->
+
+      <h2><a name="desc_mul">*</a></h2>
+      <tt>*</tt> multiplies numbers.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(* <i>num<sub>i</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num<sub>i</sub></i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>*</tt> multiplies any number of arbitrary numbers.
+           Type conversion (integer to real, real to complex) is handled
+           automatically.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(* 6 7)</tt></td>
+                   <td>=></td>
+                   <td><tt>42</tt></td>
+               <tr><td><tt>(* 1.34 2.9 0.1 93-14.7i)</tt></td>
+                   <td>=></td>
+                   <td><tt>36.1398-5.71242i</tt></td>
+               <tr><td><tt>(*)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(* 3 'a)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- *gstate* ***********************************************************--->
+
+      <h2><a name="desc_gstate">*gstate*</a></h2>
+      <tt>*gstate*</tt> contains the entire graphics state.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Variable</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>*gstate*</tt></td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>*gstate*</tt> is a list containing the entire state of the
+           graphics system, like penposition, colors etc. The exact
+           format is described <a href="lm_graph.htm#gstate">here</a>. 
+           This variable can be assigned to without restrictions.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      </table>
+
+<!--- + ******************************************************************--->
+
+      <h2><a name="desc_plus">+</a></h2>
+      <tt>+</tt> adds numbers.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(+ <i>num<sub>i</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num<sub>i</sub></i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>+</tt> adds any number of arbitrary numbers. Type conversion
+           (integer to real, real to complex) is handled automatically.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(+ 4 7)</tt></td>
+                   <td>=></td>
+                   <td><tt>11</tt></td>
+               <tr><td><tt>(+ 3.6 -2.1 8-i)</tt></td>
+                   <td>=></td>
+                   <td><tt>9.5-i</tt></td>
+               <tr><td><tt>(+)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(+ 50 'a)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- - ******************************************************************--->
+
+      <h2><a name="desc_minus">-</a></h2>
+      <tt>-</tt> subtracts two numbers or negates a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(- <i>num<sub>1</sub> [num<sub>2</sub>]</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num<sub>1</sub></i></tt></td><td>a number
+             <tr><td><tt><i>num<sub>2</sub></i></tt></td><td>(optional) a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td>When given one number, <tt>-</tt> negates it, when given
+           two numbers, <tt>-</tt> calculates the difference of them.
+           Type conversion
+           (integer to real, real to complex) is handled automatically.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(- 4 7-3i)</tt></td>
+                   <td>=></td>
+                   <td><tt>-3+3i</tt></td>
+               <tr><td><tt>(- 17.89)</tt></td>
+                   <td>=></td>
+                   <td><tt>-17.89</tt></td>
+               <tr><td><tt>(- 'a)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- / ******************************************************************--->
+
+      <h2><a name="desc_div">/</a></h2>
+      <tt>/</tt> divides two numbers or inverts a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(/ <i>num<sub>1</sub> [num<sub>2</sub>]</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num<sub>1</sub></i></tt></td><td>a number
+             <tr><td><tt><i>num<sub>2</sub></i></tt></td><td>(optional) a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td>When given one number, <tt>/</tt> returns its inverse,
+           when given two numbers, <tt>/</tt> divides them. If both of them are
+           integers and the division leaves no remainder, the result is
+           also an integer.  Type conversion
+           (integer to real, real to complex) is handled automatically.
+           Division by zero is an
+           <a href="lm_err.htm#err_div_by_zero">error</a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(/ 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.25</tt></td>
+               <tr><td><tt>(/ 16 4)</tt></td>
+                   <td>=></td>
+                   <td><tt>4</tt></td>
+               <tr><td><tt>(/ 16 3)</tt></td>
+                   <td>=></td>
+                   <td><tt>5.33333333333333</tt></td>
+               <tr><td><tt>(/ 16 3-4i)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.92+2.56i</tt></td>
+               <tr><td><tt>(/ 16 0)</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- &lt; &lt;= &gt; &gt;= **********************************************--->
+
+      <h2><a name="desc_compare">&lt; &lt;= &gt; &gt;=</a></h2>
+      <tt>&lt;</tt>, <tt>&lt;=</tt>, <tt>&gt;</tt>, and <tt>&gt;=</tt>
+      compare two objects.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedures</td>
+      <tr> <td><b>Formats</b></td>
+           <td> <table>
+             <tr><td><tt>(&lt;  <i>comp<sub>1</sub> comp<sub>2</sub></i>)</tt></td>
+             <tr><td><tt>(&lt;= <i>comp<sub>1</sub> comp<sub>2</sub></i>)</tt></td>
+             <tr><td><tt>(&gt;  <i>comp<sub>1</sub> comp<sub>2</sub></i>)</tt></td>
+             <tr><td><tt>(&gt;= <i>comp<sub>1</sub> comp<sub>2</sub></i>)</tt></td>
+           </table> </td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>comp<sub>1</sub></i></tt></td><td>a comparable object
+             <tr><td><tt><i>comp<sub>2</sub></i></tt></td><td>a comparable object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td>These procedures compare two objects of compatible types and return
+           their relation, either <tt>#t</tt> or <tt>#f</tt>. Both objects must
+           be either
+           <ul>
+           <li>non-complex numbers: compare arithmetically
+           <li>chars: compare ASCII codes
+           <li>strings: compare lexicographically
+           </ul>
+           Otherwise an <a href="lm_err.htm#err_invalid_comp">error</a> is
+           signalled.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>In addition to arithmetic comparison, these procedures deal with 
+               chars and strings, too, and thus subsume the R<sup>4</sup>RS
+               procedures <tt>char&lt;?</tt>, <tt>char&lt;=?</tt>,
+               <tt>char&gt;?</tt>, <tt>char&gt;=?</tt>, <tt>string&lt;?</tt>, 
+               <tt>string&lt;=?</tt>, <tt>string&gt;?</tt>, and 
+               <tt>string&gt;=?</tt>.<p>
+               Only two arguments are accepted in each case</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(&lt; "ab" "abc")</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(&gt;= 3 3.0)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(&lt;= #\a #\A)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- = ******************************************************************--->
+
+      <h2><a name="desc_numeq">=</a></h2>
+      <tt>=</tt> tests if a two numbers are equal.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(= <i>num<sub>1</sub> num<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num<sub>1</sub></i></tt></td><td>a number
+             <tr><td><tt><i>num<sub>2</sub></i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>=</tt> returns <tt>#t</tt>, if
+           <tt><i>num<sub>1</sub></i></tt> is equal to 
+           <tt><i>num<sub>2</sub></i></tt>.
+           Otherwise it returns <tt>#f</tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(= 1 1.0)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(= 2 3)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+    </table>
+
+<!--- abs ****************************************************************--->
+
+      <h2><a name="desc_abs">abs</a></h2>
+      <tt>abs</tt> computes the absolute value of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(abs <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>abs</tt> computes the absolute value of <tt><i>num</i></tt>.
+           The type of the result is the same as the argument's, with the
+           exception of <tt>-16384</tt>, as it is not representable as an
+           integer and therefore coerced to a float.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(abs 3.4567)</tt></td>
+                   <td>=></td>
+                   <td><tt>3.4567</tt></td>
+               <tr><td><tt>(abs -4711)</tt></td>
+                   <td>=></td>
+                   <td><tt>4711</tt></td>
+           </table> </td>
+    </table>
+
+<!--- acos ***************************************************************--->
+
+      <h2><a name="desc_acos">acos</a></h2>
+      <tt>acos</tt> computes the arc cosine of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(acos <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>acos</tt> computes the arc cosine of <tt><i>z</i></tt>
+           in radians.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>acos <var>z</var> = -<var>i</var> ln(<var>z</var> +
+                   <var>i</var> sqrt(1-<var>z</var><sup>2</sup>))
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(acos 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.57079632679489</tt></td>
+               <tr><td><tt>(acos -1)</tt></td>
+                   <td>=></td>
+                   <td><tt>3.14159265358979</tt></td>
+               <tr><td><tt>(acos 1.1)</tt></td>
+                   <td>=></td>
+                   <td><tt>+0.443568254385115i</tt></td>
+               <tr><td><tt>(acos 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.34977769117201-1.46571535194729i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- acosh **************************************************************--->
+
+      <h2><a name="desc_acosh">acosh</a></h2>
+      <tt>acosh</tt> computes the hyperbolic arc cosine of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(acosh <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>acosh</tt> computes the hyperbolic arc cosine
+           of <tt><i>z</i></tt>.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>acosh <var>z</var> = ln(<var>z</var> + <var>i</var>
+                   sqrt(1-<var>z</var><sup>2</sup>))
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(acosh 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>+1.57079632679489i</tt></td>
+               <tr><td><tt>(acosh 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(acosh 3)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.76274717403908</tt></td>
+               <tr><td><tt>(acosh 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.46571535194729+1.34977769117201i</tt></td>
+           </table> </td>
+    </table>
+
+
+<!--- and ****************************************************************--->
+
+      <h2><a name="desc_and">and</a></h2>
+      <tt>and</tt> is the non-strict logical conjunction of expressions.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(and <i>expr<sub>1</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>expr<sub>i</sub></i></tt></td>
+                 <td>any expression.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>and</tt> evaluates the <tt><i>expr<sub>i</sub></i></tt> in
+               left to right order. If any expression is <i>false</i>, the
+               evaluation is finished. In any case, the value of the last
+               expression evaluated is returned.
+               Remember that
+               <a href="#desc_nil"><tt>'()</tt></a>
+               is considered <i>true</i> in LispMe.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(and 4 5)</tt></td>
+                   <td>=></td>
+                   <td><tt>5</tt></td>
+               <tr><td><tt>(and 'a "foo" #f 5)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(and)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+    </table>
+
+<!--- angle **************************************************************--->
+
+      <h2><a name="desc_angle">angle</a></h2>
+      <tt>angle</tt> computes angle (or argument) of a complex number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(angle <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>angle</tt> computes the angle of the number
+           <tt><i>z</i></tt>. The angle is always in the range -<i>pi</i> (exclusive)
+           and <i>pi</i> (inclusive). See also
+           <a href="#desc_atan"><tt>atan</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(angle 5)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(angle -1)</tt></td>
+                   <td>=></td>
+                   <td><tt>3.14159265358979</tt></td>
+               <tr><td><tt>(angle 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.32581766366803</tt></td>
+           </table> </td>
+    </table>
+
+<!--- append *************************************************************--->
+
+      <h2><a name="desc_append">append</a></h2>
+      <tt>append</tt> concatenates lists.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(append <i>list<sub>i</sub> ...</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>list<sub>i</sub></i></tt></td><td>a proper list
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>append</tt> creates a list consisting of all
+           the elements of the <tt><i>list<sub>i</sub></i></tt> in the order
+           of the arguments. The original lists
+           are not modified, but the last list is not copied and shares
+           structure with the result.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(append '(a b) '(c d))</tt></td>
+                   <td>=></td>
+                   <td><tt>(a b c d)</tt></td>
+               <tr><td><tt>(append '(x y z) '() '(1 2 (5)) '("foo"))</tt></td>
+                   <td>=></td>
+                   <td><tt>(x y z 1 2 (5) "foo")</tt></td>
+               <tr><td><tt>(append '(x y z) '())</tt></td>
+                   <td>=></td>
+                   <td><tt>(x y z)</tt> (use this idiom to copy a list)</td>
+               <tr><td><tt>(append)</tt></td>
+                   <td>=></td>
+                   <td><tt>()</tt></td>
+           </table> </td>
+    </table>
+
+<!--- apply **************************************************************--->
+
+      <h2><a name="desc_apply">apply</a></h2>
+      <tt>apply</tt> applies a procedure to arguments given as a list.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(apply <i>procedure arglist</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>procedure</i></tt></td><td>a procedure
+             <tr><td><tt><i>arglist</i></tt></td><td>a proper list
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>apply</tt> calls <tt><i>procedure</i></tt> passing
+           each element in <tt><i>arglist</i></tt> to
+           <tt><i>procedure</i></tt>. The result of calling
+           <tt><i>procedure</i></tt> is returned.<p>
+           <tt>apply</tt> is especially useful when dealing with procedures
+           with variable length argument lists, see examples.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr valign=bottom><td><pre>
+(define (sum . s)
+  (if (null? s)
+      0
+      (+ (car s)
+         (apply sum (cdr s)))))
+(sum 1 2 3 4)</pre></td>
+                   <td>=></td>
+                   <td><tt>10</tt></td>
+           </table> </td>
+    </table>
+
+<!--- asin ***************************************************************--->
+
+      <h2><a name="desc_asin">asin</a></h2>
+      <tt>asin</tt> computes the arc sine of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(asin <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>asin</tt> computes the arc sine of <tt><i>z</i></tt>
+           in radians.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>asin <var>z</var> = -<var>i</var> ln(<var>iz</var> +
+                   sqrt(1-<var>z</var><sup>2</sup>))
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(asin 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(asin 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.57079632679489</tt></td>
+               <tr><td><tt>(asin 1.1)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.57079632679489-0.443568254385115i</tt></td>
+               <tr><td><tt>(asin 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.221018635622883+1.46571535194729i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- asinh **************************************************************--->
+
+      <h2><a name="desc_asinh">asinh</a></h2>
+      <tt>asinh</tt> computes the hyperbolic arc sine of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(asinh <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>asinh</tt> computes the hyperbolic arc sine
+           of <tt><i>z</i></tt>.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>asinh <var>z</var> = -ln(sqrt(1+<var>z</var><sup>2</sup>)
+                   - <var>z</var>)
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(asinh 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>0</tt></td>
+               <tr><td><tt>(asinh 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.881373587019543</tt></td>
+               <tr><td><tt>(asinh 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.36180090085784+1.29304207023718i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- assoc, assq, assv **************************************************--->
+
+      <h2><a name="desc_assoc">assoc assq assv</a></h2>
+      <tt>assoc</tt>, <tt>assq</tt>, and <tt>assv</tt> search lists
+        containing key/value pairs.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Library procedures</td>
+      <tr> <td><b>Formats</b></td>
+           <td> <table>
+           <tr><td><tt>(assoc <i>obj alist</i>)</tt></td>
+           <tr><td><tt>(assq <i>obj alist</i>)</tt></td>
+           <tr><td><tt>(assv <i>obj alist</i>)</tt></td>
+           </table></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+             <tr><td><tt><i>alist</i></tt></td><td>an association list where
+             each element is a pair
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td>These procedures return the first element in
+           <tt><i>alist</i></tt>, whose
+           <a href="#desc_car"><tt>car</tt></a> is <tt><i>obj</i></tt>.
+           If none is found, <tt>#f</tt> is returned. To compare
+           <tt><i>obj</i></tt> with the keys, <tt>assoc</tt> uses
+           <a href="lm_cat2.htm#desc_equal"><tt>equal?</tt></a>, <tt>assq</tt> uses
+           <a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a>, and <tt>assv</tt> uses
+           <a href="lm_cat2.htm#desc_eqv"><tt>eqv?</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(assoc 'b '((a 1) (b 2)))</tt></td>
+                   <td>=></td>
+                   <td><tt>(b 2)</tt></td>
+               <tr><td><tt>(assoc 'c '((a 1) (b 2)))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(assq '(b) '(((a) 1) ((b) 2)))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(assoc '(b) '(((a) 1) ((b) 2)))</tt></td>
+                   <td>=></td>
+                   <td><tt>((b) 2)</tt></td>
+           </table> </td>
+    </table>
+
+<!--- atan ***************************************************************--->
+
+      <h2><a name="desc_atan">atan</a></h2>
+      <tt>atan</tt> computes the arc tangent of its argument(s).<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><table>
+           <tr><td><tt>(atan <i>z</i>)</tt></td></tr>
+           <tr><td><tt>(atan <i>y x</i>)</tt></td></tr>
+           </table></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+             <tr><td><tt><i>x</i></tt></td><td>a real number
+             <tr><td><tt><i>y</i></tt></td><td>a real number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>atan</tt> computes the arc tangent
+           of <tt><i>z</i></tt> in radians.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>atan <var>z</var> = 0.5<var>i</var> ln((<var>i</var> + <var>z</var>) /
+                   (<var>i</var> - <var>z</var>))
+           </center> is used.<p>
+           With the second form, the result is an angle whose tangent is
+           <tt><i>y</i></tt>/<tt><i>x</i></tt>,
+           but the signs of the arguments decide which of the two angles
+           differing by <i>pi</i> is returned. It's the same
+           value as <tt>(<a href="#desc_angle">angle</a>
+             (<a href="lm_cat3.htm#desc_make_rect">make-rectangular</a>
+             <i>x</i> <i>y</i>))</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(atan 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.785398163397448</tt></td>
+               <tr><td><tt>(atan -1 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>-1.57079632679489</tt></td>
+               <tr><td><tt>(atan 0 -1)</tt></td>
+                   <td>=></td>
+                   <td><tt>3.14159265358979</tt></td>
+               <tr><td><tt>(atan 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.4215468610018+0.500370000052531i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- atanh **************************************************************--->
+
+      <h2><a name="desc_atanh">atanh</a></h2>
+      <tt>atanh</tt> computes the hyperbolic arc tangent of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(atanh <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>atanh</tt> computes the hyperbolic arc tangent
+           of <tt><i>z</i></tt>.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>atanh <var>z</var> = 0.5 ln((1 + <var>z</var>) /
+                   (1 - <var>z</var>))
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(atanh 0.5)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.549306144334055</tt></td>
+               <tr><td><tt>(atanh -1)</tt></td>
+                   <td>=></td>
+                   <td><tt>[-inf]</tt></td>
+               <tr><td><tt>(atanh 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.0964156202029962+1.12655644083482i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- begin **************************************************************--->
+
+      <h2><a name="desc_begin">begin</a></h2>
+      <tt>begin</tt> sequentially evaluates expressions.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(begin <i>expr<sub>1</sub> expr<sub>2</sub></i> ...)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>expr<sub>i</sub> ...</i></tt></td>
+                 <td>expressions, which are evaluated sequentially</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>begin</tt> evaluates each <tt><i>expr<sub>i</sub></i></tt> in sequence
+               from left to right. The value of the last
+               <tt><i>expr<sub>i</sub></i></tt> is returned.<p>
+               A second use of <tt>begin</tt> is to group mutually recursive
+               <a href="lm_cat2.htm#desc_define"><tt>define</tt></a> expressions entered
+               into the command line.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(begin 'a "foo" 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>42</tt></td>
+           </table> </td>
+    </table>
+
+<!--- bitmap *************************************************************--->
+
+      <h2><a name="desc_bitmap">bitmap</a></h2>
+      <tt>bitmap</tt> draws a bitmap.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(bitmap <i>bmap</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>bmap</i></tt></td><td>a string (see below)
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>bitmap</tt> draws a bitmap at the current point stored in
+           <a href="lm_cat1.htm#desc_gstate"><tt>*gstate*</tt></a> extending
+           to the right and the bottom. The current point is not changed.
+           The return value is <a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a> to
+           avoid trashing the graphics.<p>
+
+           See <a href="lm_graph.htm">here</a> for details on the graphic state.<p>
+
+           The string describing the bitmap uses the standard Pilot bitmap
+           format adn supports colored and multiple bitmaps (OS 3.5),
+           It's exactly the format stored in a bitmap resource
+           (ResType <tt>Tbmp</tt>).
+           This format corresponds to this C structure definition (from
+           the 3.5 header <tt>Core/System/Bitmap.h</tt>)
+<pre>
+typedef struct BitmapFlagsType {
+  UInt16 compressed:1;      // Data format:  0=raw; 1=compressed
+  UInt16 hasColorTable:1;   // if true, color table stored before bits[]
+  UInt16 hasTransparency:1; // true if transparency is used
+  UInt16 indirect:1;        // true if bits are stored indirectly
+  UInt16 forScreen:1;       // system use only
+  UInt16 reserved:11;
+} BitmapFlagsType;
+
+typedef struct BitmapType {
+  Int16           width;
+  Int16           height;
+  UInt16          rowBytes;
+  BitmapFlagsType flags;
+  UInt8           pixelSize;        // bits/pixel
+  UInt8           version;          // version of bitmap. This is vers 2
+  UInt16          nextDepthOffset;  // # of DWords to next BitmapType
+                                    //  from beginnning of this one
+  UInt8           transparentIndex; // v2 only, if flags.hasTransparency is true,
+                                    // index number of transparent color
+  UInt8           compressionType;  // v2 only, if flags.compressed is true, this is
+                                    // the type, see BitmapCompressionType
+  UInt16          reserved;         // for future use, must be zero!
+  // [colorTableType] pixels | pixels*
+  // If hasColorTable != 0, we have:
+  //   ColorTableType followed by pixels. 
+  // If hasColorTable == 0:
+  //   this is the start of the pixels
+  // if indirect != 0 bits are stored indirectly.
+  //   the address of bits is stored here
+  //   In some cases the ColorTableType will
+  //   have 0 entries and be 2 bytes long.
+} BitmapType;
+</pre>
+            <b>Caution:</b> The Pilot API is very sensitive to the right
+            initialization of these fields, especially that
+            <tt>rowBytes</tt> must be even. Though
+            LispMe checks some of these conditions, an invalid bitmap can
+            cause a Fatal exception, so you should stick to bitmaps read
+            from resources and be careful when assembling bitmaps on the fly.<p>
+
+            You can retrieve the width and height of a bitmap with
+<pre>
+(define (width bitmap)
+  (+ (* 256 (char->integer (string-ref bitmap 0)))
+       (char->integer (string-ref bitmap 1))))
+
+(define (height bitmap)
+  (+ (* 256 (char->integer (string-ref bitmap 2)))
+       (char->integer (string-ref bitmap 3))))
+</pre>
+
+            As most bitmaps are smaller than 256 pixels, you can ignore the
+            high-order byte:
+
+<pre>
+(define (width bitmap) (char->integer (string-ref bitmap 1)))
+
+(define (height bitmap) (char->integer (string-ref bitmap 3)))
+</pre>
+</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(bitmap (read-resource "Tbmp" 11000))</tt></td>
+                   <td>=></td>
+                   <td><tt>#n</tt> and draws the famous <i>easter egg taxi</i></td>
+           </table> </td>
+      </table>
+
+<!--- boolean? ***********************************************************--->
+
+      <h2><a name="desc_boolean">boolean?</a></h2>
+      <tt>boolean?</tt> recognizes <tt>#t</tt> and <tt>#f</tt>.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(boolean? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>boolean?</tt> returns <tt>#t</tt> for the boolean values
+           <tt>#t</tt> and <tt>#f</tt> and returns <tt>#f</tt> for any other
+           object. Remember that in LispMe <tt>()</tt> and <tt>#f</tt> are
+           distinct objects.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(boolean? '(a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(boolean? '())</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(boolean? #f)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(boolean? #t)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+           </table> </td>
+      </table>
+
+<!--- c...r **************************************************************--->
+
+      <h2><a name="desc_cxxxr">c...r</a></h2>
+      Any of the <tt>c...r</tt> procedures applies a sequence of 
+      <a href="#desc_car"><tt>car</tt></a> and <a href="#desc_cdr">
+      <tt>cdr</tt></a>.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedures</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(c...r <i>pair</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>pair</i></tt></td><td>a pair
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>c...r</tt> applies a sequence of <a href="#desc_car"><tt>car</tt></a>
+           and <a href="#desc_cdr">
+           <tt>cdr</tt></a> procedures to <tt><i>pair</i></tt> and returns the
+           result. The <tt>...</tt> may be any combination of upto 3 <tt>a</tt>
+           or <tt>d</tt>, where an <tt>a</tt> corresponds to
+           <a href="#desc_car"><tt>car</tt></a> and a <tt>d</tt> corresponds
+           to <a href="#desc_cdr"><tt>cdr</tt></a>.
+           <tt>(c<i>xyz</i>r <i>pair</i>)</tt> is equivalent to
+           <tt>(c<i>x</i>r (c<i>y</i>r (c<i>z</i>r <i>pair</i>)))</tt>, where
+           each <tt><i>x</i></tt>, <tt><i>y</i></tt> and <tt><i>z</i></tt> is
+           either <tt>a</tt> or <tt>d</tt>.</td>
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Supports upto 3 nested applications instead of 4</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(caar '((a b) c))</tt></td>
+                   <td>=></td>
+                   <td><tt>a</tt></td>
+               <tr><td><tt>(caddr '(a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>c</tt></td>
+               <tr><td><tt>(cddar '((a b c) (d e f))</tt></td>
+                   <td>=></td>
+                   <td><tt>(c)</tt></td>
+           </table> </td>
+      </table>
+
+<!--- call/cc ************************************************************--->
+
+      <h2><a name="desc_callcc">call/cc</a></h2>
+      <tt>call/cc</tt> calls a procedure with the current continuation
+          as argument.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(call/cc <i>procedure</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>procedure</i></tt></td><td>a procedure of one argument</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>call/cc</tt> calls <tt><i>procedure</i></tt> with the
+               current continuation as its argument. The current continuation
+               is a special procedure (recognized by 
+               <a href="#desc_continuation"><tt>continuation?</tt></a>) 
+               of one argument and represents the remainder of the computation
+               from the <tt>call/cc</tt>-application. The continuation may
+               be called at any time later with any argument, which will be
+               the result of the <tt>call/cc</tt>-application. This may
+               happen several times, as the continuation has unlimited extent
+               like any other LispMe object, even when <tt>call/cc</tt> has
+               returned once.<p> If the continuation is not called, the value
+               returned by <tt><i>procedure</i></tt> is the value of this
+               <tt>call/cc</tt>-application.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>The verbose name <tt>call-with-current-continuation</tt> is not
+               supported, you probably don't want to write this with Graffiti!</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(call/cc (lambda (k) (* 3 (k 5))))</tt></td>
+                   <td>=></td>
+                   <td><tt>5</tt></td>
+               <tr><td><pre>
+(((call/cc (lambda (x) x))
+           (lambda (y) y)) 'foo)</pre></td>
+                   <td>=></td>
+                   <td><tt>foo</tt> (how does this work ? :-))</td>
+           </table> </td>
+    </table>
+
+<!--- car ****************************************************************--->
+
+      <h2><a name="desc_car">car</a></h2>
+      <tt>car</tt> returns the car component of a pair.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(car <i>pair</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>pair</i></tt></td><td>a pair
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>car</tt> returns the car component of <tt><i>pair</i></tt>.
+           The car component is the first argument given in the
+           <tt><a href="#desc_cons">cons</a></tt>
+           procedure.<p> For related
+           information, see <a href="#desc_cdr"><tt>cdr</tt></a> and
+           <a href="#desc_cons"><tt>cons</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(car '(a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>a</tt></td>
+               <tr><td><tt>(car '((a b c)))</tt></td>
+                   <td>=></td>
+                   <td><tt>(a b c)</tt></td>
+               <tr><td><tt>(car '(a . b))</tt></td>
+                   <td>=></td>
+                   <td><tt>a</tt></td>
+               <tr><td><tt>(car '())</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+      </table>
+
+<!--- case ***************************************************************--->
+
+      <h2><a name="desc_case">case</a></h2>
+      <tt>case</tt> tests a value against some constant lists and
+          evaluates expressions associated with the first match.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(case <i>expr</i> (<i>guard</i> expr<sub>1</sub> expr<sub>2</sub></i> ...) ...)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr valign=top><td><tt><i>expr</i></tt></td>
+                 <td>the expression to be tested.</td>
+             <tr valign=top><td><tt><i>guard ...</i></tt></td>
+                 <td>may be either a list of values, or the keyword
+                     <tt>else</tt>.</td>
+             <tr valign=top><td><tt><i>expr<sub>i</sub> ...</i></tt></td>
+                 <td>expressions, which are evaluated sequentially, if the
+                     corresponding <tt><i>guard</i></tt> matches.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>case</tt> first evaluates <tt><i>expr</i></tt> and tests
+               sequentially, if its value is (using
+               <a href="lm_cat2.htm#desc_eqv"><tt>eqv?</tt></a>) in one of
+               the constant lists <tt><i>guard</i></tt>.
+               When the first match is encountered,
+               its corresponding <tt><i>expr<sub>i</sub></i></tt> are evaluated from
+               left to right and the value of the last
+               <tt><i>expr<sub>i</sub></i></tt> is returned.<p>
+               Note that the constant lists must not be quoted!
+               The special keyword <tt>else</tt> can be used for an
+               "otherwise" clause. It's
+               an <a href="lm_err.htm#err_cond_clause"><tt>error</tt></a>, if no
+               <tt><i>guard</i></tt> matches.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr valign=bottom><td><pre>
+(case 5 ((1 3 4 8) 'foo)
+        ((2 5 6)   'bar)
+        (else      'baz))
+</pre></td>
+                   <td>=></td>
+                   <td><tt>bar</tt></td>
+               <tr valign=bottom><td><pre>
+(case 9 ((1 3 4 8) 'foo)
+        ((2 5 6)   'bar))
+</pre></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+
+<!--- cdr ****************************************************************--->
+
+      <h2><a name="desc_cdr">cdr</a></h2>
+      <tt>cdr</tt> returns the cdr component of a pair.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(cdr <i>pair</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>pair</i></tt></td><td>a pair
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>cdr</tt> returns the cdr component of <tt><i>pair</i></tt>.
+           The cdr component is the second argument given in the
+           <a href="#desc_cons"><tt>cons</tt></a>
+           procedure.<p> For related
+           information, see <a href="#desc_car"><tt>car</tt></a> and 
+           <a href="#desc_cons"><tt>cons</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(cdr '(a b c))</tt></td>
+                   <td>=></td>
+                   <td><tt>(b c)</tt></td>
+               <tr><td><tt>(cdr '((a b c)))</tt></td>
+                   <td>=></td>
+                   <td><tt>()</tt></td>
+               <tr><td><tt>(cdr '(a . b))</tt></td>
+                   <td>=></td>
+                   <td><tt>b</tt></td>
+               <tr><td><tt>(cdr '())</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+      </table>
+
+<!--- ceiling ************************************************************--->
+
+      <h2><a name="desc_ceiling">ceiling</a></h2>
+      <tt>ceiling</tt> computes the smallest whole number greater than or equal to a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(ceiling <i>num</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>num</i></tt></td><td>a number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>ceiling</tt> converts <tt><i>num</i></tt> to a floating
+           point number and returns the smallest whole number greater than
+           or equal to <tt><i>num</i></tt>. The result is <b>not</b> a
+           LispMe integer, it's a floating point value<p>
+           See also
+           <a href="lm_cat2.htm#desc_floor"><tt>floor</tt></a>,
+           <a href="lm_cat3.htm#desc_round"><tt>round</tt></a>, and
+           <a href="lm_cat4.htm#desc_truncate"><tt>truncate</tt></a>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(ceiling -4.3)</tt></td>
+                   <td>=></td>
+                   <td><tt>-4</tt></td>
+               <tr><td><tt>(ceiling 3.5)</tt></td>
+                   <td>=></td>
+                   <td><tt>4</tt></td>
+           </table> </td>
+    </table>
+
+<!--- char2integer *******************************************************--->
+
+      <h2><a name="desc_char2integer">char->integer</a></h2>
+      <tt>char->integer</tt> converts a character to its ASCII code.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(char->integer <i>char</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>char</i></tt></td><td>a character
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>char->integer</tt> returns the ASCII code of
+           <tt><i>char</i></tt>. You should use a tool like
+           <a href="http://astro.uchicago.edu/home/web/valdes/pilot/AsciiChart/">
+           AsciiChart</a> to see characters and their codes on your Pilot.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(char->integer #\F)</tt></td>
+                   <td>=></td>
+                   <td><tt>70</tt></td>
+               <tr><td><tt>(char->integer #\&uuml;)</tt></td>
+                   <td>=></td>
+                   <td><tt>252</tt></td>
+           </table> </td>
+      </table>
+
+<!--- char? **************************************************************--->
+
+      <h2><a name="desc_char">char?</a></h2>
+      <tt>char?</tt> recognizes characters.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(char? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>char?</tt> returns <tt>#t</tt> for a character
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(char? #\x)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(char? "x")</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(char? 'x)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- complex? ***********************************************************--->
+
+      <h2><a name="desc_complex">complex?</a></h2>
+      <tt>complex?</tt> recognizes complex numbers.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(complex? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>complex?</tt> returns <tt>#t</tt> for integer, real and
+           complex numbers and <tt>#f</tt> for any other object. In fact,
+           it's the same procedure as
+           <a href="lm_cat3.htm#desc_number"><tt>number?</tt></a>
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(complex? 42)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(complex? -1.234e-55)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(complex? 3.5-17i)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(complex? 'foo)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- cond ***************************************************************--->
+
+      <h2><a name="desc_cond">cond</a></h2>
+      <tt>cond</tt> sequentially tests conditions and evaluates expressions
+          associated with the first true one.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Special form</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(cond (<i>guard expr<sub>1</sub> expr<sub>2</sub></i> ...) ...)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr valign=top><td><tt><i>guard ...</i></tt></td>
+                 <td>any expression including the keyword
+                     <tt>else</tt>.</td>
+             <tr valign=top><td><tt><i>expr<sub>i</sub> ...</i></tt></td>
+                 <td>expressions, which are evaluated sequentially, if the
+                     corresponding <tt><i>guard</i></tt> is <i>true</i>.</td>
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>cond</tt> evaluates each <tt><i>guard</i></tt> in sequence.
+               When the first <i>true</i> <tt><i>guard</i></tt> is encountered,
+               its corresponding <tt><i>expr<sub>i</sub></i></tt> are evaluated from
+               left to right and the value of the last
+               <tt><i>expr<sub>i</sub></i></tt> is returned.<p>
+               The special keyword <tt>else</tt>, which is
+               always <i>true</i>, can be used for an "otherwise" clause. It's
+               an <a href="lm_err.htm#err_cond_clause"><tt>error</tt></a>, if no
+               <tt><i>guard</i></tt> is <i>true</i>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Expression sequence in each clause must not be empty</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr valign=bottom><td><pre>
+(cond ((< 6 1) 'a)
+      ((> 6 1) 'b))
+</pre></td>
+                   <td>=></td>
+                   <td><tt>b</tt></td>
+               <tr valign=bottom><td><pre>
+(cond ((< 6 6) 'a)
+      ((> 6 6) 'b)
+      (else    'c))
+</pre></td>
+                   <td>=></td>
+                   <td><tt>c</tt></td>
+               <tr><td><tt>(cond (#f 0))</tt></td>
+                   <td>=></td>
+                   <td><tt><i>error</i></tt></td>
+           </table> </td>
+    </table>
+ 
+<!--- cons ***************************************************************--->
+
+      <h2><a name="desc_cons">cons</a></h2>
+      <tt>cons</tt> creates a freshly allocated pair.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(cons <i>obj<sub>1</sub> obj<sub>2</sub></i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj<sub>1</sub></i></tt></td><td>any object
+             <tr><td><tt><i>obj<sub>2</sub></i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>cons</tt> returns a freshly allocated pair whose
+           car component is <tt><i>obj<sub>1</sub></i></tt> and whose cdr component
+           is <tt><i>obj<sub>2</sub></i></tt>. The new pair is always unique, i.e. it
+           is not <a href="lm_cat2.htm#desc_eq"><tt>eq?</tt></a> to any other object.
+           The procedures <a href="#desc_car"><tt>car</tt></a> and
+           <a href="#desc_cdr"><tt>cdr</tt></a> are used to access the
+           components of the pair.
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(cons 'a 'b)</tt></td>
+                   <td>=></td>
+                   <td><tt>(a . b)</tt></td>
+               <tr><td><tt>(cons 1 '())</tt></td>
+                   <td>=></td>
+                   <td><tt>(1)</tt></td>
+               <tr><td><tt>(cons '(a) '(b))</tt></td>
+                   <td>=></td>
+                   <td><tt>((a) b)</tt></td>
+           </table> </td>
+    </table>
+
+<!--- continuation? ******************************************************--->
+
+      <h2><a name="desc_continuation">continuation?</a></h2>
+      <tt>continuation?</tt> recognizes continuations.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(continuation? <i>obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>obj</i></tt></td><td>any object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>continuation?</tt> returns <tt>#t</tt> for a continuation
+           created with <a href="#desc_callcc"><tt>call/cc</tt></a>
+           and <tt>#f</tt> for any other object.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(continuation? (lambda (x) x))</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+               <tr><td><tt>(call/cc continuation?)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt></td>
+               <tr><td><tt>(continuation? 'foo)</tt></td>
+                   <td>=></td>
+                   <td><tt>#f</tt></td>
+           </table> </td>
+      </table>
+
+<!--- cos ****************************************************************--->
+
+      <h2><a name="desc_cos">cos</a></h2>
+      <tt>cos</tt> computes the cosine of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(cos <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>cos</tt> computes the cosine of the number <tt><i>z</i></tt>.
+           <tt><i>z</i></tt> is an angle measured in radians.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>cos <var>z</var> = cos<var>x</var> cosh<var>y</var> -
+                   <var>i</var> sin<var>x</var> sinh<var>y</var>
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>Full</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(cos 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(cos 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>0.54030230586814</tt></td>
+               <tr><td><tt>(cos 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>3.30163733291409-1.73880950447431i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- cosh ***************************************************************--->
+
+      <h2><a name="desc_cosh">cosh</a></h2>
+      <tt>cosh</tt> computes the hyperbolic cosine of a number.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure (<b>MathLib required</b>)</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(cosh <i>z</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>z</i></tt></td><td>any number
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>cosh</tt> computes the hyperbolic cosine of the number
+           <tt><i>z</i></tt>.<p>
+           For complex arguments <var>z</var> = <var>x</var> + <var>yi</var>,
+           the formula<br>
+           <center>cosh <var>z</var> = cosh<var>x</var> cos<var>y</var> +
+                   <var>i</var> sinh<var>x</var> sin<var>y</var>
+           </center> is used.
+           </td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(cosh 0)</tt></td>
+                   <td>=></td>
+                   <td><tt>1</tt></td>
+               <tr><td><tt>(cosh 1)</tt></td>
+                   <td>=></td>
+                   <td><tt>1.54308063481524</tt></td>
+               <tr><td><tt>(cosh 0.5+2i)</tt></td>
+                   <td>=></td>
+                   <td><tt>-0.469257978229053+0.473830620416407i</tt></td>
+           </table> </td>
+    </table>
+
+<!--- ctl-enter **********************************************************--->
+
+      <h2><a name="desc_ctl_enter">ctl-enter</a></h2>
+      <tt>ctl-enter</tt> is posted when a control is tapped.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(ctl-enter <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the tapped control
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>ctl-enter</tt> is the event posted when the user has
+           tapped a control but not yet lifted the pen.</td>
+      </table>
+
+<!--- ctl-get-val ********************************************************--->
+
+      <h2><a name="desc_ctl_get_val">ctl-get-val</a></h2>
+      <tt>ctl-get-val</tt> returns the value of a UI control.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(ctl-get-val <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the control
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>ctl-get-val</tt> returns the value of a control with
+           id <tt><i>id</i></tt> as a boolean. This function makes only
+           sense for pushbuttons or checkboxes.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(ctl-get-val 1300)</tt></td>
+                   <td>=></td>
+                   <td><tt>#t</tt> assuming the checkbox is checked</td>
+           </table> </td>
+    </table>
+
+<!--- ctl-repeat *********************************************************--->
+
+      <h2><a name="desc_ctl_repeat">ctl-repeat</a></h2>
+      <tt>ctl-repeat</tt> is posted when a repeating button "fires".<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(ctl-repeat <i>id</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the control
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>ctl-repeat</tt> is posted each time a repeating button
+           control triggers while the user is holding the pen down. You
+           should return <tt>#f</tt> from your event handler to make this
+           work correctly.</td>
+      </table>
+
+<!--- ctl-select *********************************************************--->
+
+      <h2><a name="desc_ctl_select">ctl-select</a></h2>
+      <tt>ctl-select</tt> is posted when a control is selected.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>UI event</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(ctl-select <i>id state</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the selected control
+             <tr><td><tt><i>state</i></tt></td><td><tt>#t</tt> if control is on, <tt>#f</tt> otherwise
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>ctl-selected</tt> is the event posted when the user has
+           tapped a control and released it.</td>
+      </table>
+
+<!--- ctl-set-val ********************************************************--->
+
+      <h2><a name="desc_ctl_set_val">ctl-set-val</a></h2>
+      <tt>ctl-set-val</tt> sets the value of a UI control.<p>
+      <table border>
+      <tr> <td><b>Category</b></td>
+           <td>Primitive procedure</td>
+      <tr> <td><b>Format</b></td>
+           <td><tt>(ctl-set-val <i>id obj</i>)</tt></td>
+      <tr> <td><b>Parameters</b></td>
+           <td> <table>
+             <tr><td><tt><i>id</i></tt></td><td>the form id of the control
+             <tr><td><tt><i>obj</i></tt></td><td>any LispMe object
+           </table> </td>
+      <tr> <td><b>Description</b></td>
+           <td><tt>ctl-set-val</tt> sets the value of a control with
+           id <tt><i>id</i></tt> to <tt><i>obj</i></tt> where <tt>#f</tt> means
+           <i>off</i> and any other value <i>on</i>. This function makes only
+           sense for pushbuttons or checkboxes. The return value is 
+           <tt><i>obj</i></tt>.</td>
+      <tr> <td><b>R<sup>4</sup>RS Compliance</b></td>
+           <td>LispMe extension</td>
+      <tr> <td><b>Examples</b></td>
+           <td> <table>
+               <tr><td><tt>(ctl-set-val 1300 68)</tt></td>
+                   <td>=></td>
+                   <td><tt>68</tt> and checks the checkbox</td>
+           </table> </td>
+    </table>
+
+  <p><a href="lm_cat2.htm">Catalog of Language Elements D - L</a>
+  <p><a href="lm_cat3.htm">Catalog of Language Elements M - R</a>
+  <p><a href="lm_cat4.htm">Catalog of Language Elements S - Z</a>
+
+  </body>
+</html>

@@ -1,0 +1,59 @@
+FORM ID 1000 AT (0 0 160 160)
+MENUID 2000
+BEGIN
+  BUTTON "I" ID 2006 AT (35 116 27 28) LEFTANCHOR BOLDFRAME FONT 1 
+  BUTTON "=" ID 2011 AT (68 116 60 28) LEFTANCHOR BOLDFRAME FONT 2 
+  BUTTON "D" ID 2001 AT (35 81 27 28) LEFTANCHOR BOLDFRAME FONT 1 
+  BUTTON "L" ID 2003 AT (68 81 27 28) LEFTANCHOR BOLDFRAME FONT 1 
+  BUTTON "V" ID 2005 AT (101 81 27 28) LEFTANCHOR BOLDFRAME FONT 1 
+  BUTTON "M" ID 2000 AT (35 46 27 28) LEFTANCHOR BOLDFRAME FONT 1 
+  BUTTON "C" ID 2002 AT (68 46 27 28) LEFTANCHOR BOLDFRAME FONT 1 
+  BUTTON "X" ID 2004 AT (101 46 27 28) LEFTANCHOR BOLDFRAME FONT 1 
+  BUTTON "mr" ID 2013 AT (3 69 26 18) LEFTANCHOR BOLDFRAME FONT 2 
+  BUTTON "m+" ID 2014 AT (3 92 26 18) LEFTANCHOR BOLDFRAME FONT 2 
+  BUTTON "ce" ID 2015 AT (3 115 26 18) LEFTANCHOR BOLDFRAME FONT 2 
+  BUTTON "c" ID 2016 AT (3 138 26 18) LEFTANCHOR BOLDFRAME FONT 2 
+  BUTTON "mc" ID 2012 AT (3 46 26 18) LEFTANCHOR BOLDFRAME FONT 2 
+  BUTTON "÷" ID 2007 AT (134 46 23 19) LEFTANCHOR BOLDFRAME FONT 2 
+  BUTTON "x" ID 2008 AT (134 70 23 18) LEFTANCHOR BOLDFRAME FONT 2 
+  BUTTON "-" ID 2010 AT (134 93 23 18) LEFTANCHOR BOLDFRAME FONT 2 
+  BUTTON "+" ID 2009 AT (134 116 23 40) LEFTANCHOR BOLDFRAME FONT 2 
+  TITLE "Duco"
+  LABEL "© 1998 Neal Bridges" ID 2100 AT (40 147) FONT 0
+END
+
+MENU ID 2000
+BEGIN
+  PULLDOWN "Options"
+  BEGIN
+    MENUITEM "Help" ID 2002 "H"
+    MENUITEM "About…" ID 2001 "A"
+  END
+END
+
+ALERT ID 3000
+HELPID 3001
+INFORMATION
+BEGIN
+  TITLE "About Duco"
+  MESSAGE "Roman numeral calculator version 1.1\n"\
+  "© 1998 Neal Bridges\n"\
+  "This is a Quartus Forth application."
+  BUTTONS "ok"
+END
+
+STRING ID 3001 "'Duco' is Latin for 'to calculate'.  Duco is a standard 4-function "\
+"calculator with one key difference -- it works in Roman numerals.\n"\
+"Duco was written and compiled on-board a Palm III using Quartus Forth.  It's "\
+"a freeware demonstration of Quartus' ability to produce tight, fast, "\
+"stand-alone apps.\n"\
+"Check out both Quartus and the source to Duco at: \n"\
+"http://www.interlog.com/~nbridges\n"\
+"Duco only operates on Roman numbers in the range {0..65535}.  Any value "\
+"outside of this range will result in an error.\n"\
+"A line appearing over a Roman numeral multiplies its value by 1000.\n"\
+"Duco is intelligent about Roman numbers, and won't allow an invalid number "\
+"to be entered.\n"\
+"Have fun!\n"\
+"- Neal Bridges\n"\
+"nbridges@interlog.com"

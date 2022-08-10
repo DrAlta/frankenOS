@@ -1,0 +1,117 @@
+#include "serialchatRsc.h"
+
+APPLICATIONICONNAME ID 100 "Serial Chat"
+APPLICATION         ID 1   "LFsc"
+VERSION             ID 1   "1.0"
+
+
+FORM ID MainForm 0 0 160 160
+MENUID MainMenuBar
+USABLE
+BEGIN
+    TITLE "Serial Chat"
+    LABEL "Incoming:" AUTOID AT (0 16) FONT 1
+    FIELD ID MainIncomingField AT (PrevLeft 28 153 48) UNDERLINED
+        MULTIPLELINES HASSCROLLBAR AUTOSHIFT MAXCHARS 255
+    SCROLLBAR ID MainIncomingScrollBar AT (153 28 7 48)
+    LABEL "Outgoing:" AUTOID AT (0 82) FONT 1
+    FIELD ID MainOutgoingField AT (PrevLeft 94 153 48) UNDERLINED
+        MULTIPLELINES HASSCROLLBAR AUTOSHIFT MAXCHARS 255
+    SCROLLBAR ID MainOutgoingScrollBar AT (153 93 7 48)
+    BUTTON "Clear" ID MainClearButton AT (1 147 AUTO AUTO)
+    GRAFFITISTATEINDICATOR AT (148 148)
+END
+
+FORM ID AboutForm 2 2 156 156
+MODAL
+USABLE
+BEGIN
+    TITLE "About Serial Chat"
+    LABEL "Serial Chat" AUTOID AT (CENTER 21) FONT 2
+    LABEL "Version 1.0" AUTOID AT (CENTER 37) FONT 0
+    LABEL "©2000 Lonnon R Foster" AUTOID AT (CENTER 52) FONT 0
+    LABEL "<lonnonf@pobox.com>" AUTOID AT (CENTER 64) FONT 0
+    LABEL "From Chapter 15 of" AUTOID AT (CENTER 83) FONT 0
+    LABEL "Palm OS Programming Bible" AUTOID AT (CENTER 95) FONT 0
+    LABEL "©2000 IDG Books Worldwide, Inc." AUTOID AT (CENTER 107) FONT 0
+    BUTTON "OK" ID AboutOKButton AT (CENTER 133 AUTO AUTO)
+END
+
+MENU ID MainMenuBar
+BEGIN
+    PULLDOWN "Edit"
+    BEGIN
+        MENUITEM "Undo"        EditUndo           "U"
+	MENUITEM "Cut"         EditCut            "X"
+	MENUITEM "Copy"        EditCopy           "C"
+	MENUITEM "Paste"       EditPaste          "P"
+	MENUITEM "Select All"  EditSelectAll      "S"
+	MENUITEM "-" AUTOID
+	MENUITEM "Keyboard"    EditKeyboard       "K"
+	MENUITEM "Graffiti Help" EditGraffitiHelp "G"
+    END
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "About Serial Chat" MainOptionsAboutSerialChat
+    END
+END
+
+ALERT ID SerialSendAlert
+ERROR
+BEGIN
+    TITLE   "Serial Error"
+    MESSAGE "An error ocurred while sending data through the serial port.  "\
+            "Some or all of the data may not have been sent."
+    BUTTONS "OK"
+END
+
+ALERT ID RomIncompatibleAlert
+ERROR
+BEGIN
+    TITLE   "System Incompatible"
+    MESSAGE "System Version 2.0 or greater is required to run this "\
+            "application."
+    BUTTONS "OK"
+END
+
+ALERT ID SerialOpenAlert
+ERROR
+BEGIN
+    TITLE   "Serial Error"
+    MESSAGE "Could not open serial port."
+    BUTTONS "OK"
+END
+
+ALERT ID SerialCheckAlert
+ERROR
+BEGIN
+    TITLE   "Serial Error"
+    MESSAGE "An error ocurred while checking the serial port."
+    BUTTONS "OK"
+END
+
+ALERT ID SerialBusyAlert
+ERROR
+BEGIN
+    TITLE   "Serial Error"
+    MESSAGE "Another application is already using the serial port."
+    BUTTONS "OK"
+END
+
+ALERT ID SerialTimeoutAlert
+ERROR
+BEGIN
+    TITLE   "Serial Error"
+    MESSAGE "The serial connection timed out.  Some data has not been "\
+            "transmitted."
+    BUTTONS "OK"
+END
+
+ALERT ID NoNewSerialAlert
+ERROR
+BEGIN
+    TITLE   "System Incompatible"
+    MESSAGE "A system that supports the new serial manager is required to "\
+            "run this application."
+    BUTTONS "OK"
+END

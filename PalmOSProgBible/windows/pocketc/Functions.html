@@ -1,0 +1,351 @@
+<html>
+
+<head>
+<title>Library Routines</title>
+</head>
+
+<body bgcolor="ffffff">
+
+<h1>Built-in Functions</h1>
+
+<h3>Basic I/O</h3>
+
+<ul>
+  <li><i>puts(string text)</i> &#150; append a string to the output form. Does not add a
+    newline. (To add a newline, add a &quot;\n&quot; to the end of your string). </li>
+  <li><i>gets(string prompt)</i> &#150; presents an input dialog with the given string as a
+    prompt. Returns a string if the user pressed OK, or an empty string if the user presses
+    Cancel. The dialog can contain 2 lines of text, use the '\r' character to wrap to the
+    second line.</li>
+  <li><i>getsd(string prompt, string defaultValue)</i> &#150; presents an input dialog with
+    the given string as a prompt and a default value in the input field. Returns a string if
+    the user pressed OK, or an empty string if the user presses Cancel. The dialog can contain
+    2 lines of text, use the '\r' character to wrap to the second line.</li>
+  <li><i>getsi(int x, int y, int w, string defaultValue)</i> &#150; presents an input dialog
+    at the x, y coordinates specified, with
+    the given string as a default value. The input dialog will have an edit
+    field of width <i>w</i> (though the dialog will be larger). A string is
+    returned when the user presses OK (there is no cancel option).</li>
+  <li><i>alert(string msg)</i> &#150; pops up an alert dialog with the given text. </li>
+  <li><i>confirm(string msg)</i> - pops up an alert dialog with the given text and Yes/No
+    buttons. Returns 1 for Yes, 0 for No. </li>
+  <li><i>clear()</i> - clears the output form. </li>
+</ul>
+
+<h3>Event System</h3>
+
+<ul>
+  <li><i>event(int time)</i> - check for events in the event queue. If time is zero,
+    event returns immediately. If time is one, the function waits indefinitely
+    for an event to occur. If time is &gt;1, time represents the timeout period
+    in 1/100s of a second, e.g. event(50) waits for up to one half second. Events are as follows: [0]
+    none, [1] key (character), [2] penDown, [3] penUp, [4] penMove, [5] pageUpKey, [6]
+    pageDownKey, [7-10] hardKey1-4, [11] menuEvent. In order to receive messages from the hard
+    keys or menu, you must call the corresponding hook function (see below).</li>
+  <li><i>key()</i> - retrieve the character written during the last event() </li>
+  <li><i>penx()</i> &#150; retrieve the x value of the pen event processed by the last call to
+    wait, waitp, or event. </li>
+  <li><i>peny()</i> &#150; retrieve the y value of the previous pen event. </li>
+  <li><i>pstate()</i> - returns 1 if the pen in down, 0 otherwise. </li>
+  <li><i>bstate()</i> - returns the state of the hard buttons. Returns [0] neither, [1] page
+    up, [-1] page down. </li>
+  <li><i>wait()</i> &#150; wait for a pen or character event. Returns the character written to
+    the graffiti area or -1 for pen event. Use <em>penx()</em> and <em>peny() </em>to retrieve
+    the location of a pen event, or <em>key() </em>to retrieve the character.</li>
+  <li><i>waitp()</i> &#150; wait for a pen event. Use <em>penx()</em> and <em>peny() </em>to
+    retrieve the location of a pen event.</li>
+  <li><i>getc()</i> &#150; wait for and return a character written to the graffiti area.</li>
+  <li><em>hookhard(int bHook)</em> - if <em>bHook</em> is nonzero, hard keys (address button,
+    etc.) are not processed by the OS. Instead, they are intercepted by the <em>event()</em>
+    function. If <em>bHook</em> is zero, hard key presses are no longer intercepted.</li>
+  <li><em>hookmenu(int bHook)</em> - if <em>bHook</em> is nonzero, menu silkscreen button is
+    not processed by the OS. Instead, it is intercepted by the <em>event()</em> function. If <em>bHook</em>
+    is zero, menu button presses are no longer intercepted.</li>
+</ul>
+
+<h3>String</h3>
+
+<ul>
+  <li><i>strlen(string)</i> &#150; returns the length of a string. </li>
+  <li><i>substr(string, int first, int len)</i> &#150; returns a string which consists of len
+    characters from the original string starting at first character. (e.g. <code>substr(&#147;Hello&#148;,
+    1, 3)</code> returns &#147;ell&#148;) </li>
+  <li><i>strleft(string, int len)</i> &#150; returns the len leftmost characters from the
+    string. </li>
+  <li><i>strright(string, int len)</i> &#150; returns the len rightmost characters from the
+    string. </li>
+  <li><i>strupr(string)</i> &#150; returns the original string in all uppercase. </li>
+  <li><i>strlwr(string)</i> &#150; returns the original string in all lowercase. </li>
+  <li><i>strstr(string str, string sub, int first)</i> - searches str for a substring sub
+    starting at the character first. Returns the starting position of sub within str or -1 on
+    failure. </li>
+  <li><i>hex(int n)</i> - returns the hexadecimal representation of <i>n</i> </li>
+  <li><i>format(float f, int prec)</i> - returns the string representation of <i>f</i> with <i>prec</i>
+    decimal places.</li>
+  <li><em>strtoc(string str, pointer ptr)</em> - fill the array of chars pointed to by <em>ptr</em>
+    with the characters from the string <em>str</em>. <em>ptr</em> must either point to an
+    array of pointers long enough to hold the string plus the terminating 0, or it must be a
+    pointer alloced with <em>malloc()</em>. If the pointer was allocated by <em>malloc()</em>,
+    you must be sure that all the memory is of type char by calling <em>settype()</em>.</li>
+  <li><em>ctostr(pointer ptr)</em> - takes the char array pointed to by <em>ptr</em>, and
+    returns a string composed of its characters. The memory pointed to by <em>ptr</em> must be
+    of type char and must end with a 0.</li>
+</ul>
+
+<h3>Math</h3>
+
+<ul>
+  <li><i>cos, sin, tan, acos, asin, atan, cosh, sinh, tanh, acosh, asinh, atanh (float)</i>
+    &#150; returns the expected trigonometric value, using radians. These functions require <b>MathLib</b>
+    to be present. </li>
+  <li><i>pow(float x, float y)</i> &#150; returns x^y. This function requires <b>MathLib</b>
+    to be present. </li>
+  <li><i>atan2(float y, float x)</i> &#150; returns the arctangent of y/x. This function
+    requires <b>MathLib</b> to be present. </li>
+  <li><i>sqrt(float x)</i> - returns square root of x. This function requires <b>MathLib</b>
+    to be present. </li>
+  <li><i>log(float x)</i> - returns natural log of x. This function requires <b>MathLib</b> to
+    be present. </li>
+  <li><i>log10(float x)</i> - returns log base 10 of x. This function requires <b>MathLib</b>
+    to be present. </li>
+  <li><i>exp(float x)</i> - returns e^x. This function requires <b>MathLib</b> to be present. </li>
+  <li><i>rand()</i> &#150; returns a random float between 0 and 1. </li>
+  <li><i>random(int n)</i> &#150; returns a random int between 0 and n-1. </li>
+  <li><i>mathlib()</i> - returns 1 if MathLib is present, 0 otherwise. </li>
+</ul>
+<b>
+
+<p>Note:</b> Functions that require <b>MathLib</b> will return integer 0 if the library is
+not present. </p>
+
+<h3>Graphics</h3>
+
+<ul>
+  <li><i>graph_on()</i> &#150; switches to the graphics form. </li>
+  <li><i>graph_off()</i> &#150; switches from the graphics form to the output form. The
+    appearance of the graphics form is not preserved. </li>
+  <li><i>text(int x, int y, string str)</i> &#150; display a string str at locations (x,y). </li>
+  <li><i>textattr(int font, int color, int underline)</i> &#150; set the current text drawing
+    attributes. font is a number 0-6. Available fonts are normal[0], bold[1], large[2],
+    symbol[3], symbol11[4], symbol7[5], LED[6], Large Bold[7] (OS 3.0 only). color is a number
+    0-2. Available colors are white[0], black[1], inverted[2]. underline is a number 0-2.
+    Underline modes are none[0], solid[1], dotted[2].</li>
+  <li><em>textalign(char alignmentYX)</em> &#150; sets the alignment that <em>text()</em>
+    uses. The parameter is a number between 0 and 22, where the first decimal digit describes
+    the vertical alignment, and the second describes the horizontal. left[0], center[1],
+    right[2].</li>
+  <li><i>textwidth(string str)</i> &#150; returns the width in pixels of <i>str</i>
+    with the current font settings.</li>
+  <li><i>line(int col, int x1, int y1, int x2, int y2)</i> &#150; draws a line from (x1, y1)
+    to (x2, y2) in color col. white[0], black[1], gray[2], XOR[3]. </li>
+  <li><i>rect(int col, int x1, int y1, int x2, int y2, int radius)</i> &#150; draws a
+    rectangle from (x1, y1) to (x2, y2) in color col with corners of radius<i> radius</i>. A
+    radius of 0 has square edges. white[0], black[1], XOR[3]. (This function doesn't support
+    gray) </li>
+  <li><i>frame(int col, int x1, int y1, int x2, int y2, int radius)</i> - same as rect() but
+    not filled. white[0], black[1], gray[2], XOR[3]. </li>
+  <li><i>frame2(int col, int x1, int y1, int x2, int y2, int radius, int width)</i> - same as
+    frame() but allows specification of width (1-3 <em>only</em>). </li>
+  <li><i>title(string title)</i> &#150; set the graphic form title to title. </li>
+  <li><i>clearg()</i> - clear the graphics form.</li>
+  <li><em>saveg()</em> - save the graphics form internally. Returns 0 on failure, 1 otherwise.</li>
+  <li><em>restoreg()</em> - restore the graphics form previously saved by a call to saveg().
+    This can only be called once for each time saveg() is called.</li>
+  <li><i>bitmap(int x, int y, string bits)</i> - draw a bitmap at (x,y). The bits string is a
+    list of hexadecimal digits in the following form: &quot;wwxxxxxxxx...&quot; where 'ww' is
+    the width of the bitmap (i.e. '0a' is a 10-pixel wide bitmap), and 'xxx...' are the bits
+    of the bitmap, each character representing 4 pixels. So, &quot;0affc804804ffc&quot; is a
+    10x4 bitmap of a rectangle ('ffc' is a solid line, '804' represents a left and right
+    edge.) <b>Note:</b> there are several <a href="http://www.orbworks.com/palmres.html"> PocketC utilities</a> available that will
+    generate these strings for you. <pre>Example:
+A 10x4 rectangle &quot;0affc804804ffc&quot;
+8 4 2 1&nbsp; 8 4 2 1&nbsp; 8 4 2 1
+X X X X&nbsp; X X X X&nbsp; X X 0 0 = ffc
+X 0 0 0&nbsp; 0 0 0 0&nbsp; 0 X 0 0 = 804
+X 0 0 0&nbsp; 0 0 0 0&nbsp; 0 X 0 0 = 804
+X X X X&nbsp; X X X X&nbsp; X X 0 0 = ffc
+
+A small square (5x5) with a dot in the center would be &quot;05f888a888f8&quot;
+8 4 2 1&nbsp; 8 4 2 1
+X X X X&nbsp; X 0 0 0 = f8
+X 0 0 0&nbsp; X 0 0 0 = 88
+X 0 X 0&nbsp; X 0 0 0 = a8
+X 0 0 0&nbsp; X 0 0 0 = 88
+X X X X&nbsp; X 0 0 0 = f8</pre>
+  </li>
+</ul>
+
+<h3>Sound</h3>
+
+<ul>
+  <li><i>beep(int type)</i> &#150; generates a system sound, where type is between 1 and 7.
+    Available sounds are info[1], warning[2], error[3], startup[4], alarm[5], confirmation[6],
+    and click[7]. Note: not all sounds are unique in current versions of PalmOS. </li>
+  <li><i>tone(int freq, int dur)</i> &#150; generates a tone of frequency freq (in Hz), and
+    duration dur (in milliseconds). </li>
+</ul>
+
+<h3>Time/Date</h3>
+
+<ul>
+  <li><i>ticks()</i> - the number of clock ticks since last reset </li>
+  <li><i>seconds()</i> - the number of seconds since Jan 1, 1904 minus 2^31 </li>
+  <li><i>time(int mode)</i> - [mode 0] integer value (hour*100+minute) [mode 1] string value
+    (as determined by system preferences) [mode 2] integer value (hour*10000+minute*100+sec)</li>
+  <li><i>date(int mode)</i> - [mode 0] integer value (year*10000+month*100+day) [mode 1] short
+    string value [mode 2] long string value (as determined by system preferences) </li>
+</ul>
+
+<h3>Database I/O</h3>
+
+<p>All the database functions work on databases with any creator id/type, but use of
+resource databases may cause unexpected results. When creating a new database, the
+database will have creator id 'PktC' and type 'user'. An attempt to overwrite a database
+with a given name but different creator/type will fail. Only one database can be open at a
+time. 
+
+<ul>
+  <li><i>dbopen(string name)</i> - opens the database named <em>name</em>, returns 0 on
+    failure. The current record is set to 0.</li>
+  <li><i>dbcreate(string name)</i> - creates and opens a database named <em>name</em>, returns
+    0 on failure. If another database of the same name and cid/type 'PktC' / 'user' exists, it
+    will be overwritten. The current record is set to 0.</li>
+  <li><i><em>dbrec(int recnum) - </em></i>sets the current record to <em>rec</em> and the
+    current position to 0. If the record is greater than the current number of records, future
+    reads will fail. However, the next write will create a new record at the end of the
+    database and set the current record to it.</li>
+  <li><em>dbnrecs()</em> - returns the number of records in the current database.</li>
+  <li><em>dbsize()</em> - returns the size of the current record in bytes.</li>
+  <li><i>dbwrite(data)</i> - write the value <em>data</em> at the <strong>end</strong> of the
+    current record. <em>data</em> can be of any type, use casting to ensure that data is the
+    correct type. Use caution when writing in the middle of a database with null-terminated
+    strings, as they are of unknown length.</li>
+  <li><i>dbread(char type)</i> - read a value from the current position in the database. A
+    value must be read as the same type that it was written. Available types are 'c' char, 'i'
+    int, 'f' float, 's' string.</li>
+  <li><em>dbwritex(pointer ptr, string format)</em> - Using the current database, write data
+    pointed to by <em>ptr</em> and described by <em>format</em> at the current position in the
+    current record. <em>format</em> contains a list of data types, one per value following <em>ptr</em>.
+    Data types are 'c' - a single byte, 'i2' - a 2-byte word, 'i4' - 4-byte double word, 'f' -
+    a 4-byte float, 'sz' - a null-terminated string, 's#' - a string of length #. Returns the
+    number of values written.</li>
+  <li><em>dbreadx(pointer ptr, string format)</em> - Using the current database, read data of
+    the the given <em>format</em> into the data pointed to by <em>ptr</em>. <em>format</em> is
+    the same as <em>dbwritex()</em>. Returns the number of values read.</li>
+  <li><i>dbpos()</i> - get the current location in the database. -1 indicates the end has been
+    reached. </li>
+  <li><i>dbseek(int loc)</i> - set the current location. If this value is greater than the
+    length of the database, the next call to dbread() will set the position to -1. </li>
+  <li><i>dbbackup(int flag)</i> - flag [0] clear backup bit, [1] set backup bit, [2] query
+    backup bit. </li>
+  <li><i>dbclose()</i> - close the current database. </li>
+  <li><i>dbdelete()</i> - delete and close the current database.</li>
+  <li><em>dberase()</em> - erases the content of the current record (but does not remove the
+    record).</li>
+  <li><em>dbdelrec(int recnum)</em> - deletes the specified record from the current database.
+    This removes the contents of the record and sets its 'delete' bit, which will cause the
+    record to be removed on the next HotSync. Returns 0 on error.</li>
+  <li><em>dbarcrec(int recnum)</em> - archives the specified record from the current database.
+    This maintains the contents of the record and sets its 'delete' bit, which will cause the
+    record to be removed and archived on the next HotSync. Returns 0 on error.</li>
+  <li><em>dbremrec(int recnum)</em> - removes the specified record from the current database.
+    This removes all traces of the record. Returns 0 on error.</li>
+  <li><em>dbenum(int first, string type, string creator)</em> - enumerates the databases
+    installed on the device, by type and/or creator. Returns 0 if no more databases are
+    available. The type and creator are each 4 character strings, or the empty string for a
+    wildcard. To get the first database, you must set first=1. To get the subsequent matching
+    databases you must set first=0. </li>
+</ul>
+
+<h3>Memo Pad I/O</h3>
+
+<ul>
+  <li><i>mmnew()</i> - create a new, empty memo, returns 0 on failure. </li>
+  <li><i>mmfind(string name)</i> - opens the memo with name as its first line, returns 0 on
+    failure. </li>
+  <li><i>mmopen(int id)</i> - opens the memo with the given id, returns 0 on failure. This
+    function is not recommended, but is included for completeness. </li>
+  <li><i>mmputs(string)</i> - appends the given string to the end of the memo. </li>
+  <li><i>mmgetl()</i> - retrieves a string from the current position in the memo. Does not
+    include the newline.</li>
+  <li><i>mmeof()</i> - returns 1 if at the end of the memo, 0 otherwise. </li>
+  <li><i>mmrewind()</i> - rewind the current memo to the beginning. </li>
+  <li><i>mmclose()</i> - close the current memo. </li>
+  <li><i>mmdelete()</i> - delete and close the current memo.</li>
+  <li><em>mmcount()</em> - returns the number of records in the memo pad database.</li>
+</ul>
+
+<h3>Serial I/O</h3>
+
+<ul>
+  <li><i>seropen(int baud, string settings, int timeout)</i> - open the serial port. Tested
+    baud rates are 300-57600, higher rates are theoretically possible. settings is a 4-char
+    string in the form &quot;8N1C&quot; [bits/char (6,7,8) parity (N,E,O) stop bits (1,2) flow
+    control (X-software, C-CTS, R-RTS, N-None)]. timeout is the number of clock ticks (1/100 sec) to
+    wait for data. Returns 0 for success. </li>
+  <li><i>serclose()</i> - close serial port. </li>
+  <li><i>sersend(char byte)</i> - send a byte, return 0 on success. </li>
+  <li><i>serrecv()</i> - receive a byte, returns an integer 0-255 on success, &gt; 255 on
+    failure. </li>
+  <li><i>serdata()</i> - return 1 if data is waiting, 0 otherwise.</li>
+  <li><em>serbuffsize(int size)</em> - allocates a serial buffer of the given size (+32 bytes
+    for PalmOS overhead). This function should only be called if you seem to be having serial
+    overrun problems. Returns 1 on success, 0 on failure.</li>
+</ul>
+
+<h3>System</h3>
+
+<ul>
+  <li><i>sleep(int ms)</i> - sleeps for ms milliseconds. </li>
+  <li><i>resetaot()</i> - resets the auto off timer. </li>
+  <li><i>getsysval(int index)</i> - gets a system value. Currently supported values: [0]
+    Username.</li>
+  <li><em>launch(string creatorID)</em> - closes PocketC and launches the application with the
+    given creator ID. Returns 0 on failure, does not return on success. Ex:
+    launch(&quot;memo&quot;); // Opens memo pad. Ex: launch(&quot;lnch&quot;); // Opens the
+    application launcher if running OS 3.0</li>
+  <li><em>clipget()</em> - returns the current clipboard contents (if text).</li>
+  <li><em>clipset(string text)</em> - sets the text clipboard contents.</li>
+  <li><i>exit()</i> - exits immediately. On OS 3.0+, exits to application
+    launcher. On OS 2.x, exits to PocketC.</li>
+  <li><i>atexit(pointer func)</i> - The function whose address is passed to this
+    function is called immediately when the user attempts to switch apps (but
+    not when the user presses the Done button or the Applet|Stop menu item).
+    Such a function must run very quickly and may not affect the display or use
+    the event system (through event(), puts(), alert(), graphics functions,
+    etc.). <b>Warning:</b> it is not generally safe to make assumptions about
+    where your applet was suspended when <i>func</i> began to execute.</li>
+  <li><i>version()</i> - returns the installed PocketC version. For version 3.8, this returns
+    380.</li>
+</ul>
+
+<h3>Memory Management</h3>
+
+<p>A few notes that will help understand the following section: In a normal computer,
+memory is divided into bytes and words. PocketC divides its memory into elements called
+&quot;values&quot;. Each value stores a basic PocketC type (int, char, float, string,
+pointer). Also, each element of memory knows its own type (thus the need for the <em>settype()</em>
+function). 
+
+<ul>
+  <li><em>malloc(int size)</em> - allocates a block of <em>size</em> values of type <em>int</em>,
+    but of undefined value. Returns a pointer to the block or 0 on failure. The types of the
+    elements in the returned block can be changed from <em>int</em> to any other type using
+    the <em>settype()</em> function.</li>
+  <li><em>free(pointer ptr)</em> - releases the memory of the block pointed to by <em>ptr</em>
+    which was previously allocated by <em>malloc()</em>. When an applet exits, all blocks that
+    are still allocated will automatically be freed to prevent memory leaks.</li>
+  <li><em>settype(pointer ptr, int size, char type)</em> - sets the type of the <em>size</em>
+    contiguous values starting at <em>ptr</em> to the type specified by <em>type</em> ('i' for
+    int or pointer, 'f' for float, 'c' for char, 's' for string). Use this function only on
+    memory allocated by <em>malloc()</em>. Returns 0 on error.</li>
+  <li><em>typeof(pointer ptr)</em> - returns the type of the value pointed to by <em>ptr</em>,
+    ('i' for int or pointer, 'c' for char, 'f' for float, 's' for string, 'o' for other).</li>
+  <li><em>memcpy(pointer dest, pointer src, int size)</em> - copies the data from the block of
+    size <em>size</em> pointed to by <em>src</em> to the block pointed to by <em>dest</em>.
+    The types of the destination values is not preserved. (i.e. if <em>dest</em> points to a
+    string, and <em>src</em> points to an int, the memory pointed to by <em>dest</em> will be
+    changed to an int)..</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<HTML><!-- #BeginTemplate "/Templates/Quartus.dwt" -->
+<HEAD>
+<!-- #BeginEditable "doctitle" --> 
+<TITLE>Quartus Forth Data Types</TITLE>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" background="graph.gif">
+<h1><font face="Verdana, Arial, Helvetica, sans-serif"><img src="dfpc.gif" width="64" height="93" align="right" border="0">Quartus 
+  Forth Manual</font></h1>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"> - <a href="register.htm"><font face="Arial, Helvetica, sans-serif">How 
+to Register</font></a><br>
+</font> 
+<hr>
+<!-- #BeginEditable "text" --> 
+<h2><font face="Arial, Helvetica, sans-serif">Data Types</font></h2>
+<p>Forth has been called an 'untyped' language. &nbsp;This is incorrect; there 
+  are a number of data types in Forth, but only limited type-checking. &nbsp;Stack-diagrams 
+  used to annotate Forth programs make frequent reference to data types. </p>
+<P> The following table lists the data types commonly encountered in Quartus Forth: 
+<P> 
+<TABLE BORDER CELLPADDING="2">
+  <TR> 
+    <TH>Symbol</TH>
+    <TH>Data Type</TH>
+    <TH>Cells on Stack</TH>
+  </TR>
+  <TR> 
+    <TD><I>? </I>or<I> flag</I></TD>
+    <TD>Boolean flag</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>true</I></TD>
+    <TD>True flag</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>false</I></TD>
+    <TD>False flag</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>char</I></TD>
+    <TD>Character</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>n</I></TD>
+    <TD>Signed number</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>+n</I></TD>
+    <TD>Non-negative number</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>u</I></TD>
+    <TD>Unsigned number</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>n|u</I></TD>
+    <TD>Number</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>x</I></TD>
+    <TD>Unspecified cell</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>xt</I></TD>
+    <TD>Execution token</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>addr</I></TD>
+    <TD>Address in dataspace</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>a-addr</I></TD>
+    <TD>Aligned address in dataspace</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>c-addr</I></TD>
+    <TD>Character-aligned address in dataspace</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>d</I></TD>
+    <TD>Double-cell signed number</TD>
+    <TD> 
+      <P ALIGN=Center> 2 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>+d</I></TD>
+    <TD>Double-cell non-negative number</TD>
+    <TD> 
+      <P ALIGN=Center> 2 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>ud</I></TD>
+    <TD>Double-cell unsigned number</TD>
+    <TD> 
+      <P ALIGN=Center> 2 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>d|ud</I></TD>
+    <TD>Double-cell number</TD>
+    <TD> 
+      <P ALIGN=Center> 2 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>xd</I></TD>
+    <TD>Unspecified pair</TD>
+    <TD> 
+      <P ALIGN=Center> 2 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>colon-sys</I></TD>
+    <TD>Definition compilation</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>do-sys</I></TD>
+    <TD>Do-loop structures</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>case-sys</I></TD>
+    <TD>CASE structures</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>of-sys</I></TD>
+    <TD>OF structures</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>orig</I></TD>
+    <TD>Control-flow origins</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>dest</I></TD>
+    <TD>Control-flow destinations</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>loop-sys</I></TD>
+    <TD>Loop-control parameters</TD>
+    <TD> 
+      <P ALIGN=Center> 3 (Return stack) 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>nest-sys</I></TD>
+    <TD>Definition calls</TD>
+    <TD> 
+      <P ALIGN=Center> 2 (Return stack) 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>i*x, j*x, k*x</I></TD>
+    <TD>Any data type</TD>
+    <TD> 
+      <P ALIGN=Center> 0 or more 
+    </TD>
+  </TR>
+  <TR> 
+    <TH COLSPAN=3>Examples of additional punctuation used in stack diagrams in 
+      Quartus Forth applications:</TH>
+  </TR>
+  <TR> 
+    <TD>name<I>.</I></TD>
+    <TD>Double-cell value (called 'name')</TD>
+    <TD> 
+      <P ALIGN=Center> 2 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>&amp;</I>name</TD>
+    <TD>Pointer to a data structure (called 'name')</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>&amp;</I>name<I>.</I></TD>
+    <TD>32-bit (double-cell) pointer to a&nbsp;data structure (called 'name')</TD>
+    <TD> 
+      <P ALIGN=Center> 2 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>L.&amp;</I>name</TD>
+    <TD>Pointer to a&nbsp;double-cell signed number (called 'name')</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD><I>U&amp;</I><CODE></CODE>name</TD>
+    <TD>Pointer to a single-cell unsigned number (called 'name')</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+  <TR> 
+    <TD>name<I>[&gt;byte]</I></TD>
+    <TD>Parameter (called 'name') must be left-shifted 8 bits before passing</TD>
+    <TD> 
+      <P ALIGN=Center> 1 
+    </TD>
+  </TR>
+</TABLE>
+<H3> </H3>
+<H3><font face="Arial, Helvetica, sans-serif"> A Note on the values of TRUE and 
+  FALSE</font> </H3>
+<P> A properly-formed <CODE>TRUE</CODE> flag consists of a cell with all bits 
+  set to 1, which can be represented in Quartus as the number <CODE>-1</CODE>. 
+  &nbsp;A <CODE>FALSE</CODE> flag is a cell with all bits set to 0. &nbsp;For 
+  the purposes of <CODE>IF</CODE>, <CODE>WHILE</CODE>, and <CODE>UNTIL</CODE>, 
+  any non-zero value found on the stack is considered true. 
+<P>To convert a cell to a properly formed <CODE>TRUE</CODE> flag, use the code 
+  sequence <CODE>0= 0=</CODE>:
+<P>The value of a properly-formed <code>TRUE</code> flag is binary 1111111111111111, 
+  which is the same as -1 in decimal representation.
+<P>The first <code>0=</code> will convert a 0 to <code>TRUE</code>, non-zero to 
+  <code>FALSE</code> (0000000000000000). The second <code>0=</code> inverts the 
+  resulting flag.
+<p>This means that </p>
+<p><code>1 0= 0= -&gt; TRUE</code> (1111111111111111)<br>
+  <code>2 0= 0= -&gt; TRUE</code> (1111111111111111)<br>
+  <code>-17 0= 0= -&gt; TRUE</code> (1111111111111111)<br>
+  <code>432 0= 0= -&gt; TRUE</code> (1111111111111111) (you get the idea)</p>
+<p><code>0 0= 0= -&gt; FALSE</code> (0000000000000000)</p>
+<p>Therefore <code>0= 0=</code> will convert any value to a properly formed <code>TRUE</code> 
+  flag. </p>
+<!-- #EndEditable --> 
+<hr>
+<a href="manual.htm"><font size="-1" face="Arial, Helvetica, sans-serif">Table 
+of Contents</font></a><font size="-1" face="Arial, Helvetica, sans-serif"> - <a href="http://www.quartus.net/products/forth/">Quartus 
+Forth Home Page</a></font><font size="-1"></font> 
+<hr>
+<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Arial, Helvetica, sans-serif" size="-1">© 
+1998, 1999 <a href="http://www.quartus.net/">Neal Bridges</a>. All 
+rights reserved</font><font face="Times New Roman, Times, serif" size="-1">.</font></font> 
+</BODY>
+<!-- #EndTemplate --></HTML>

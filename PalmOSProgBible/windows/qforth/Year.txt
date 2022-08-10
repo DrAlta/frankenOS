@@ -1,0 +1,164 @@
+\ year 98.11.12 10:48 pm NAB
+\ Neal Bridges
+\ nbridges@interlog.com
+
+\ Displays a 2-column year calendar.
+\ Similar to Dale Gass' YearCal.
+\ Up/down buttons change the year.
+\ Reads 'week starts' pref
+\ as set in system Preferences.
+
+\ For: tinyemit  tinytype  tinycr
+needs tinynums
+\ For: at  cursor-position
+needs graphics
+needs resources
+
+\ From the PalmOS:
+\  TimGetSeconds ( -- seconds. )
+\  TimSecondsToDateTime
+\    ( &datetime. seconds. -- )
+\  WinDrawChars ( y x # c-addr. -- )
+\  DaysInMonth ( y m -- days )
+\  DayOfWeek ( y d m -- dow[0..6] )
+\  PrefGetPreferences ( &prefs. -- )
+
+\ For TimSecondsToDateTime:
+create datetime  7 cells allot
+\ Year cell within time buffer:
+datetime  5 cells +  constant year
+
+: current-year ( -- year )
+  datetime >abs
+  TimGetSeconds
+  TimSecondsToDateTime  year @ ;
+
+: week-start-preference
+( -- 0=Sunday|1=Monday )
+  here dup >abs PrefGetPreferences
+\ 5th byte contains week start pref
+\   0=Sunday, 1=Monday:
+  5 + c@ ;
+
+\ Globals:
+variable day-of-week
+variable columnedge
+
+\ Pixel coordinates & offsets:
+1 constant leftmargin
+2 constant topmargin
+69 constant rightedge
+10 constant daywidth
+10 74 2constant yearpos1
+16 74 2constant yearpos2
+
+\ Keypress values:
+11 constant UpButton
+12 constant DownButton
+
+: top ( -- )  topmargin 0 at ;
+
+: column1 ( -- )
+  top  leftmargin columnedge ! ;
+
+: column2 ( -- )
+  column1  82 columnedge +! ;
+
+: >twodigits ( n -- c-addr )
+  0 <# # # #> drop ;
+
+: clear-leading-zero
+( c -addr -- c-addr )
+  dup c@ [char] 0 = if  bl over c!  then ;
+
+:noname  s" JFMAMJJASOND" ;
+execute drop constant monthletters
+
+: draw-month-letter ( month -- )
+  >r
+  1 font drop  \ use bold font
+\ At right-hand edge of current line:
+\ (4 pixels up to align the baselines)
+  cursor-position  drop  4 -  \ y coord
+  columnedge @ rightedge + \ x coord
+  1  \ number of chars to draw
+  monthletters  r> 1-  +  >abs
+  WinDrawChars ;
+
+: draw-day ( day# -- )
+  >twodigits  clear-leading-zero
+\ Position cursor, draw day#:
+  cursor-position  drop  ( -- y )
+  day-of-week @  daywidth *
+  columnedge @  +  ( -- y x )
+  at  2 tinytype ;
+
+: nextline ( -- out-of-room? )
+  tinycr
+\ If too close to the bottom edge:
+  cursor-position  drop  155 > if
+\ if already in column 2, done:
+    columnedge @  leftmargin <>
+    if  true  else  column2  false  then
+  else  false  then ;
+
+: draw-days ( #days -- )
+  1+ 1 do
+    i draw-day
+ \ Go to the next weekday:
+    1  day-of-week @  +  7 mod
+    dup  day-of-week !
+ \ If end of week, go to next line:
+    0= if  nextline if  leave  then  then
+  loop ;
+
+: draw-month ( year month -- )
+  dup draw-month-letter
+  DaysInMonth draw-days ;
+
+: draw-year# ( year -- )
+\ Display last 2 digits of year:
+  >twodigits
+  dup c@  yearpos1 at  tinyemit 
+  char+ c@  yearpos2 at  tinyemit ;
+
+1 constant January
+
+: draw-year ( year -- )
+  dup 1 January DayOfWeek
+\ Correct for desired week start:
+  week-start-preference
+  -  7 +  7 mod  day-of-week !
+  dup  draw-year#
+  column1  \ position cursor
+  13 1 do
+    ( -- year ) dup i draw-month
+  loop  drop  ( -- ) ;
+
+: key>delta ( key -- delta )
+  dup DownButton = 1 and
+  swap UpButton = -1 and
+  + ;
+
+: draw-years ( year -- )
+  begin
+    dup draw-year
+    begin ( -- year )
+      key key>delta
+      tuck +  swap  ( -- year changed? )
+    until
+    page
+  again ;
+
+(ID) p4ap (ID) Year use-resources
+
+\ Resources:
+1001 constant YearForm
+
+needs simple-handler
+
+\ Main entry point:
+: go ( -- )
+  YearForm ShowForm
+  ['] simple-handler eventhandler !
+  current-year draw-years ;

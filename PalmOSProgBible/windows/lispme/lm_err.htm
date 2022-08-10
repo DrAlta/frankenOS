@@ -1,0 +1,575 @@
+<html>
+<head>
+  <title>LispMe Error Messages</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe Error Messages</h1>
+
+<!***************************************************************************>
+<!*** Syntax errors *********************************************************>
+<!***************************************************************************>
+
+<h2><a name="err_syntax">Syntax Errors</a></h2>
+  When a syntax error is found during loading a memo, you go back to
+  the <a href="lm_cmd.htm#frm_load">load dialog</a>. Now you can use the
+  <a href="lm_cmd.htm#frm_edit">Edit button</a> to jump directly to the
+  offending source text to correct your mistake.
+
+  <h3><a name="err_invalid_char">Invalid char</a></h3>
+    The LispMe reader encountered an invalid character.
+
+  <h3><a name="err_invalid_sexp">Invalid symbolic expression</a></h3>
+    The LispMe reader encountered a token that cannot start a valid
+    symbolic expression. This also happens, when the expression to be read
+    is empty.
+ 
+  <h3><a name="err_multi_dot">Multiple dots in list</a></h3>
+    More than one dot <tt>.</tt> occurred in a list, or more than
+    one expression is written after the dot. Make sure that you
+    didn't put a space into a floating point constant.
+
+  <h3><a name="err_token_len">Max. token length exceeded</a></h3>
+    A single token (a symbol, number or string) must not contain more than
+    256 characters.
+
+  <h3><a name="err_invalid_real">Invalid real number</a></h3>
+    The LispMe reader encountered an invalid floating point constant.
+    Possible reasons are:<ul>
+    <li>neither a digit or <tt>+</tt> or <tt>-</tt> after the <tt>e</tt>
+        in the exponent part
+    <li>not a digit after the <tt>e</tt> and sign
+        in the exponent part
+    <li>not a digit after the decimal point
+    </ul>
+
+  <h3><a name="err_invalid_complex">Invalid complex number</a></h3>
+    The LispMe reader encountered an invalid complex number.
+    Possible reasons are:<ul>
+    <li>You forgot the <tt>i</tt> after the imaginary part
+    <li>You didn't put a space between two real numbers, so LispMe
+        tried to interpret the second as the imaginary part of a complex.
+    </ul>
+
+  <h3><a name="err_invalid_hash">Invalid # constant</a></h3>
+    This error occurres, when there's an illegal character after
+    the hash sign <tt>#</tt> in a constant. The only allowed <tt>#</tt>
+    constants are <ul>
+    <li><a href="lm_cat1.htm#desc_false"><tt>#f</tt></a> the constant <i>false</i>
+    <li><a href="lm_cat1.htm#desc_true"><tt>#t</tt></a> the constant <i>true</i>
+    <li><a href="lm_cat1.htm#desc_noprint"><tt>#n</tt></a> the non-printing value
+    <li><tt>#(</tt>, introducing a vector.
+    <li><tt>#\</tt>, introducing a character constant.
+    </ul>
+    Additionally, this error is raised when in a string containing
+    hex escape sequences <tt>#<i>hh</i></tt> one of the characters
+    <tt><i>h</i></tt> is not a hexadecimal digit.
+
+  <h3><a name="err_unterm_string">Unterminated string</a></h3>
+    When writing a string constant, you forgot the closing double quote
+    <tt>"</tt>. Perhaps you wanted to include a <tt>"</tt> in the
+    string and forgot to escape it with <tt>\</tt>. Or the last char
+    in the string is a <tt>\</tt> and you forgot to escape it, resulting
+    in an escaped double quote.
+
+<!***************************************************************************>
+<!*** Compiler errors *******************************************************>
+<!***************************************************************************>
+
+<h2>Compiler Errors</h2>
+
+  When a memo is syntactically correct, no more source positions are 
+  recorded. So, if there's a compiler error, LispMe hasn't enough 
+  information to find the offending position in the source text. Thus when
+  pressing the
+  <a href="lm_cmd.htm#frm_edit">Edit button</a> after an unsuccessfull
+  load, you simply go to the beginning of the selected memo.
+
+  <h3><a name="err_undef">Undefined name</a></h3>
+    The given name is not defined in the lexical environment. Check for
+    a spelling error or for having loaded all required memos.
+
+  <h3><a name="err_num_args">Wrong number of arguments</a></h3>
+    The number of arguments for the noted special form or built-in
+    procedure is wrong.
+
+  <h3><a name="err_not_symbol"><i>expr</i> is not a symbol</a></h3>
+    <i>expr</i> was found, when there was a variable name expected in
+    the special forms
+    <a href="lm_cat1.htm#desc_define"><tt>define</tt></a>,
+    <a href="lm_cat2.htm#desc_let"><tt>let</tt></a>,
+    <a href="lm_cat2.htm#desc_letrec"><tt>letrec</tt></a>, or
+    <a href="lm_cat4.htm#desc_set"><tt>set!</tt></a>.
+
+  <h3><a name="err_inv_let_list">Invalid let list</a></h3>
+    The head (variable binding list) in a
+    <a href="lm_cat2.htm#desc_let"><tt>let</tt></a> or
+    <a href="lm_cat2.htm#desc_letrec"><tt>letrec</tt></a> form is
+    not a proper list.
+
+  <h3><a name="err_invalid_let">Invalid let binding</a></h3>
+    A variable binding in the head of a
+    <a href="lm_cat2.htm#desc_let"><tt>let</tt></a> or
+    <a href="lm_cat2.htm#desc_letrec"><tt>letrec</tt></a> form is
+    not a two-element list <tt>(<i>var expr</i>)</tt>.
+
+  <h3><a name="err_invalid_lambda">Invalid lambda args</a></h3>
+    The argument list for the
+    <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a> special
+    form has not one the three allowed shapes. This also applies to
+    the second form of <a href="lm_cat2.htm#desc_define"><tt>define</tt></a>.
+
+  <h3><a name="err_improper_args">Improper argument list</a></h3>
+    An expression list in a function call is not a proper list.
+
+  <h3><a name="err_duplicate_name">Duplicate name</a></h3>
+    A variable name to be bound occurred twice in a
+    <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a>-,
+    <a href="lm_cat2.htm#desc_let"><tt>let</tt></a>- or
+    <a href="lm_cat2.htm#desc_letrec"><tt>letrec</tt></a>-binding
+    list. Also when the same toplevel name is defined twice in a
+    loaded memo.
+
+  <h3><a name="err_empty_sequence">Empty expression sequence</a></h3>
+    An expression sequence in the body of a
+    <a href="lm_cat1.htm#desc_begin"><tt>begin</tt></a>-,
+    <a href="lm_cat1.htm#desc_cond"><tt>cond</tt></a>-,
+    <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a>-,
+    <a href="lm_cat2.htm#desc_let"><tt>let</tt></a>- or
+    <a href="lm_cat2.htm#desc_letrec"><tt>letrec</tt></a>-form is
+    empty. It must contain at least one expression.
+
+  <h3><a name="err_wrong_define">Definition in invalid context</a></h3>
+    A <tt>define</tt> expression is not
+    allowed in this context. Definitions must appear before all other
+    expressions in an expression sequence.
+
+  <h3><a name="err_invalid_define">Invalid definition</a></h3>
+    A definition (see <a href="lm_cat2.htm#desc_define"><tt>define</tt></a>)
+    has not of one of the allowed shapes.
+
+  <h3><a name="err_not_define">Not only 'define' expressions in loaded memo</a></h3>
+    A memo to be loaded must consist of a sequence of
+    <a href="lm_cat2.htm#desc_define"><tt>define</tt></a> forms. No other
+    expressions are allowed.
+
+  <h3><a name="err_invalid_cond">Invalid case/cond clause</a></h3>
+    A <a href="lm_cat1.htm#desc_case"><tt>case</tt></a> or
+    <a href="lm_cat1.htm#desc_cond"><tt>cond</tt></a>
+    clause is not of the form
+    <tt>(<i>guard expr<sub>1</sub> expr<sub>2</sub> ...</i>)</tt>.
+
+  <h3><a name="err_too_complex">Expression too complex</a></h3>
+    An expression to be compiled is too deeply nested. To avoid stack
+    overflow (and thus a Fatal Error) in the compiler, this message is
+    displayed. Try to simplify your code by using helper functions for
+    example.
+
+  <h3><a name="err_macro">Macro too complex</a></h3>
+    For technical reasons, compilation can't be interrupted by the
+    <a href="lm_cmd.htm#ctl_break">Break button</a>. So, to avoid infinite
+    loops while compiling, there are two fixed limits for expanding a
+    macro (which indeed calls the VM for its duty):
+    <ul>
+      <li>The number of VM steps for a single expansion. This is 1600,
+          which should suffice to distinguish between sensible macros
+          and non-termination.
+      <li>The number of macro expansion during a single compilation. This
+          is 200 which should also suffice.
+    </ul>
+    If you should encounter a situation where these limits are too tight,
+    please send me an <a href="mailto:bugs@lispme.de">email</a> including
+    the code you tried to compile, but watch out for non-terminating macros
+    like <tt>(macro (defunct x) x)</tt> before.
+
+  <h3><a name="err_unquote">unquote(-splicing) invalid outside of quasiquote</a></h3>
+    One of the special forms
+    <a href="lm_cat4.htm#desc_unquote"><tt>unquote</tt></a> or
+    <a href="lm_cat4.htm#desc_unquotesplicing"><tt>unquote-splicing</tt></a>
+    appeared outside of the special form
+    <a href="lm_cat3.htm#desc_quasiquote"><tt>quasiquote</tt></a> or the
+    nesting depth of quasiquote expressions has reached zero by outer
+    unquotes.
+
+  <h3><a name="err_splice">unquote-splicing allowed in list or vector
+      template only</a></h3>
+    <a href="lm_cat4.htm#desc_unquotesplicing"><tt>unquote-splicing</tt></a>
+    didn't appear in a list or a vector template, so there wouldn't be a
+    valid context into which the resulting list could be spliced.
+
+<!***************************************************************************>
+<!*** Runtime errors ********************************************************>
+<!***************************************************************************>
+
+<h2>Runtime Errors</h2>
+  <h3><a name="err_wrong_type"><i>expr</i> is not a <i>type</i></a></h3>
+    This is the classical runtime type error. This error is also raised, when
+    a number is to large to be coerced to an integer by
+    <a href="lm_cat2.htm#desc_integer"><tt>integer</tt></a>
+
+  <h3><a name="err_num_args_rt">Function expected <i>n</i> arguments, but
+      got <i>m</i> as follows: <i>expr</i></a></h3>
+    A lexical closure expecting <i>n</i> arguments was called with a
+    wrong number of arguments, namely <i>m</i>. The actual argument list
+    is printed in this error message as <i>expr</i>.
+
+  <h3><a name="err_div_by_zero">Division by zero</a></h3>
+    Caused by integer and floating point division.
+
+  <h3><a name="err_black_hole">Sucked into black hole</a></h3>
+    During evaluation of the local definitions in a
+    <a href="lm_cat2.htm#desc_letrec"><tt>letrec</tt></a> form, the
+    value of one of the variables just being bound was accessed. An access
+    to the value of any variable in the binding list will cause this error
+    while the expressions to initialize these variables are evaluated.
+    These variables may be used inside a
+    <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a> or
+    <a href="lm_cat2.htm#desc_delay"><tt>delay</tt></a> special form, as
+    in this case their value will not be needed during evaluation of these
+    forms.
+
+  <h3><a name="err_cond_clause">No matching case/cond clause</a></h3>
+    All of the guards in a <a href="lm_cat1.htm#desc_cond"><tt>cond</tt></a>
+    form evaluated to <i>false</i> or the value of the expression
+    in a <a href="lm_cat1.htm#desc_case"><tt>case</tt></a>
+    form is not in any of the constant lists. Both cases can only happen,
+    when the <tt>else</tt> keyword is absent.
+
+  <h3><a name="err_invalid_index">Invalid index</a></h3>
+    The given expression is not a valid index for the string or vector.
+
+  <h3><a name="err_invalid_comp">Non-matching types in comparison</a></h3>
+    The two objects compared by one of the procedures
+    <a href="lm_cat1.htm#desc_compare"><tt>&lt; &lt;= &gt; &gt;=</tt></a>
+    have non-compatible types.
+
+  <h3><a name="err_no_mathlib">Can't call transcendental functions without
+      MathLib</a></h3>
+    The mathematics library <tt>MathLib.prc</tt> (included in this package) has not
+    been installed, so calls to transcendental functions like
+    <a href="lm_cat4.htm#desc_sin"><tt>sin</tt></a> fail. The functions
+    needing MathLib are marked in the
+    <a href="lm_cat1.htm">Catalog of Language Elements</a>.
+
+  <h3><a name="err_invalid_parm">Invalid parameter <i>parm</i> for <i>proc</i></a></h3>
+    The parameter <var>parm</var> is invalid for the built-in 
+    procedure <var>proc</var>. Have a look at the catalog for valid arguments.
+
+  <h3><a name="err_create_file">Can't create memo</a></h3>
+    A new memo can't be created for output. Probably there's not enough
+    memory left on your Pilot.
+
+  <h3><a name="err_open_file">Memo not found</a></h3>
+    The memo to be opened for input can't be found. Look for a spelling
+    error in the memo name (this is always the first line of the memo).
+
+  <h3><a name="err_lost_file">Memo associated with port vanished</a></h3>
+    A memo which is currently open (either for reading or writing) has
+    been deleted. Just simply don't do that!
+
+  <h3><a name="err_write_file">Can't write to memo</a></h3>
+    LispMe can't resize the memo to append the output. Probably there's
+    not enough memory left on your Pilot.
+
+  <h3><a name="err_illegal_op">Illegal opcode</a></h3>
+    The LispMe virtual machine (VM) encountered an illegal opcode. This is
+    a severe internal error produced by a buggy LispMe compiler
+    (you should <b>never</b> see this error message),
+    so please send mail to <a href="mailto:bugs@lispme.de">me</a> with a
+    report what caused this message.<p>
+    However, if you got this error by messing around with the list returned
+    by <a href="lm_cat2.htm#desc_disasm"><tt>disasm</tt></a>, this is
+    your own fault, so don't blame me.
+
+<!***************************************************************************>
+<!*** Memory errors *********************************************************>
+<!***************************************************************************>
+
+<h2>Memory Errors</h2>
+
+  <h3><a name="err_create_sess">Can't create session <i>name</i></a></h3>
+    The database for the new session <i>name</i> couldn't be created. There
+    are several reasons for that, which are indicated within this error
+    message:
+    <ul>
+      <li><b>invalid name:</b>The name given is not a valid Pilot database
+        name. Using only letters and digits for the name (embedded spaces
+        could cause problems on Hotsync) should help.
+      <li><b>already exists:</b>A database with name <i>name</i> already exists
+        on your Pilot. Not only LispMe databases must have unique names, they
+        mustn't be the same as any other application or database on your
+        Pilot. Sess <a href="lm_cmd.htm#frm_nsess">here</a> for details.
+      <li><b>general error:</b>any other error occurred. Most probably you haven't
+        enough memory left to create the new session database.
+    </dl>
+
+  <h3><a name="err_create_icon">Couldn't create icon</a></h3>
+    The mini-application, which starts LispMe with the session database, 
+    could not be created. Probably you don't have enough memory left on your
+    Pilot, or (less probable) an application with this name already exists.
+    See <a href="lm_sess.htm#db_names">here</a> about database naming
+    issues.
+
+  <h3><a name="err_string_full">Atom space exhausted</a></h3>
+    There's not enough memory for a new symbol to be allocated. Symbols are
+    not garbage collected, so this error may occur if you loaded and popped
+    several different memos, as all symbols used so far accumulate in the
+    atom space. So use the command <a href="lm_cmd.htm#men_reset">Reset Heap</a>,
+    or if this doesn't help, increase the atom size via the
+    <a href="lm_cmd.htm#frm_sizes">Memory sizes dialog</a>.
+
+  <h3><a name="err_no_heap">Heap exhausted</a></h3>
+    The heap memory used for lists and program code is exhausted and even
+    garbage collection cannot reclain sufficient space.
+    Look for non-terminating recursion or try to increase heap size via the
+    <a href="lm_cmd.htm#frm_sizes">Memory sizes dialog</a>.
+
+  <h3><a name="err_no_reals">FP storage exhausted</a></h3>
+    The memory used for floating point values is exhausted and even
+    garbage collection cannot reclain sufficient space.
+    Try to increase FP size via the
+    <a href="lm_cmd.htm#frm_sizes">Memory sizes dialog</a>.
+
+  <h3><a name="err_no_list">No memory for list items</a></h3>
+    The memory for the items in a user interface list set by
+    <a href="lm_cat2.htm#desc_lst_set_list"><tt>lst-set-list</tt></a>
+    couldn't be allocated. There's no dynamic heap memory left.
+
+  <h3><a name="err_no_vector">Can't create vector</a></h3>
+    The vector couldn't be allocated as a DB record in the LispMe DB, all
+    DB heap has been used.
+
+  <h3><a name="err_no_string">Can't create string</a></h3>
+    The string couldn't be allocated as a DB record in the LispMe DB, all
+    DB heap has been used.
+
+  <h3><a name="err_stack_over">Recursion too deep</a></h3>
+    This message can have three causes:
+    <ul>
+      <li>reading a deeply nested list (about 30 levels deep)
+      <li>compiling a very complex expression
+      <li>garbage-collecting a deeply nested list (about 50 levels)
+    </ul>
+    All these things are done internally by recursive functions consuming
+    some of the (very limited!) Pilot hardware stack. To avoid overwriting
+    memory and crashing your machine, a stack check caused this error.<p>
+    Don't confuse this with recursive functions in LispMe itself, they
+    <b>don't</b> use the hardware stack but the heap, so a non-terminating
+    (non-tail) recursion in LispMe causes
+     <a href="#err_no_heap">this error</a>.<p>
+    You may sometimes get this error when loading a memo (the compiler
+    needs some stack) and a garbage collection is invoked (needing further
+    stack). Tap <i>Cancel</i> in this case and invoke
+    <i>Menu/View/Memory usage</i>, which forces a garbage collection and
+    try to load the memo again.
+
+  <h3><a name="err_size_change">Couldn't change ... size</a></h3>
+    An attempt to resize the memory block for heap, atoms, reals or output
+    failed. You might not have enough free memory or your memory is too
+    fragmented. The previous memory size is used. As during changing
+    the memory size temporarily memory for <b>both</b> old and new block
+    is needed, you can try to avoid this bottleneck by first changing to
+    the smallest possible size, leave the dialog, re-enter it, and now change
+    to the originally desired size.
+
+  <h3><a name="err_invalid_ptr">Invalid pointer</a></h3>
+    A pointer in the LispMe heap has an invalid type tag. This is
+    a severe internal error produced by a buggy LispMe compiler or VM
+    (you should <b>never</b> see this error message),
+    so please send mail to <a href="mailto:bugs@lispme.de">me</a> with a
+    report what caused this message.
+
+<!***************************************************************************>
+<!*** User interface errors *************************************************>
+<!***************************************************************************>
+
+<h2>User Interface Errors</h2>
+
+  <h3><a name="err_invalid_form">Form <i>id</i> not found</a></h3>
+    The form specified in a
+    <a href="lm_cat2.htm#desc_frm_popup"><tt>frm-popup</tt></a> or
+    <a href="lm_cat2.htm#desc_frm_goto"><tt>frm-goto</tt></a> call
+    does not exist. Perhaps you opened the wrong resource DB with
+    <a href="lm_cat4.htm#desc_set_resdb"><tt>set-resdb</tt></a>?
+
+  <h3><a name="err_invalid_obj">Object <i>id</i> not in form</a></h3>
+    The <i>id</i> given does not denote an object in the current form.
+    Look for a typing mistake or for having attached the wrong handler
+    to the form.
+
+  <h3><a name="err_watchdog">Too much time in event handler</a></h3>
+    Your event handler needed more time than allowed to process an
+    event. Maybe you wrote an endless loop?
+
+  <h3><a name="err_invalid_resdb"><i>name</i> is not a resource database</a></h3>
+    Either no database <i>name</i> exists on your Pilot, or it is a normal
+    DB (<tt>.pdb</tt>) not a resource DB (<tt>.prc</tt>).
+
+  <h3><a name="err_invalid_kind">Object <i>id</i> is not a <i>kind</i></a></h3>
+    The user interface object with this <i>id</i> in the current form is
+    not of the right kind, e.g. you tried to use a field function like
+    <tt>fld-set-text</tt> with a pushbutton.
+
+  <h3><a name="err_invalid_goto">Can't call frm-goto now</a></h3>
+    A <a href="lm_cat2.htm#desc_frm_goto"><tt>frm-goto</tt></a> call is
+    not allowed until 
+    <a href="lm_cat2.htm#desc_frm_popup"><tt>frm-popup</tt></a> has been
+    called once at least.
+
+  <h3><a name="err_form_nest">Forms nested too deeply</a></h3>
+    No more than 6 nested calls of
+    <a href="lm_cat2.htm#desc_frm_popup"><tt>frm-popup</tt></a> are allowed
+    for memory reasons. (The PalmOS UI guidelines ...)
+    You should use
+    <a href="lm_cat2.htm#desc_frm_goto"><tt>frm-goto</tt></a> to switch
+    between forms at the same level.
+
+
+<!***************************************************************************>
+<!*** Other errors **********************************************************>
+<!***************************************************************************>
+
+<h2>Others Errors</h2>
+
+  <h3><a name="err_stack_empty">No more sources to pop</a></h3>
+    The <a href="lm_sema.htm#lexenv">stack of loaded memos or entered
+    definitions</a> is already
+    empty, you can't <a href="lm_cmd.htm#ctl_pop">pop</a> anymore.
+
+  <h3><a name="err_interrupt">Execution interrupted</a></h3>
+    You pressed the <a href="lm_cmd.htm#ctl_break">break button</a> to
+    interrupt a running evaluation. The interrupted process cannot be
+    resumed.
+
+  <h3><a name="err_max_sess">Maximum number of sessions exceeded</a></h3>
+    Only 32 parallel sessions are allowed at any time. Just delete
+    unneeded sessions.
+
+  <h3><a name="err_user_error">User error: ...</a></h3>
+    This error (notice <b>User Error</b> in the title bar) is generated by
+    a call to the <a href="lm_cat2.htm#desc_error"><tt>error</tt></a>
+    procedure. The text printed in the message box is the argument to
+    <tt>error</tt>.
+
+  <h3><a name="err_no_lisp">No memo category 'LispMe' defined</a></h3>
+    To be able to <a href="lm_cmd.htm#ctl_load">load</a> a memo containing
+    LispMe source code, you have to create a category named <tt>LispMe</tt>
+    (case <b>does</b> matter) in the MemoPad application. LispMe expects all
+    source memos in this category.
+
+  <h3><a name="err_no_memo">No memo in category 'LispMe' found</a></h3>
+    You haven't created a memo in the <tt>LispMe</tt> category yet.
+
+  <h3><a name="err_os_version">LispMe needs PalmOS Version 2.0 at least</a></h3>
+    To run LispMe, you need PalmOS2 (PalmPilot, Palm III
+    or an
+    upgraded older Pilot) at least. Support for PalmOS1 has been canceled,
+    as the memory restriction are to severe with PalmOS1. This message
+    box can't be tapped away.
+
+  <h3><a name="err_no_sess">No session selected</a></h3>
+    You must select any session by tapping its name before issuing any
+    button command.
+
+  <h3><a name="err_incomp_sess">Incompatible session</a></h3>
+    The internal format of the session database selected doesn't match
+    the format of the session databases used by the installed LispMe version.
+    You either installed a newer version of LispMe without deleting older
+    session DBs or you installed a 3rd-party LispMe app in an old format.
+    In this ask for either an updated session DB or (better) for the source 
+    code.
+
+  <h3><a name="err_sess_miss">Can't start session <i>name</i></a></h3>
+    The session name recorded within the LispMe starter application doesn't
+    exist anymore or the session has a format incompatible with the 
+    LispMe version installed. This can happen when you deleted the session database
+    with a third party tool, but didn't touch the starter app itself,
+    or when you transferred only the starter app without the session database.
+    Another possibility is that you installed a newer LispMe version and 
+    didn't delete any older sessions.
+    See <a href="lm_sess.htm#start_app">here</a> how sessions and
+    starter applications work.
+
+  <h3><a name="err_reload">No memo loaded previously</a></h3>
+    The <a href="lm_cmd.htm#ctl_reload">reload</a> command can't be used for one of these reasons:
+    <ul>
+      <li>no memo has been loaded yet
+      <li>the last environment frame results from an interactive <tt>define</tt>
+      <li>a <a href="lm_cmd.htm#ctl_pop">pop</a>  command has already removed the last memo
+    </ul>
+    Just use the ordinary <a href="lm_cmd.htm#ctl_load">load</a> button in this case.
+
+  <h3><a name="err_no_lispme">LispMe not installed</a></h3>
+    This message is not from LispMe itself (obviously :-), but from
+    orphan starter applications which have been left after removing LispMe.
+    You can delete them, too, or (better) re-install LispMe!
+
+<!***************************************************************************>
+<!*** HandBase error ********************************************************>
+<!***************************************************************************>
+
+<h2>HanDBase errors</h2>
+
+  <h3><a name="err_no_handbase">HanDBase not installed</a></h3>
+    You can't use any HanDBase function when HanDBase is not installed.
+    (What did you expect?) Go to the
+    <a href="http://www.handbase.com">HanDBase homepage</a> to obtain it.
+
+  <h3><a name="err_handbase_error">HanDBase returned error <i>code</i></a></h3>
+    The HanDBase API returned the error code indicated. A list of HanDBase
+    error codes is <a href="lm_hbase.htm#errors">here</a>.
+
+<!***************************************************************************>
+<!*** Warnings and user queries *********************************************>
+<!***************************************************************************>
+
+<h2>Warnings and user queries</h2>
+
+  <h3><a name="err_user_info">User message: ...</a></h3>
+    This message box (notice <b>User message</b> in the title bar)
+    is generated by
+    a call to the <a href="lm_cat3.htm#desc_message"><tt>message</tt></a>
+    procedure. The text printed in the message box is the argument to
+    <tt>message</tt>.
+
+  <h3><a name="err_o6_confirm">Zap all LispMe memory?</a></h3>
+    Tap <b>OK</b> to re-initialize LispMe memory. All loaded memos and other
+    data will be cleared and you'll have a virgin heap.
+    Tap <b>Cancel</b> if you selected
+    <a href="lm_cmd.htm#men_reset">Reset Heap</a> by accident,
+
+  <h3><a name="err_o8_confirm">Delete session <i>name</i>?</a></h3>
+    Tap <b>OK</b> to delete the session and its database.
+    Tap <b>Cancel</b> to abort.
+
+  <h3><a name="err_output_trunc">Output too long - truncated</a></h3>
+    Your current evaulation created a lot of output (either by
+    <a href="lm_cat2.htm#desc_display"><tt>display</tt></a> or
+    <a href="lm_cat4.htm#desc_write"><tt>write</tt></a>, or by a long
+    return value). In any case, all output not fitting into the selected
+    Output Size, will be omitted and the last character visible in the
+    output field will be a <tt>...</tt> to indicate truncation.
+
+<!***************************************************************************>
+<!*** Fatal errors **********************************************************>
+<!***************************************************************************>
+
+<h2>Fatal Errors</h2>
+  OK, these errors are not fatal for your Pilot, but for LispMe. LispMe
+  can't continue to work when one of these errors occurred.
+
+  <h3>Can't create LispMe DB</h3>
+    When starting LispMe the first time, it tries to create its database
+    containing heap etc. memory. When this fails, LispMe can't work. You
+    should delete some applications or databases to have more memory or
+    use a defragmentation tool if your memory is too fragmented (not with 
+    PalmOS3).
+
+  <h3>No memoDB?</h3>
+    The MemoPad database was not found. Now this is very strange...
+
+</body>
+</html>

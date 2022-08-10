@@ -1,0 +1,177 @@
+<html>
+<title>TicTac.c</title>
+<body>
+<b>TicTac.c</b> (<a href="TicTac.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// Tic-Tac-Toe
+</font><font color=0000ff>int </font><font color=000000>brd[</font><font color=0000a0>9</font><font color=000000>]; </font><font color=008000>// The board
+
+</font><font color=000000>drawx(</font><font color=0000ff>int </font><font color=000000>x, </font><font color=0000ff>int </font><font color=000000>y) {
+   </font><font color=008000>// Draw an 'x' at grid location (x,y)
+   </font><font color=000000>x = x * </font><font color=0000a0>40 </font><font color=000000>+ </font><font color=0000a0>20</font><font color=000000>;
+   y = y * </font><font color=0000a0>40 </font><font color=000000>+ </font><font color=0000a0>27</font><font color=000000>;
+   </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>, x+</font><font color=0000a0>3</font><font color=000000>, y+</font><font color=0000a0>3</font><font color=000000>, x+</font><font color=0000a0>37</font><font color=000000>, y+</font><font color=0000a0>37</font><font color=000000>);
+   </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>, x+</font><font color=0000a0>3</font><font color=000000>, y+</font><font color=0000a0>37</font><font color=000000>, x+</font><font color=0000a0>37</font><font color=000000>, y+</font><font color=0000a0>3</font><font color=000000>);
+}
+
+drawo(</font><font color=0000ff>int </font><font color=000000>x, </font><font color=0000ff>int </font><font color=000000>y) {
+   </font><font color=008000>// Draw an 'o' at grid location (x,y)
+   </font><font color=000000>x = x * </font><font color=0000a0>40 </font><font color=000000>+ </font><font color=0000a0>20</font><font color=000000>;
+   y = y * </font><font color=0000a0>40 </font><font color=000000>+ </font><font color=0000a0>27</font><font color=000000>;
+   </font><font color=000000><b>frame</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>, x+</font><font color=0000a0>3</font><font color=000000>, y+</font><font color=0000a0>3</font><font color=000000>, x+</font><font color=0000a0>37</font><font color=000000>, y+</font><font color=0000a0>37</font><font color=000000>, </font><font color=0000a0>17</font><font color=000000>);
+}
+
+verify(</font><font color=0000ff>int </font><font color=000000>a, </font><font color=0000ff>int </font><font color=000000>b, </font><font color=0000ff>int </font><font color=000000>c) {
+   </font><font color=008000>// verify that locations a,b,c contain the same pieces
+   </font><font color=0000ff>char </font><font color=000000>chk;
+
+   chk = brd[a] + brd[b]*</font><font color=0000a0>4 </font><font color=000000>+ brd[c]*</font><font color=0000a0>16</font><font color=000000>;
+   </font><font color=0000ff>if </font><font color=000000>(chk == </font><font color=0000a0>21 </font><font color=000000>|| chk == </font><font color=0000a0>42</font><font color=000000>) </font><font color=0000ff>return </font><font color=0000a0>1</font><font color=000000>;
+   </font><font color=0000ff>return </font><font color=0000a0>0</font><font color=000000>;
+}
+
+winner() {
+   </font><font color=008000>// check along each line/diagonal
+   </font><font color=0000ff>if </font><font color=000000>(verify(</font><font color=0000a0>0</font><font color=000000>,</font><font color=0000a0>1</font><font color=000000>,</font><font color=0000a0>2</font><font color=000000>)) </font><font color=0000ff>return </font><font color=0000a0>1</font><font color=000000>;
+   </font><font color=0000ff>if </font><font color=000000>(verify(</font><font color=0000a0>3</font><font color=000000>,</font><font color=0000a0>4</font><font color=000000>,</font><font color=0000a0>5</font><font color=000000>)) </font><font color=0000ff>return </font><font color=0000a0>2</font><font color=000000>;
+   </font><font color=0000ff>if </font><font color=000000>(verify(</font><font color=0000a0>6</font><font color=000000>,</font><font color=0000a0>7</font><font color=000000>,</font><font color=0000a0>8</font><font color=000000>)) </font><font color=0000ff>return </font><font color=0000a0>3</font><font color=000000>;
+   </font><font color=0000ff>if </font><font color=000000>(verify(</font><font color=0000a0>0</font><font color=000000>,</font><font color=0000a0>3</font><font color=000000>,</font><font color=0000a0>6</font><font color=000000>)) </font><font color=0000ff>return </font><font color=0000a0>4</font><font color=000000>;
+   </font><font color=0000ff>if </font><font color=000000>(verify(</font><font color=0000a0>1</font><font color=000000>,</font><font color=0000a0>4</font><font color=000000>,</font><font color=0000a0>7</font><font color=000000>)) </font><font color=0000ff>return </font><font color=0000a0>5</font><font color=000000>;
+   </font><font color=0000ff>if </font><font color=000000>(verify(</font><font color=0000a0>2</font><font color=000000>,</font><font color=0000a0>5</font><font color=000000>,</font><font color=0000a0>8</font><font color=000000>)) </font><font color=0000ff>return </font><font color=0000a0>6</font><font color=000000>;
+   </font><font color=0000ff>if </font><font color=000000>(verify(</font><font color=0000a0>0</font><font color=000000>,</font><font color=0000a0>4</font><font color=000000>,</font><font color=0000a0>8</font><font color=000000>)) </font><font color=0000ff>return </font><font color=0000a0>7</font><font color=000000>;
+   </font><font color=0000ff>if </font><font color=000000>(verify(</font><font color=0000a0>2</font><font color=000000>,</font><font color=0000a0>4</font><font color=000000>,</font><font color=0000a0>6</font><font color=000000>)) </font><font color=0000ff>return </font><font color=0000a0>8</font><font color=000000>;
+   </font><font color=0000ff>return </font><font color=0000a0>0</font><font color=000000>;
+}
+
+human() {
+   </font><font color=0000ff>int </font><font color=000000>x, y;
+   </font><font color=0000ff>while</font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>) {
+      </font><font color=008000>// Wait for a pen up event
+      </font><font color=000000><b>waitp</b></font><font color=000000>();
+      x = </font><font color=000000><b>penx</b></font><font color=000000>();
+      y = </font><font color=000000><b>peny</b></font><font color=000000>();
+      </font><font color=008000>// Did the user tap outside the grid?
+      </font><font color=0000ff>if </font><font color=000000>(x&lt;</font><font color=0000a0>20 </font><font color=000000>|| x&gt;</font><font color=0000a0>140 </font><font color=000000>|| y&lt;</font><font color=0000a0>27 </font><font color=000000>|| y&gt;</font><font color=0000a0>147</font><font color=000000>)
+         </font><font color=0000ff>return </font><font color=000000>-</font><font color=0000a0>1</font><font color=000000>;
+
+      </font><font color=008000>// Get grid coordinates
+      </font><font color=000000>x = (x-</font><font color=0000a0>20</font><font color=000000>)/</font><font color=0000a0>40</font><font color=000000>;
+      y = (y-</font><font color=0000a0>27</font><font color=000000>)/</font><font color=0000a0>40</font><font color=000000>;
+
+      </font><font color=0000ff>if </font><font color=000000>(brd[x+</font><font color=0000a0>3</font><font color=000000>*y] == </font><font color=0000a0>0</font><font color=000000>) {
+         </font><font color=008000>// mark the space as used
+         </font><font color=000000>brd[x+</font><font color=0000a0>3</font><font color=000000>*y] = </font><font color=0000a0>1</font><font color=000000>;
+         drawx(x,y);
+         </font><font color=0000ff>if </font><font color=000000>(winner()) </font><font color=0000ff>return </font><font color=0000a0>1</font><font color=000000>;
+         </font><font color=0000ff>else return </font><font color=0000a0>0</font><font color=000000>;
+      }
+   }
+}
+
+</font><font color=0000ff>#ifndef </font><font color=000000>DUMB
+</font><font color=008000>// "AI" provided by Thaddaeus Frogley &lt;codemonkey_uk@hotmail.com&gt;
+</font><font color=000000>cpu() {
+  </font><font color=0000ff>int </font><font color=000000>loc;
+  </font><font color=0000ff>int </font><font color=000000>a,b,c;
+
+  loc=-</font><font color=0000a0>1</font><font color=000000>;
+  b=</font><font color=0000a0>1</font><font color=000000>;
+  c=</font><font color=0000a0>0</font><font color=000000>;
+  </font><font color=0000ff>for</font><font color=000000>(a=</font><font color=0000a0>0</font><font color=000000>;a&lt;</font><font color=0000a0>9</font><font color=000000>;a++){
+    </font><font color=0000ff>if </font><font color=000000>( brd[a]==</font><font color=0000a0>0</font><font color=000000>){
+
+      </font><font color=0000ff>if </font><font color=000000>(loc==-</font><font color=0000a0>1</font><font color=000000>){
+        loc=a;
+      }
+      </font><font color=0000ff>else if </font><font color=000000>(c==</font><font color=0000a0>0 </font><font color=000000>&& (</font><font color=000000><b>random</b></font><font color=000000>(b)==</font><font color=0000a0>0 </font><font color=000000>|| a==</font><font color=0000a0>4</font><font color=000000>)){
+        loc=a;
+        b++;
+        </font><font color=0000ff>if </font><font color=000000>(a==</font><font color=0000a0>4</font><font color=000000>) c=</font><font color=0000a0>1</font><font color=000000>;
+      }
+
+      brd[a] = </font><font color=0000a0>2</font><font color=000000>;
+      </font><font color=0000ff>if </font><font color=000000>(winner()){
+        loc=a;
+        </font><font color=0000ff>break</font><font color=000000>;
+      }
+      </font><font color=0000ff>else</font><font color=000000>{
+        brd[a] = </font><font color=0000a0>1</font><font color=000000>;
+        </font><font color=0000ff>if </font><font color=000000>(winner()){ 
+          loc=a;
+          c=</font><font color=0000a0>1</font><font color=000000>;
+        }
+      }
+      brd[a] =</font><font color=0000a0>0</font><font color=000000>;
+
+    }
+  }
+
+  drawo(loc%</font><font color=0000a0>3</font><font color=000000>, loc/</font><font color=0000a0>3</font><font color=000000>);
+  brd[loc] = </font><font color=0000a0>2</font><font color=000000>;
+
+   </font><font color=0000ff>if </font><font color=000000>(winner()) </font><font color=0000ff>return </font><font color=0000a0>1</font><font color=000000>;
+   </font><font color=0000ff>else return </font><font color=0000a0>0</font><font color=000000>;
+}
+</font><font color=0000ff>#else
+
+</font><font color=000000>cpu() {
+   </font><font color=0000ff>int </font><font color=000000>loc;
+
+   </font><font color=008000>// Find an empty space
+   </font><font color=0000ff>do </font><font color=000000>{
+      loc = </font><font color=000000><b>random</b></font><font color=000000>(</font><font color=0000a0>9</font><font color=000000>);
+   } </font><font color=0000ff>while </font><font color=000000>(brd[loc] != </font><font color=0000a0>0</font><font color=000000>);
+
+   drawo(loc%</font><font color=0000a0>3</font><font color=000000>, loc/</font><font color=0000a0>3</font><font color=000000>);
+   brd[loc] = </font><font color=0000a0>2</font><font color=000000>;
+
+   </font><font color=0000ff>if </font><font color=000000>(winner()) </font><font color=0000ff>return </font><font color=0000a0>1</font><font color=000000>;
+   </font><font color=0000ff>else return </font><font color=0000a0>0</font><font color=000000>;
+}
+</font><font color=0000ff>#endif
+
+</font><font color=000000>main() {
+   </font><font color=0000ff>int </font><font color=000000>numMoves, win;
+
+   numMoves = win = </font><font color=0000a0>0</font><font color=000000>;
+   </font><font color=000000><b>clear</b></font><font color=000000>();
+   </font><font color=000000><b>puts</b></font><font color=000000>(</font><font color=000080>"Tic-Tac-Toe: A PocketC demo\n\nTap outside the grid to exit.\nTap anywhere to start...\n"</font><font color=000000>);
+   </font><font color=000000><b>wait</b></font><font color=000000>();
+   </font><font color=000000><b>graph_on</b></font><font color=000000>();
+   </font><font color=000000><b>title</b></font><font color=000000>(</font><font color=000080>"Tic-Tac-Toe"</font><font color=000000>);
+
+   </font><font color=008000>// Draw the board
+   </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>,</font><font color=0000a0>60</font><font color=000000>,</font><font color=0000a0>27</font><font color=000000>,</font><font color=0000a0>60</font><font color=000000>,</font><font color=0000a0>147</font><font color=000000>);
+   </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>,</font><font color=0000a0>100</font><font color=000000>,</font><font color=0000a0>27</font><font color=000000>,</font><font color=0000a0>100</font><font color=000000>,</font><font color=0000a0>147</font><font color=000000>);
+   </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>,</font><font color=0000a0>20</font><font color=000000>,</font><font color=0000a0>67</font><font color=000000>,</font><font color=0000a0>140</font><font color=000000>,</font><font color=0000a0>67</font><font color=000000>);
+   </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>,</font><font color=0000a0>20</font><font color=000000>,</font><font color=0000a0>107</font><font color=000000>,</font><font color=0000a0>140</font><font color=000000>,</font><font color=0000a0>107</font><font color=000000>);
+
+   </font><font color=008000>// Draw the gray border
+   </font><font color=000000><b>frame</b></font><font color=000000>(</font><font color=0000a0>2</font><font color=000000>, </font><font color=0000a0>20</font><font color=000000>, </font><font color=0000a0>27</font><font color=000000>, </font><font color=0000a0>140</font><font color=000000>, </font><font color=0000a0>147</font><font color=000000>, </font><font color=0000a0>0</font><font color=000000>);
+
+   </font><font color=0000ff>while </font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>) {
+      </font><font color=008000>// we are done when either the human or the cpu wins
+      // or when the board is full
+      </font><font color=000000>win=human();
+      </font><font color=0000ff>if </font><font color=000000>(win==-</font><font color=0000a0>1</font><font color=000000>) </font><font color=0000ff>return</font><font color=000000>; </font><font color=008000>// Exit
+      </font><font color=0000ff>if </font><font color=000000>(win) {
+         </font><font color=000000><b>text</b></font><font color=000000>(</font><font color=0000a0>56</font><font color=000000>,</font><font color=0000a0>82</font><font color=000000>,</font><font color=000080>"Human wins!"</font><font color=000000>);
+         </font><font color=0000ff>break</font><font color=000000>;
+      }
+      numMoves++;
+      </font><font color=0000ff>if </font><font color=000000>(numMoves&gt;</font><font color=0000a0>8</font><font color=000000>) {
+         </font><font color=000000><b>text</b></font><font color=000000>(</font><font color=0000a0>68</font><font color=000000>,</font><font color=0000a0>82</font><font color=000000>,</font><font color=000080>"Draw!"</font><font color=000000>);
+         </font><font color=0000ff>break</font><font color=000000>;
+      }
+      </font><font color=0000ff>if </font><font color=000000>(cpu()) {
+         </font><font color=000000><b>text</b></font><font color=000000>(</font><font color=0000a0>51</font><font color=000000>,</font><font color=0000a0>82</font><font color=000000>,</font><font color=000080>"PalmPilot wins!"</font><font color=000000>);
+         </font><font color=0000ff>break</font><font color=000000>;
+      }
+      numMoves++;
+   }
+   </font><font color=000000><b>wait</b></font><font color=000000>();
+}
+</pre>
+</body>
+</html>

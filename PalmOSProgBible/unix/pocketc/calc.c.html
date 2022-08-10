@@ -1,0 +1,109 @@
+<html>
+<title>calc.c</title>
+<body>
+<b>calc.c</b> (<a href="calc.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// Simple calc
+
+// This sample demonstrate advanced PocketC concepts:
+// simulating structures, indirect function calls.
+//
+// This sample sets up an event-based applet framework, and
+// creates a integer calculator using it.
+//
+// Since malloc() returns an array of ints, and we need a
+// more complex structure for our buttons, we create a
+// template for the button structure out of globals. Since
+// globals reside in memory in the same order that they are
+// declared, we can use a block of globals to initialize our
+// button list items. This works because memcpy() copies
+// not only memory contents, but also memory types.
+
+</font><font color=0000ff>include </font><font color=000080>"calc_framework.c"
+
+</font><font color=000000>updateDisp(</font><font color=0000ff>int </font><font color=000000>num) {
+  </font><font color=000000><b>rect</b></font><font color=000000>(</font><font color=0000a0>0</font><font color=000000>, </font><font color=0000a0>0</font><font color=000000>, </font><font color=0000a0>15</font><font color=000000>, </font><font color=0000a0>160</font><font color=000000>, </font><font color=0000a0>39</font><font color=000000>, </font><font color=0000a0>0</font><font color=000000>);
+  </font><font color=000000><b>textattr</b></font><font color=000000>(</font><font color=0000a0>6</font><font color=000000>, </font><font color=0000a0>1</font><font color=000000>, </font><font color=0000a0>0</font><font color=000000>);
+  </font><font color=000000><b>textalign</b></font><font color=000000>(</font><font color=0000a0>12</font><font color=000000>);
+  </font><font color=000000><b>text</b></font><font color=000000>(</font><font color=0000a0>159</font><font color=000000>, </font><font color=0000a0>16</font><font color=000000>, num);
+  </font><font color=000000><b>textattr</b></font><font color=000000>(</font><font color=0000a0>0</font><font color=000000>, </font><font color=0000a0>1</font><font color=000000>, </font><font color=0000a0>0</font><font color=000000>);
+}
+
+</font><font color=0000ff>int </font><font color=000000>total;
+</font><font color=0000ff>int </font><font color=000000>operand;
+</font><font color=0000ff>char </font><font color=000000>operator;
+
+doOp() {
+  </font><font color=0000ff>if </font><font color=000000>(operator==</font><font color=000080>'+'</font><font color=000000>) {
+    total = total + operand;
+  } </font><font color=0000ff>else if </font><font color=000000>(operator==</font><font color=000080>'-'</font><font color=000000>) {
+    total = total - operand;
+  } </font><font color=0000ff>else if </font><font color=000000>(operator==</font><font color=000080>'*'</font><font color=000000>) {
+    total = total * operand;
+  } </font><font color=0000ff>else if </font><font color=000000>(operator==</font><font color=000080>'/'</font><font color=000000>) {
+    total = total / operand;
+  }
+  operand = </font><font color=0000a0>0</font><font color=000000>;
+  operator = </font><font color=000080>'+'</font><font color=000000>;
+  updateDisp(total);
+}
+
+
+</font><font color=008000>// common code for each button
+</font><font color=0000ff>#define </font><font color=000000>NUM_BEG { operand = operand * </font><font color=0000a0>10 </font><font color=000000>+
+</font><font color=0000ff>#define </font><font color=000000>NUM_END ; updateDisp(operand); }
+
+</font><font color=008000>// button handlers
+</font><font color=000000>but0() NUM_BEG </font><font color=0000a0>0 </font><font color=000000>NUM_END
+but1() NUM_BEG </font><font color=0000a0>1 </font><font color=000000>NUM_END
+but2() NUM_BEG </font><font color=0000a0>2 </font><font color=000000>NUM_END
+but3() NUM_BEG </font><font color=0000a0>3 </font><font color=000000>NUM_END
+but4() NUM_BEG </font><font color=0000a0>4 </font><font color=000000>NUM_END
+but5() NUM_BEG </font><font color=0000a0>5 </font><font color=000000>NUM_END
+but6() NUM_BEG </font><font color=0000a0>6 </font><font color=000000>NUM_END
+but7() NUM_BEG </font><font color=0000a0>7 </font><font color=000000>NUM_END
+but8() NUM_BEG </font><font color=0000a0>8 </font><font color=000000>NUM_END
+but9() NUM_BEG </font><font color=0000a0>9 </font><font color=000000>NUM_END
+butC() { operator = </font><font color=000080>'+'</font><font color=000000>; operand = </font><font color=0000a0>0</font><font color=000000>; total = </font><font color=0000a0>0</font><font color=000000>; updateDisp(</font><font color=0000a0>0</font><font color=000000>); }
+butPlus() { doOp(); operator = </font><font color=000080>'+'</font><font color=000000>; }
+butMinus() { doOp(); operator = </font><font color=000080>'-'</font><font color=000000>; }
+butMult() { doOp(); operator = </font><font color=000080>'*'</font><font color=000000>; }
+butDiv() { doOp(); operator = </font><font color=000080>'/'</font><font color=000000>; }
+butEq() { doOp(); }
+exitfunc() { exitflag = </font><font color=0000a0>1</font><font color=000000>; }
+
+main() {
+  </font><font color=008000>// initialize graphics
+  </font><font color=000000><b>graph_on</b></font><font color=000000>();
+  </font><font color=000000><b>title</b></font><font color=000000>(</font><font color=000080>"Simple Calc"</font><font color=000000>);
+  </font><font color=008000>// create our buttons
+  </font><font color=000000>addButton(</font><font color=000080>"7"</font><font color=000000>, but7, </font><font color=0000a0>30</font><font color=000000>, </font><font color=0000a0>40</font><font color=000000>, </font><font color=0000a0>55</font><font color=000000>, </font><font color=0000a0>65</font><font color=000000>);
+  addButton(</font><font color=000080>"8"</font><font color=000000>, but8, </font><font color=0000a0>55</font><font color=000000>, </font><font color=0000a0>40</font><font color=000000>, </font><font color=0000a0>80</font><font color=000000>, </font><font color=0000a0>65</font><font color=000000>);
+  addButton(</font><font color=000080>"9"</font><font color=000000>, but9, </font><font color=0000a0>80</font><font color=000000>, </font><font color=0000a0>40</font><font color=000000>, </font><font color=0000a0>105</font><font color=000000>, </font><font color=0000a0>65</font><font color=000000>);
+  addButton(</font><font color=000080>"/"</font><font color=000000>, butDiv, </font><font color=0000a0>105</font><font color=000000>, </font><font color=0000a0>40</font><font color=000000>, </font><font color=0000a0>130</font><font color=000000>, </font><font color=0000a0>65</font><font color=000000>);
+
+  addButton(</font><font color=000080>"4"</font><font color=000000>, but4, </font><font color=0000a0>30</font><font color=000000>, </font><font color=0000a0>65</font><font color=000000>, </font><font color=0000a0>55</font><font color=000000>, </font><font color=0000a0>90</font><font color=000000>);
+  addButton(</font><font color=000080>"5"</font><font color=000000>, but5, </font><font color=0000a0>55</font><font color=000000>, </font><font color=0000a0>65</font><font color=000000>, </font><font color=0000a0>80</font><font color=000000>, </font><font color=0000a0>90</font><font color=000000>);
+  addButton(</font><font color=000080>"6"</font><font color=000000>, but6, </font><font color=0000a0>80</font><font color=000000>, </font><font color=0000a0>65</font><font color=000000>, </font><font color=0000a0>105</font><font color=000000>, </font><font color=0000a0>90</font><font color=000000>);
+  addButton(</font><font color=000080>"*"</font><font color=000000>, butMult, </font><font color=0000a0>105</font><font color=000000>, </font><font color=0000a0>65</font><font color=000000>, </font><font color=0000a0>130</font><font color=000000>, </font><font color=0000a0>90</font><font color=000000>);
+
+  addButton(</font><font color=000080>"1"</font><font color=000000>, but1, </font><font color=0000a0>30</font><font color=000000>, </font><font color=0000a0>90</font><font color=000000>, </font><font color=0000a0>55</font><font color=000000>, </font><font color=0000a0>115</font><font color=000000>);
+  addButton(</font><font color=000080>"2"</font><font color=000000>, but2, </font><font color=0000a0>55</font><font color=000000>, </font><font color=0000a0>90</font><font color=000000>, </font><font color=0000a0>80</font><font color=000000>, </font><font color=0000a0>115</font><font color=000000>);
+  addButton(</font><font color=000080>"3"</font><font color=000000>, but3, </font><font color=0000a0>80</font><font color=000000>, </font><font color=0000a0>90</font><font color=000000>, </font><font color=0000a0>105</font><font color=000000>, </font><font color=0000a0>115</font><font color=000000>);
+  addButton(</font><font color=000080>"-"</font><font color=000000>, butMinus, </font><font color=0000a0>105</font><font color=000000>, </font><font color=0000a0>90</font><font color=000000>, </font><font color=0000a0>130</font><font color=000000>, </font><font color=0000a0>115</font><font color=000000>);
+
+  addButton(</font><font color=000080>"0"</font><font color=000000>, but0, </font><font color=0000a0>30</font><font color=000000>, </font><font color=0000a0>115</font><font color=000000>, </font><font color=0000a0>55</font><font color=000000>, </font><font color=0000a0>140</font><font color=000000>);
+  addButton(</font><font color=000080>"C"</font><font color=000000>, butC, </font><font color=0000a0>55</font><font color=000000>, </font><font color=0000a0>115</font><font color=000000>, </font><font color=0000a0>80</font><font color=000000>, </font><font color=0000a0>140</font><font color=000000>);
+  addButton(</font><font color=000080>"="</font><font color=000000>, butEq, </font><font color=0000a0>80</font><font color=000000>, </font><font color=0000a0>115</font><font color=000000>, </font><font color=0000a0>105</font><font color=000000>, </font><font color=0000a0>140</font><font color=000000>);
+  addButton(</font><font color=000080>"+"</font><font color=000000>, butPlus, </font><font color=0000a0>105</font><font color=000000>, </font><font color=0000a0>115</font><font color=000000>, </font><font color=0000a0>130</font><font color=000000>, </font><font color=0000a0>140</font><font color=000000>);
+
+  addButton(</font><font color=000080>"Exit"</font><font color=000000>, exitfunc, </font><font color=0000a0>30</font><font color=000000>, </font><font color=0000a0>145</font><font color=000000>, </font><font color=0000a0>130</font><font color=000000>, </font><font color=0000a0>159</font><font color=000000>);
+
+  operator=</font><font color=000080>'+'</font><font color=000000>;
+  updateDisp(</font><font color=0000a0>0</font><font color=000000>);
+  </font><font color=008000>// let's go!
+  </font><font color=000000>eventLoop();
+}</pre>
+</body>
+</html>

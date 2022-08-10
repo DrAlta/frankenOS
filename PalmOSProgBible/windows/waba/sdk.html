@@ -1,0 +1,213 @@
+<html>
+<head>
+<title>wabasoft - SDK Programs</title>
+</head>
+<body bgcolor=ffffff text=000000 link=090944 alink=FF0000 vlink=090944
+leftmargin=0 topmargin=0 marginwidth=0 marginheight=0>
+
+<!-- Copyright (c) 1999 Wabasoft -->
+<!-- All rights reserved. -->
+
+<!-- page table -->
+
+<table cellpadding=0 cellspacing=0 border=0 height=100%>
+
+<!-- [1] row 1, column 1 -->
+
+<tr>
+<td width=29 bgcolor=ffffff>&nbsp;</td>
+<td valign=top width=550>
+
+<br>
+<table width=100% bgcolor=#D4E0EA>
+<tr><td><b><font face=Verdana,Arial,Helvetica size=2>
+SDK Programs</font></b>
+</td></tr></table>
+<br>
+
+<font face=Verdana,Arial,Helvetica size=2>
+
+The WabaSDK contains two programs that are used to build and package Waba
+applications. Both are located in the "bin" subdirectory of the WabaSDK
+distribution.
+<p>
+The two programs are:
+
+<ul>
+<li><a href=#warp>warp</a>
+<li><a href=#exegen>exegen</a>
+</ul>
+
+The warp program is used to package a group of files, such as classes and images,
+into a single file. The name warp is an acronym, short for "waba application resource
+package".
+<p>
+The exegen program is used to create a program that launches a Waba
+application.
+<p>
+The SDK does not contain a compiler or development environment because a Java
+compiler and IDE can be used to create Waba programs.
+<p>
+
+<p><b><a name=warp></a>warp</b><p>
+
+The warp program is used to create warp files and list their contents.
+Conceptually, warp files are similar to ZIP, JAR or CAB files. They package
+a number of files into a single file.
+<p>
+There are two types of warp files. Warp files ending with .pdb are PDB warp
+files and are used with PalmOS devices. Warp files ending with .wrp are
+standard warp files and are used with Windows CE devices. When you run the
+warp command to create a warp file, it will create both .wrp and .pdb files.
+<p>
+The warp command has the following syntax:
+
+<font size=3><pre>
+> warp command [options] warpfile [files]
+</pre></font>
+
+where "command" is one of
+
+<font size=3><pre>
+   c   Create new warp file
+   l   List contents of a warp file
+</pre></font>
+
+and the options are:
+
+<font size=3><pre>
+  /?   Displays usage text
+  /c   Override and assign PDB database creator (e.g. /c CrTr)
+  /q   Quiet mode (no output except for errors)
+</pre></font>
+
+Here is an example showing the warp command being used to create helloApp
+warp files. Both a helloApp.pdb and helloApp.wrp file will be created
+by running this single command.
+All the class files in the current directory and all
+the class files in the util subdirectory will be added to both warp files.
+<p>
+
+<font size=3><pre>
+> warp c helloApp *.class util\*.class
+</pre></font>
+
+The .pdb file is a warp file that can be loaded onto a PalmOS device.
+A PDB database name and PDB creator is generated automatically
+from the name of the warp file.
+<p>
+The warp command can also be used to list the contents of a warp file. In the
+example above, we created two warp files. Here is an example showing how
+to list the contents of both the warp files that were created above:
+
+<font size=3><pre>
+> warp l helloApp.pdb
+> warp l helloApp.wrp
+</pre></font>
+
+
+<p><b><a name=exegen></a>exegen</b><p>
+
+The exegen program is used to create launch application for Waba programs. A
+launch application starts up the WabaVM on whatever machine it is running on
+and passes it various parameters telling it where the classes for the Waba
+program are, what size the main window should be and how much memory should be
+allocated to the program.
+<p>
+The exegen command has the following syntax:
+
+<font size=3><pre>
+> exegen [options] exefile main-window-class warpfile [warpfile2 ...]
+</pre></font>
+
+where the options are:
+
+<font size=3><pre>
+  /?   Displays usage text
+  /h   Assign height of application's main window
+  /i   Assign PalmOS PRC icon (e.g. /i sample.bmp)
+  /l   Assign size of class heap (e.g. /l 10000)
+  /m   Assign size of object heap (e.g. /m 20000)
+  /p   Full path to directory containing warp file under WindowsCE
+  /s   Assign size of stack (e.g. /s 2000)
+  /t   Assign size of native stack (e.g. /t 50)
+  /w   Assign width of application's main window
+</pre></font>
+
+As with warp, two files are generated when the exegen program is run. One is a 
+.prc application for PalmOS and the other a .lnk file for Windows CE.
+File extensions are generated automatically. For example, if you specify
+myapp as the exefile, a myapp.lnk and myapp.prc will be created.
+<p>
+The /w and /h parameters define the default width and height of the
+Waba program's main window.  Under PalmOS these
+width and height arguments are ignored and the main window
+always has a size of 160x160 (the full screen of the PalmOS device).
+<p>
+A value of 0 for either the width or height will cause the main window
+of the Waba program to appear at a default size which is different for
+each platform.
+Under Windows CE specifying values of 0 for width and height will cause
+the Waba program to run full-size with no title bar.
+<p>
+The /p parameter defines the full path to the directory which will contain
+the warp file under WindowsCE. This path is placed in the shortcut (.lnk)
+file so the application will know where to find its warp file.
+<p>
+For PalmOS, if no icon is defined, a black box is used. Any icon given must
+be in .bmp format. A PalmOS PRC creator and PRC name will
+be assigned based on the warpfile and exefile respectively. The exefile
+must be 30 characters or less.
+<p>
+The sizes specified are used by the WabaVM to determine how much memory
+to allocate for the app. The size of the class heap defaults to 14K.
+The size of the object heap defaults to 8K. The size of the program stack
+defaults to 1500 bytes. The size of the native stack defaults to 300 bytes.
+<p>
+Here is an example showing the exegen command being used to create launchers
+for a program called helloApp. In this example, the icon for the launch program
+will be the "hello.bmp" image, the WabaVM will allocate the default amount of
+memory for the program and the program's main window will appear at the
+default size.
+
+<font size=3><pre>
+> exegen /i hello.bmp Hello HelloApp helloApp
+</pre></font>
+
+In this example, the exegen program is generating a launch program that will
+cause the main window of the application to be sized to 160x160. The object
+heap allocated by the WabaVM for the program is set to 20K.
+
+<font size=3><pre>
+> exegen /w 160 /h 160 /m 20000 Hello HelloApp helloApp
+</pre></font>
+
+In both examples above, the name of the application is "Hello". The class
+for the main window of the application is "HelloApp" and the warp file
+for the program is named "helloApp".
+<p>
+
+A single program can be composed of multiple warp files. If a program is
+using multiple warp files, you need to specify the additional warp
+files the program is using on the exegen line.
+<p>
+
+For example, if the helloApp program was using math classes in a warp
+file called "mathlib", the exegen line might look like this:
+
+<font size=3><pre>
+> exegen /i hello.bmp Hello HelloApp helloApp mathlib
+</pre></font>
+
+</font>
+</td>
+
+<td bgcolor=ffffff>&nbsp;</td>
+</tr>
+
+<!-- [1] row 1, column 2 -->
+<!-- end page table -->
+</table>
+
+</body>
+</html>

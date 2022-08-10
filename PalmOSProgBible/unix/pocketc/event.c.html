@@ -1,0 +1,63 @@
+<html>
+<title>event.c</title>
+<body>
+<b>event.c</b> (<a href="event.c">plain text</a>)
+<hr>
+<pre>
+<font color=008000>// Event sample
+
+</font><font color=0000ff>string </font><font color=000000>prevString;
+out(</font><font color=0000ff>string </font><font color=000000>str) {
+   </font><font color=000000><b>textattr</b></font><font color=000000>(</font><font color=0000a0>0</font><font color=000000>,</font><font color=0000a0>0</font><font color=000000>,</font><font color=0000a0>0</font><font color=000000>);
+   </font><font color=000000><b>text</b></font><font color=000000>(</font><font color=0000a0>80</font><font color=000000>,</font><font color=0000a0>1</font><font color=000000>,prevString);
+   </font><font color=000000><b>textattr</b></font><font color=000000>(</font><font color=0000a0>0</font><font color=000000>,</font><font color=0000a0>1</font><font color=000000>,</font><font color=0000a0>0</font><font color=000000>);
+   </font><font color=000000><b>text</b></font><font color=000000>(</font><font color=0000a0>80</font><font color=000000>,</font><font color=0000a0>1</font><font color=000000>,str);
+   prevString = str;
+}
+
+</font><font color=008000>// Handle a key event
+</font><font color=000000>handlekey() {
+   </font><font color=0000ff>char </font><font color=000000>k;
+
+   k = </font><font color=000000><b>key</b></font><font color=000000>();
+   out(</font><font color=000080>"KeyEvent: '"</font><font color=000000>+k+</font><font color=000080>"' + [" </font><font color=000000>+ (</font><font color=0000ff>int</font><font color=000000>)k + </font><font color=000080>"]"</font><font color=000000>);
+}
+
+</font><font color=0000ff>int </font><font color=000000>x, y;
+</font><font color=008000>// Handle a pen event
+</font><font color=000000>handlepen(</font><font color=0000ff>int </font><font color=000000>e) {
+   </font><font color=0000ff>if </font><font color=000000>(e==</font><font color=0000a0>2</font><font color=000000>) {
+      x = </font><font color=000000><b>penx</b></font><font color=000000>();
+      y = </font><font color=000000><b>peny</b></font><font color=000000>();
+   } </font><font color=0000ff>else if </font><font color=000000>(e==</font><font color=0000a0>4</font><font color=000000>)
+      </font><font color=000000><b>line</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>, x, y, x=</font><font color=000000><b>penx</b></font><font color=000000>(), y=</font><font color=000000><b>peny</b></font><font color=000000>());
+   </font><font color=0000ff>else </font><font color=000000>out(</font><font color=000080>"PenUp: ("</font><font color=000000>+</font><font color=000000><b>penx</b></font><font color=000000>()+</font><font color=000080>", "</font><font color=000000>+</font><font color=000000><b>peny</b></font><font color=000000>()+</font><font color=000080>")"</font><font color=000000>);
+}
+
+</font><font color=008000>// Handle a button event
+</font><font color=000000>handleb(</font><font color=0000ff>int </font><font color=000000>e) {
+   </font><font color=0000ff>if </font><font color=000000>(e==</font><font color=0000a0>5</font><font color=000000>) out(</font><font color=000080>"PageUpEvent"</font><font color=000000>);
+   </font><font color=0000ff>else if </font><font color=000000>(e==</font><font color=0000a0>6</font><font color=000000>) out(</font><font color=000080>"PageDnEvent"</font><font color=000000>);
+   </font><font color=0000ff>else if </font><font color=000000>(e==</font><font color=0000a0>11</font><font color=000000>) out(</font><font color=000080>"MenuEvent"</font><font color=000000>);
+   </font><font color=0000ff>else </font><font color=000000>out(</font><font color=000080>"HardButton" </font><font color=000000>+ (e-</font><font color=0000a0>6</font><font color=000000>));
+   </font><font color=0000ff>if </font><font color=000000>(e==</font><font color=0000a0>11</font><font color=000000>) </font><font color=000000><b>exit</b></font><font color=000000>();
+}
+
+main() {
+   </font><font color=0000ff>int </font><font color=000000>e;
+
+   </font><font color=000000><b>clear</b></font><font color=000000>();
+   </font><font color=000000><b>graph_on</b></font><font color=000000>();
+   </font><font color=000000><b>title</b></font><font color=000000>(</font><font color=000080>"Event Sample"</font><font color=000000>);
+   </font><font color=000000><b>hookhard</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>);  </font><font color=008000>// intercept hard buttons
+   </font><font color=000000><b>hookmenu</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>);  </font><font color=008000>// intercept the menu silkscreen button
+   </font><font color=0000ff>while </font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>) {
+      e = </font><font color=000000><b>event</b></font><font color=000000>(</font><font color=0000a0>1</font><font color=000000>);
+      </font><font color=0000ff>if </font><font color=000000>(e==</font><font color=0000a0>1</font><font color=000000>) handlekey();
+      </font><font color=0000ff>else if </font><font color=000000>(e&gt;=</font><font color=0000a0>2 </font><font color=000000>&& e&lt;=</font><font color=0000a0>4</font><font color=000000>) handlepen(e);
+      </font><font color=0000ff>else </font><font color=000000>handleb(e);
+   }
+}
+</pre>
+</body>
+</html>

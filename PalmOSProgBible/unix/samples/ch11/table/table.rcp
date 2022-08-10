@@ -1,0 +1,53 @@
+#include "tableRsc.h"
+
+APPLICATIONICONNAME ID 100 "Table Example"
+APPLICATION         ID 1   "LFtb"
+VERSION             ID 1   "1.0"
+
+//ICON      "largeicon.bmp"
+//SMALLICON "smallicon.bmp"
+
+FORM ID MainForm 0 0 160 160
+MENUID MainFormMenuBar
+USABLE
+BEGIN
+    TITLE "Table Example"
+    TABLE ID MainTable AT (0 16 160 121) ROWS 11 COLUMNS 9
+        COLUMNWIDTHS 12 25 12 18 12 33 17 20 9
+    BUTTON "Hide Rows"    ID MainHideRowsButton AT (1 147 50 12)
+    BUTTON "Hide Columns" ID MainHideColumnsButton AT (56 147 64 12)
+    GRAFFITISTATEINDICATOR AT (140 PrevTop)
+    LIST "X" "Y" "Z" ID MainList AT (120 141 19 33) NONUSABLE VISIBLEITEMS 3
+END
+
+MENU ID MainFormMenuBar
+BEGIN
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "About Table Example" MainOptionsAboutTableExample
+    END
+END
+
+FORM ID AboutForm 2 2 156 156
+MODAL
+USABLE
+BEGIN
+    TITLE "About Table Example"
+    LABEL "Table Example"                    AUTOID AT (37 21) FONT 2
+    LABEL "Version 1.0"                      AUTOID AT (54 37) FONT 0
+    LABEL "©2000 Lonnon R. Foster"           AUTOID AT (30 52) FONT 0
+    LABEL "<lonnonf@pobox.com>"              AUTOID AT (30 64) FONT 0
+    LABEL "From Chapter 11 of"               AUTOID AT (36 83) FONT 0
+    LABEL "The Palm OS Programming Bible"    AUTOID AT (12 95) FONT 0
+    LABEL "©2000 IDG Books Worldwide, Inc."  AUTOID AT (12 107) FONT 0
+    BUTTON "OK" ID AboutOKButton AT (CENTER 133 AUTO AUTO)
+END
+
+ALERT ID RomIncompatibleAlert
+INFORMATION
+BEGIN
+    TITLE   "System Incompatible"
+    MESSAGE "System Version 2.0 or greater is required "\
+            "to run this application."
+    BUTTONS "OK"
+END

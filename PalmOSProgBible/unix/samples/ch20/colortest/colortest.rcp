@@ -1,0 +1,77 @@
+#include "colortestRsc.h"
+
+APPLICATIONICONNAME ID 100 "Color Test"
+APPLICATION         ID 1   "LFct"
+VERSION             ID 1   "1.0"
+
+
+FORM ID MainForm 0 0 160 160
+MENUID MainFormMenuBar
+USABLE
+BEGIN
+    TITLE "Color Test"
+    FORMBITMAP AT (8 25) BITMAP EarthFamilyBitmapFamily USABLE
+    FORMBITMAP AT (8 25) BITMAP EarthSingleBitmapFamily NONUSABLE
+    GADGET ID MainColorSquareGadget AT (79 18 80 80)
+    LABEL "Bitmap:" AUTOID AT (2 89) FONT 1
+    PUSHBUTTON "Bitmap family" ID MainBitmapFamilyPushButton
+        AT (6 103 73 12) FONT 0 GROUP 2
+    PUSHBUTTON "Single bitmap" ID MainBitmapSinglePushButton
+        AT (80 103 73 12) FONT 0 GROUP 2
+    LABEL "Color depth:" AUTOID AT (2 118) FONT 1
+    PUSHBUTTON "1-bit" ID MainColorDepth1BitPushButton
+        AT (6 132 36 12) FONT 0 GROUP 1
+    PUSHBUTTON "2-bit" ID MainColorDepth2BitPushButton
+        AT (43 132 36 12) FONT 0 GROUP 1
+    PUSHBUTTON "4-bit" ID MainColorDepth4BitPushButton
+        AT (80 132 36 12) FONT 0 GROUP 1
+    PUSHBUTTON "8-bit" ID MainColorDepth8BitPushButton
+        AT (117 132 36 12) FONT 0 GROUP 1
+    CHECKBOX "Use custom palette" ID MainCustomPaletteCheckbox
+        AT (2 148 120 12) FONT 1
+END
+
+FORM ID AboutForm 2 2 156 156
+MODAL
+USABLE
+BEGIN
+    TITLE "About Color Test"
+    LABEL "Color Test" AUTOID AT (CENTER 21) FONT 2
+    LABEL "Version 1.0" AUTOID AT (CENTER 37) FONT 0
+    LABEL "©2000 Lonnon R Foster" AUTOID AT (CENTER 52) FONT 0
+    LABEL "<lonnonf@pobox.com>" AUTOID AT (CENTER 64) FONT 0
+    LABEL "From Chapter 20 of" AUTOID AT (CENTER 83) FONT 0
+    LABEL "Palm OS Programming Bible" AUTOID AT (CENTER 95) FONT 0
+    LABEL "©2000 IDG Books Worldwide, Inc." AUTOID AT (CENTER 107) FONT 0
+    BUTTON "OK" ID AboutOKButton AT (CENTER 133 AUTO AUTO)
+END
+
+MENU ID MainFormMenuBar
+BEGIN
+    PULLDOWN "Options"
+    BEGIN
+        MENUITEM "About Color Test" MainOptionsAboutColorTest
+    END
+END
+
+ALERT ID UnsupportedDepthAlert
+ERROR
+BEGIN
+    TITLE   "Unsupported Color Depth"
+    MESSAGE "Sorry, but the color depth you selected is not available on "\
+            "this handheld."
+    BUTTONS "OK"
+END
+
+ALERT ID RomIncompatibleAlert
+ERROR
+BEGIN
+    TITLE   "System Incompatible"
+    MESSAGE "System Version 3.5 or greater is required to run this "\
+            "application."
+    BUTTONS "OK"
+END
+
+BITMAPFAMILY ID EarthFamilyBitmapFamily "Earth1bpp.bmp" "Earth2bpp.bmp"
+    "Earth4bpp.bmp" "Earth8bpp.bmp"
+BITMAPFAMILY ID EarthSingleBitmapFamily "" "" "" "Earth8bpp.bmp"

@@ -1,0 +1,277 @@
+<html>
+<head>
+  <title>LispMe Semantics</title>
+</head>
+
+<body background="lm_back.gif">
+
+<a href="lm_index.htm">Back to index</a>
+
+<h1>LispMe Semantics</h1>
+  <h2>General</h2>
+    LispMe shares the following characteristics with Scheme:
+    <h3>Lexical binding</h3>
+      Each use of a a variable name refers to a lexically enclosing binding
+      of that variable. This means that by inspecting just the source text
+      of a LispMe program you can determine the binding of the variable.
+      This is in contrast to <i>dynamic binding</i>, where free variables
+      in an expression are resolved according to the dynamic call chain and
+      unwanted bindings may occur due to name clashes.
+      <table border>
+        <tr><td><b>Languages sharing this trait
+            <td><b>Languages not sharing this trait
+        <tr><td>C, Pascal, Common Lisp, SML<td>Older Lisps, APL
+      </table>
+
+    <h3>Call by value</h3>
+      When evaluating a procedure call, all sub-expressions (including the
+      procedure to be called itself) are evaluated before the procedure is
+      entered. This is also called <i>applicative order</i> evaluation, in
+      contrast to <i>normal order</i> evaluation or <i>call by name</i>, where
+      the procedure decides, when and which of its arguments are evaluated. By
+      using explicit <a href="lm_cat2.htm#desc_delay"><tt>delay</tt></a> and
+      <a href="lm_cat2.htm#desc_force"><tt>force</tt></a>, you can have
+      some characteristics of normal order evaluation.
+      <table border>
+        <tr><td><b>Languages sharing this trait
+            <td><b>Languages not sharing this trait
+        <tr><td>C, Pascal, Common Lisp, SML<td>Haskell
+      </table>
+
+    <h3><a name="tailcall">Tail recursion</a></h3>
+      The Scheme standard requires, that calling a procedure as the last
+      action in a procedure (i.e. returning the called procedure's value as
+      its own result) does not consume stack space. LispMe fullfills this
+      requirement. That means that there need not be a special
+      construct for iteration,
+      as all loops can be expressed as tail-recursive procedure calls.
+      <table border>
+        <tr><td><b>Languages sharing this trait
+            <td><b>Languages not sharing this trait
+        <tr><td>Normally not defined in the language definition, but
+                elimination of tail-calls to the <b>current</b> procedure
+                is a common optimization in modern compilers.<td>all others
+      </table>
+
+    <h3>Latent typing</h3>
+      In LispMe, types are not associated with variables, but with values.
+      This means, you don't have to declare variables, as a single variable
+      may be bound to values of different types during an evaluation. All
+      primitive procedures check the types of their operands at runtime. This
+      is also called <i>dynamic</i> or <i>weak typing</i>.
+      <table border>
+        <tr><td><b>Languages sharing this trait
+            <td><b>Languages not sharing this trait
+        <tr><td>other Lisps, Smalltalk, APL<td>C, Pascal, SML, Haskell
+      </table>
+
+    <h3>First classness</h3>
+      All values including closures, continuations and promises can be used
+      without arbitrary restrictions, i.e. they can be
+      <ul>
+        <li>arguments to procedures
+        <li>returned by procedures
+        <li>stored in variables
+      </ul>
+      <table border>
+        <tr><td><b>Languages sharing this trait
+            <td><b>Languages not sharing this trait
+        <tr><td>Common Lisp, Smalltalk, SML, Haskell<td>C, Pascal, APL
+      </table>
+
+    <h3>Unlimited extent</h3>
+      All objects created in LispMe have unlimited lifetime (<i>extent</i>)
+      For example, it's possible to refer to the parameters of a procedure,
+      even when the procedure already has returned. LispMe objects are
+      never explicitly destroyed, but there's a mechanism called <i>garbage
+      collection</i>, which may reclaim memory used by objects which
+      provable can't affect an evaluation.
+       <table border>
+        <tr><td><b>Languages sharing this trait
+            <td><b>Languages not sharing this trait
+        <tr><td>Common Lisp, Smalltalk, SML, Haskell, APL<td>C, Pascal
+      </table>
+
+    <h3>Explicit continuations</h3>
+      A continuation represents the future of a computation. At each stage
+      in a evaluation there's a value being computed and a continuation
+      going to do something with this value. Normally these continuations 
+      work behind the scenes and programmers don't think much about them.
+      LispMe allows continuations to be captured into a continuation object,
+      which may be stored and called many times and always returns to the same place.
+      Continuations are a powerful control mechanism and can be used to
+      implement non-local returns, exception handling, backtracking, or
+      coroutines.
+      <table border>
+        <tr><td><b>Languages sharing this trait
+            <td><b>Languages not sharing this trait
+        <tr><td>none<td>all others
+      </table>
+
+    <h3>Metalinguistic facilities</h3>
+      LispMe data and programs have similar forms (nested lists). So you can
+      construct a list at runtime and let LispMe interpret it as code by
+      using the function <tt>eval</tt>.
+      <table border>
+        <tr><td><b>Languages sharing this trait
+            <td><b>Languages not sharing this trait
+        <tr><td>Other Lisps, Smalltalk<td>C, Pascal, SML, Haskell
+      </table>
+ 
+  <h2>Environment and evaluation</h2>
+    <h3>Identifiers</h3>
+      Identifiers (<a href="lm_synt.htm#synt_id">Syntax</a>) have three uses
+      in LispMe:
+    <ul>
+      <li>They can stand for themselves representing whatever the user
+          imagines. This is similar to Pascal/C enumeration types.
+      <li>They can name variables. A variable name
+          denotes a location in memory where a value is stored. This is called
+          <i>binding</i>. A set of bindings is called an <i>environment</i>.
+      <li>They can name special forms. Special forms are LispMe expressions
+          which are evaluated in a different way than ordinary names. There's
+          a set of built-in <a href="#sema_spec">special forms</a> in LispMe,
+          but you can define your own, too, by using
+          <a href="#sema_macro">macros</a>.
+
+    </ul>
+    <h3><a name="lexenv">Lexical environment</a></h3>
+      For each place where an identifier is bound in LispMe, there's a region
+      in the source text where this binding is visible. This region (called
+      <i>scope</i>) is determined solely by the nesting of syntactic structures
+      building the source text. There are some <a href="#sema_bind">special
+      forms</a> that introduce new bindings. The lexical environment can be
+      visualized as a sequence of <i>frames</i>, where each frame binds
+      some variables. Entering a <a href="#sema_bind">binding construct</a>
+      extends the current environment by one frame containing the bindings
+      of the variables mentioned in this construct and leaving it restores
+      the old environment in effect before.<p>
+      A single variable name may be bound in many different frames, but
+      using this name refers to the innermost frame in which the variable
+      is bound (this means the nearest lexical binding form).<p>
+      When a procedure (or <i>lexical closure</i>) is created by a
+      <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a> expression, the
+      environment now in effect is stored together with the procedure's
+      object code to enable the procedure to access the bindings in effect
+      at its creation time.<p>
+      This applies all to Scheme, too, but LispMe also handles
+      <a href="lm_cmd.htm#frm_load">loading memos</a> this way. Initially, the
+      global environment (you can view the variables in the global environment
+      via the <a href="lm_cmd.htm#ctl_names">names button</a>) contains only
+      some variables (primitive procedures are handled differently, see
+      <a href="#sema_prim">below</a>). Loading a memo or entering
+      a <a href="lm_cat2.htm#desc_define"><tt>define</tt></a> expression into the
+      <a href="lm_cmd.htm#ctl_input">input field</a> creates a new frame
+      in the global environment containing the bindings just created. This
+      frame shadows older bindings of variables with the same name, just
+      like described above. You can remove the last frame of bindings with
+      the <a href="lm_cmd.htm#ctl_pop">pop button</a>. This ensures proper
+      lexical name resolution, but has one disadvantage: You can't refer
+      to names not yet defined. Either the name has to be defined in a
+      memo (or definition) loaded before, or it must be defined in the
+      same memo the referring name is defined, thus allowing mutual
+      recursive definitions.
+
+    <h3><a name="sema_rep">The read-eval-print loop</a></h3>
+      A LispMe program is in fact an <a href="#sema_expr">expression</a>
+      you enter in the
+      <a href="lm_cmd.htm#ctl_input">input field</a>, which is compiled and
+      immediately evaluated
+      by pressing the <a href="lm_cmd.htm#ctl_eval">eval button</a> using
+      the bindings in the global environment (viewable with the
+      <a href="lm_cmd.htm#ctl_names">names button</a>). Evaluation computes
+      a value as described in the following sections, which is finally printed
+      in the <a href="lm_cmd.htm#ctl_output">output field</a>. Furthermore, an
+      evaluation may cause side effects (modify a previously bound variable,
+      output some text, or draw graphics).
+
+  <h2><a name="sema_expr">Expressions</a></h2>
+    The semantics of LispMe expressions defined by this
+    <a href="lm_synt.htm#grammar">grammar</a> is described here.
+
+    <h3>Literals</h3>
+      Literals are expressions, which evaluate to themselves and don't
+      cause side effects. This means, that the printed representation of a
+      literal is the same as written in a LispMe expression. Self-evaluating
+      expressions include numbers, chars and strings and the special values
+      <a href="lm_cat1.htm#desc_true"><tt>#t</a></tt>,
+      <a href="lm_cat1.htm#desc_false"><tt>#f</a></tt>, and
+      <a href="lm_cat1.htm#desc_noprint"><tt>#n</a></tt>.<p>
+      The special form <a href="lm_cat3.htm#desc_quote"><tt>quote</a></tt>
+      returns its argument without evaluating it.
+
+    <h3>Variables</h3>
+      An expression which is just an identifier is a reference to a variable.
+      The value in the innermost <a href="#lexenv">environment frame</a>
+      binding this identifier is returned.
+
+    <h3>Procedure applications</h3>
+      To evaluate an application, all sub-expressions are evaluated
+      recursively. The first sub-expression must evaluate to a
+      procedure object, i.e. it is a
+      <ul>
+      <li>primitive procedure
+      <li>lexical closure created by <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a>
+      <li>continuation created by <a href="lm_cat1.htm#desc_callcc"><tt>call/cc</tt></a>
+      </ul>
+      Applying lexical closures and continuations is described at the links above,
+      but application of primitive procedures in LispMe is done somewhat
+      differently than in Scheme:<p>
+      <a name="sema_prim">Primitive</a> procedures are <b>not</b> defined
+      in the environment to
+      save heap space, they are always inline-coded by the compiler when
+      their name is seen as first expression in an application (No matter, if
+      and how the names are bound!). Therefore
+      you'll get an <a href="lm_err.htm#err_undef">undefined name error</a>,
+      when you use the name of a primitive procedure in any other way
+      (for example as an argument to <a href="lm_cat3.htm#desc_map"><tt>map</tt></a>).
+      However, there's an easy way to define variables for each primitive
+      (load the memo <a href="lm_samp.htm#primitive">Definitions for primitives</a>,
+      it contains those definitions for all primitives),
+      which allows using primitives in any context. Remember, those definitions
+      consume heap space, so load them only if you need to.
+  
+    <h3><a name="sema_spec">Special forms</a></h3>
+      Special forms provide features not possible with procedure calls:
+      <h4>Avoiding evaluation</h4>
+        See <a href="lm_cat2.htm#desc_define"><tt>define</tt></a>,
+        <a href="lm_cat2.htm#desc_delay"><tt>delay</tt></a>,
+        <a href="lm_cat3.htm#desc_quasiquote"><tt>quasiquote</tt></a>, and
+        <a href="lm_cat3.htm#desc_quote"><tt>quote</tt></a>, and
+        <a href="lm_cat4.htm#desc_set"><tt>set!</tt></a>.
+
+      <h4><a name="sema_bind">Binding</a></h4>
+        The binding forms
+        <a href="lm_cat2.htm#desc_lambda"><tt>lambda</tt></a>,
+        <a href="lm_cat2.htm#desc_let"><tt>let</tt></a>, and
+        <a href="lm_cat2.htm#desc_letrec"><tt>letrec</tt></a> extend the
+        current environment by a new frame.
+
+      <h4>Control</h4>
+        <a href="lm_cat1.htm#desc_and"><tt>and</tt></a>,
+        <a href="lm_cat1.htm#desc_begin"><tt>begin</tt></a>,
+        <a href="lm_cat1.htm#desc_case"><tt>case</tt></a>,
+        <a href="lm_cat1.htm#desc_cond"><tt>cond</tt></a>,
+        <a href="lm_cat2.htm#desc_if"><tt>if</tt></a>, and
+        <a href="lm_cat3.htm#desc_or"><tt>or</tt></a> provide decisions
+        and sequential evaluation.
+
+    <h3><a name="sema_macro">Macros</a></h3>
+      LispMe does not support the pattern matching macro system of
+      R<sup>5</sup>RS (using <tt>define-syntax</tt> etc.) but uses the
+      more simplictic model of PC Scheme, which binds special symbols to
+      expansion procedures, which are called with the expression to be
+      expanded and should return a simpler expression, which in turn is
+      compiled.<p>
+      To define a macro, use the
+      <a href="lm_cat3.htm#desc_macro">macro</a> special form, which
+      associates a symbol with a procedure that takes exactly one
+      parameter. When the compiler encounters an expression beginning
+      with that symbol, the associated procedure is called with the entire
+      expression as its parameter. The expansion procedure should now
+      build a new expression from its parameter. The returned expression
+      is then compiled (and may include further macros, which are expanded
+      accordingly, but only to a limited number, see
+      <a href="lm_err.htm#err_macro">here</a> for details.
+</body>
+</html>

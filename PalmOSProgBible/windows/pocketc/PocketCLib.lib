@@ -1,0 +1,11 @@
+// PocketCLib description file
+// The following functions are implemented by PocketCLib
+
+times5(int x);
+// Multiply x by 5, returning the result
+
+reverse(string str);
+// Reverse the given string. reverse("PocketC") returns "CtekcoP"
+
+volume(float x, float y, float z);
+// Calculate the volume of a box with sides x, y, and z
