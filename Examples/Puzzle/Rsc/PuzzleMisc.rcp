@@ -1,0 +1,55 @@
+/******************************************************************************
+ *
+ * Copyright (c) 2000 Palm Computing, Inc. or its subsidiaries.
+ * All rights reserved.
+ *
+ * File: PuzzleMisc.rcp
+ *
+ * Description:
+ *    PilRC resource descriptions corresponding to those in PuzzleMisc.rsrc,
+ *    for use with the GCC tools.
+ *
+ *****************************************************************************/
+
+#include "PuzzleRsc.h"
+
+menu id MainFormMenuBar
+begin
+  pulldown "Game"
+  begin
+    menuitem "Solve Puzzle" id MainOptionsSolvePuzzleCmd "S"
+    menuitem "Instructions" id MainOptionsInstructions "I"
+    menuitem separator
+    menuitem "About Puzzle" id MainOptionsAboutCmd
+  end
+end
+
+alert id RomIncompatibleAlert
+error
+begin
+  title "System Incompatible"
+  message "System Version 2.0 or greater is required to run this application"
+  buttons "OK"
+end
+
+string id PleaseWaitStr "Please wait..."
+
+string id InstructionsStr
+  "Puzzle Instructions\n"\
+  "\n"\
+  "The objective is to arrange the tiles in numerical order with the empty "\
+  "square in the lower right corner.\n"\
+  "\n"\
+  "\225 Tap the New Puzzle button to begin.  This will randomly arrange "\
+  "the tiles.\n"\
+  "\n"\
+  "\225 Tap a tile in the same row or column as the empty square.  This "\
+  "will slide that tile towards the empty square, and will also move any "\
+  "tiles which are between it and the empty square.\n"\
+  "\n"\
+  "\225 To solve the puzzle, choose the Solve Puzzle item from the Game "\
+  "menu.\n"\
+  "\n"\
+  "\n"\
+  "Good luck!\n"
+

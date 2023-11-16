@@ -1,0 +1,22 @@
+/******************************************************************************
+ *
+ * Copyright (c) 2000 Palm Computing, Inc. or its subsidiaries.
+ * All rights reserved.
+ *
+ * File: PuzzleMain.rcp
+ *
+ * Description:
+ *    PilRC resource descriptions corresponding to those in PuzzleMain.rsrc,
+ *    for use with the GCC tools.
+ *
+ *****************************************************************************/
+
+#include "PuzzleRsc.h"
+
+form id MainForm at (0 0 160 160)
+menuid MainFormMenuBar
+begin
+  title "Puzzle"
+  button "New Puzzle" id MainFormNewPuzzleButton at (95 1 50 10)
+end
+

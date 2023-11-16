@@ -1,0 +1,30 @@
+/******************************************************************************
+ *
+ * Copyright (c) 2000 Palm Computing, Inc. or its subsidiaries.
+ * All rights reserved.
+ *
+ * File: PuzzleApp.rcp
+ *
+ * Description:
+ *    PilRC resource descriptions corresponding to those in PuzzleApp.rsrc,
+ *    for use with the GCC tools.
+ *
+ *****************************************************************************/
+
+#include "PuzzleRsc.h"
+
+/* pbitm is a fairly brutal image format!  But it's good enough for icons,
+   and you can be sure that everyone will have software capable of editing
+   it.  PilRC does support other image formats too.  */
+
+icon "PuzzleLarge.pbitm"
+
+smallicon "PuzzleSmall.pbitm"
+
+/* To be the same as PuzzleApp.rsrc this should also generate a `taic'
+   default category resource -- but PilRC doesn't support those yet.  */
+
+applicationiconname id 1000 "Puzzle"
+
+version id 1 "3.5"
+

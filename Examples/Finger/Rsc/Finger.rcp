@@ -1,0 +1,113 @@
+/******************************************************************************
+ *
+ * Copyright (c) 2000 Palm Computing, Inc. or its subsidiaries.
+ * All rights reserved.
+ *
+ * File: Finger.rcp
+ *
+ * Description:
+ *    PilRC resource descriptions corresponding to those in Finger.rsrc,
+ *    for use with the GCC tools.
+ *
+ *****************************************************************************/
+
+#include "FingerRsc.h"
+
+form id FingerForm at (0 0 160 160)
+noframe
+nosavebehind
+begin
+  title "Palm Finger"
+  button "Finger" id FingerFingerButton at (2 144 35 15)
+  button "Disconnect" id FingerDisconnectButton at (43 144 52 15) nonusable
+  label "Address" id FingerUnnamed1003Label at (3 18) font 1
+  field id FingerAddressField at (3 32 154 26)
+    leftalign editable multiplelines underlined maxchars 256
+  field id FingerResultField at (3 74 148 62)
+    rightalign dynamicsize noneditable multiplelines hasscrollbar
+    maxchars 32767
+  scrollbar id FingerResultScrollBar at (152 74 7 62)
+    value 0 min 0 max 0 pagesize 0
+  label "Result" id FingerUnnamed1007Label at (3 61) font 1
+  gadget id FingerNetActivityGadget at (41 58 16 16)
+  field id FingerRetrievedField at (62 61 95 13)
+    leftalign noneditable singleline maxchars 20
+  graffitistateindicator at (106 147)
+end
+
+alert id PrintfAlert
+information
+begin
+  title "Printf"
+  message "^1^2^3"
+  buttons "Ok"
+end
+
+alert id ErrorNoticeAlert
+error
+begin
+  title "Error"
+  message "^1^2"
+  buttons "Ok"
+end
+
+alert id RomIncompatibleAlert
+error
+begin
+  title "System Incompatible"
+  message "System Version 2.0 or greater is required to run this application."
+  buttons "Ok"
+end
+
+/* pbitm is a fairly brutal image format!  But it's good enough for icons,
+   and you can be sure that everyone will have software capable of editing
+   it.  PilRC does support other image formats too.  */
+
+bitmap id NetPulse0Bitmap "NetPulse0.pbitm"
+bitmap id NetPulse1Bitmap "NetPulse1.pbitm"
+bitmap id NetPulse2Bitmap "NetPulse2.pbitm"
+bitmap id NetPulse3Bitmap "NetPulse3.pbitm"
+bitmap id NetPulse4Bitmap "NetPulse4.pbitm"
+
+string id BadAddressString
+  "Enter an address of the form 'bob@you.fool.com' or 'bob@123.45.67.890'."
+
+string id TestAddr1String "quake@gldfs.cr.usgs.gov"
+string id TestAddr2String "nasanews@space.mit.edu"
+string id TestAddr3String "copi@oddjob.uchicago.edu"
+
+string id WhoWriteErrorString
+  "An error occured writing the finger request to the server."
+
+string id CouldNotOpenConnErrorString
+  "Could not open finger connection to the server."
+
+string id ObscureErrorString
+  "Error when attempting to open the connection (maybe canceled?): "
+
+string id OutOfMemErrorString "Not enough memory to "
+string id BadSetupErrorString "Incorrect modem or network setup."
+string id OpenConnString " open the connection."
+string id AllocRxBufString "allocate a buffer to receive data from the server."
+string id AllocDBMemString "allocate memory outside the heap."
+string id NetReadErrorString "An error occurred reading data from the server."
+
+string id NetRefreshErrorString
+  "Error attempting to check or refresh the network connection"
+
+string id NetNotAvailErrorString
+  "The application cannot be used because TCP²IP networking is not "\
+  "available on this PalmPilot."
+
+string id DBNotFoundOrDelString
+  "Could not find or delete the Finger database."
+
+string id DBNotCreatedString
+  "The Finger database could not be created (out of card space?)."
+
+icon "Finger.pbitm"
+
+applicationiconname id 1000 "PalmFinger"
+
+version id 1 "3.0"
+
